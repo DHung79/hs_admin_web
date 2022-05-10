@@ -51,13 +51,16 @@ class _LoginPageState extends State<LoginPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          InputWidget(hintText: 'Tài khoản'),
+                          InputWidget(
+                            hintText: 'Tài khoản',
+                            index: 0,
+                          ),
                           const SizedBox(
                             height: 24,
                           ),
                           InputWidget(
                             hintText: 'Mật khẩu',
-                            password: true,
+                            index: 1,
                           ),
                         ],
                       ),
