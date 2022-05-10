@@ -65,10 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Text(
-                      'Tài khoản hoặc mật khẩu không đúng',
-                      style: WebTextTheme().normalText(WebColor.otherColor1),
-                    ),
+                    errorTextWidget('Tài khoản hoặc mật khẩu không đúng'),
                     const SizedBox(
                       height: 24,
                     ),
@@ -86,6 +83,13 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Text errorTextWidget(errorText) {
+    return Text(
+      errorText,
+      style: WebTextTheme().normalText(WebColor.otherColor1),
     );
   }
 
