@@ -44,6 +44,7 @@ class _OtpPageState extends State<OtpPage> {
                       constraints:
                           const BoxConstraints(maxWidth: 140, minWidth: 100),
                       padding: const EdgeInsets.only(top: 3, bottom: 3),
+                      margin: const EdgeInsets.only(bottom: 16),
                       child: InkWell(
                         splashColor: Colors.transparent,
                         onTap: () {},
