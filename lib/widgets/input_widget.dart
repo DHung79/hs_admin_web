@@ -8,10 +8,11 @@ class InputWidget extends StatefulWidget {
   InputWidget(
       {Key? key,
       required this.hintText,
-      this.password = false,
-      this.showPassword = false})
+      this.index = 0,
+      this.showPassword = false,
+      password})
       : super(key: key);
-  final bool password;
+  final int index;
   final String hintText;
   bool showPassword;
 
@@ -20,6 +21,46 @@ class InputWidget extends StatefulWidget {
 }
 
 class _InputWidgetState extends State<InputWidget> {
+  Widget index() {
+    if (widget.index == 0) {
+      return const SizedBox();
+    } else if (widget.index == 1) {
+      return TextButton(
+        onPressed: () {
+          setState(() {
+            widget.showPassword = !widget.showPassword;
+          });
+        },
+        child: Icon(
+          widget.showPassword == true
+              ? Icons.remove_red_eye
+              : Icons.remove_red_eye_outlined,
+          color: WebColor.textColor7,
+        ),
+      );
+    } else if (widget.index == 2) {
+      return TextButton(
+        child: Text(
+          'Kiểm tra',
+          style: WebTextTheme().mediumBodyText(
+            WebColor.testColor5,
+          ),
+        ),
+        onPressed: () {},
+      );
+    } else {
+      return TextButton(
+        child: Text(
+          'Gửi lại',
+          style: WebTextTheme().mediumBodyText(
+            WebColor.testColor5,
+          ),
+        ),
+        onPressed: () {},
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,21 +78,7 @@ class _InputWidgetState extends State<InputWidget> {
           filled: true,
           fillColor: WebColor.shapeColor1,
           hintText: widget.hintText,
-          suffixIcon: widget.password == true
-              ? TextButton(
-                  onPressed: () {
-                    setState(() {
-                      widget.showPassword = !widget.showPassword;
-                    });
-                  },
-                  child: Icon(
-                    widget.showPassword == true
-                        ? Icons.remove_red_eye
-                        : Icons.remove_red_eye_outlined,
-                    color: WebColor.textColor7,
-                  ),
-                )
-              : null,
+          suffixIcon: index(),
           hintStyle: WebTextTheme().mediumBodyText(WebColor.textColor7),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide.none,
