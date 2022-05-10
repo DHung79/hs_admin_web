@@ -40,33 +40,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 13,
-                      padding: const EdgeInsets.only(top: 3, bottom: 3),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/17079.svg',
-                              width: 24,
-                              height: 24,
-                              color: WebColor.textColor7,
-                            ),
-                            const SizedBox(
-                              width: 13,
-                            ),
-                            Text(
-                              'Đăng nhập',
-                              style: WebTextTheme()
-                                  .mediumBodyText(WebColor.textColor7),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    backPageWidget(context),
                     const TitleWidget(title: 'QUÊN MẬT KHẨU'),
                     Form(
                       key: _formKey,
@@ -89,6 +63,36 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container backPageWidget(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 13,
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      child: InkWell(
+        onTap: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/17079.svg',
+              width: 24,
+              height: 24,
+              color: WebColor.textColor7,
+            ),
+            const SizedBox(
+              width: 13,
+            ),
+            Text(
+              'Đăng nhập',
+              style: WebTextTheme().mediumBodyText(WebColor.textColor7),
+            )
           ],
         ),
       ),
