@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hs_admin_web/main.dart';
+import 'package:hs_admin_web/routes/route_names.dart';
 
 import '../configs/text_theme.dart';
 import '../configs/themes.dart';
@@ -81,7 +83,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.only(top: 3, bottom: 3),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          navigateTo(authenticationRoute);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
