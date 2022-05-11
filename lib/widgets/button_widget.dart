@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import '../configs/text_theme.dart';
 import '../configs/themes.dart';
 
+// ignore: must_be_immutable
 class ButtonWidget extends StatelessWidget {
-  const ButtonWidget({Key? key, required this.text}) : super(key: key);
+  ButtonWidget({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
   final String text;
+  void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class ButtonWidget extends StatelessWidget {
             bottom: 16,
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           text,
           style: WebTextTheme().headerAndTitle(WebColor.textColor2),

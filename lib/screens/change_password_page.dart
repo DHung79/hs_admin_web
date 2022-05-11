@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hs_admin_web/widgets/title_widget.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/input_widget.dart';
@@ -6,14 +7,14 @@ import '/configs/themes.dart';
 
 import '../configs/text_theme.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
   bool isChecked = false;
   bool showPassword = false;
@@ -46,20 +47,21 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TitleWidget(title: 'ĐĂNG NHẬP'),
+                    backPageWidget(context, 'Đăng nhập'),
+                    const TitleWidget(title: 'QUÊN MẬT KHẨU'),
                     Form(
                       key: _formKey,
                       child: Column(
                         children: [
                           InputWidget(
-                            hintText: 'Tài khoản',
-                            index: 0,
+                            hintText: 'Mật khẩu',
+                            index: 1,
                           ),
                           const SizedBox(
                             height: 24,
                           ),
                           InputWidget(
-                            hintText: 'Mật khẩu',
+                            hintText: 'Nhập lại mật khẩu',
                             index: 1,
                           ),
                         ],
@@ -68,16 +70,12 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    errorTextWidget('Tài khoản hoặc mật khẩu không đúng'),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    rowCheckBox(context),
+                    errorTextWidget('Mật khẩu không khớp'),
                     const SizedBox(
                       height: 24,
                     ),
                     const ButtonWidget(
-                      text: 'ĐĂNG NHẬP',
+                      text: 'XÁC NHẬN',
                     ),
                   ],
                 ),
@@ -96,48 +94,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  SizedBox rowCheckBox(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Checkbox(
-                fillColor: MaterialStateProperty.all(WebColor.textColor3),
-                checkColor: Colors.white,
-                value: isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isChecked = value!;
-                  });
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 11.0,
-                  bottom: 11.0,
-                  right: 11.0,
-                  left: 11.0,
-                ),
-                child: Text(
-                  'Nhớ tài khoản',
-                  style: WebTextTheme().mediumBodyText(WebColor.textColor3),
-                ),
-              )
-            ],
-          ),
-          InkWell(
-            onTap: () {},
-            child: Text(
-              'Quên mật khẩu',
-              style: WebTextTheme().mediumBodyText(
-                WebColor.textColor7,
-              ),
+  Container backPageWidget(BuildContext context, String text) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 13,
+      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      margin: const EdgeInsets.only(bottom: 16),
+      child: InkWell(
+        onTap: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/17079.svg',
+              width: 24,
+              height: 24,
+              color: WebColor.textColor7,
             ),
-          )
-        ],
+            const SizedBox(
+              width: 13,
+            ),
+            Text(
+              text,
+              style: WebTextTheme().mediumBodyText(WebColor.textColor7),
+            )
+          ],
+        ),
       ),
     );
   }
