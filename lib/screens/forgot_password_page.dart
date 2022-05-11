@@ -16,6 +16,8 @@ class ForgotPassWord extends StatefulWidget {
 
 class _ForgotPassWordState extends State<ForgotPassWord> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController controller = TextEditingController();
+  AutovalidateMode autovalidate = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                       child: InputWidget(
                         hintText: 'Nhập email',
                         index: 2,
+                        controller: controller,
+                        formKey: _formKey,
+                        autovalidate: autovalidate,
                       ),
                     ),
                     const SizedBox(
@@ -56,8 +61,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const ButtonWidget(
+                    ButtonWidget(
                       text: 'TIẾP TỤC',
+                      onPressed: () {},
                     ),
                   ],
                 ),
