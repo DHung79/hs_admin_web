@@ -16,6 +16,8 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController AgainPasswordController = TextEditingController();
   bool isChecked = false;
   bool showPassword = false;
   void hideShowPassword() {
@@ -56,6 +58,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           InputWidget(
                             hintText: 'Mật khẩu',
                             index: 1,
+                            controller: passwordController,
                           ),
                           const SizedBox(
                             height: 24,
@@ -63,6 +66,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           InputWidget(
                             hintText: 'Nhập lại mật khẩu',
                             index: 1,
+                            controller: AgainPasswordController,
                           ),
                         ],
                       ),
@@ -74,8 +78,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const ButtonWidget(
+                    ButtonWidget(
                       text: 'XÁC NHẬN',
+                      onPressed: () {},
                     ),
                   ],
                 ),
