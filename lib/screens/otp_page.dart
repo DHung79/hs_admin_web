@@ -15,6 +15,7 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  TextEditingController controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -76,6 +77,7 @@ class _OtpPageState extends State<OtpPage> {
                       child: InputWidget(
                         hintText: 'Nhập mã OTP',
                         index: 3,
+                        controller: controller,
                       ),
                     ),
                     const SizedBox(
@@ -85,8 +87,9 @@ class _OtpPageState extends State<OtpPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const ButtonWidget(
+                    ButtonWidget(
                       text: 'TIẾP TỤC',
+                      onPressed: () {},
                     ),
                   ],
                 ),
