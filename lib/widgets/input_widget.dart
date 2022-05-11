@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 
 import '../configs/text_theme.dart';
 import '../configs/themes.dart';
+import '../core/authentication/auth.dart';
 
 // ignore: must_be_immutable
 class InputWidget extends StatefulWidget {
@@ -10,20 +12,34 @@ class InputWidget extends StatefulWidget {
       required this.hintText,
       this.index = 0,
       this.showPassword = false,
-      password})
+      password,
+      required this.controller,
+      this.errorMessage = '',
+      this.autovalidate,
+      this.formKey})
       : super(key: key);
   final int index;
   final String hintText;
   bool showPassword;
+  TextEditingController controller = TextEditingController();
+  String errorMessage;
+  AutovalidateMode? autovalidate;
+  final GlobalKey<FormState>? formKey;
 
   @override
   State<InputWidget> createState() => _InputWidgetState();
 }
 
 class _InputWidgetState extends State<InputWidget> {
-  Widget index() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
+  }
+
+  Widget? index() {
     if (widget.index == 0) {
-      return const SizedBox();
+      return null;
     } else if (widget.index == 1) {
       return TextButton(
         onPressed: () {
@@ -36,6 +52,7 @@ class _InputWidgetState extends State<InputWidget> {
               ? Icons.remove_red_eye
               : Icons.remove_red_eye_outlined,
           color: WebColor.textColor7,
+          size: 24,
         ),
       );
     } else if (widget.index == 2) {
@@ -46,7 +63,7 @@ class _InputWidgetState extends State<InputWidget> {
             WebColor.testColor5,
           ),
         ),
-        onPressed: () {},
+        onPressed: _forgotPassword,
       );
     } else {
       return TextButton(
@@ -63,13 +80,8 @@ class _InputWidgetState extends State<InputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: WebColor.textColor7, width: 2),
-        ),
-      ),
       child: TextFormField(
         obscureText: widget.showPassword,
         cursorColor: WebColor.textColor7,
@@ -80,22 +92,78 @@ class _InputWidgetState extends State<InputWidget> {
           hintText: widget.hintText,
           suffixIcon: index(),
           hintStyle: WebTextTheme().mediumBodyText(WebColor.textColor7),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(
+              color: WebColor.textColor7,
+              width: 3,
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
+          focusedBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(
+              color: WebColor.textColor7,
+              width: 3,
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.red,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
+        controller: widget.controller,
+        onSaved: (value) {
+          widget.controller.text = value!.trim();
         },
+        onChanged: (value) {
+          setState(() {
+            if (widget.errorMessage.isNotEmpty) {
+              widget.errorMessage = '';
+            }
+          });
+        },
+        validator: widget.index == 0 || widget.index == 2 || widget.index == 3
+            ? (value) {
+                if (value!.isEmpty || value.trim().isEmpty) {
+                  return widget.errorMessage = 'Không được để trống';
+                }
+                if (!isEmail(value.trim())) {
+                  return widget.errorMessage = 'Không đúng định dạng email';
+                }
+                return null;
+              }
+            : (value) {
+                if (value!.isEmpty) {
+                  return widget.errorMessage = 'Không được để trống';
+                }
+                if (value.length < 6) {
+                  return widget.errorMessage = 'Mật khẩu phải từ 6 kí tự';
+                }
+                if (value.length > 50) {
+                  return widget.errorMessage = 'Tối đa 50 kí tự';
+                }
+                return null;
+              },
       ),
     );
+  }
+
+  _forgotPassword() {
+    setState(() {
+      widget.errorMessage = '';
+    });
+    if (widget.formKey!.currentState!.validate()) {
+      widget.formKey!.currentState!.save();
+      AuthenticationBlocController().authenticationBloc.add(
+            ForgotPassword(email: widget.controller.text),
+          );
+    } else {
+      setState(() {
+        widget.autovalidate = AutovalidateMode.onUserInteraction;
+      });
+    }
   }
 }
