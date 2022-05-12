@@ -1,5 +1,5 @@
 class ApiConstants {
-  static String apiDomain = 'https://cp-smart-building-dev.as.r.appspot.com';
+  static String apiDomain = 'https://homeservicedev-348702.as.r.appspot.com';
   static String apiVersion = '/api';
   // Dashboard
   static String dashboard = '/dashboard/off-devices';

@@ -13,6 +13,11 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.initial();
     }
     //authentication
+
+    if (name == homeRoute) {
+      return AppRoutePath.home();
+    }
+
     if (name == authenticationRoute) {
       return AppRoutePath.authentication();
     }

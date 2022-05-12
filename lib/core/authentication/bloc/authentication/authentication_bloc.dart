@@ -56,40 +56,79 @@ class AuthenticationBloc
       }
     });
 
-    on<UserLogin>((event, emit) async {
-      final SharedPreferences sharedPreferences = await prefs;
-      emit(AuthenticationLoading());
-      try {
-        final data = await authenticationService.taskerLogin(
-          event.email,
-          event.password,
-        );
-        if (data["error_message"] == null) {
-          final currentUser = Token.fromJson(data);
-          if (currentUser.id.isNotEmpty) {
-            final _now = DateTime.now().millisecondsSinceEpoch;
-            sharedPreferences.setString('authtoken', currentUser.token);
-            sharedPreferences.setString('last_username', event.email);
-            sharedPreferences.setString('last_userpassword', event.password);
-            sharedPreferences.setBool('keep_session', event.keepSession);
-            sharedPreferences.setInt('login_time', _now);
-            emit(AppAutheticated());
+    // on<UserLogin>(
+    //   (event, emit) async {
+    //     final SharedPreferences sharedPreferences = await prefs;
+    //     emit(AuthenticationLoading());
+    //     try {
+    //       final data = await authenticationService.taskerLogin(
+    //         event.email,
+    //         event.password,
+    //       );
+    //       if (data["error_message"] == null) {
+    //         final currentUser = Token.fromJson(data);
+    //         if (currentUser.id.isNotEmpty) {
+    //           final _now = DateTime.now().millisecondsSinceEpoch;
+    //           sharedPreferences.setString('authtoken', currentUser.token);
+    //           sharedPreferences.setString('last_username', event.email);
+    //           sharedPreferences.setString('last_userpassword', event.password);
+    //           sharedPreferences.setBool('keep_session', event.keepSession);
+    //           sharedPreferences.setInt('login_time', _now);
+    //           emit(AppAutheticated());
+    //         } else {
+    //           emit(AuthenticationNotAuthenticated());
+    //         }
+    //       } else {
+    //         emit(AuthenticationFailure(
+    //           message: data["error_message"],
+    //           errorCode: data["error_code"].toString(),
+    //         ));
+    //       }
+    //     } on Error catch (e) {
+    //       emit(AuthenticationFailure(
+    //         message: e.toString(),
+    //         errorCode: '',
+    //       ));
+    //     }
+    //   },
+    // );
+
+    on<UserLogin>(
+      (event, emit) async {
+        final SharedPreferences sharedPreferences = await prefs;
+        emit(AuthenticationLoading());
+        try {
+          final data = await authenticationService.adminLogin(
+            event.email,
+            event.password,
+          );
+          if (data["error_message"] == null) {
+            final currentUser = Token.fromJson(data);
+            if (currentUser.id.isNotEmpty) {
+              final _now = DateTime.now().millisecondsSinceEpoch;
+              sharedPreferences.setString('authtoken', currentUser.token);
+              sharedPreferences.setString('last_username', event.email);
+              sharedPreferences.setString('last_userpassword', event.password);
+              sharedPreferences.setBool('keep_session', event.keepSession);
+              sharedPreferences.setInt('login_time', _now);
+              emit(AppAutheticated());
+            } else {
+              emit(AuthenticationNotAuthenticated());
+            }
           } else {
-            emit(AuthenticationNotAuthenticated());
+            emit(AuthenticationFailure(
+              message: data["error_message"],
+              errorCode: data["error_code"].toString(),
+            ));
           }
-        } else {
+        } on Error catch (e) {
           emit(AuthenticationFailure(
-            message: data["error_message"],
-            errorCode: data["error_code"].toString(),
+            message: e.toString(),
+            errorCode: '',
           ));
         }
-      } on Error catch (e) {
-        emit(AuthenticationFailure(
-          message: e.toString(),
-          errorCode: '',
-        ));
-      }
-    });
+      },
+    );
 
     on<ResetPassword>((event, emit) async {
       final SharedPreferences sharedPreferences = await prefs;

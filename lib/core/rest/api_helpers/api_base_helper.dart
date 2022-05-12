@@ -292,7 +292,7 @@ class ApiBaseHelper {
     if (response.statusCode == 200) {
       var token = response.headers['x-auth-token'];
       var map = json.decode(response.body.toString());
-      var id = map['_id'] ?? '';
+      var id = map['admin']['_id'] ?? '';
       return {'token': token, 'id': id};
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
       return json.decode(response.body.toString());

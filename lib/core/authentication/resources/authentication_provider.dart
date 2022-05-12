@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 import '../../constants/api_constants.dart';
@@ -111,6 +113,17 @@ class AuthenticationProvider {
     final response = await RestApiHandlerData.login(
       path: url,
       body: body,
+      headers: ApiHelper.headers(null),
+    );
+    return response;
+  }
+
+  adminLogin(dynamic body) async {
+    final url =
+        ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/admin';
+    final response = await RestApiHandlerData.login(
+      path: url,
+      body: jsonEncode(body),
       headers: ApiHelper.headers(null),
     );
     return response;

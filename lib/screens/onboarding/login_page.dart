@@ -15,7 +15,7 @@ import '../../widgets/title_widget.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key, required this.state}) : super(key: key);
-  final AuthenticationState? state;
+  final AuthenticationState state;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -49,6 +49,7 @@ class _LoginFormState extends State<LoginForm> {
       bloc: AuthenticationBlocController().authenticationBloc,
       listener: (context, state) {
         if (state is AuthenticationFailure) {
+          print(state);
         } else if (state is LoginLastUser) {
           accountController.text = state.username;
           setState(
@@ -119,7 +120,7 @@ class _LoginFormState extends State<LoginForm> {
       _formKey.currentState!.save();
       AuthenticationBlocController().authenticationBloc.add(
             UserLogin(
-              email: passwordController.text,
+              email: accountController.text,
               password: passwordController.text,
               keepSession: _isKeepSession!,
               isMobile: false,

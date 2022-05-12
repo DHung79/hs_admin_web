@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/NavigationBar/main_page.dart';
 import '../screens/change_password_page.dart';
 import '../screens/forgot_password_page.dart';
 import '../screens/onboarding/authentication.dart';
@@ -49,7 +50,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     }
     //authentication
     if (route == authenticationRoute) {
-      return const LoginPage();
+      return MainPage();
     }
 
     if (route == forgotPasswordRoute) {
