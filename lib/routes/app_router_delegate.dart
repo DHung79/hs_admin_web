@@ -45,12 +45,12 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
   }
 
   _screenFor(String route) {
-    if (route == initialRoute || route == homeRoute) {
+    if (route == initialRoute || route == authenticationRoute) {
       return const LoginPage();
     }
-    //authentication
-    if (route == authenticationRoute) {
-      return MainPage();
+
+    if (route == homeRoute) {
+      return const MainPage();
     }
 
     if (route == forgotPasswordRoute) {

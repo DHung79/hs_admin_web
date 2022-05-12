@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {
           if (state is AppAutheticated) {
-            navigateTo(authenticationRoute);
+            navigateTo(homeRoute);
           }
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(

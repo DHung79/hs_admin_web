@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hs_admin_web/screens/onboarding/splash_screen.dart';
 
 import '../../configs/text_theme.dart';
 import '../../configs/themes.dart';
@@ -114,7 +115,7 @@ class _LoginFormState extends State<LoginForm> {
     setState(() {
       errorMessage = '';
     });
-    if (widget.state is AuthenticationLoading) return;
+    if (widget.state is AuthenticationLoading) return const SplashScreen();
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
