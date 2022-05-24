@@ -68,14 +68,6 @@ class AuthenticationRepository {
     return response;
   }
 
-  Future<dynamic> taskerLogin(String? email, String? password) async {
-    await Future.delayed(
-        const Duration(seconds: 1)); // simulate a network delay
-    final response =
-        await provider.taskerLogin({'email': email, 'password': password});
-    return response;
-  }
-
   Future<dynamic> adminLogin(String? email, String? password) async {
     await Future.delayed(
       const Duration(seconds: 1),

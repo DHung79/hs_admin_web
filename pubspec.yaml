@@ -49,6 +49,10 @@ dependencies:
   localization: ^2.1.0
   flutter_bloc: ^8.0.1
   validators: ^3.0.0
+  flutter_local_notifications: ^9.5.3+1
+  firebase_messaging: ^11.4.0
+  syncfusion_flutter_xlsio: ^20.1.56-beta
+  popover: ^0.2.6+3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -72,9 +76,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
     - assets/icons/
     - assets/locales/
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

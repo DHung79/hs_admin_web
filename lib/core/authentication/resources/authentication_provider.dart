@@ -107,17 +107,6 @@ class AuthenticationProvider {
     return response;
   }
 
-  taskerLogin(dynamic body) async {
-    final url =
-        ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/tasker';
-    final response = await RestApiHandlerData.login(
-      path: url,
-      body: body,
-      headers: ApiHelper.headers(null),
-    );
-    return response;
-  }
-
   adminLogin(dynamic body) async {
     final url =
         ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/admin';

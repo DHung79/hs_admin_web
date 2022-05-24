@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hs_admin_web/main.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
 import '/core/authentication/auth.dart';
-import '/utils/screen_util.dart';
 import '/configs/themes.dart';
 
 import 'login_page.dart';
@@ -33,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {
           if (state is AppAutheticated) {
-            navigateTo(homeRoute);
+            navigateTo(userManageRoute);
           }
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(

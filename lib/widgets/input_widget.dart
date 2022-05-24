@@ -9,17 +9,27 @@ import '../core/authentication/auth.dart';
 class InputWidget extends StatefulWidget {
   InputWidget(
       {Key? key,
+      this.isWidth,
+      this.suffixIcon,
+      this.prefixIcon,
+      required this.style,
+      required this.colorBorder,
       required this.hintText,
       this.index = 0,
       this.showPassword = false,
-      password,
       required this.controller,
       this.errorMessage = '',
       this.autovalidate,
       this.formKey})
       : super(key: key);
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+
+  final TextStyle style;
+  final Color colorBorder;
   final int index;
   final String hintText;
+  final bool? isWidth;
   bool showPassword;
   TextEditingController controller = TextEditingController();
   String errorMessage;
@@ -37,71 +47,31 @@ class _InputWidgetState extends State<InputWidget> {
     setState(() {});
   }
 
-  Widget? index() {
-    if (widget.index == 0) {
-      return null;
-    } else if (widget.index == 1) {
-      return TextButton(
-        onPressed: () {
-          setState(() {
-            widget.showPassword = !widget.showPassword;
-          });
-        },
-        child: Icon(
-          widget.showPassword == true
-              ? Icons.remove_red_eye
-              : Icons.remove_red_eye_outlined,
-          color: WebColor.textColor7,
-          size: 24,
-        ),
-      );
-    } else if (widget.index == 2) {
-      return TextButton(
-        child: Text(
-          'Kiểm tra',
-          style: WebTextTheme().mediumBodyText(
-            WebColor.testColor5,
-          ),
-        ),
-        onPressed: _forgotPassword,
-      );
-    } else {
-      return TextButton(
-        child: Text(
-          'Gửi lại',
-          style: WebTextTheme().mediumBodyText(
-            WebColor.testColor5,
-          ),
-        ),
-        onPressed: () {},
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
+    return Container(
+      constraints: widget.isWidth! ? const BoxConstraints(maxWidth: 500) : null,
       child: TextFormField(
         obscureText: widget.showPassword,
         cursorColor: WebColor.textColor7,
-        style: WebTextTheme().mediumBodyText(WebColor.textColor7),
+        style: widget.style,
         decoration: InputDecoration(
           filled: true,
           fillColor: WebColor.shapeColor1,
           hintText: widget.hintText,
-          suffixIcon: index(),
+          suffixIcon: widget.suffixIcon,
+          prefixIcon: widget.prefixIcon,
           hintStyle: WebTextTheme().mediumBodyText(WebColor.textColor7),
           enabledBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(
-              color: WebColor.textColor7,
+            borderSide: BorderSide(
+              color: widget.colorBorder,
               width: 3,
             ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(
-              color: WebColor.textColor7,
+            borderSide: BorderSide(
+              color: widget.colorBorder,
               width: 3,
             ),
             borderRadius: BorderRadius.circular(4),

@@ -17,7 +17,7 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController AgainPasswordController = TextEditingController();
+  TextEditingController againPasswordController = TextEditingController();
   bool isChecked = false;
   bool showPassword = false;
   void hideShowPassword() {
@@ -56,6 +56,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: Column(
                         children: [
                           InputWidget(
+                            isWidth: true,
+                            style: WebTextTheme()
+                                .mediumBodyText(WebColor.textColor7),
+                            colorBorder: WebColor.textColor7,
                             hintText: 'Mật khẩu',
                             index: 1,
                             controller: passwordController,
@@ -64,9 +68,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                             height: 24,
                           ),
                           InputWidget(
+                            isWidth: true,
+                            style: WebTextTheme()
+                                .mediumBodyText(WebColor.textColor7),
+                            colorBorder: WebColor.textColor7,
                             hintText: 'Nhập lại mật khẩu',
                             index: 1,
-                            controller: AgainPasswordController,
+                            controller: againPasswordController,
                           ),
                         ],
                       ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../authentication/auth.dart';
+import '../../logger/logger.dart';
 import '../models/rest_api_response.dart';
 
 class ApiBaseHelper {
@@ -309,6 +310,7 @@ class ApiBaseHelper {
   }
 
   _returnLogoutResponse(http.Response response) {
+    logDebug('response: ${response.toString()}');
     if (response.statusCode == 200) {
       var map = json.decode(response.body.toString());
       return map;

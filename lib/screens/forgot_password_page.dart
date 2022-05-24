@@ -49,6 +49,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                     Form(
                       key: _formKey,
                       child: InputWidget(
+                        isWidth: true,
+                        style: WebTextTheme().mediumBodyText(WebColor.textColor7),
+                        colorBorder: WebColor.textColor7,
                         hintText: 'Nhập email',
                         index: 2,
                         controller: controller,

@@ -8,7 +8,7 @@ class Toast {
   static void success({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: AppColor.success,
+        // backgroundColor: WebColor.success,
         position: ToastPosition.bottom,
         textStyle: WebTextTheme().mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));
@@ -17,7 +17,7 @@ class Toast {
   static void error({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: AppColor.error,
+        // backgroundColor: WebColor.error,
         position: ToastPosition.bottom,
         textStyle: WebTextTheme().mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));
@@ -26,7 +26,7 @@ class Toast {
   static void warn({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: AppColor.warn,
+        // backgroundColor: WebColor.warn,
         position: ToastPosition.bottom,
         textStyle: WebTextTheme().mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));

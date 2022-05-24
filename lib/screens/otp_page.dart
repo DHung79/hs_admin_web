@@ -75,6 +75,11 @@ class _OtpPageState extends State<OtpPage> {
                     Form(
                       key: _formKey,
                       child: InputWidget(
+                        isWidth: true,
+                        style: WebTextTheme().mediumBodyText(
+                          WebColor.textColor7,
+                        ),
+                        colorBorder: WebColor.textColor7,
                         hintText: 'Nhập mã OTP',
                         index: 3,
                         controller: controller,

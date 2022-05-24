@@ -7,7 +7,6 @@ import '../../configs/themes.dart';
 import '../../core/authentication/bloc/authentication/authentication_bloc.dart';
 import '../../core/authentication/bloc/authentication/authentication_event.dart';
 import '../../core/authentication/bloc/authentication/authentication_state.dart';
-import '../../core/authentication/bloc/authentication_bloc_controller.dart';
 import '../../main.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/button_widget.dart';
@@ -31,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController accountController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String errorMessage = '';
+  bool showPassword = false;
 
   @override
   void didChangeDependencies() {
@@ -49,8 +49,8 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       bloc: AuthenticationBlocController().authenticationBloc,
       listener: (context, state) {
+        logDebug(state);
         if (state is AuthenticationFailure) {
-          print(state);
         } else if (state is LoginLastUser) {
           accountController.text = state.username;
           setState(
@@ -76,6 +76,9 @@ class _LoginFormState extends State<LoginForm> {
                 child: Column(
                   children: [
                     InputWidget(
+                      isWidth: true,
+                      colorBorder: WebColor.textColor7,
+                      style: WebTextTheme().mediumBodyText(WebColor.textColor7),
                       hintText: 'Tài khoản',
                       controller: accountController,
                       index: 0,
@@ -85,6 +88,26 @@ class _LoginFormState extends State<LoginForm> {
                       height: 24,
                     ),
                     InputWidget(
+                      isWidth: true,
+                      showPassword: showPassword,
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        child: Icon(
+                          showPassword == true
+                              ? Icons.remove_red_eye
+                              : Icons.remove_red_eye_outlined,
+                          color: WebColor.textColor7,
+                          size: 24,
+                        ),
+                      ),
+                      style: WebTextTheme().mediumBodyText(
+                        WebColor.textColor7,
+                      ),
+                      colorBorder: WebColor.textColor7,
                       hintText: 'Mật khẩu',
                       index: 1,
                       controller: passwordController,
@@ -116,6 +139,7 @@ class _LoginFormState extends State<LoginForm> {
       errorMessage = '';
     });
     if (widget.state is AuthenticationLoading) return const SplashScreen();
+    logDebug(widget.state);
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();

@@ -1,11 +1,18 @@
 class ApiConstants {
   static String apiDomain = 'https://homeservicedev-348702.as.r.appspot.com';
   static String apiVersion = '/api';
+  static String me = '/me';
+  static String services = '/services';
   // Dashboard
   static String dashboard = '/dashboard/off-devices';
   static String incorrectDevices = '/dashboard/incorrect-devices';
   // Users
   static String users = '/users';
+  //Admins
+  static String admins = '/admins';
+  //Taskers
+  static String taskers = '/taskers';
+
   // Device Types
   static String deviceType = '/device_types';
   // Devices

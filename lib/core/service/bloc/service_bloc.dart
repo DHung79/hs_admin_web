@@ -1,4 +1,5 @@
 import 'package:rxdart/rxdart.dart';
+import '../../../main.dart';
 import '../../base/blocs/block_state.dart';
 import '../../rest/api_helpers/api_exception.dart';
 import '../../rest/models/rest_api_response.dart';
@@ -6,11 +7,11 @@ import '../service.dart';
 
 class ServiceBloc {
   final _repository = ServiceRepository();
-  final BehaviorSubject<ApiResponse<ServiceListModel?>> _allDataFetcher =
-      BehaviorSubject<ApiResponse<ServiceListModel>>();
+  final BehaviorSubject<ApiResponse<ListServiceModel?>> _allDataFetcher =
+      BehaviorSubject<ApiResponse<ListServiceModel>>();
   final _allDataState = BehaviorSubject<BlocState>();
 
-  Stream<ApiResponse<ServiceListModel?>> get allData => _allDataFetcher.stream;
+  Stream<ApiResponse<ListServiceModel?>> get allData => _allDataFetcher.stream;
   Stream<BlocState> get allDataState => _allDataState.stream;
   bool _isFetching = false;
 
@@ -21,8 +22,8 @@ class ServiceBloc {
     _allDataState.sink.add(BlocState.fetching);
     try {
       // Await response from server.
-      final data = await _repository.fetchAllData<ServiceListModel>(
-          params: params!);
+      final data =
+          await _repository.fetchAllData<ListServiceModel>(params: params!);
       if (_allDataFetcher.isClosed) return;
       if (data.error != null) {
         // Error exist
@@ -42,8 +43,7 @@ class ServiceBloc {
   Future<ServiceModel> fetchDataById(String id) async {
     try {
       // Await response from server.
-      final data =
-          await _repository.fetchDataById<ServiceModel>(id: id);
+      final data = await _repository.fetchDataById<ServiceModel>(id: id);
       if (data.error != null) {
         // Error exist
         return Future.error(data.error!);
@@ -59,8 +59,7 @@ class ServiceBloc {
   Future<ServiceModel> deleteObject({String? id}) async {
     try {
       // Await response from server.
-      final data =
-          await _repository.deleteObject<ServiceModel>(id: id);
+      final data = await _repository.deleteObject<ServiceModel>(id: id);
       if (data.error != null) {
         // Error exist
         return Future.error(data.error!);

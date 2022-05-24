@@ -14,8 +14,31 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     }
     //authentication
 
-    if (name == homeRoute) {
-      return AppRoutePath.home();
+    // if (name == homeRoute) {
+    //   return AppRoutePath.home();
+    // }
+
+    if (name == userManageRoute) {
+      return AppRoutePath.userManage();
+    }
+
+    if (name == serviceManageRoute) {
+      return AppRoutePath.serviceManage();
+    }
+
+    if (name == orderManageRoute) {
+      return AppRoutePath.orderManage();
+    }
+
+    if (name == notificationManageRoute) {
+      return AppRoutePath.notificationManage();
+    }
+
+    if (name == payManageRoute) {
+      return AppRoutePath.payManage();
+    }
+    if (name == settingManageRoute) {
+      return AppRoutePath.settingManage();
     }
 
     if (name == authenticationRoute) {

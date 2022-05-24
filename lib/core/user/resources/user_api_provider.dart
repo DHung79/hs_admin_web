@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert' as convert;
 
+import '../../../main.dart';
 import '../../constants/api_constants.dart';
 import '../../helpers/api_helper.dart';
-import '../../rest/models/rest_api_response.dart';
 import '../../rest/rest_api_handler_data.dart';
 
 class UserApiProvider {
@@ -17,6 +17,19 @@ class UserApiProvider {
       params.forEach((key, value) => queries.add('$key=$value'));
       path += '?' + queries.join('&');
     }
+    final token = await ApiHelper.getUserToken();
+    final response = await RestApiHandlerData.getData<T>(
+      path: path,
+      headers: ApiHelper.headers(token),
+    );
+    return response;
+  }
+
+  Future<ApiResponse<T?>> getProfile<T extends BaseModel>() async {
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        ApiConstants.me;
     final token = await ApiHelper.getUserToken();
     final response = await RestApiHandlerData.getData<T>(
       path: path,
@@ -40,7 +53,7 @@ class UserApiProvider {
     return response;
   }
 
-  Future<ApiResponse<T?>> deleteUser<T extends BaseModel>({
+  Future<ApiResponse<T?>> deleteUserById<T extends BaseModel>({
     String? id,
   }) async {
     final path =
@@ -55,57 +68,44 @@ class UserApiProvider {
     return response;
   }
 
-//   Future<ApiResponse<T?>>
-//       editProfile<T extends BaseModel, K extends EditBaseModel>({
-//     K? editModel,
-//   }) async {
-//     final path = ApiConstants.apiDomain +
-//         ApiConstants.apiVersion +
-//         ApiConstants.users +
-//         ApiConstants.me;
-//     final body = convert.jsonEncode(EditBaseModel.toEditInfoJson(editModel));
-//     logDebug('path: $path\nbody: $body');
-//     final token = await ApiHelper.getUserToken();
-//     final response = await RestApiHandlerData.putData<T>(
-//       path: path,
-//       body: body,
-//       headers: ApiHelper.headers(token),
-//     );
-//     return response;
-//   }
+  Future<ApiResponse<T?>>
+      editUserById<T extends BaseModel, K extends EditBaseModel>({
+    K? editModel,
+    String? id,
+  }) async {
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        '/$id';
+    final body = convert.jsonEncode(EditBaseModel.toEditJson(editModel!));
+    final token = await ApiHelper.getUserToken();
+    logDebug('path: $path\nbody: $body');
+    final response = await RestApiHandlerData.putData<T>(
+      path: path,
+      body: body,
+      headers: ApiHelper.headers(token),
+    );
+    return response;
+  }
 
-//   Future<ApiResponse<T?>>
-//       editUser<T extends BaseModel, K extends EditBaseModel>({
-//     K? editModel,
-//     String? id,
-//   }) async {
-//     final path = ApiConstants.apiDomain +
-//         ApiConstants.apiVersion +
-//         ApiConstants.users +
-//         '/$id';
-//     final body = convert.jsonEncode(EditBaseModel.toEditJson(editModel));
-//     final token = await ApiHelper.getUserToken();
-//     logDebug('path: $path\nbody: $body');
-//     final response = await RestApiHandlerData.putData<T>(
-//       path: path,
-//       body: body,
-//       headers: ApiHelper.headers(token),
-//     );
-//     return response;
-//   }
-
-//   Future<ApiResponse<T?>> getProfile<T extends BaseModel>() async {
-//     final path = ApiConstants.apiDomain +
-//         ApiConstants.apiVersion +
-//         ApiConstants.users +
-//         ApiConstants.me;
-//     final token = await ApiHelper.getUserToken();
-//     final response = await RestApiHandlerData.getData<T>(
-//       path: path,
-//       headers: ApiHelper.headers(token),
-//     );
-//     return response;
-//   }
+  Future<ApiResponse<T?>>
+      editProfile<T extends BaseModel, K extends EditBaseModel>({
+    K? editModel,
+  }) async {
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        ApiConstants.me;
+    final body = convert.jsonEncode(EditBaseModel.toEditProfileJson(editModel!));
+    logDebug('path: $path\nbody: $body');
+    final token = await ApiHelper.getUserToken();
+    final response = await RestApiHandlerData.putData<T>(
+      path: path,
+      body: body,
+      headers: ApiHelper.headers(token),
+    );
+    return response;
+  }
 
 //   Future<ApiResponse<T?>> userChangePassword<T extends BaseModel>(
 //       {Map<String, dynamic>? params}) async {
@@ -124,5 +124,4 @@ class UserApiProvider {
 //     );
 //     return response;
 //   }
-// }
 }

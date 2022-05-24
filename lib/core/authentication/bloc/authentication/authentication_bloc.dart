@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import '../../../../../main.dart';
-import '../../../rest/models/rest_api_response.dart';
-import '../../../user/user.dart';
+import '../../../admin/bloc/admin_bloc.dart';
 import '../../auth.dart';
 
 class AuthenticationBloc
@@ -161,25 +161,6 @@ class AuthenticationBloc
       }
     });
 
-    on<UserLanguage>((event, emit) async {
-      final SharedPreferences sharedPreferences = await prefs;
-      emit(AuthenticationLoading());
-
-      try {
-        if (sharedPreferences.getString('authtoken') != null) {
-          sharedPreferences.setString('last_lang', event.lang);
-          emit(AppAutheticated());
-        } else {
-          emit(AuthenticationStart());
-        }
-      } on Error catch (e) {
-        emit(AuthenticationFailure(
-          message: e.toString(),
-          errorCode: '',
-        ));
-      }
-    });
-
     on<UserLogOut>((event, emit) async {
       // await authenticationService.signOut({'fcmToken': currentFcmToken});
       _cleanupCache();
@@ -220,12 +201,11 @@ class AuthenticationBloc
           if (userJson != null && userJson.isNotEmpty) {
             try {
               Map<String, dynamic> json = convert.jsonDecode(userJson);
-              final account = UserModel.fromJson(json);
-              account.password =
-                  sharedPreferences.getString('last_userpassword') ?? '';
-              final lang = sharedPreferences.getString('last_lang') ?? 'vi';
+              final account = AdminModel.fromJson(json);
+              // account.password =
+              //     sharedPreferences.getString('last_userpassword') ?? '';
 
-              emit(SetUserData(currentUser: account, currentLang: lang));
+              emit(SetUserData(currentUser: account));
               return;
             } on Error catch (e) {
               emit(AuthenticationFailure(
@@ -234,7 +214,7 @@ class AuthenticationBloc
               ));
             }
           }
-          final account = await UserBloc().fetchDataById('me');
+          final account = await AdminBloc().getProfile();
           // ignore: unnecessary_null_comparison
           if (account == null) {
             _cleanupCache();
@@ -243,10 +223,9 @@ class AuthenticationBloc
             final json = account.toJson();
             final jsonStr = convert.jsonEncode(json);
             sharedPreferences.setString('userJson', jsonStr);
-            account.password =
-                sharedPreferences.getString('last_userpassword') ?? '';
-            final lang = sharedPreferences.getString('last_lang') ?? 'vi';
-            emit(SetUserData(currentUser: account, currentLang: lang));
+            // account.password =
+            //     sharedPreferences.getString('last_userpassword') ?? '';
+            emit(SetUserData(currentUser: account));
           }
         }
       }

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '/core/user/user.dart';
+import '../../../rest/models/rest_api_response.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
@@ -24,14 +24,13 @@ class ForgotPasswordState extends AuthenticationState {}
 
 class UserTokenExpired extends AuthenticationState {}
 
-class SetUserData extends AuthenticationState {
-  final UserModel currentUser;
-  final String currentLang;
+class SetUserData<T extends BaseModel> extends AuthenticationState {
+  final T currentUser;
 
-  const SetUserData({required this.currentUser, required this.currentLang});
+  const SetUserData({required this.currentUser});
 
   @override
-  List<Object> get props => [currentUser, currentLang];
+  List<Object> get props => [currentUser];
 }
 
 class AuthenticationNotAuthenticated extends AuthenticationState {}
