@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/screens/onboarding/components/forgot_password_form.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/order_manage/info_order.dart';
@@ -9,8 +10,6 @@ import '../screens/setting_manage/edit_contact.dart';
 import '../screens/setting_manage/profile_edit.dart';
 import '../screens/setting_manage/profile_setting.dart';
 import '../screens/user_manage/user_manage.dart';
-import '../screens/change_password_page.dart';
-import '../screens/forgot_password_page.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication.dart';
 import '../screens/not_found/page_not_found_screen.dart';
@@ -68,6 +67,12 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == authenticationRoute) {
       return const AuthenticationScreen();
     }
+    if (route == forgotPasswordRoute) {
+      return const AuthenticationScreen();
+    }
+    if (route == otpRoute) {
+      return const AuthenticationScreen();
+    }
     if (route == userManageRoute) {
       return const UserManage();
     }
@@ -118,12 +123,6 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     }
     if (route == editProfileRoute) {
       return const EditProfile();
-    }
-    if (route == forgotPasswordRoute) {
-      return const ForgotPassWord();
-    }
-    if (route == changePasswordRoute) {
-      return const ChangePassword();
     }
 
     // if (route == roleRoute) {

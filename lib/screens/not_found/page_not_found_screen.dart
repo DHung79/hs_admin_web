@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:hs_admin_web/theme/app_theme.dart';
 import '../../main.dart';
 import '../../routes/route_names.dart';
 
@@ -16,6 +16,7 @@ class _PageNotFoundScreenState extends State<PageNotFoundScreen> {
     ScreenUtil.init(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColor.primary1,
         leading: InkWell(
           child: const Icon(
             Icons.arrow_back_ios_outlined,
@@ -28,15 +29,18 @@ class _PageNotFoundScreenState extends State<PageNotFoundScreen> {
         elevation: 0,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Icon(
             Icons.report_gmailerrorred_outlined,
             size: 120,
           ),
-          const SizedBox(height: 60),
-          Text(
-            'Không tìm thấy trang!',
-            style: Theme.of(context).textTheme.headline1,
+          Center(
+            child: Text(
+              'Không tìm thấy trang!',
+              style: Theme.of(context).textTheme.headline1,
+            ),
           ),
         ],
       ),

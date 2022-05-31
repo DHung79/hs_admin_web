@@ -37,6 +37,7 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == payManageRoute) {
       return AppRoutePath.payManage();
     }
+
     if (name == settingManageRoute) {
       return AppRoutePath.settingManage();
     }
@@ -44,8 +45,13 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == authenticationRoute) {
       return AppRoutePath.authentication();
     }
+
     if (name == forgotPasswordRoute) {
       return AppRoutePath.forgotPassword();
+    }
+
+    if (name == otpRoute) {
+      return AppRoutePath.otp();
     }
     // if (name == roleRoute) {
     //   return AppRoutePath.roles();

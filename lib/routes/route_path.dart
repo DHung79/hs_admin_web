@@ -103,6 +103,11 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
+  AppRoutePath.otp()
+      : name = otpRoute,
+        routeId = '',
+        isUnknown = false;
+
   // AppRoutePath.roles()
   //     : name = roleRoute,
   //       routeId = '',
@@ -185,6 +190,9 @@ class AppRoutePath {
     }
     if (name == forgotPasswordRoute) {
       return AppRoutePath.forgotPassword();
+    }
+    if (name == otpRoute) {
+      return AppRoutePath.otp();
     }
     // if (name == roleRoute) {
     //   return AppRoutePath.roles();

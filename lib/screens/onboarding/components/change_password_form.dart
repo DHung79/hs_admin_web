@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hs_admin_web/widgets/title_widget.dart';
-import '../theme/app_theme.dart';
-import '../widgets/button_widget.dart';
-import '../widgets/input_widget.dart';
+import '../../../theme/app_theme.dart';
+import '../../../widgets/button_widget.dart';
+import '../../../widgets/input_widget.dart';
 
 class ChangePassword extends StatefulWidget {
+  
   const ChangePassword({Key? key}) : super(key: key);
 
   @override
@@ -48,7 +48,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     backPageWidget(context, 'Đăng nhập'),
-                    const TitleWidget(title: 'QUÊN MẬT KHẨU'),
+                    Text(
+                      'QUÊN MẬT KHẨU',
+                      style: AppTextTheme.mediumBigText(AppColor.text1),
+                    ),
                     Form(
                       key: _formKey,
                       child: Column(
