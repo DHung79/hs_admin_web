@@ -8,16 +8,6 @@ import '../../rest/rest_api_handler_data.dart';
 import '../models/status.dart';
 
 class AuthenticationProvider {
-  loginWithEmailAndPassword(dynamic body) async {
-    final url = ApiConstants.apiDomain + ApiConstants.apiVersion + '/login';
-    final response = await RestApiHandlerData.login(
-      path: url,
-      body: body,
-      headers: ApiHelper.headers(null),
-    );
-    return response;
-  }
-
   signUpWithEmailAndPassword(dynamic body) async {
     return null;
   }

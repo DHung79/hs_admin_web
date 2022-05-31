@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
+import '../theme/app_theme.dart';
 
 class BackgroundButton extends StatelessWidget {
   final SvgIconData icon;
@@ -43,7 +41,7 @@ class BackgroundButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: WebTextTheme().mediumBodyText(Colors.white),
+              style: AppTextTheme.mediumBodyText(Colors.white),
             )
           ],
         ),

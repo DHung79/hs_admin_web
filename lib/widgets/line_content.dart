@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class LineContent extends StatelessWidget {
   final bool even;
@@ -37,7 +35,7 @@ class LineContent extends StatelessWidget {
       children: [
         Text(
           title,
-          style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           height: 16,
@@ -100,12 +98,12 @@ Row lineProfile({required String name, required String description}) {
     children: [
       Text(
         name,
-        style: WebTextTheme().normalText(WebColor.testColor8),
+        style: AppTextTheme.normalText(AppColor.text8),
       ),
       Flexible(
         child: Text(
           description,
-          style: WebTextTheme().normalText(WebColor.textColor3),
+          style: AppTextTheme.normalText(AppColor.text3),
           maxLines: 5,
           overflow: TextOverflow.ellipsis,
         ),

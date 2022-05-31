@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class BackButtonWidget extends StatelessWidget {
   final void Function() onPressed;
@@ -18,7 +15,7 @@ class BackButtonWidget extends StatelessWidget {
           children: [
             SvgIcon(
               SvgIcons.arrowBack,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
               size: 24,
             ),
             const SizedBox(
@@ -26,8 +23,8 @@ class BackButtonWidget extends StatelessWidget {
             ),
             Text(
               'Trở về',
-              style: WebTextTheme().normalText(
-                WebColor.textColor7,
+              style: AppTextTheme.normalText(
+                AppColor.text7,
               ),
             )
           ],

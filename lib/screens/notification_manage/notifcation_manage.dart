@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:popover/popover.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
-import '../../item.dart';
 import '../../main.dart';
+import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 
 class NotificationManage extends StatefulWidget {
@@ -89,7 +85,7 @@ class _NotificationManageState extends State<NotificationManage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Danh sách thông báo đẩy',
-                    style: WebTextTheme().mediumBigText(WebColor.textColor3),
+                    style: AppTextTheme.mediumBigText(AppColor.text3),
                   ),
                 ),
                 Padding(
@@ -101,7 +97,7 @@ class _NotificationManageState extends State<NotificationManage> {
                         backgroundButton(
                           text: 'Thêm dịch vụ',
                           icon: SvgIcons.keyboardDown,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                         ),
                       ]),
                 ),
@@ -110,7 +106,7 @@ class _NotificationManageState extends State<NotificationManage> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: WebColor.shapeColor2,
+                      color: AppColor.shade2,
                     ),
                     child: Column(
                       children: [
@@ -119,7 +115,7 @@ class _NotificationManageState extends State<NotificationManage> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                  color: WebColor.shadowColor.withOpacity(0.24),
+                                  color: AppColor.shadow.withOpacity(0.24),
                                   blurStyle: BlurStyle.outer,
                                   blurRadius: 16)
                             ],
@@ -241,14 +237,14 @@ class _NotificationManageState extends State<NotificationManage> {
         children: [
           Text(
             'Khuyến mãi tháng 2',
-            style: WebTextTheme().mediumHeaderAndTitle(WebColor.textColor1),
+            style: AppTextTheme.mediumHeaderTitle(AppColor.text1),
           ),
           const SizedBox(
             height: 16,
           ),
           Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac eu odio etiam ac cras nisi imperdiet quam. At accumsan, ut nibh diam nullam. Varius felis tincidunt purus ullamcorper praesent elementum duis. Velit arcu hac quis sit sed urna orci tincidunt suspendisse. Nunc lacus dignissim interdum eget ipsum dum eget ipsum...',
-            style: WebTextTheme().normalText(WebColor.textColor3),
+            style: AppTextTheme.normalText(AppColor.text3),
           ),
           const SizedBox(
             height: 16,
@@ -257,7 +253,7 @@ class _NotificationManageState extends State<NotificationManage> {
             onTap: () {},
             child: Text(
               'Xem chi tiết',
-              style: WebTextTheme().normalText(WebColor.primaryColor2),
+              style: AppTextTheme.normalText(AppColor.primary2),
             ),
           ),
         ],
@@ -281,7 +277,7 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               Text(
                 id.toString(),
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -302,7 +298,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 },
                 child: Text(
                   name,
-                  style: WebTextTheme().normalText(WebColor.textColor1),
+                  style: AppTextTheme.normalText(AppColor.text1),
                 ),
               ),
             ],
@@ -317,7 +313,7 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               Text(
                 type,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -331,7 +327,7 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               Text(
                 createDay,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -345,7 +341,7 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               Text(
                 editDay,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -359,7 +355,7 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
               const SizedBox(
@@ -367,7 +363,7 @@ class _NotificationManageState extends State<NotificationManage> {
               ),
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
               const SizedBox(
@@ -375,7 +371,7 @@ class _NotificationManageState extends State<NotificationManage> {
               ),
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
             ],
@@ -395,8 +391,8 @@ class _NotificationManageState extends State<NotificationManage> {
             children: [
               Text(
                 'Number on page',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor3,
+                style: AppTextTheme.normalText(
+                  AppColor.text3,
                 ),
               ),
               const SizedBox(
@@ -413,14 +409,14 @@ class _NotificationManageState extends State<NotificationManage> {
                   child: Row(children: [
                     Text(
                       '10',
-                      style: WebTextTheme().normalText(WebColor.textColor1),
+                      style: AppTextTheme.normalText(AppColor.text1),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     SvgIcon(
                       SvgIcons.circleCheck,
-                      color: WebColor.textColor7,
+                      color: AppColor.text7,
                       size: 24,
                     )
                   ]),
@@ -439,7 +435,7 @@ class _NotificationManageState extends State<NotificationManage> {
                     children: [
                       SvgIcon(
                         SvgIcons.barChart,
-                        color: WebColor.testColor8,
+                        color: AppColor.text8,
                         size: 24,
                       ),
                       const SizedBox(
@@ -447,8 +443,8 @@ class _NotificationManageState extends State<NotificationManage> {
                       ),
                       Text(
                         'Chỉnh sửa bảng',
-                        style: WebTextTheme().mediumBodyText(
-                          WebColor.testColor8,
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text8,
                         ),
                       )
                     ],
@@ -471,7 +467,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 child: SvgIcon(
                   SvgIcons.arrowBack,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
               const SizedBox(
@@ -479,8 +475,8 @@ class _NotificationManageState extends State<NotificationManage> {
               ),
               Text(
                 '1',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor1,
+                style: AppTextTheme.normalText(
+                  AppColor.text1,
                 ),
               ),
               const SizedBox(
@@ -495,7 +491,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 child: SvgIcon(
                   SvgIcons.arrowTopLeft,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
             ]),
@@ -517,7 +513,7 @@ class _NotificationManageState extends State<NotificationManage> {
         child: Row(children: [
           Text(
             title,
-            style: WebTextTheme().mediumHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             width: 10,
@@ -525,7 +521,7 @@ class _NotificationManageState extends State<NotificationManage> {
           if (icon)
             SvgIcon(
               SvgIcons.filter,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
               size: 18,
             ),
         ]),
@@ -562,7 +558,7 @@ class _NotificationManageState extends State<NotificationManage> {
             ),
             Text(
               text,
-              style: WebTextTheme().mediumBodyText(Colors.white),
+              style: AppTextTheme.mediumBodyText(Colors.white),
             )
           ],
         ),
@@ -578,8 +574,8 @@ class _NotificationManageState extends State<NotificationManage> {
       width: 265,
       child: TextFormField(
         cursorHeight: 20,
-        cursorColor: WebColor.textColor7,
-        style: WebTextTheme().normalText(WebColor.textColor1),
+        cursorColor: AppColor.text7,
+        style: AppTextTheme.normalText(AppColor.text1),
         decoration: InputDecoration(
           hoverColor: Colors.white,
           border: OutlineInputBorder(
@@ -589,7 +585,7 @@ class _NotificationManageState extends State<NotificationManage> {
           fillColor: Colors.white,
           filled: true,
           hintText: 'Tìm kiếm',
-          hintStyle: WebTextTheme().normalText(WebColor.textColor7),
+          hintStyle: AppTextTheme.normalText(AppColor.text7),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
@@ -600,7 +596,7 @@ class _NotificationManageState extends State<NotificationManage> {
               child: SvgIcon(
                 SvgIcons.search,
                 color:
-                    _checkSearch ? WebColor.textColor7 : WebColor.primaryColor2,
+                    _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),
@@ -616,7 +612,7 @@ class _NotificationManageState extends State<NotificationManage> {
                     ),
                     child: SvgIcon(
                       SvgIcons.close,
-                      color: WebColor.otherColor1,
+                      color: AppColor.others1,
                     ),
                     onPressed: () {
                       setState(() {

@@ -1,5 +1,3 @@
-import 'package:hs_admin_web/screens/service_manage/add_service.dart';
-
 import 'route_names.dart';
 
 class AppRoutePath {
@@ -134,22 +132,18 @@ class AppRoutePath {
     // if (name == homeRoute) {
     //   return AppRoutePath.home();
     // }
-
     if (name == userManageRoute) {
       return AppRoutePath.userManage();
     }
-
     if (name == addUserRoute) {
       return AppRoutePath.addUser();
     }
-
     if (name == taskerManageRoute) {
       return AppRoutePath.taskerManage();
     }
     if (name == inforTaskerRoute) {
       return AppRoutePath.infoTasker();
     }
-
     if (name == serviceManageRoute) {
       return AppRoutePath.serviceManage();
     }
@@ -159,21 +153,18 @@ class AppRoutePath {
     if (name == detailServiceRoute) {
       return AppRoutePath.detailService();
     }
-
     if (name == orderManageRoute) {
       return AppRoutePath.orderManage();
     }
     if (name == infoOrderRoute) {
       return AppRoutePath.infoOrder();
     }
-
     if (name == notificationManageRoute) {
       return AppRoutePath.notificationManage();
     }
     if (name == addNotificationRoute) {
       return AppRoutePath.addNotification();
     }
-
     if (name == payManageRoute) {
       return AppRoutePath.payManage();
     }
@@ -192,7 +183,6 @@ class AppRoutePath {
     if (name == editProfileRoute) {
       return AppRoutePath.editProfile();
     }
-
     if (name == forgotPasswordRoute) {
       return AppRoutePath.forgotPassword();
     }

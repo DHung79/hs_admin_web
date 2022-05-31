@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
-import '../configs/text_theme.dart';
-import '../configs/themes.dart';
-
-// ignore: must_be_immutable
 class ButtonWidget extends StatelessWidget {
-  ButtonWidget({
+  final BoxConstraints? constraints;
+  final String text;
+  final Function()? onPressed;
+  const ButtonWidget({
     Key? key,
+    this.constraints = const BoxConstraints(minHeight: 52),
     required this.text,
     required this.onPressed,
   }) : super(key: key);
-  final String text;
-  void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: 52.0,
+    return Container(
+      constraints: constraints,
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: WebColor.primaryColor1,
+          backgroundColor: AppColor.primary1,
           padding: const EdgeInsets.only(
             top: 16,
             bottom: 16,
@@ -29,7 +27,7 @@ class ButtonWidget extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           text,
-          style: WebTextTheme().headerAndTitle(WebColor.textColor2),
+          style: AppTextTheme.headerTitle(AppColor.text2),
         ),
       ),
     );

@@ -1,84 +1,105 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WebTextTheme {
-  mediumBigText(Color color) {
+class AppTextTheme {
+  static TextStyle mediumBigText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w500,
-      fontSize: 24,
       color: color,
+      fontSize: 24,
     );
   }
 
-  bigText(Color color) {
+  static TextStyle bigText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w400,
-      fontSize: 24,
       color: color,
+      fontSize: 24,
     );
   }
 
-  headerAndTitle(Color color) {
+  static TextStyle headerTitle(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w700,
-      fontSize: 16,
       color: color,
+      fontSize: 16,
     );
   }
 
-  mediumHeaderAndTitle(Color color) {
+  static TextStyle mediumHeaderTitle(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w500,
-      fontSize: 16,
       color: color,
+      fontSize: 16,
     );
   }
 
-  normalHeaderAndTitle(Color color) {
+  static TextStyle normalHeaderTitle(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w400,
-      fontSize: 16,
       color: color,
+      fontSize: 16,
     );
   }
 
-  boldBodyText(Color color) {
+  static TextStyle boldBodyText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w700,
-      fontSize: 14,
       color: color,
+      fontSize: 14,
     );
   }
 
-  mediumBodyText(Color color) {
+  static TextStyle mediumBodyText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w500,
-      fontSize: 14,
       color: color,
+      fontSize: 14,
     );
   }
 
-  normalText(Color color) {
+  static TextStyle normalText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w400,
-      fontSize: 14,
       color: color,
+      fontSize: 14,
     );
   }
 
-  subText(Color color) {
+  static TextStyle link(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w400,
+      color: color,
+      fontSize: 14,
+      decoration: TextDecoration.underline,
+    );
+  }
+
+  static TextStyle superscript(Color color) {
+    return GoogleFonts.lexend(
+      fontWeight: FontWeight.w400,
+      color: color,
+      fontSize: 14,
+      fontFeatures: [
+        const FontFeature.enable('sups'),
+      ],
+    );
+  }
+
+  static TextStyle subText(Color color) {
+    return GoogleFonts.lexend(
+      fontWeight: FontWeight.w400,
+      color: color,
       fontSize: 12,
-      color: color,
     );
   }
 
-  superSmallText(Color color) {
+  static TextStyle superSmallText(Color color) {
     return GoogleFonts.lexend(
       fontWeight: FontWeight.w400,
-      fontSize: 10,
       color: color,
+      fontSize: 10,
     );
   }
 }

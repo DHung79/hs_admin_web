@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
+import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 import 'model/tasker_model.dart';
 
@@ -68,7 +66,7 @@ class _TaskerManageState extends State<TaskerManage> {
                       child: Text(
                         'DANH SÁCH NGƯỜI DÙNG',
                         style:
-                            WebTextTheme().mediumBigText(WebColor.textColor3),
+                            AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                     Padding(
@@ -80,7 +78,7 @@ class _TaskerManageState extends State<TaskerManage> {
                           backgroundButton(
                               text: 'Thêm người giúp việc',
                               icon: SvgIcons.keyboardDown,
-                              color: WebColor.primaryColor2),
+                              color: AppColor.primary2),
                         ],
                       ),
                     ),
@@ -89,7 +87,7 @@ class _TaskerManageState extends State<TaskerManage> {
                       // height: 500,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: WebColor.shapeColor2,
+                        color: AppColor.shade2,
                       ),
                       child: Column(
                         children: [
@@ -99,7 +97,7 @@ class _TaskerManageState extends State<TaskerManage> {
                               boxShadow: [
                                 BoxShadow(
                                     color:
-                                        WebColor.shadowColor.withOpacity(0.24),
+                                        AppColor.shadow.withOpacity(0.24),
                                     blurStyle: BlurStyle.outer,
                                     blurRadius: 16)
                               ],
@@ -198,7 +196,7 @@ class _TaskerManageState extends State<TaskerManage> {
             children: [
               Text(
                 id.toString(),
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -212,7 +210,7 @@ class _TaskerManageState extends State<TaskerManage> {
             children: [
               Text(
                 name,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -226,7 +224,7 @@ class _TaskerManageState extends State<TaskerManage> {
             children: [
               Text(
                 numberPhone,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -241,14 +239,14 @@ class _TaskerManageState extends State<TaskerManage> {
               activity
                   ? Text(
                       'Hoạt động',
-                      style: WebTextTheme().mediumBodyText(
-                        WebColor.testColor7,
+                      style: AppTextTheme.mediumBodyText(
+                        AppColor.text7,
                       ),
                     )
                   : Text(
                       'Không hoạt động',
-                      style: WebTextTheme().mediumBodyText(
-                        WebColor.otherColor1,
+                      style: AppTextTheme.mediumBodyText(
+                        AppColor.others1,
                       ),
                     ),
             ],
@@ -263,7 +261,7 @@ class _TaskerManageState extends State<TaskerManage> {
             children: [
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
               const SizedBox(
@@ -271,7 +269,7 @@ class _TaskerManageState extends State<TaskerManage> {
               ),
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
               const SizedBox(
@@ -279,7 +277,7 @@ class _TaskerManageState extends State<TaskerManage> {
               ),
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
             ],
@@ -299,8 +297,8 @@ class _TaskerManageState extends State<TaskerManage> {
             children: [
               Text(
                 'Number on page',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor3,
+                style: AppTextTheme.normalText(
+                  AppColor.text3,
                 ),
               ),
               const SizedBox(
@@ -317,14 +315,14 @@ class _TaskerManageState extends State<TaskerManage> {
                   child: Row(children: [
                     Text(
                       '10',
-                      style: WebTextTheme().normalText(WebColor.textColor1),
+                      style: AppTextTheme.normalText(AppColor.text1),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     SvgIcon(
                       SvgIcons.circleCheck,
-                      color: WebColor.textColor7,
+                      color: AppColor.text7,
                       size: 24,
                     )
                   ]),
@@ -343,7 +341,7 @@ class _TaskerManageState extends State<TaskerManage> {
                     children: [
                       SvgIcon(
                         SvgIcons.barChart,
-                        color: WebColor.testColor8,
+                        color: AppColor.text8,
                         size: 24,
                       ),
                       const SizedBox(
@@ -351,8 +349,8 @@ class _TaskerManageState extends State<TaskerManage> {
                       ),
                       Text(
                         'Chỉnh sửa bảng',
-                        style: WebTextTheme().mediumBodyText(
-                          WebColor.testColor8,
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text8,
                         ),
                       )
                     ],
@@ -375,7 +373,7 @@ class _TaskerManageState extends State<TaskerManage> {
                 child: SvgIcon(
                   SvgIcons.arrowBack,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
               const SizedBox(
@@ -383,8 +381,8 @@ class _TaskerManageState extends State<TaskerManage> {
               ),
               Text(
                 '1',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor1,
+                style: AppTextTheme.normalText(
+                  AppColor.text1,
                 ),
               ),
               const SizedBox(
@@ -399,7 +397,7 @@ class _TaskerManageState extends State<TaskerManage> {
                 child: SvgIcon(
                   SvgIcons.arrowTopLeft,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
             ]),
@@ -421,7 +419,7 @@ class _TaskerManageState extends State<TaskerManage> {
         child: Row(children: [
           Text(
             title,
-            style: WebTextTheme().mediumHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             width: 10,
@@ -429,7 +427,7 @@ class _TaskerManageState extends State<TaskerManage> {
           if (icon)
             SvgIcon(
               SvgIcons.filter,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
               size: 18,
             ),
         ]),
@@ -466,7 +464,7 @@ class _TaskerManageState extends State<TaskerManage> {
             ),
             Text(
               text,
-              style: WebTextTheme().mediumBodyText(Colors.white),
+              style: AppTextTheme.mediumBodyText(Colors.white),
             )
           ],
         ),
@@ -482,8 +480,8 @@ class _TaskerManageState extends State<TaskerManage> {
       width: 265,
       child: TextFormField(
         cursorHeight: 20,
-        cursorColor: WebColor.textColor7,
-        style: WebTextTheme().normalText(WebColor.textColor1),
+        cursorColor: AppColor.text7,
+        style: AppTextTheme.normalText(AppColor.text1),
         decoration: InputDecoration(
           hoverColor: Colors.white,
           border: OutlineInputBorder(
@@ -493,7 +491,7 @@ class _TaskerManageState extends State<TaskerManage> {
           fillColor: Colors.white,
           filled: true,
           hintText: 'Tìm kiếm',
-          hintStyle: WebTextTheme().normalText(WebColor.textColor7),
+          hintStyle: AppTextTheme.normalText(AppColor.text7),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
@@ -504,7 +502,7 @@ class _TaskerManageState extends State<TaskerManage> {
               child: SvgIcon(
                 SvgIcons.search,
                 color:
-                    _checkSearch ? WebColor.textColor7 : WebColor.primaryColor2,
+                    _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),
@@ -520,7 +518,7 @@ class _TaskerManageState extends State<TaskerManage> {
                     ),
                     child: SvgIcon(
                       SvgIcons.close,
-                      color: WebColor.otherColor1,
+                      color: AppColor.others1,
                     ),
                     onPressed: () {
                       setState(() {

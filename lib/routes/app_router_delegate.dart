@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/screens/notification_manage/add_notification.dart';
-import 'package:hs_admin_web/screens/order_manage/info_order.dart';
-import 'package:hs_admin_web/screens/service_manage/add_service.dart';
-import 'package:hs_admin_web/screens/service_manage/detail_service.dart';
-import 'package:hs_admin_web/screens/setting_manage/contact_info.dart';
-import 'package:hs_admin_web/screens/setting_manage/edit_contact.dart';
-import 'package:hs_admin_web/screens/setting_manage/profile_edit.dart';
-import 'package:hs_admin_web/screens/setting_manage/profile_setting.dart';
-import 'package:hs_admin_web/screens/user_manage/add_user.dart';
-import 'package:hs_admin_web/screens/user_manage/user_manage.dart';
+import '../screens/home/home_screen.dart';
+import '../screens/notification_manage/add_notification.dart';
+import '../screens/order_manage/info_order.dart';
+import '../screens/service_manage/add_service.dart';
+import '../screens/service_manage/detail_service.dart';
+import '../screens/setting_manage/contact_info.dart';
+import '../screens/setting_manage/edit_contact.dart';
+import '../screens/setting_manage/profile_edit.dart';
+import '../screens/setting_manage/profile_setting.dart';
+import '../screens/user_manage/user_manage.dart';
 import '../screens/change_password_page.dart';
 import '../screens/forgot_password_page.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
@@ -20,7 +20,6 @@ import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_manage/info_tasker.dart';
 import '../screens/tasker_manage/tasker_manage.dart';
-import '../screens/user_manage/edit_user.dart';
 import '../screens/user_manage/info_user.dart';
 import 'no_animation_transition_delegate.dart';
 import 'route_names.dart';
@@ -63,28 +62,26 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
   }
 
   _screenFor(String route) {
-    if (route == initialRoute || route == authenticationRoute) {
-      return const LoginPage();
+    if (route == initialRoute) {
+      return const HomeScreen();
     }
-
+    if (route == authenticationRoute) {
+      return const AuthenticationScreen();
+    }
     if (route == userManageRoute) {
       return const UserManage();
     }
-
     if (route == addUserRoute) {
       return const InfoUser();
     }
-
     if (route == inforTaskerRoute) {
       return const InfoTasker();
     }
-
     if (route == taskerManageRoute) {
       return const TaskerManage();
     }
-
     if (route == serviceManageRoute) {
-      return ServiceManage();
+      return const ServiceManage();
     }
     if (route == addServiceRoute) {
       return const AddService();
@@ -92,25 +89,21 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == detailServiceRoute) {
       return const DetailService();
     }
-
     if (route == orderManageRoute) {
-      return OrderManage();
+      return const OrderManage();
     }
     if (route == infoOrderRoute) {
-      return InfoOrder();
+      return const InfoOrder();
     }
-
     if (route == notificationManageRoute) {
       return const NotificationManage();
     }
     if (route == addNotificationRoute) {
       return const AddNotification();
     }
-
     if (route == payManageRoute) {
       return const PayManage();
     }
-
     if (route == settingManageRoute) {
       return const Setting();
     }
@@ -126,11 +119,9 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == editProfileRoute) {
       return const EditProfile();
     }
-
     if (route == forgotPasswordRoute) {
       return const ForgotPassWord();
     }
-
     if (route == changePasswordRoute) {
       return const ChangePassword();
     }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/configs/svg_constants.dart';
-import 'package:hs_admin_web/configs/text_theme.dart';
 import 'package:hs_admin_web/core/logger/logger.dart';
 
-import '../../configs/themes.dart';
+import '../../theme/app_theme.dart';
 
 class SideBarButton extends StatefulWidget {
   final SvgIconData icon;
@@ -23,7 +21,6 @@ class SideBarButton extends StatefulWidget {
 class _SideBarButtonState extends State<SideBarButton> {
   @override
   Widget build(BuildContext context) {
-    logDebug(widget.active);
     return Material(
       color: Colors.white,
       child: Container(
@@ -45,8 +42,8 @@ class _SideBarButtonState extends State<SideBarButton> {
                     widget.icon,
                     size: 20,
                     color: widget.active
-                        ? WebColor.testColor3
-                        : WebColor.textColor7,
+                        ? AppColor.text3
+                        : AppColor.text7,
                   ),
                 ),
                 const SizedBox(
@@ -54,9 +51,9 @@ class _SideBarButtonState extends State<SideBarButton> {
                 ),
                 Text(
                   widget.title,
-                  style: WebTextTheme().normalText(widget.active
-                      ? WebColor.testColor3
-                      : WebColor.textColor7),
+                  style: AppTextTheme.normalText(widget.active
+                      ? AppColor.text3
+                      : AppColor.text7),
                 )
               ],
             ),

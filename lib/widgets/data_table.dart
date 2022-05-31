@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 
 class DataTableWidget extends StatefulWidget {
   const DataTableWidget({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: WebColor.shapeColor2,
+        color: AppColor.shade2,
       ),
       child: Column(
         children: [
@@ -28,7 +26,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: WebColor.shadowColor.withOpacity(0.24),
+                    color: AppColor.shadow.withOpacity(0.24),
                     blurStyle: BlurStyle.outer,
                     blurRadius: 16)
               ],
@@ -86,7 +84,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
       child: Row(children: [
         Text(
           title,
-          style: WebTextTheme().mediumHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           width: 10,
@@ -94,7 +92,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
         if (icon)
           SvgIcon(
             SvgIcons.filter,
-            color: WebColor.textColor7,
+            color: AppColor.text7,
             size: 18,
           ),
       ]),

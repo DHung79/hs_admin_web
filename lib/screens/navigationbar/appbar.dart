@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/configs/svg_constants.dart';
-import 'package:hs_admin_web/configs/text_theme.dart';
-
-import '../../configs/themes.dart';
+import '../../theme/app_theme.dart';
 
 class AppBarWidget extends StatefulWidget {
   final void Function() showProfile;
@@ -41,8 +38,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       children: [
         Text(
           name,
-          style: WebTextTheme().mediumHeaderAndTitle(
-            WebColor.textColor1,
+          style: AppTextTheme.mediumHeaderTitle(
+            AppColor.text1,
           ),
         ),
         const SizedBox(
@@ -50,8 +47,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         ),
         Text(
           title,
-          style: WebTextTheme().normalText(
-            WebColor.textColor7,
+          style: AppTextTheme.normalText(
+            AppColor.text7,
           ),
         ),
       ],
@@ -71,7 +68,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             onPressed: () {},
             child: SvgIcon(
               SvgIcons.comment,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
             ),
           ),
         ),
@@ -85,7 +82,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             onPressed: () {},
             child: SvgIcon(
               SvgIcons.bell,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
             ),
           ),
         ),
@@ -103,8 +100,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           children: [
             Text(
               name,
-              style: WebTextTheme().normalText(
-                WebColor.textColor1,
+              style: AppTextTheme.normalText(
+                AppColor.text1,
               ),
             ),
             const SizedBox(

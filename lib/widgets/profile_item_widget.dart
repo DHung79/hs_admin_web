@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import '../configs/svg_constants.dart';
-import '../configs/text_theme.dart';
-import '../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class ProfileItemWidget extends StatelessWidget {
   final SvgIconData icon;
   final String title;
   final void Function()? onTap;
-  final Color color;
+  final Color? color;
   final double? sizeWidth;
 
   const ProfileItemWidget({
@@ -16,7 +14,7 @@ class ProfileItemWidget extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onTap,
-    this.color = WebColor.textColor1,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -30,7 +28,7 @@ class ProfileItemWidget extends StatelessWidget {
           child: Row(children: [
             SvgIcon(
               icon,
-              color: color,
+              color: color ?? AppColor.text1,
               size: 24,
             ),
             const SizedBox(
@@ -38,7 +36,7 @@ class ProfileItemWidget extends StatelessWidget {
             ),
             Text(
               title,
-              style: WebTextTheme().normalText(color),
+              style: AppTextTheme.normalText(color ?? AppColor.text1),
             )
           ]),
         ),

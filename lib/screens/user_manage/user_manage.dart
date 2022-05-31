@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
+import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 
 class UserManage extends StatefulWidget {
@@ -54,7 +52,7 @@ class _UserManageState extends State<UserManage> {
                       child: Text(
                         'DANH SÁCH NGƯỜI DÙNG',
                         style:
-                            WebTextTheme().mediumBigText(WebColor.textColor3),
+                            AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                     Padding(
@@ -66,7 +64,7 @@ class _UserManageState extends State<UserManage> {
                           backgroundButton(
                             text: 'Thêm người dùng',
                             icon: SvgIcons.keyboardDown,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             onPressed: () {
                               navigateTo(addUserRoute);
                             },
@@ -92,8 +90,8 @@ class _UserManageState extends State<UserManage> {
             children: [
               Text(
                 'Number on page',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor3,
+                style: AppTextTheme.normalText(
+                  AppColor.text3,
                 ),
               ),
               const SizedBox(
@@ -110,14 +108,14 @@ class _UserManageState extends State<UserManage> {
                   child: Row(children: [
                     Text(
                       '10',
-                      style: WebTextTheme().normalText(WebColor.textColor1),
+                      style: AppTextTheme.normalText(AppColor.text1),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     SvgIcon(
                       SvgIcons.circleCheck,
-                      color: WebColor.textColor7,
+                      color: AppColor.text7,
                       size: 24,
                     )
                   ]),
@@ -136,7 +134,7 @@ class _UserManageState extends State<UserManage> {
                     children: [
                       SvgIcon(
                         SvgIcons.barChart,
-                        color: WebColor.testColor8,
+                        color: AppColor.text8,
                         size: 24,
                       ),
                       const SizedBox(
@@ -144,8 +142,8 @@ class _UserManageState extends State<UserManage> {
                       ),
                       Text(
                         'Chỉnh sửa bảng',
-                        style: WebTextTheme().mediumBodyText(
-                          WebColor.testColor8,
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text8,
                         ),
                       )
                     ],
@@ -168,7 +166,7 @@ class _UserManageState extends State<UserManage> {
                 child: SvgIcon(
                   SvgIcons.arrowBack,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
               const SizedBox(
@@ -176,8 +174,8 @@ class _UserManageState extends State<UserManage> {
               ),
               Text(
                 '1',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor1,
+                style: AppTextTheme.normalText(
+                  AppColor.text1,
                 ),
               ),
               const SizedBox(
@@ -192,7 +190,7 @@ class _UserManageState extends State<UserManage> {
                 child: SvgIcon(
                   SvgIcons.arrowTopLeft,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
             ]),
@@ -208,7 +206,7 @@ class _UserManageState extends State<UserManage> {
       height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: WebColor.shapeColor2,
+        color: AppColor.shade2,
       ),
       child: Column(
         children: [
@@ -217,7 +215,7 @@ class _UserManageState extends State<UserManage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: WebColor.shadowColor.withOpacity(0.24),
+                    color: AppColor.shadow.withOpacity(0.24),
                     blurStyle: BlurStyle.outer,
                     blurRadius: 16)
               ],
@@ -275,7 +273,7 @@ class _UserManageState extends State<UserManage> {
       child: Row(children: [
         Text(
           title,
-          style: WebTextTheme().mediumHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           width: 10,
@@ -283,7 +281,7 @@ class _UserManageState extends State<UserManage> {
         if (icon)
           SvgIcon(
             SvgIcons.filter,
-            color: WebColor.textColor7,
+            color: AppColor.text7,
             size: 18,
           ),
       ]),
@@ -320,7 +318,7 @@ class _UserManageState extends State<UserManage> {
             ),
             Text(
               text,
-              style: WebTextTheme().mediumBodyText(Colors.white),
+              style: AppTextTheme.mediumBodyText(Colors.white),
             )
           ],
         ),
@@ -334,8 +332,8 @@ class _UserManageState extends State<UserManage> {
       width: 265,
       child: TextFormField(
         cursorHeight: 20,
-        cursorColor: WebColor.textColor7,
-        style: WebTextTheme().normalText(WebColor.textColor1),
+        cursorColor: AppColor.text7,
+        style: AppTextTheme.normalText(AppColor.text1),
         decoration: InputDecoration(
           hoverColor: Colors.white,
           border: OutlineInputBorder(
@@ -345,7 +343,7 @@ class _UserManageState extends State<UserManage> {
           fillColor: Colors.white,
           filled: true,
           hintText: 'Tìm kiếm',
-          hintStyle: WebTextTheme().normalText(WebColor.textColor7),
+          hintStyle: AppTextTheme.normalText(AppColor.text7),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
@@ -356,7 +354,7 @@ class _UserManageState extends State<UserManage> {
               child: SvgIcon(
                 SvgIcons.search,
                 color:
-                    _checkSearch ? WebColor.textColor7 : WebColor.primaryColor2,
+                    _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),
@@ -372,7 +370,7 @@ class _UserManageState extends State<UserManage> {
                     ),
                     child: SvgIcon(
                       SvgIcons.close,
-                      color: WebColor.otherColor1,
+                      color: AppColor.others1,
                     ),
                     onPressed: () {
                       setState(() {

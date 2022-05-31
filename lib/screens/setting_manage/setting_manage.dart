@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
 import 'package:hs_admin_web/widgets/profile_item_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
+import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 
 class Setting extends StatefulWidget {
@@ -18,8 +16,6 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   final _pageState = PageState();
-  late final TextEditingController _searchController = TextEditingController();
-  late bool _checkSearch = true;
 
   @override
   void initState() {
@@ -55,14 +51,13 @@ class _SettingState extends State<Setting> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         'Cài đặt',
-                        style:
-                            WebTextTheme().mediumBigText(WebColor.textColor3),
+                        style: AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
-                          color: WebColor.textColor2,
+                          color: AppColor.text2,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: const [
                             BoxShadow(
@@ -96,8 +91,8 @@ class _SettingState extends State<Setting> {
                                 ],
                               ),
                             ),
-                            const Divider(
-                              color: WebColor.shapeColor1,
+                            Divider(
+                              color: AppColor.shade1,
                               height: 16,
                             ),
                             ProfileItemWidget(
@@ -105,7 +100,7 @@ class _SettingState extends State<Setting> {
                               icon: SvgIcons.logout,
                               title: 'Đăng xuất',
                               onTap: () {},
-                              color: WebColor.textColor7,
+                              color: AppColor.text7,
                             )
                           ]),
                     )
@@ -130,7 +125,7 @@ class _SettingState extends State<Setting> {
             children: [
               SvgIcon(
                 icon,
-                color: WebColor.textColor3,
+                color: AppColor.text3,
                 size: 24,
               ),
               const SizedBox(
@@ -138,7 +133,7 @@ class _SettingState extends State<Setting> {
               ),
               Text(
                 title,
-                style: WebTextTheme().normalText(WebColor.textColor3),
+                style: AppTextTheme.normalText(AppColor.text3),
               )
             ],
           ),

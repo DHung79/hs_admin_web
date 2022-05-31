@@ -7,7 +7,6 @@ import '../locator.dart';
 import '../routes/app_route_information_parser.dart';
 import '../routes/app_router_delegate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/logger/logger.dart';
 import 'locales/i18n.dart';
 import 'scroll_behavior.dart';
 import 'utils/app_state_notifier.dart';
@@ -74,7 +73,7 @@ class _AppState extends State<App> {
     return Consumer<AppStateNotifier>(
       builder: (context, appState, child) {
         return MaterialApp.router(
-          title: 'Smart Building',
+          title: 'Home Service',
           debugShowCheckedModeBanner: false,
           themeMode: appState.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           routeInformationParser: _routeInfoParser,
@@ -97,10 +96,6 @@ class _AppState extends State<App> {
 
 Future<PackageInfo> loadVersion() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-  logDebug(
-      ' appName: ${packageInfo.appName}  \n version: ${packageInfo.version}');
-
   return packageInfo;
 }
 

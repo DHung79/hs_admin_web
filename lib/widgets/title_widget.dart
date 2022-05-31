@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../configs/text_theme.dart';
-import '../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class TitleWidget extends StatelessWidget {
   const TitleWidget({Key? key, required this.title}) : super(key: key);
@@ -15,7 +13,7 @@ class TitleWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Text(
           title,
-          style: WebTextTheme().mediumBigText(WebColor.textColor1),
+          style: AppTextTheme.mediumBigText(AppColor.text1),
         ),
       ),
     );

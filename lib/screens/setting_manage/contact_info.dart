@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/home_widget/back_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/background_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/dropdown_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/line_content.dart';
-import 'package:hs_admin_web/widgets/input_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
-import '../../widgets/home_widget/form_user_widget.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/back_button_widget.dart';
+import '../../widgets/form_user_widget.dart';
+import '../../widgets/line_content.dart';
 import '../../widgets/profile_item_widget.dart';
 import '../layout_template/content_screen.dart';
 
@@ -32,7 +27,6 @@ class _ContactInfoState extends State<ContactInfo> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController numberPhoneController =
       TextEditingController();
-  late bool _checkSearch = true;
   @override
   void initState() {
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
@@ -100,7 +94,7 @@ class _ContactInfoState extends State<ContactInfo> {
               customerAndTasker(),
               Container(
                 width: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 height: MediaQuery.of(context).size.height / 4,
               ),
               Flexible(
@@ -128,7 +122,7 @@ class _ContactInfoState extends State<ContactInfo> {
             icon: SvgIcons.logout,
             title: 'Đăng xuất',
             onTap: () {},
-            color: WebColor.textColor7,
+            color: AppColor.text7,
           )
         ],
       ),
@@ -144,7 +138,7 @@ class _ContactInfoState extends State<ContactInfo> {
           children: [
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: WebColor.primaryColor2,
+                backgroundColor: AppColor.primary2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -156,7 +150,7 @@ class _ContactInfoState extends State<ContactInfo> {
                 ),
                 child: Text(
                   'Khách hàng',
-                  style: WebTextTheme().mediumBodyText(WebColor.textColor2),
+                  style: AppTextTheme.mediumBodyText(AppColor.text2),
                 ),
               ),
               onPressed: () {},
@@ -166,7 +160,7 @@ class _ContactInfoState extends State<ContactInfo> {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: WebColor.textColor2,
+                backgroundColor: AppColor.text2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -178,7 +172,7 @@ class _ContactInfoState extends State<ContactInfo> {
                 ),
                 child: Text(
                   'Người giúp việc',
-                  style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+                  style: AppTextTheme.mediumBodyText(AppColor.text3),
                 ),
               ),
               onPressed: () {},
@@ -199,22 +193,25 @@ class _ContactInfoState extends State<ContactInfo> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               'Thông tin liên lạc',
-              style: WebTextTheme().mediumBigText(WebColor.textColor3),
+              style: AppTextTheme.mediumBigText(AppColor.text3),
             ),
           ),
           TextButton(
             style: TextButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(
-                      color: WebColor.primaryColor2, width: 1)),
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(
+                  color: AppColor.primary2,
+                  width: 1,
+                ),
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(children: [
                 SvgIcon(
                   SvgIcons.editOutline,
-                  color: WebColor.primaryColor2,
+                  color: AppColor.primary2,
                   size: 24,
                 ),
                 const SizedBox(
@@ -222,7 +219,7 @@ class _ContactInfoState extends State<ContactInfo> {
                 ),
                 Text(
                   'Chỉnh sửa',
-                  style: WebTextTheme().mediumBodyText(WebColor.primaryColor2),
+                  style: AppTextTheme.mediumBodyText(AppColor.primary2),
                 )
               ]),
             ),
@@ -258,8 +255,7 @@ class _ContactInfoState extends State<ContactInfo> {
                   children: [
                     Text(
                       'Nội dung',
-                      style:
-                          WebTextTheme().mediumBodyText(WebColor.shadowColor),
+                      style: AppTextTheme.mediumBodyText(AppColor.shadow),
                     ),
                     const SizedBox(
                       height: 8,
@@ -269,9 +265,8 @@ class _ContactInfoState extends State<ContactInfo> {
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         minLines: 1,
-                        cursorColor: WebColor.textColor3,
-                        style:
-                            WebTextTheme().mediumBodyText(WebColor.textColor3),
+                        cursorColor: AppColor.text3,
+                        style: AppTextTheme.mediumBodyText(AppColor.text3),
                         decoration: InputDecoration(
                           isDense: true,
                           enabledBorder: OutlineInputBorder(
@@ -284,10 +279,10 @@ class _ContactInfoState extends State<ContactInfo> {
                                 width: 1, color: Colors.transparent),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          fillColor: WebColor.shapeColor1,
+                          fillColor: AppColor.shade1,
                           filled: true,
-                          hintStyle: WebTextTheme()
-                              .mediumBodyText(WebColor.textColor7),
+                          hintStyle:
+                              AppTextTheme.mediumBodyText(AppColor.text7),
                           hintText: "Nhập nội dung vào đây...  ",
                           border: InputBorder.none,
                         ),
@@ -307,14 +302,14 @@ class _ContactInfoState extends State<ContactInfo> {
       children: [
         Text(
           'Giá',
-          style: WebTextTheme().mediumBodyText(WebColor.shadowColor),
+          style: AppTextTheme.mediumBodyText(AppColor.shadow),
         ),
         TextButton(
           child: Row(
             children: [
               SvgIcon(
                 SvgIcons.close,
-                color: WebColor.primaryColor2,
+                color: AppColor.primary2,
                 size: 24,
               ),
               const SizedBox(
@@ -322,8 +317,8 @@ class _ContactInfoState extends State<ContactInfo> {
               ),
               Text(
                 'Thêm',
-                style: WebTextTheme().mediumBodyText(
-                  WebColor.primaryColor2,
+                style: AppTextTheme.mediumBodyText(
+                  AppColor.primary2,
                 ),
               ),
             ],
@@ -341,12 +336,12 @@ class _ContactInfoState extends State<ContactInfo> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
-                backgroundColor: WebColor.textColor7,
+                backgroundImage: const NetworkImage(''),
+                backgroundColor: AppColor.text7,
               ),
             ),
             const SizedBox(
@@ -361,8 +356,8 @@ class _ContactInfoState extends State<ContactInfo> {
                 onTap: () {},
                 child: Text(
                   'Thay đổi hình ảnh',
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.primaryColor2,
+                  style: AppTextTheme.mediumBodyText(
+                    AppColor.primary2,
                   ),
                 ),
               ),

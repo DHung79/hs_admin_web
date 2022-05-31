@@ -1,28 +1,17 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/home_widget/back_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/background_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/dropdown_widget.dart';
-import 'package:hs_admin_web/widgets/input_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
-import '../../widgets/home_widget/form_user_widget.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/back_button_widget.dart';
+import '../../widgets/form_user_widget.dart';
 import '../layout_template/content_screen.dart';
 
 class InfoOrder extends StatefulWidget {
-  late bool showProfileTasker;
-  late bool showProfileCustomer;
-  InfoOrder(
-      {Key? key,
-      this.showProfileTasker = false,
-      this.showProfileCustomer = false})
-      : super(key: key);
+  const InfoOrder({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<InfoOrder> createState() => _InfoOrderState();
@@ -38,18 +27,17 @@ class _InfoOrderState extends State<InfoOrder> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController numberPhoneController =
       TextEditingController();
-  late bool _checkSearch = true;
   bool money = false;
-
+  bool showProfileTasker = false;
+  bool showProfileCustomer = false;
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.selected,
     };
     if (states.any(interactiveStates.contains)) {
-      return WebColor.testColor7;
+      return AppColor.text7;
     }
-    return WebColor.textColor7;
-    ;
+    return AppColor.text7;
   }
 
   @override
@@ -67,8 +55,8 @@ class _InfoOrderState extends State<InfoOrder> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      showProfileTasker2: widget.showProfileTasker,
-      showProfileCustomer: widget.showProfileCustomer,
+      showProfileTasker2: showProfileTasker,
+      showProfileCustomer: showProfileCustomer,
       name: 'Quản lí đặt hàng',
       title: 'Quản lí đặt hàng / Thông tin đơn hàng',
       appBarHeight: 0,
@@ -95,8 +83,7 @@ class _InfoOrderState extends State<InfoOrder> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         'Thông tin đơn hàng',
-                        style:
-                            WebTextTheme().mediumBigText(WebColor.textColor3),
+                        style: AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                   ),
@@ -121,7 +108,7 @@ class _InfoOrderState extends State<InfoOrder> {
                           Container(
                             width: 1,
                             height: MediaQuery.of(context).size.height / 1.7,
-                            color: WebColor.shapeColor1,
+                            color: AppColor.shade1,
                             margin:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                           ),
@@ -149,7 +136,7 @@ class _InfoOrderState extends State<InfoOrder> {
                               children: [
                                 SvgIcon(
                                   SvgIcons.close,
-                                  color: WebColor.testColor8,
+                                  color: AppColor.text8,
                                   size: 24,
                                 ),
                                 const SizedBox(
@@ -157,8 +144,8 @@ class _InfoOrderState extends State<InfoOrder> {
                                 ),
                                 Text(
                                   'Hủy đơn hàng',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.testColor8),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.text8),
                                 )
                               ],
                             ),
@@ -183,7 +170,7 @@ class _InfoOrderState extends State<InfoOrder> {
           children: [
             SvgIcon(
               SvgIcons.close,
-              color: WebColor.textColor3,
+              color: AppColor.text3,
               size: 24,
             ),
             const SizedBox(
@@ -191,7 +178,7 @@ class _InfoOrderState extends State<InfoOrder> {
             ),
             Text(
               'Hủy bỏ',
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             )
           ],
         ),
@@ -210,7 +197,7 @@ class _InfoOrderState extends State<InfoOrder> {
         child: ListView(children: [
           Text(
             'Thông tin dịch vụ',
-            style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             height: 16,
@@ -219,21 +206,21 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Text(
                 'Tran thai',
-                style: WebTextTheme().normalText(WebColor.testColor8),
+                style: AppTextTheme.normalText(AppColor.text8),
               ),
               const SizedBox(
                 width: 8,
               ),
               Text(
                 'Tran thai',
-                style: WebTextTheme().headerAndTitle(WebColor.primaryColor2),
+                style: AppTextTheme.headerTitle(AppColor.primary2),
               ),
               const SizedBox(
                 width: 8,
               ),
               Text(
                 '(Người giúp việc đã nhận việc)',
-                style: WebTextTheme().normalText(WebColor.textColor3),
+                style: AppTextTheme.normalText(AppColor.text3),
               )
             ],
           ),
@@ -248,14 +235,14 @@ class _InfoOrderState extends State<InfoOrder> {
                   children: [
                     Text(
                       'Dichj vu',
-                      style: WebTextTheme().normalText(WebColor.testColor8),
+                      style: AppTextTheme.normalText(AppColor.text8),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Text(
                       'Don dep nha cua',
-                      style: WebTextTheme().normalText(WebColor.textColor3),
+                      style: AppTextTheme.normalText(AppColor.text3),
                     )
                   ],
                 ),
@@ -266,14 +253,14 @@ class _InfoOrderState extends State<InfoOrder> {
                   children: [
                     Text(
                       'Dichj vu',
-                      style: WebTextTheme().normalText(WebColor.testColor8),
+                      style: AppTextTheme.normalText(AppColor.text8),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Text(
                       'Don dep nha cua',
-                      style: WebTextTheme().normalText(WebColor.textColor3),
+                      style: AppTextTheme.normalText(AppColor.text3),
                     )
                   ],
                 ),
@@ -291,14 +278,14 @@ class _InfoOrderState extends State<InfoOrder> {
                   children: [
                     Text(
                       'Dichj vu',
-                      style: WebTextTheme().normalText(WebColor.testColor8),
+                      style: AppTextTheme.normalText(AppColor.text8),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Text(
                       'Don dep nha cua',
-                      style: WebTextTheme().normalText(WebColor.textColor3),
+                      style: AppTextTheme.normalText(AppColor.text3),
                     )
                   ],
                 ),
@@ -309,14 +296,14 @@ class _InfoOrderState extends State<InfoOrder> {
                   children: [
                     Text(
                       'Dichj vu',
-                      style: WebTextTheme().normalText(WebColor.testColor8),
+                      style: AppTextTheme.normalText(AppColor.text8),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     Text(
                       'Don dep nha cua',
-                      style: WebTextTheme().normalText(WebColor.textColor3),
+                      style: AppTextTheme.normalText(AppColor.text3),
                     )
                   ],
                 ),
@@ -325,12 +312,12 @@ class _InfoOrderState extends State<InfoOrder> {
           ),
           Container(
             height: 1,
-            color: WebColor.shapeColor1,
+            color: AppColor.shade1,
             margin: const EdgeInsets.symmetric(vertical: 24.5),
           ),
           Text(
             'Thông tin dịch vụ',
-            style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             height: 16,
@@ -340,13 +327,13 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Container(
                 height: 120,
-                color: WebColor.testColor5,
+                color: AppColor.text5,
                 width: 4,
                 margin: const EdgeInsets.only(right: 16),
               ),
               Text(
                 'Thông tin cơ bản:',
-                style: WebTextTheme().normalText(WebColor.shadowColor),
+                style: AppTextTheme.normalText(AppColor.shadow),
               ),
               const SizedBox(
                 width: 16,
@@ -357,11 +344,11 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi: ',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -372,11 +359,11 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi: ',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -387,14 +374,14 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi:',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -405,14 +392,14 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi:',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -428,13 +415,13 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Container(
                 height: 150,
-                color: WebColor.testColor5,
+                color: AppColor.text5,
                 width: 4,
                 margin: const EdgeInsets.only(right: 16),
               ),
               Text(
                 'Yêu cầu từ khách hàng:',
-                style: WebTextTheme().normalText(WebColor.shadowColor),
+                style: AppTextTheme.normalText(AppColor.shadow),
               ),
               const SizedBox(
                 width: 16,
@@ -447,14 +434,14 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Ghi chu:',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 16,
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -467,7 +454,7 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi: ',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 8,
@@ -476,18 +463,15 @@ class _InfoOrderState extends State<InfoOrder> {
                         children: [
                           Text(
                             'Lau ghe rong',
-                            style:
-                                WebTextTheme().normalText(WebColor.textColor3),
+                            style: AppTextTheme.normalText(AppColor.text3),
                           ),
                           Text(
                             'Lau ghe rong',
-                            style:
-                                WebTextTheme().normalText(WebColor.textColor3),
+                            style: AppTextTheme.normalText(AppColor.text3),
                           ),
                           Text(
                             'Lau ghe rong',
-                            style:
-                                WebTextTheme().normalText(WebColor.textColor3),
+                            style: AppTextTheme.normalText(AppColor.text3),
                           ),
                         ],
                       )
@@ -500,14 +484,14 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi:',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -518,14 +502,14 @@ class _InfoOrderState extends State<InfoOrder> {
                     children: [
                       Text(
                         'Dia chi:',
-                        style: WebTextTheme().normalText(WebColor.testColor8),
+                        style: AppTextTheme.normalText(AppColor.text8),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
                       Text(
                         '358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa',
-                        style: WebTextTheme().normalText(WebColor.textColor3),
+                        style: AppTextTheme.normalText(AppColor.text3),
                       ),
                     ],
                   ),
@@ -534,13 +518,13 @@ class _InfoOrderState extends State<InfoOrder> {
             ],
           ),
           Container(
-            color: WebColor.shapeColor1,
+            color: AppColor.shade1,
             height: 1,
             margin: const EdgeInsets.symmetric(vertical: 24.5),
           ),
           Text(
             'Thông tin thanh toán',
-            style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             height: 16,
@@ -549,14 +533,14 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Text(
                 'Hình thức 1:',
-                style: WebTextTheme().normalText(WebColor.testColor8),
+                style: AppTextTheme.normalText(AppColor.text8),
               ),
               const SizedBox(
                 width: 8,
               ),
               Text(
                 'Momo',
-                style: WebTextTheme().normalText(WebColor.textColor3),
+                style: AppTextTheme.normalText(AppColor.text3),
               ),
             ],
           ),
@@ -567,25 +551,25 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Text(
                 'Hình thức 2:',
-                style: WebTextTheme().normalText(WebColor.testColor8),
+                style: AppTextTheme.normalText(AppColor.text8),
               ),
               const SizedBox(
                 width: 8,
               ),
               Text(
                 'Tiền mặt',
-                style: WebTextTheme().normalText(WebColor.textColor3),
+                style: AppTextTheme.normalText(AppColor.text3),
               ),
             ],
           ),
           Container(
             height: 1,
-            color: WebColor.shapeColor1,
+            color: AppColor.shade1,
             margin: const EdgeInsets.symmetric(vertical: 24.5),
           ),
           Text(
             'Thông tin khác',
-            style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             height: 16,
@@ -600,14 +584,14 @@ class _InfoOrderState extends State<InfoOrder> {
                       children: [
                         Text(
                           'Người tạo:',
-                          style: WebTextTheme().normalText(WebColor.testColor8),
+                          style: AppTextTheme.normalText(AppColor.text8),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Text(
                           'vinhkygm@gmail.com',
-                          style: WebTextTheme().normalText(WebColor.textColor3),
+                          style: AppTextTheme.normalText(AppColor.text3),
                         )
                       ],
                     ),
@@ -618,14 +602,14 @@ class _InfoOrderState extends State<InfoOrder> {
                       children: [
                         Text(
                           'Ngày tạo:',
-                          style: WebTextTheme().normalText(WebColor.testColor8),
+                          style: AppTextTheme.normalText(AppColor.text8),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Text(
                           '13/05/2022',
-                          style: WebTextTheme().normalText(WebColor.textColor3),
+                          style: AppTextTheme.normalText(AppColor.text3),
                         )
                       ],
                     ),
@@ -639,14 +623,14 @@ class _InfoOrderState extends State<InfoOrder> {
                 children: [
                   Text(
                     'Cập nhật gần nhất:',
-                    style: WebTextTheme().normalText(WebColor.testColor8),
+                    style: AppTextTheme.normalText(AppColor.text8),
                   ),
                   const SizedBox(
                     width: 8,
                   ),
                   Text(
                     '13/05/2022',
-                    style: WebTextTheme().normalText(WebColor.textColor3),
+                    style: AppTextTheme.normalText(AppColor.text3),
                   )
                 ],
               ),
@@ -668,7 +652,7 @@ class _InfoOrderState extends State<InfoOrder> {
             children: [
               Container(
                 width: 4,
-                color: WebColor.primaryColor2,
+                color: AppColor.primary2,
                 height: 230,
               ),
               Expanded(
@@ -682,8 +666,8 @@ class _InfoOrderState extends State<InfoOrder> {
                         children: [
                           Text(
                             'Lựa chọn 1',
-                            style: WebTextTheme().mediumHeaderAndTitle(
-                              WebColor.textColor1,
+                            style: AppTextTheme.mediumHeaderTitle(
+                              AppColor.text1,
                             ),
                           ),
                           TextButton(
@@ -693,7 +677,7 @@ class _InfoOrderState extends State<InfoOrder> {
                               child: Row(children: [
                                 SvgIcon(
                                   SvgIcons.delete,
-                                  color: WebColor.textColor7,
+                                  color: AppColor.text7,
                                   size: 24,
                                 ),
                                 const SizedBox(
@@ -701,8 +685,8 @@ class _InfoOrderState extends State<InfoOrder> {
                                 ),
                                 Text(
                                   'Xóa',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.textColor7),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.text7),
                                 )
                               ]),
                             ),
@@ -750,7 +734,7 @@ class _InfoOrderState extends State<InfoOrder> {
                         padding: const EdgeInsets.all(4.0),
                         child: SvgIcon(
                           SvgIcons.dollar1,
-                          color: WebColor.testColor5,
+                          color: AppColor.text5,
                           size: 24,
                         ),
                       ),
@@ -758,8 +742,7 @@ class _InfoOrderState extends State<InfoOrder> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'VND',
-                          style: WebTextTheme()
-                              .mediumBodyText(WebColor.textColor3),
+                          style: AppTextTheme.mediumBodyText(AppColor.text3),
                         ),
                       ),
                       isWidth: false,
@@ -778,8 +761,8 @@ class _InfoOrderState extends State<InfoOrder> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Giờ',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.textColor3),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.text3),
                                 ),
                               ),
                               isWidth: false,
@@ -795,7 +778,7 @@ class _InfoOrderState extends State<InfoOrder> {
                             child: InkWell(
                               onTap: () {},
                               child: Container(
-                                color: WebColor.shapeColor1,
+                                color: AppColor.shade1,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 13,
@@ -804,8 +787,8 @@ class _InfoOrderState extends State<InfoOrder> {
                                   child: Row(children: [
                                     Text(
                                       'Theo giờ',
-                                      style: WebTextTheme().mediumBodyText(
-                                        WebColor.textColor3,
+                                      style: AppTextTheme.mediumBodyText(
+                                        AppColor.text3,
                                       ),
                                     ),
                                     const SizedBox(
@@ -813,7 +796,7 @@ class _InfoOrderState extends State<InfoOrder> {
                                     ),
                                     SvgIcon(
                                       SvgIcons.addMoney,
-                                      color: WebColor.shadowColor,
+                                      color: AppColor.shadow,
                                       size: 24,
                                     ),
                                   ]),
@@ -842,14 +825,14 @@ class _InfoOrderState extends State<InfoOrder> {
         children: [
           Text(
             'Giá',
-            style: WebTextTheme().mediumBodyText(WebColor.shadowColor),
+            style: AppTextTheme.mediumBodyText(AppColor.shadow),
           ),
           TextButton(
             child: Row(
               children: [
                 SvgIcon(
                   SvgIcons.close,
-                  color: WebColor.primaryColor2,
+                  color: AppColor.primary2,
                   size: 24,
                 ),
                 const SizedBox(
@@ -857,8 +840,8 @@ class _InfoOrderState extends State<InfoOrder> {
                 ),
                 Text(
                   'Thêm',
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.primaryColor2,
+                  style: AppTextTheme.mediumBodyText(
+                    AppColor.primary2,
                   ),
                 ),
               ],
@@ -880,12 +863,11 @@ class _InfoOrderState extends State<InfoOrder> {
               name: 'Nguyễn Đức Hoàng Phi',
               onPressed: () {
                 setState(() {
-                  widget.showProfileCustomer = true;
-                  logDebug(widget.showProfileCustomer);
+                  showProfileCustomer = true;
                 });
               }),
-          const Divider(
-            color: WebColor.shapeColor1,
+          Divider(
+            color: AppColor.shade1,
             height: 24.5,
           ),
           profileOrder(
@@ -893,8 +875,7 @@ class _InfoOrderState extends State<InfoOrder> {
             name: 'Nguyễn Phúc Vĩnh Kỳ',
             onPressed: () {
               setState(() {
-                widget.showProfileTasker = true;
-                logDebug(widget.showProfileTasker);
+                showProfileTasker = true;
               });
             },
           ),
@@ -916,17 +897,17 @@ class _InfoOrderState extends State<InfoOrder> {
         children: [
           Text(
             customer,
-            style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             height: 10,
           ),
-          const SizedBox(
+          SizedBox(
             width: 100,
             height: 100,
             child: CircleAvatar(
-              backgroundImage: NetworkImage(''),
-              backgroundColor: WebColor.textColor7,
+              backgroundImage: const NetworkImage(''),
+              backgroundColor: AppColor.text7,
             ),
           ),
           const SizedBox(
@@ -934,8 +915,8 @@ class _InfoOrderState extends State<InfoOrder> {
           ),
           Text(
             name,
-            style: WebTextTheme().mediumBodyText(
-              WebColor.textColor3,
+            style: AppTextTheme.mediumBodyText(
+              AppColor.text3,
             ),
           ),
           const SizedBox(
@@ -949,7 +930,7 @@ class _InfoOrderState extends State<InfoOrder> {
             onPressed: onPressed,
             child: Text(
               'Xem thêm',
-              style: WebTextTheme().subText(WebColor.testColor5),
+              style: AppTextTheme.subText(AppColor.text5),
             ),
           ),
         ],

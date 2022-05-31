@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/configs/svg_constants.dart';
 import 'package:hs_admin_web/main.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
+import '../../theme/app_theme.dart';
 import 'sidebar_item.dart';
 
 class SideBar extends StatefulWidget {

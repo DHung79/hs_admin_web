@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../configs/text_theme.dart';
-import '../configs/themes.dart';
+import '../theme/app_theme.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/input_widget.dart';
 import '../widgets/title_widget.dart';
@@ -27,7 +25,7 @@ class _OtpPageState extends State<OtpPage> {
         child: Row(
           children: [
             Container(
-              color: WebColor.primaryColor1,
+              color: AppColor.primary1,
               width: MediaQuery.of(context).size.width * 0.4,
               height: MediaQuery.of(context).size.height,
               child: Image.asset('assets/images/logodemo.png'),
@@ -57,15 +55,15 @@ class _OtpPageState extends State<OtpPage> {
                               'assets/icons/17079.svg',
                               width: 24,
                               height: 24,
-                              color: WebColor.textColor7,
+                              color: AppColor.text7,
                             ),
                             const SizedBox(
                               width: 13,
                             ),
                             Text(
                               'Thay đổi email',
-                              style: WebTextTheme()
-                                  .mediumBodyText(WebColor.textColor7),
+                              style:
+                                  AppTextTheme.mediumBodyText(AppColor.text7),
                             )
                           ],
                         ),
@@ -75,14 +73,12 @@ class _OtpPageState extends State<OtpPage> {
                     Form(
                       key: _formKey,
                       child: InputWidget(
-                        isWidth: true,
-                        style: WebTextTheme().mediumBodyText(
-                          WebColor.textColor7,
-                        ),
-                        colorBorder: WebColor.textColor7,
-                        hintText: 'Nhập mã OTP',
-                        index: 3,
                         controller: controller,
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text7,
+                        ),
+                        borderColor: AppColor.text7,
+                        hintText: 'Nhập mã OTP',
                       ),
                     ),
                     const SizedBox(
@@ -109,7 +105,7 @@ class _OtpPageState extends State<OtpPage> {
   Text errorTextWidget(errorText) {
     return Text(
       errorText,
-      style: WebTextTheme().normalText(WebColor.otherColor1),
+      style: AppTextTheme.normalText(AppColor.others1),
     );
   }
 }

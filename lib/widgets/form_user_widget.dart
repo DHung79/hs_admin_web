@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
-import '../input_widget.dart';
+import '../theme/app_theme.dart';
+import 'input_widget.dart';
 
 class FormUserWidget extends StatefulWidget {
+  final String? initialValue;
   final String? title;
   final String hintText;
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller;
   final bool isWidth;
   final bool showTitle;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final EdgeInsetsGeometry padding;
 
-  FormUserWidget({
+  const FormUserWidget({
     Key? key,
     this.title,
     this.padding = const EdgeInsets.all(16.0),
@@ -24,6 +23,7 @@ class FormUserWidget extends StatefulWidget {
     this.showTitle = false,
     this.suffixIcon,
     this.prefixIcon,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -39,29 +39,24 @@ class _FormUserWidgetState extends State<FormUserWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.showTitle)
-            Column(
-              children: [
-                Text(
-                  widget.title!,
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.shadowColor,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                widget.title!,
+                style: AppTextTheme.mediumBodyText(
+                  AppColor.shadow,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-              ],
+              ),
             ),
           InputWidget(
+            initialValue: widget.initialValue,
+            controller: widget.controller,
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.suffixIcon,
-            isWidth: widget.isWidth,
-            colorBorder: WebColor.shadowColor,
-            style: WebTextTheme().mediumBodyText(
-              WebColor.textColor3,
+            style: AppTextTheme.mediumBodyText(
+              AppColor.text3,
             ),
             hintText: widget.hintText,
-            controller: widget.controller,
           ),
         ],
       ),

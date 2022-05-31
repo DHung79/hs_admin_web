@@ -1,19 +1,11 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/home_widget/back_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/background_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/dropdown_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/line_content.dart';
-import 'package:hs_admin_web/widgets/input_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
-import '../../widgets/home_widget/form_user_widget.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/back_button_widget.dart';
+import '../../widgets/line_content.dart';
 import '../layout_template/content_screen.dart';
 
 class DetailService extends StatefulWidget {
@@ -30,7 +22,6 @@ class _DetailServiceState extends State<DetailService> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController numberPhoneController =
       TextEditingController();
-  final bool _checkSearch = true;
   @override
   void initState() {
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
@@ -78,8 +69,8 @@ class _DetailServiceState extends State<DetailService> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            side: const BorderSide(
-                              color: WebColor.primaryColor2,
+                            side: BorderSide(
+                              color: AppColor.primary2,
                               width: 1,
                             ),
                           ),
@@ -90,7 +81,7 @@ class _DetailServiceState extends State<DetailService> {
                               children: [
                                 SvgIcon(
                                   SvgIcons.edit,
-                                  color: WebColor.primaryColor2,
+                                  color: AppColor.primary2,
                                   size: 24,
                                 ),
                                 const SizedBox(
@@ -98,8 +89,8 @@ class _DetailServiceState extends State<DetailService> {
                                 ),
                                 Text(
                                   'Chỉnh sửa',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.primaryColor2),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.primary2),
                                 ),
                               ],
                             ),
@@ -130,7 +121,7 @@ class _DetailServiceState extends State<DetailService> {
           child: Row(children: [
             SvgIcon(
               SvgIcons.delete,
-              color: WebColor.testColor8,
+              color: AppColor.text8,
               size: 24,
             ),
             const SizedBox(
@@ -138,7 +129,7 @@ class _DetailServiceState extends State<DetailService> {
             ),
             Text(
               'Xóa người dùng',
-              style: WebTextTheme().mediumBodyText(WebColor.testColor8),
+              style: AppTextTheme.mediumBodyText(AppColor.text8),
             ),
           ]),
           onPressed: () {},
@@ -152,7 +143,7 @@ class _DetailServiceState extends State<DetailService> {
       padding: const EdgeInsets.all(10.0),
       child: Text(
         'Thông tin người dùng',
-        style: WebTextTheme().mediumBigText(WebColor.textColor3),
+        style: AppTextTheme.mediumBigText(AppColor.text3),
       ),
     );
   }
@@ -179,7 +170,7 @@ class _DetailServiceState extends State<DetailService> {
           Container(
             width: 1,
             height: MediaQuery.of(context).size.height / 2,
-            color: WebColor.shapeColor1,
+            color: AppColor.shade1,
             margin: const EdgeInsets.symmetric(horizontal: 16),
           ),
           profileUser(),
@@ -199,7 +190,7 @@ class _DetailServiceState extends State<DetailService> {
           children: [
             SvgIcon(
               SvgIcons.close,
-              color: WebColor.textColor3,
+              color: AppColor.text3,
               size: 24,
             ),
             const SizedBox(
@@ -207,7 +198,7 @@ class _DetailServiceState extends State<DetailService> {
             ),
             Text(
               'Hủy bỏ',
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             )
           ],
         ),
@@ -234,19 +225,19 @@ class _DetailServiceState extends State<DetailService> {
                     infoDetail(),
                     Container(
                       height: 1,
-                      color: WebColor.shapeColor1,
+                      color: AppColor.shade1,
                       margin: const EdgeInsets.symmetric(vertical: 24),
                     ),
                     priceService(),
                     Container(
                       height: 1,
-                      color: WebColor.shapeColor1,
+                      color: AppColor.shade1,
                       margin: const EdgeInsets.symmetric(vertical: 24),
                     ),
                     payments(),
                     Container(
                       height: 1,
-                      color: WebColor.shapeColor1,
+                      color: AppColor.shade1,
                       margin: const EdgeInsets.symmetric(vertical: 24),
                     ),
                     const LineContent(
@@ -274,7 +265,7 @@ class _DetailServiceState extends State<DetailService> {
       children: [
         Text(
           'Hình thức thanh toán',
-          style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           height: 16,
@@ -298,7 +289,7 @@ class _DetailServiceState extends State<DetailService> {
       children: [
         Text(
           'Giá',
-          style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           height: 16,
@@ -344,14 +335,14 @@ class _DetailServiceState extends State<DetailService> {
       children: [
         Text(
           name,
-          style: WebTextTheme().normalText(WebColor.testColor8),
+          style: AppTextTheme.normalText(AppColor.text8),
         ),
         const SizedBox(
           width: 8,
         ),
         Text(
           description,
-          style: WebTextTheme().normalText(WebColor.textColor3),
+          style: AppTextTheme.normalText(AppColor.text3),
         )
       ],
     );
@@ -363,7 +354,7 @@ class _DetailServiceState extends State<DetailService> {
       children: [
         Text(
           'Thông tin chi tiết',
-          style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           height: 16,
@@ -372,14 +363,14 @@ class _DetailServiceState extends State<DetailService> {
           children: [
             Text(
               'Loại dịch vụ:',
-              style: WebTextTheme().normalText(WebColor.testColor8),
+              style: AppTextTheme.normalText(AppColor.text8),
             ),
             const SizedBox(
               width: 8,
             ),
             Text(
               'Dọn dẹp nhà',
-              style: WebTextTheme().normalText(WebColor.textColor3),
+              style: AppTextTheme.normalText(AppColor.text3),
             )
           ],
         )
@@ -396,12 +387,12 @@ class _DetailServiceState extends State<DetailService> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
-                backgroundColor: WebColor.textColor7,
+                backgroundImage: const NetworkImage(''),
+                backgroundColor: AppColor.text7,
               ),
             ),
             const SizedBox(
@@ -409,7 +400,7 @@ class _DetailServiceState extends State<DetailService> {
             ),
             Text(
               'Dọn dẹp nhà cửa theo giờ',
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             ),
           ],
         ),

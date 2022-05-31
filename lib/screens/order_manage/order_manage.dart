@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/screens/order_manage/info_order.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
+import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 
 class OrderManage extends StatefulWidget {
-  bool deleteService;
-  OrderManage({Key? key, this.deleteService = false}) : super(key: key);
+  const OrderManage({Key? key}) : super(key: key);
 
   @override
   State<OrderManage> createState() => _OrderManageState();
@@ -20,7 +16,8 @@ class OrderManage extends StatefulWidget {
 class _OrderManageState extends State<OrderManage> {
   final _pageState = PageState();
   late final TextEditingController _searchController = TextEditingController();
-  late bool _checkSearch = true;
+  bool _checkSearch = true;
+  bool deleteService = false;
 
   List<Order> orders = [
     Order(
@@ -66,7 +63,7 @@ class _OrderManageState extends State<OrderManage> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      deleteService: widget.deleteService,
+      deleteService: deleteService,
       appBarHeight: 0,
       child: FutureBuilder(
           future: _pageState.currentUser,
@@ -84,8 +81,7 @@ class _OrderManageState extends State<OrderManage> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         'Danh sách đơn đặt hàng',
-                        style:
-                            WebTextTheme().mediumBigText(WebColor.textColor3),
+                        style: AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                     Padding(
@@ -96,7 +92,7 @@ class _OrderManageState extends State<OrderManage> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: WebColor.shapeColor2,
+                        color: AppColor.shade2,
                       ),
                       child: Column(
                         children: [
@@ -105,8 +101,7 @@ class _OrderManageState extends State<OrderManage> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color:
-                                        WebColor.shadowColor.withOpacity(0.24),
+                                    color: AppColor.shadow.withOpacity(0.24),
                                     blurStyle: BlurStyle.outer,
                                     blurRadius: 16)
                               ],
@@ -215,7 +210,7 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               Text(
                 id.toString(),
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -233,7 +228,7 @@ class _OrderManageState extends State<OrderManage> {
                 },
                 child: Text(
                   service,
-                  style: WebTextTheme().normalText(WebColor.textColor1),
+                  style: AppTextTheme.normalText(AppColor.text1),
                 ),
               ),
             ],
@@ -248,7 +243,7 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               Text(
                 total,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -262,7 +257,7 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               Text(
                 customer,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
             ],
           ),
@@ -277,35 +272,33 @@ class _OrderManageState extends State<OrderManage> {
               status == 0
                   ? Text(
                       'Thành công',
-                      style: WebTextTheme().mediumBodyText(
-                        Color.fromRGBO(102, 199, 25, 1),
-                      ),
+                      style: AppTextTheme.mediumBodyText(AppColor.others2),
                     )
                   : status == 1
                       ? Text(
                           'Đã hủy',
-                          style: WebTextTheme().mediumBodyText(
-                            WebColor.otherColor1,
+                          style: AppTextTheme.mediumBodyText(
+                            AppColor.others1,
                           ),
                         )
                       : status == 2
                           ? Text(
                               'Đã nhận',
-                              style: WebTextTheme().mediumBodyText(
-                                WebColor.textColor3,
+                              style: AppTextTheme.mediumBodyText(
+                                AppColor.text3,
                               ),
                             )
                           : status == 4
                               ? Text(
                                   'Đã nhận',
-                                  style: WebTextTheme().mediumBodyText(
-                                    WebColor.testColor8,
+                                  style: AppTextTheme.mediumBodyText(
+                                    AppColor.text8,
                                   ),
                                 )
                               : Text(
                                   'Đang tiến hành',
-                                  style: WebTextTheme().mediumBodyText(
-                                    WebColor.primaryColor2,
+                                  style: AppTextTheme.mediumBodyText(
+                                    AppColor.primary2,
                                   ),
                                 ),
             ],
@@ -320,7 +313,7 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               SvgIcon(
                 SvgIcons.addMoney,
-                color: WebColor.shadowColor,
+                color: AppColor.shadow,
                 size: 24,
               ),
               const SizedBox(
@@ -329,14 +322,14 @@ class _OrderManageState extends State<OrderManage> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    widget.deleteService = true;
+                    deleteService = true;
                   });
                 },
                 style: TextButton.styleFrom(
                     padding: EdgeInsets.zero, minimumSize: const Size(24, 24)),
                 child: SvgIcon(
                   SvgIcons.close,
-                  color: WebColor.shadowColor,
+                  color: AppColor.shadow,
                   size: 24,
                 ),
               ),
@@ -357,8 +350,8 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               Text(
                 'Number on page',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor3,
+                style: AppTextTheme.normalText(
+                  AppColor.text3,
                 ),
               ),
               const SizedBox(
@@ -375,14 +368,14 @@ class _OrderManageState extends State<OrderManage> {
                   child: Row(children: [
                     Text(
                       '10',
-                      style: WebTextTheme().normalText(WebColor.textColor1),
+                      style: AppTextTheme.normalText(AppColor.text1),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     SvgIcon(
                       SvgIcons.circleCheck,
-                      color: WebColor.textColor7,
+                      color: AppColor.text7,
                       size: 24,
                     )
                   ]),
@@ -401,7 +394,7 @@ class _OrderManageState extends State<OrderManage> {
                     children: [
                       SvgIcon(
                         SvgIcons.barChart,
-                        color: WebColor.testColor8,
+                        color: AppColor.text8,
                         size: 24,
                       ),
                       const SizedBox(
@@ -409,8 +402,8 @@ class _OrderManageState extends State<OrderManage> {
                       ),
                       Text(
                         'Chỉnh sửa bảng',
-                        style: WebTextTheme().mediumBodyText(
-                          WebColor.testColor8,
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text8,
                         ),
                       )
                     ],
@@ -433,7 +426,7 @@ class _OrderManageState extends State<OrderManage> {
                 child: SvgIcon(
                   SvgIcons.arrowBack,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
               const SizedBox(
@@ -441,8 +434,8 @@ class _OrderManageState extends State<OrderManage> {
               ),
               Text(
                 '1',
-                style: WebTextTheme().normalText(
-                  WebColor.textColor1,
+                style: AppTextTheme.normalText(
+                  AppColor.text1,
                 ),
               ),
               const SizedBox(
@@ -457,7 +450,7 @@ class _OrderManageState extends State<OrderManage> {
                 child: SvgIcon(
                   SvgIcons.arrowTopLeft,
                   size: 24,
-                  color: WebColor.inactiveColor1,
+                  color: AppColor.inactive1,
                 ),
               ),
             ]),
@@ -479,7 +472,7 @@ class _OrderManageState extends State<OrderManage> {
         child: Row(children: [
           Text(
             title,
-            style: WebTextTheme().mediumHeaderAndTitle(WebColor.shadowColor),
+            style: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
           ),
           const SizedBox(
             width: 10,
@@ -487,7 +480,7 @@ class _OrderManageState extends State<OrderManage> {
           if (icon)
             SvgIcon(
               SvgIcons.filter,
-              color: WebColor.textColor7,
+              color: AppColor.text7,
               size: 18,
             ),
         ]),
@@ -524,7 +517,7 @@ class _OrderManageState extends State<OrderManage> {
             ),
             Text(
               text,
-              style: WebTextTheme().mediumBodyText(Colors.white),
+              style: AppTextTheme.mediumBodyText(Colors.white),
             )
           ],
         ),
@@ -540,8 +533,8 @@ class _OrderManageState extends State<OrderManage> {
       width: 265,
       child: TextFormField(
         cursorHeight: 20,
-        cursorColor: WebColor.textColor7,
-        style: WebTextTheme().normalText(WebColor.textColor1),
+        cursorColor: AppColor.text7,
+        style: AppTextTheme.normalText(AppColor.text1),
         decoration: InputDecoration(
           hoverColor: Colors.white,
           border: OutlineInputBorder(
@@ -551,7 +544,7 @@ class _OrderManageState extends State<OrderManage> {
           fillColor: Colors.white,
           filled: true,
           hintText: 'Tìm kiếm',
-          hintStyle: WebTextTheme().normalText(WebColor.textColor7),
+          hintStyle: AppTextTheme.normalText(AppColor.text7),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
@@ -561,8 +554,7 @@ class _OrderManageState extends State<OrderManage> {
               ),
               child: SvgIcon(
                 SvgIcons.search,
-                color:
-                    _checkSearch ? WebColor.textColor7 : WebColor.primaryColor2,
+                color: _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),
@@ -578,7 +570,7 @@ class _OrderManageState extends State<OrderManage> {
                     ),
                     child: SvgIcon(
                       SvgIcons.close,
-                      color: WebColor.otherColor1,
+                      color: AppColor.others1,
                     ),
                     onPressed: () {
                       setState(() {

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/home_widget/back_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/background_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/dropdown_widget.dart';
-import 'package:hs_admin_web/widgets/input_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
-import '../../widgets/home_widget/form_user_widget.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/back_button_widget.dart';
+import '../../widgets/background_button_widget.dart';
+import '../../widgets/form_user_widget.dart';
 import '../layout_template/content_screen.dart';
 
 class EditProfile extends StatefulWidget {
@@ -30,7 +26,6 @@ class _EditProfileState extends State<EditProfile> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController numberPhoneController =
       TextEditingController();
-  late bool _checkSearch = true;
   @override
   void initState() {
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
@@ -75,8 +70,7 @@ class _EditProfileState extends State<EditProfile> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                             'Chỉnh sửa hồ sơ',
-                            style: WebTextTheme()
-                                .mediumBigText(WebColor.textColor3),
+                            style: AppTextTheme.mediumBigText(AppColor.text3),
                           ),
                         ),
                         Row(
@@ -87,7 +81,7 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             BackgroundButton(
                               icon: SvgIcons.check,
-                              color: WebColor.testColor7,
+                              color: AppColor.text7,
                               text: 'Đồng ý',
                               onPressed: () {},
                             )
@@ -138,7 +132,7 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             SvgIcon(
               SvgIcons.close,
-              color: WebColor.textColor3,
+              color: AppColor.text3,
               size: 24,
             ),
             const SizedBox(
@@ -146,7 +140,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             Text(
               'Hủy bỏ',
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             )
           ],
         ),
@@ -221,14 +215,14 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         Text(
           'Giá',
-          style: WebTextTheme().mediumBodyText(WebColor.shadowColor),
+          style: AppTextTheme.mediumBodyText(AppColor.shadow),
         ),
         TextButton(
           child: Row(
             children: [
               SvgIcon(
                 SvgIcons.close,
-                color: WebColor.primaryColor2,
+                color: AppColor.primary2,
                 size: 24,
               ),
               const SizedBox(
@@ -236,8 +230,8 @@ class _EditProfileState extends State<EditProfile> {
               ),
               Text(
                 'Thêm',
-                style: WebTextTheme().mediumBodyText(
-                  WebColor.primaryColor2,
+                style: AppTextTheme.mediumBodyText(
+                  AppColor.primary2,
                 ),
               ),
             ],
@@ -255,12 +249,12 @@ class _EditProfileState extends State<EditProfile> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
-                backgroundColor: WebColor.textColor7,
+                backgroundImage: const NetworkImage(''),
+                backgroundColor: AppColor.text7,
               ),
             ),
             const SizedBox(
@@ -275,8 +269,8 @@ class _EditProfileState extends State<EditProfile> {
                 onTap: () {},
                 child: Text(
                   'Thay đổi hình ảnh',
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.primaryColor2,
+                  style: AppTextTheme.mediumBodyText(
+                    AppColor.primary2,
                   ),
                 ),
               ),

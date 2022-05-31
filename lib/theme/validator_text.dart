@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../locales/i18n_key.dart';
-import '../utils/screen_util.dart';
+import '../main.dart';
 
 class ValidatorText {
   static String empty({required String fieldName}) {
@@ -77,7 +76,7 @@ String showError(String errorCode, BuildContext context) {
             ScreenUtil.t(I18nKey.allowed)!.toLowerCase();
       }
       break;
-    case '1000':
+    case '400':
       message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
       break;
     case '1001':

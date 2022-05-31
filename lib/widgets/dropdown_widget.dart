@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/configs/svg_constants.dart';
-import 'package:hs_admin_web/configs/text_theme.dart';
-
-import '../../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class DropdownWidget extends StatefulWidget {
   const DropdownWidget({Key? key}) : super(key: key);
@@ -26,13 +23,13 @@ class _DropdownWidgetState extends State<DropdownWidget> {
         children: [
           Text(
             'Hình thức thanh toán',
-            style: WebTextTheme().mediumBodyText(WebColor.shadowColor),
+            style: AppTextTheme.mediumBodyText(AppColor.shadow),
           ),
           const SizedBox(
             height: 8,
           ),
           Container(
-            color: WebColor.shapeColor1,
+            color: AppColor.shade1,
             padding: const EdgeInsets.symmetric(
               vertical: 19,
               horizontal: 16,
@@ -42,11 +39,11 @@ class _DropdownWidgetState extends State<DropdownWidget> {
                 children: [
                   Text(
                     'Chọn hình thức thanh toán',
-                    style: WebTextTheme().mediumBodyText(WebColor.textColor7),
+                    style: AppTextTheme.mediumBodyText(AppColor.text7),
                   ),
                   SvgIcon(
                     SvgIcons.check,
-                    color: WebColor.shadowColor,
+                    color: AppColor.shadow,
                     size: 24,
                   )
                 ]),

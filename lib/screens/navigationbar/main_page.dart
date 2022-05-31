@@ -13,17 +13,17 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
-//       color: WebColor.shapeColor1,
+//       color: AppColor.shade1,
 //       child: Row(children: [
 //         Container(
-//           color: WebColor.shapeColor1,
+//           color: AppColor.shade1,
 //           child: Align(
 //             alignment: Alignment.centerLeft,
 //             child: Container(
 //               padding: const EdgeInsets.all(32),
 //               height: MediaQuery.of(context).size.height,
 //               width: MediaQuery.of(context).size.width * 0.27,
-//               color: WebColor.textColor2,
+//               color: AppColor.text2,
 //               child: Row(
 //                 children: [
 //                   Stack(

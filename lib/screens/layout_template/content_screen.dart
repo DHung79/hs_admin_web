@@ -3,16 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hs_admin_web/core/admin/bloc/admin_bloc.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/screens/navigationbar/appbar.dart';
-import 'package:hs_admin_web/widgets/home_widget/warning_widget.dart';
 import 'package:hs_admin_web/widgets/profile_item_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
-import '../../configs/validator_text.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../routes/route_names.dart';
-import '../../widgets/home_widget/line_content.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/line_content.dart';
+import '../../widgets/warning_widget.dart';
 import '../navigationbar/sidebar.dart';
 
 class PageTemplate extends StatefulWidget {
@@ -77,7 +74,6 @@ class _PageTemplateState extends State<PageTemplate> {
   bool showNoti = false;
   final _taskerBloc = AdminBloc();
   bool _showProfile = false;
-  bool _logOut = false;
 
   List<Reviewer> reviewers = [
     Reviewer(
@@ -121,7 +117,6 @@ class _PageTemplateState extends State<PageTemplate> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       bloc: _authenticationBloc,
       listener: (BuildContext context, AuthenticationState state) async {
-        logDebug(state);
         if (state is AuthenticationStart) {
           navigateTo(authenticationRoute);
         } else if (state is UserLogoutState) {
@@ -183,111 +178,29 @@ class _PageTemplateState extends State<PageTemplate> {
                     }
                   },
                   child: Container(
-                    color: WebColor.shapeColor1,
-                    child: Stack(
+                    color: AppColor.shade1,
+                    child: Row(
                       children: [
-                        Stack(
-                          children: [
-                            Row(
-                              children: [
-                                const SideBar(),
-                                Expanded(
-                                    child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 32),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      AppBarWidget(
-                                        title: widget.title,
-                                        name: widget.name,
-                                        showProfile: () {
-                                          setState(() {
-                                            _showProfile = !_showProfile;
-                                          });
-                                        },
-                                      ),
-                                      Expanded(child: widget.child),
-                                    ],
-                                  ),
-                                )),
-                              ],
-                            ),
-                            if (_showProfile)
-                              Positioned(
-                                child: _profile(
-                                  onTap: () {
-                                    setState(
-                                      () {
-                                        _logOut = !_logOut;
-                                      },
-                                    );
-                                  },
-                                ),
-                                right: 24,
-                                top: 72,
+                        const SideBar(),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AppBarWidget(
+                                title: widget.title,
+                                name: widget.name,
+                                showProfile: () {
+                                  setState(() {
+                                    _showProfile = !_showProfile;
+                                  });
+                                },
                               ),
-                            if (widget.showProfileTasker) profileTasker(),
-                          ],
-                        ),
-                        if (_logOut)
-                          WarningWidget(
-                            ask: 'Bạn có chắc muốn đăng xuất',
-                            onPressed: () {
-                              setState(() {
-                                _logOut = false;
-                              });
-                            },
+                              Expanded(child: widget.child),
+                            ],
                           ),
-                        if (widget.showProfileTasker2 == true)
-                          formprofile(
-                              info: 'Thông tin người giúp việc',
-                              isTasker: true,
-                              name: 'Nguyen Duc Hoang Phi',
-                              onPressed: () {
-                                setState(() {
-                                  widget.showProfileTasker2 = false;
-                                  widget.showProfileCustomer = false;
-
-                                  logDebug(
-                                      widget.showProfileTasker2.toString() +
-                                          'tasker');
-                                });
-                              }),
-                        if (widget.showProfileCustomer == true)
-                          formprofile(
-                              info: 'Thông tin khách hàng',
-                              onPressed: () {
-                                setState(() {
-                                  widget.showProfileCustomer = false;
-                                  widget.showProfileTasker2 = false;
-
-                                  logDebug(widget.showProfileCustomer);
-                                });
-                              },
-                              isTasker: false,
-                              name: 'Nguyen Phuc Vinh Ky'),
-                        if (widget.warningDelete)
-                          WarningWidget(
-                            ask:
-                                'Bạn có chắc muốn xóa dịch vụ “Dọn dẹp nhà theo giờ”?',
-                            onPressed: () {
-                              setState(() {
-                                widget.warningDelete = false;
-                              });
-                            },
-                          ),
-                        if (widget.deleteService)
-                          WarningWidget(
-                            ask:
-                                'Bạn có chắc muốn hủy dịch vụ Dọn dẹp nhà theo giờ của Ngô Ánh Dương?',
-                            onPressed: () {
-                              setState(() {
-                                widget.deleteService = false;
-                              });
-                            },
-                          ),
+                        )),
                       ],
                     ),
                   ),
@@ -327,8 +240,7 @@ class _PageTemplateState extends State<PageTemplate> {
                   children: [
                     Text(
                       'Chi tiết đánh giá',
-                      style: WebTextTheme()
-                          .normalHeaderAndTitle(WebColor.textColor1),
+                      style: AppTextTheme.normalHeaderTitle(AppColor.text1),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -342,7 +254,7 @@ class _PageTemplateState extends State<PageTemplate> {
                       },
                       child: SvgIcon(
                         SvgIcons.close,
-                        color: WebColor.textColor1,
+                        color: AppColor.text1,
                         size: 24,
                       ),
                     ),
@@ -367,7 +279,7 @@ class _PageTemplateState extends State<PageTemplate> {
                 ),
                 Text(
                   'Nguyễn Đức Hoàng Phi',
-                  style: WebTextTheme().mediumBigText(WebColor.textColor1),
+                  style: AppTextTheme.mediumBigText(AppColor.text1),
                 ),
                 const SizedBox(
                   height: 16,
@@ -379,7 +291,7 @@ class _PageTemplateState extends State<PageTemplate> {
                       children: [
                         SvgIcon(
                           SvgIcons.star,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                           size: 24,
                         ),
                         const SizedBox(
@@ -387,7 +299,7 @@ class _PageTemplateState extends State<PageTemplate> {
                         ),
                         SvgIcon(
                           SvgIcons.star,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                           size: 24,
                         ),
                         const SizedBox(
@@ -395,7 +307,7 @@ class _PageTemplateState extends State<PageTemplate> {
                         ),
                         SvgIcon(
                           SvgIcons.star,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                           size: 24,
                         ),
                         const SizedBox(
@@ -403,7 +315,7 @@ class _PageTemplateState extends State<PageTemplate> {
                         ),
                         SvgIcon(
                           SvgIcons.star,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                           size: 24,
                         ),
                         const SizedBox(
@@ -411,7 +323,7 @@ class _PageTemplateState extends State<PageTemplate> {
                         ),
                         SvgIcon(
                           SvgIcons.star,
-                          color: WebColor.primaryColor2,
+                          color: AppColor.primary2,
                           size: 24,
                         ),
                         const SizedBox(
@@ -419,8 +331,8 @@ class _PageTemplateState extends State<PageTemplate> {
                         ),
                         Text(
                           '4.5',
-                          style: WebTextTheme().normalHeaderAndTitle(
-                            WebColor.textColor1,
+                          style: AppTextTheme.normalHeaderTitle(
+                            AppColor.text1,
                           ),
                         ),
                       ],
@@ -430,7 +342,7 @@ class _PageTemplateState extends State<PageTemplate> {
                     ),
                     Text(
                       '(643 đánh giá)',
-                      style: WebTextTheme().normalText(WebColor.textColor1),
+                      style: AppTextTheme.normalText(AppColor.text1),
                     )
                   ],
                 ),
@@ -561,8 +473,8 @@ class _PageTemplateState extends State<PageTemplate> {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Đánh giá tiêu biểu',
-              style: WebTextTheme().mediumHeaderAndTitle(
-                WebColor.textColor1,
+              style: AppTextTheme.mediumHeaderTitle(
+                AppColor.text1,
               ),
             ),
           ),
@@ -601,15 +513,15 @@ class _PageTemplateState extends State<PageTemplate> {
             children: [
               Text(
                 comment,
-                style: WebTextTheme().normalText(WebColor.textColor1),
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
                 nameReviewer,
-                style: WebTextTheme().subText(
-                  WebColor.textColor7,
+                style: AppTextTheme.subText(
+                  AppColor.text7,
                 ),
               )
             ],
@@ -617,14 +529,14 @@ class _PageTemplateState extends State<PageTemplate> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(width: 1, color: WebColor.shapeColor1),
+              border: Border.all(width: 1, color: AppColor.shade1),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
               children: [
                 SvgIcon(
                   SvgIcons.star,
-                  color: WebColor.primaryColor2,
+                  color: AppColor.primary2,
                   size: 24,
                 ),
                 const SizedBox(
@@ -632,8 +544,8 @@ class _PageTemplateState extends State<PageTemplate> {
                 ),
                 Text(
                   mark,
-                  style: WebTextTheme().normalText(
-                    WebColor.textColor1,
+                  style: AppTextTheme.normalText(
+                    AppColor.text1,
                   ),
                 )
               ],
@@ -670,14 +582,14 @@ class _PageTemplateState extends State<PageTemplate> {
                     borderRadius: BorderRadius.circular(
                       50,
                     ),
-                    color: WebColor.primaryColor1,
+                    color: AppColor.primary1,
                   ),
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                     child: Text(
                       mark,
-                      style: WebTextTheme().subText(WebColor.textColor2),
+                      style: AppTextTheme.subText(AppColor.text2),
                     ),
                   ),
                 ),
@@ -689,8 +601,8 @@ class _PageTemplateState extends State<PageTemplate> {
           ),
           Text(
             title,
-            style: WebTextTheme().subText(
-              WebColor.textColor1,
+            style: AppTextTheme.subText(
+              AppColor.text1,
             ),
           )
         ],
@@ -710,11 +622,11 @@ class _PageTemplateState extends State<PageTemplate> {
           children: [
             Text(
               nameMedal,
-              style: WebTextTheme().mediumHeaderAndTitle(WebColor.textColor1),
+              style: AppTextTheme.mediumHeaderTitle(AppColor.text1),
             ),
             Text(
               countMedal,
-              style: WebTextTheme().normalText(WebColor.primaryColor2),
+              style: AppTextTheme.normalText(AppColor.primary2),
             )
           ],
         ),
@@ -757,7 +669,7 @@ class _PageTemplateState extends State<PageTemplate> {
               ),
               Container(
                 height: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 margin: const EdgeInsets.symmetric(vertical: 24),
               ),
               lineContent(
@@ -774,7 +686,7 @@ class _PageTemplateState extends State<PageTemplate> {
               ),
               Container(
                 height: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 margin: const EdgeInsets.symmetric(vertical: 24),
               ),
               lineContent(
@@ -791,7 +703,7 @@ class _PageTemplateState extends State<PageTemplate> {
               ),
               Container(
                 height: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 margin: const EdgeInsets.symmetric(vertical: 24),
               ),
               lineContent(
@@ -803,7 +715,7 @@ class _PageTemplateState extends State<PageTemplate> {
               ),
               Container(
                 height: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 margin: const EdgeInsets.symmetric(vertical: 24),
               ),
               lineContent(
@@ -815,7 +727,7 @@ class _PageTemplateState extends State<PageTemplate> {
               ),
               Container(
                 height: 1,
-                color: WebColor.shapeColor1,
+                color: AppColor.shade1,
                 margin: const EdgeInsets.symmetric(vertical: 24),
               ),
               lineContent(
@@ -861,7 +773,7 @@ class _PageTemplateState extends State<PageTemplate> {
       children: [
         Text(
           title,
-          style: WebTextTheme().normalHeaderAndTitle(WebColor.shadowColor),
+          style: AppTextTheme.normalHeaderTitle(AppColor.shadow),
         ),
         const SizedBox(
           height: 16,
@@ -1000,8 +912,7 @@ class _PageTemplateState extends State<PageTemplate> {
                   children: [
                     Text(
                       info,
-                      style: WebTextTheme()
-                          .normalHeaderAndTitle(WebColor.textColor1),
+                      style: AppTextTheme.normalHeaderTitle(AppColor.text1),
                     ),
                     TextButton(
                       onPressed: onPressed,
@@ -1010,7 +921,7 @@ class _PageTemplateState extends State<PageTemplate> {
                           padding: EdgeInsets.zero),
                       child: SvgIcon(
                         SvgIcons.close,
-                        color: WebColor.textColor1,
+                        color: AppColor.text1,
                         size: 24,
                       ),
                     ),
@@ -1030,7 +941,7 @@ class _PageTemplateState extends State<PageTemplate> {
                   Container(
                     width: 1,
                     height: MediaQuery.of(context).size.height / 2,
-                    color: WebColor.shapeColor1,
+                    color: AppColor.shade1,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                   ),
                   profileUser(),
@@ -1052,12 +963,12 @@ class _PageTemplateState extends State<PageTemplate> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
-                backgroundColor: WebColor.textColor7,
+                backgroundImage: const NetworkImage(''),
+                backgroundColor: AppColor.text7,
               ),
             ),
             const SizedBox(
@@ -1065,7 +976,7 @@ class _PageTemplateState extends State<PageTemplate> {
             ),
             Text(
               name,
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             ),
             const SizedBox(
               width: 10,
@@ -1078,33 +989,33 @@ class _PageTemplateState extends State<PageTemplate> {
                         children: [
                           SvgIcon(
                             SvgIcons.star,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             size: 24,
                           ),
                           SvgIcon(
                             SvgIcons.star,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             size: 24,
                           ),
                           SvgIcon(
                             SvgIcons.star,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             size: 24,
                           ),
                           SvgIcon(
                             SvgIcons.star,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             size: 24,
                           ),
                           SvgIcon(
                             SvgIcons.star,
-                            color: WebColor.primaryColor2,
+                            color: AppColor.primary2,
                             size: 24,
                           ),
                           Text(
                             '4.5',
-                            style: WebTextTheme().normalHeaderAndTitle(
-                              WebColor.textColor3,
+                            style: AppTextTheme.normalHeaderTitle(
+                              AppColor.text3,
                             ),
                           ),
                         ],
@@ -1114,8 +1025,8 @@ class _PageTemplateState extends State<PageTemplate> {
                       ),
                       Text(
                         '(643 đánh giá)',
-                        style: WebTextTheme().normalHeaderAndTitle(
-                          WebColor.textColor3,
+                        style: AppTextTheme.normalHeaderTitle(
+                          AppColor.text3,
                         ),
                       ),
                       const SizedBox(
@@ -1134,7 +1045,7 @@ class _PageTemplateState extends State<PageTemplate> {
                   children: [
                     SvgIcon(
                       SvgIcons.comment,
-                      color: WebColor.testColor5,
+                      color: AppColor.text5,
                       size: 24,
                     ),
                     const SizedBox(
@@ -1142,8 +1053,8 @@ class _PageTemplateState extends State<PageTemplate> {
                     ),
                     Text(
                       'Nhắn tin',
-                      style: WebTextTheme().mediumBodyText(
-                        WebColor.testColor5,
+                      style: AppTextTheme.mediumBodyText(
+                        AppColor.text5,
                       ),
                     )
                   ],
@@ -1169,7 +1080,7 @@ class _PageTemplateState extends State<PageTemplate> {
               description: '3/2019',
             ),
             Container(
-              color: WebColor.shapeColor1,
+              color: AppColor.shade1,
               width: 1,
               height: 40,
             ),
@@ -1178,7 +1089,7 @@ class _PageTemplateState extends State<PageTemplate> {
               description: '3/2019',
             ),
             Container(
-              color: WebColor.shapeColor1,
+              color: AppColor.shade1,
               width: 1,
               height: 40,
             ),
@@ -1199,14 +1110,14 @@ class _PageTemplateState extends State<PageTemplate> {
         children: [
           Text(
             title,
-            style: WebTextTheme().normalText(WebColor.textColor7),
+            style: AppTextTheme.normalText(AppColor.text7),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
             description,
-            style: WebTextTheme().mediumHeaderAndTitle(WebColor.primaryColor1),
+            style: AppTextTheme.mediumHeaderTitle(AppColor.primary1),
           )
         ],
       ),
@@ -1220,7 +1131,7 @@ class _PageTemplateState extends State<PageTemplate> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: WebColor.shadowColor.withOpacity(0.16),
+              color: AppColor.shadow.withOpacity(0.16),
               blurStyle: BlurStyle.outer,
               blurRadius: 16,
             )

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/home_widget/back_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/background_button_widget.dart';
-import 'package:hs_admin_web/widgets/home_widget/dropdown_widget.dart';
-import 'package:hs_admin_web/widgets/input_widget.dart';
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
-import '../../widgets/home_widget/form_user_widget.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/back_button_widget.dart';
+import '../../widgets/background_button_widget.dart';
+import '../../widgets/dropdown_widget.dart';
+import '../../widgets/form_user_widget.dart';
 import '../layout_template/content_screen.dart';
 
 class AddService extends StatefulWidget {
@@ -30,7 +27,6 @@ class _AddServiceState extends State<AddService> {
   late final TextEditingController addressController = TextEditingController();
   late final TextEditingController numberPhoneController =
       TextEditingController();
-  late bool _checkSearch = true;
   bool money = false;
 
   Color getColor(Set<MaterialState> states) {
@@ -38,10 +34,9 @@ class _AddServiceState extends State<AddService> {
       MaterialState.selected,
     };
     if (states.any(interactiveStates.contains)) {
-      return WebColor.testColor7;
+      return AppColor.text7;
     }
-    return WebColor.textColor7;
-    ;
+    return AppColor.text7;
   }
 
   @override
@@ -88,8 +83,7 @@ class _AddServiceState extends State<AddService> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                             'Thêm dịch vụ',
-                            style: WebTextTheme()
-                                .mediumBigText(WebColor.textColor3),
+                            style: AppTextTheme.mediumBigText(AppColor.text3),
                           ),
                         ),
                         Row(
@@ -100,7 +94,7 @@ class _AddServiceState extends State<AddService> {
                             ),
                             BackgroundButton(
                               icon: SvgIcons.check,
-                              color: WebColor.testColor7,
+                              color: AppColor.text7,
                               text: 'Thêm',
                               onPressed: () {},
                             )
@@ -151,7 +145,7 @@ class _AddServiceState extends State<AddService> {
           children: [
             SvgIcon(
               SvgIcons.close,
-              color: WebColor.textColor3,
+              color: AppColor.text3,
               size: 24,
             ),
             const SizedBox(
@@ -159,7 +153,7 @@ class _AddServiceState extends State<AddService> {
             ),
             Text(
               'Hủy bỏ',
-              style: WebTextTheme().mediumBodyText(WebColor.textColor3),
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
             )
           ],
         ),
@@ -207,8 +201,8 @@ class _AddServiceState extends State<AddService> {
                       children: [
                         Text(
                           'Hình thức thanh toán',
-                          style: WebTextTheme().mediumBodyText(
-                            WebColor.shadowColor,
+                          style: AppTextTheme.mediumBodyText(
+                            AppColor.shadow,
                           ),
                         ),
                         const SizedBox(
@@ -219,7 +213,7 @@ class _AddServiceState extends State<AddService> {
                             Container(
                               width: 150,
                               decoration: BoxDecoration(
-                                color: WebColor.shapeColor1,
+                                color: AppColor.shade1,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -243,8 +237,8 @@ class _AddServiceState extends State<AddService> {
                                   ),
                                   Text(
                                     'Tiền mặt',
-                                    style: WebTextTheme()
-                                        .mediumBodyText(WebColor.textColor3),
+                                    style: AppTextTheme.mediumBodyText(
+                                        AppColor.text3),
                                   ),
                                 ],
                               ),
@@ -255,7 +249,7 @@ class _AddServiceState extends State<AddService> {
                             Container(
                               width: 148,
                               decoration: BoxDecoration(
-                                color: WebColor.shapeColor1,
+                                color: AppColor.shade1,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -279,8 +273,8 @@ class _AddServiceState extends State<AddService> {
                                   ),
                                   Text(
                                     'Momo',
-                                    style: WebTextTheme()
-                                        .mediumBodyText(WebColor.textColor3),
+                                    style: AppTextTheme.mediumBodyText(
+                                        AppColor.text3),
                                   ),
                                 ],
                               ),
@@ -310,7 +304,7 @@ class _AddServiceState extends State<AddService> {
             children: [
               Container(
                 width: 4,
-                color: WebColor.primaryColor2,
+                color: AppColor.primary2,
                 height: 230,
               ),
               Expanded(
@@ -325,8 +319,8 @@ class _AddServiceState extends State<AddService> {
                         children: [
                           Text(
                             'Lựa chọn 1',
-                            style: WebTextTheme().mediumHeaderAndTitle(
-                              WebColor.textColor1,
+                            style: AppTextTheme.mediumHeaderTitle(
+                              AppColor.text1,
                             ),
                           ),
                           TextButton(
@@ -336,7 +330,7 @@ class _AddServiceState extends State<AddService> {
                               child: Row(children: [
                                 SvgIcon(
                                   SvgIcons.delete,
-                                  color: WebColor.textColor7,
+                                  color: AppColor.text7,
                                   size: 24,
                                 ),
                                 const SizedBox(
@@ -344,8 +338,8 @@ class _AddServiceState extends State<AddService> {
                                 ),
                                 Text(
                                   'Xóa',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.textColor7),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.text7),
                                 )
                               ]),
                             ),
@@ -361,7 +355,7 @@ class _AddServiceState extends State<AddService> {
                           Flexible(
                             flex: 1,
                             child: FormUserWidget(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               controller: namePriceController,
                               hintText: 'Nhập tên giá',
                               isWidth: true,
@@ -373,7 +367,7 @@ class _AddServiceState extends State<AddService> {
                           Flexible(
                             flex: 1,
                             child: FormUserWidget(
-                              padding: EdgeInsets.only(left: 16.0),
+                              padding: const EdgeInsets.only(left: 16.0),
                               controller: namePriceController,
                               hintText: 'Ghi chú',
                               isWidth: true,
@@ -383,17 +377,17 @@ class _AddServiceState extends State<AddService> {
                       ),
                     ),
                     FormUserWidget(
-                      padding: EdgeInsets.fromLTRB(
-                        16.0,
-                        16.0,
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        16,
                         0,
-                        16.0,
+                        16,
                       ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: SvgIcon(
                           SvgIcons.dollar1,
-                          color: WebColor.testColor5,
+                          color: AppColor.text5,
                           size: 24,
                         ),
                       ),
@@ -401,8 +395,7 @@ class _AddServiceState extends State<AddService> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'VND',
-                          style: WebTextTheme()
-                              .mediumBodyText(WebColor.textColor3),
+                          style: AppTextTheme.mediumBodyText(AppColor.text3),
                         ),
                       ),
                       isWidth: false,
@@ -416,13 +409,13 @@ class _AddServiceState extends State<AddService> {
                           Flexible(
                             flex: 9,
                             child: FormUserWidget(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Giờ',
-                                  style: WebTextTheme()
-                                      .mediumBodyText(WebColor.textColor3),
+                                  style: AppTextTheme.mediumBodyText(
+                                      AppColor.text3),
                                 ),
                               ),
                               isWidth: false,
@@ -438,7 +431,7 @@ class _AddServiceState extends State<AddService> {
                             child: InkWell(
                               onTap: () {},
                               child: Container(
-                                color: WebColor.shapeColor1,
+                                color: AppColor.shade1,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 13,
@@ -447,8 +440,8 @@ class _AddServiceState extends State<AddService> {
                                   child: Row(children: [
                                     Text(
                                       'Theo giờ',
-                                      style: WebTextTheme().mediumBodyText(
-                                        WebColor.textColor3,
+                                      style: AppTextTheme.mediumBodyText(
+                                        AppColor.text3,
                                       ),
                                     ),
                                     const SizedBox(
@@ -456,7 +449,7 @@ class _AddServiceState extends State<AddService> {
                                     ),
                                     SvgIcon(
                                       SvgIcons.addMoney,
-                                      color: WebColor.shadowColor,
+                                      color: AppColor.shadow,
                                       size: 24,
                                     ),
                                   ]),
@@ -485,14 +478,14 @@ class _AddServiceState extends State<AddService> {
         children: [
           Text(
             'Giá',
-            style: WebTextTheme().mediumBodyText(WebColor.shadowColor),
+            style: AppTextTheme.mediumBodyText(AppColor.shadow),
           ),
           TextButton(
             child: Row(
               children: [
                 SvgIcon(
                   SvgIcons.close,
-                  color: WebColor.primaryColor2,
+                  color: AppColor.primary2,
                   size: 24,
                 ),
                 const SizedBox(
@@ -500,8 +493,8 @@ class _AddServiceState extends State<AddService> {
                 ),
                 Text(
                   'Thêm',
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.primaryColor2,
+                  style: AppTextTheme.mediumBodyText(
+                    AppColor.primary2,
                   ),
                 ),
               ],
@@ -520,12 +513,12 @@ class _AddServiceState extends State<AddService> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               height: 100,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
-                backgroundColor: WebColor.textColor7,
+                backgroundImage: const NetworkImage(''),
+                backgroundColor: AppColor.text7,
               ),
             ),
             const SizedBox(
@@ -540,8 +533,8 @@ class _AddServiceState extends State<AddService> {
                 onTap: () {},
                 child: Text(
                   'Thay đổi hình ảnh',
-                  style: WebTextTheme().mediumBodyText(
-                    WebColor.primaryColor2,
+                  style: AppTextTheme.mediumBodyText(
+                    AppColor.primary2,
                   ),
                 ),
               ),

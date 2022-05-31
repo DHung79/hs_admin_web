@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/svg_constants.dart';
-import '../../configs/text_theme.dart';
-import '../../configs/themes.dart';
+import '../theme/app_theme.dart';
 
 class WarningWidget extends StatefulWidget {
   final String ask;
@@ -22,12 +20,13 @@ class _WarningWidgetState extends State<WarningWidget> {
   Widget build(BuildContext context) {
     return Positioned(
       child: Container(
-        color: WebColor.textColor1.withOpacity(0.3),
+        color: AppColor.text1.withOpacity(0.3),
         child: Center(
             child: Container(
           decoration: BoxDecoration(
-              color: WebColor.textColor2,
-              borderRadius: BorderRadius.circular(10)),
+            color: AppColor.text2,
+            borderRadius: BorderRadius.circular(10),
+          ),
           width: 414,
           height: 240,
           child: Padding(
@@ -37,23 +36,23 @@ class _WarningWidgetState extends State<WarningWidget> {
               children: [
                 Text(
                   'Cảnh báo',
-                  style: WebTextTheme().mediumHeaderAndTitle(
-                    WebColor.textColor7,
+                  style: AppTextTheme.mediumHeaderTitle(
+                    AppColor.text7,
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const Divider(
-                  color: WebColor.shapeColor1,
+                Divider(
+                  color: AppColor.shade1,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 Text(
                   widget.ask,
-                  style: WebTextTheme().normalText(
-                    WebColor.textColor1,
+                  style: AppTextTheme.normalText(
+                    AppColor.text1,
                   ),
                 ),
                 const SizedBox(
@@ -94,7 +93,7 @@ class _WarningWidgetState extends State<WarningWidget> {
       child: TextButton(
         onPressed: onpressed,
         style: TextButton.styleFrom(
-          backgroundColor: WebColor.shapeColor1,
+          backgroundColor: AppColor.shade1,
           padding: const EdgeInsets.symmetric(
             vertical: 16,
           ),
@@ -102,7 +101,7 @@ class _WarningWidgetState extends State<WarningWidget> {
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SvgIcon(
             icon,
-            color: WebColor.textColor3,
+            color: AppColor.text3,
             size: 24,
           ),
           const SizedBox(
@@ -110,7 +109,7 @@ class _WarningWidgetState extends State<WarningWidget> {
           ),
           Text(
             text,
-            style: WebTextTheme().headerAndTitle(WebColor.textColor3),
+            style: AppTextTheme.headerTitle(AppColor.text3),
           )
         ]),
       ),

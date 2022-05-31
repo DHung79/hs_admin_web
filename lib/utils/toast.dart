@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/configs/text_theme.dart';
 import 'package:oktoast/oktoast.dart';
+import '../theme/app_text_theme.dart';
 
 enum ToastType { success, warning, failure }
 
@@ -8,27 +8,27 @@ class Toast {
   static void success({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: WebColor.success,
+        // backgroundColor: AppColor.success,
         position: ToastPosition.bottom,
-        textStyle: WebTextTheme().mediumBodyText(Colors.white),
+        textStyle: AppTextTheme.mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));
   }
 
   static void error({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: WebColor.error,
+        // backgroundColor: AppColor.error,
         position: ToastPosition.bottom,
-        textStyle: WebTextTheme().mediumBodyText(Colors.white),
+        textStyle: AppTextTheme.mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));
   }
 
   static void warn({required String message}) {
     showToast(message,
         duration: const Duration(seconds: 1),
-        // backgroundColor: WebColor.warn,
+        // backgroundColor: AppColor.warn,
         position: ToastPosition.bottom,
-        textStyle: WebTextTheme().mediumBodyText(Colors.white),
+        textStyle: AppTextTheme.mediumBodyText(Colors.white),
         textPadding: const EdgeInsets.all(8.0));
   }
 }
