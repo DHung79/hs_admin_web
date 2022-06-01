@@ -63,7 +63,6 @@ class _OrderManageState extends State<OrderManage> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      deleteService: deleteService,
       appBarHeight: 0,
       child: FutureBuilder(
           future: _pageState.currentUser,

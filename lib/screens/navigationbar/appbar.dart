@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import '../../core/admin/model/admin_model.dart';
+import '../../core/authentication/auth.dart';
+import '../../main.dart';
 import '../../theme/app_theme.dart';
 
 class AppBarWidget extends StatefulWidget {
-  final void Function() showProfile;
-  final String title;
-  final String name;
+  final AdminModel admin;
+  final void Function() onPressed;
+  final String routeName;
+  final String subTitle;
 
-  const AppBarWidget(
-      {Key? key,
-      required this.showProfile,
-      required this.title,
-      required this.name})
-      : super(key: key);
+  const AppBarWidget({
+    Key? key,
+    required this.onPressed,
+    required this.routeName,
+    required this.subTitle,
+    required this.admin,
+  }) : super(key: key);
 
   @override
   State<AppBarWidget> createState() => _AppBarWidgetState();
@@ -20,24 +25,23 @@ class AppBarWidget extends StatefulWidget {
 class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 72,
-      color: Colors.transparent,
       child: Row(
-        children: [
-          _leftAppBar(title: widget.title, name: widget.name),
-          _rightAppBar(),
-        ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _appbarTitle(),
+          _actions(),
+        ],
       ),
     );
   }
 
-  _leftAppBar({required String title, required String name}) {
+  _appbarTitle() {
     return Row(
       children: [
         Text(
-          name,
+          widget.subTitle,
           style: AppTextTheme.mediumHeaderTitle(
             AppColor.text1,
           ),
@@ -46,7 +50,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           width: 24,
         ),
         Text(
-          title,
+          widget.routeName,
           style: AppTextTheme.normalText(
             AppColor.text7,
           ),
@@ -55,51 +59,73 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     );
   }
 
-  _rightAppBar() {
+  _actions() {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgIcon(
+                SvgIcons.comment,
+                color: AppColor.text7,
+                size: 24,
+              ),
             ),
-            onPressed: () {},
-            child: SvgIcon(
-              SvgIcons.comment,
-              color: AppColor.text7,
-            ),
+            onTap: () {},
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgIcon(
+                SvgIcons.bell,
+                color: AppColor.text7,
+              ),
             ),
-            onPressed: () {},
-            child: SvgIcon(
-              SvgIcons.bell,
-              color: AppColor.text7,
-            ),
+            onTap: () {},
           ),
         ),
-        _profile(name: 'Hoàng Phi', image: 'assets/images/logo.png'),
+        _adminInfo(),
       ],
     );
   }
 
-  _profile({required String name, required String image}) {
-    return InkWell(
-      onTap: widget.showProfile,
+  _adminInfo() {
+    final List<DialogItem> _adminMenuItems = [
+      DialogItem(
+        svgIcon: SvgIcons.person,
+        title: 'Hồ Sơ',
+        onPressed: () {},
+      ),
+      DialogItem(
+        svgIcon: SvgIcons.setting,
+        title: 'Cài đặt',
+        onPressed: () {},
+      ),
+      DialogItem(
+          title: ScreenUtil.t(I18nKey.signOut)!,
+          svgIcon: SvgIcons.logout,
+          onPressed: () {
+            AuthenticationBlocController().authenticationBloc.add(UserLogOut());
+          }),
+    ];
+    return PopupMenuButton(
+      offset: const Offset(0, 50),
+      color: AppColor.white,
+      onCanceled: () {},
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: Row(
           children: [
             Text(
-              name,
+              widget.admin.name,
               style: AppTextTheme.normalText(
                 AppColor.text1,
               ),
@@ -107,13 +133,69 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             const SizedBox(
               width: 16,
             ),
-            CircleAvatar(
+            const CircleAvatar(
               radius: 12,
-              backgroundImage: NetworkImage(image),
+              backgroundImage: NetworkImage('assets/images/logo.png'),
             )
           ],
         ),
       ),
+      itemBuilder: (context) {
+        return _adminMenuItems.map((DialogItem item) {
+          return PopupMenuItem<DialogItem>(
+            value: item,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  if (item.icon != null)
+                    Icon(
+                      item.icon,
+                      color: AppColor.text1,
+                      size: 24,
+                    ),
+                  if (item.svgIcon != null)
+                    SvgIcon(
+                      item.svgIcon!,
+                      color: AppColor.text1,
+                      size: 24,
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      item.title,
+                      style: AppTextTheme.normalText(AppColor.text1),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList();
+      },
+      onSelected: (DialogItem item) {
+        item.onPressed;
+      },
     );
   }
+}
+
+class DialogItem {
+  DialogItem({
+    required this.title,
+    this.route,
+    this.subRoute,
+    this.icon,
+    this.svgIcon,
+    this.children = const [],
+    this.onPressed,
+  });
+
+  final String title;
+  final String? route;
+  final String? subRoute;
+  final IconData? icon;
+  final SvgIconData? svgIcon;
+  final List<MenuItem> children;
+  Function()? onPressed;
 }

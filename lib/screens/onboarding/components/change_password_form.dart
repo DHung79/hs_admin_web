@@ -4,15 +4,14 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/button_widget.dart';
 import '../../../widgets/input_widget.dart';
 
-class ChangePassword extends StatefulWidget {
-  
-  const ChangePassword({Key? key}) : super(key: key);
+class ChangePasswordForm extends StatefulWidget {
+  const ChangePasswordForm({Key? key}) : super(key: key);
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<ChangePasswordForm> createState() => _ChangePasswordFormState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController againPasswordController = TextEditingController();

@@ -37,7 +37,6 @@ class _InfoTaskerState extends State<InfoTasker> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      showProfileTasker: isShowProfileTasker,
       name: 'Quản lí người giúp việc',
       title: 'Quản lí người giúp việc',
       appBarHeight: 0,

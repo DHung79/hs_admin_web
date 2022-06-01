@@ -6,7 +6,8 @@ class SideBarButton extends StatefulWidget {
   final Function()? onPressed;
   final bool active;
   final String title;
-  const SideBarButton({Key? key, 
+  const SideBarButton({
+    Key? key,
     required this.icon,
     this.onPressed,
     required this.active,
@@ -38,10 +39,8 @@ class _SideBarButtonState extends State<SideBarButton> {
                   padding: const EdgeInsets.all(4),
                   child: SvgIcon(
                     widget.icon,
-                    size: 20,
-                    color: widget.active
-                        ? AppColor.text3
-                        : AppColor.text7,
+                    size: 24,
+                    color: widget.active ? AppColor.shade6 : AppColor.text7,
                   ),
                 ),
                 const SizedBox(
@@ -49,9 +48,9 @@ class _SideBarButtonState extends State<SideBarButton> {
                 ),
                 Text(
                   widget.title,
-                  style: AppTextTheme.normalText(widget.active
-                      ? AppColor.text3
-                      : AppColor.text7),
+                  style: AppTextTheme.normalText(
+                    widget.active ? AppColor.shade6 : AppColor.text7,
+                  ),
                 )
               ],
             ),

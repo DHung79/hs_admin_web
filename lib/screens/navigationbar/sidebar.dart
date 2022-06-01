@@ -18,40 +18,51 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.group,
         title: 'Quản lí người dùng',
+        route: userManageRoute,
       ),
       SideBarItem(
         icon: SvgIcons.clean,
         title: 'Quản lí người giúp việc',
+        route: taskerManageRoute,
       ),
       SideBarItem(
         icon: SvgIcons.checkList,
         title: 'Quản lí dịch vụ',
+        route: serviceManageRoute,
       ),
       SideBarItem(
         icon: SvgIcons.note,
         title: 'Quản lí đặt hàng',
+        route: orderManageRoute,
       ),
       SideBarItem(
         title: 'Quản lí thông báo đẩy',
         icon: SvgIcons.noti,
+        route: notificationManageRoute,
       ),
       SideBarItem(
         icon: SvgIcons.wallet,
         title: 'Quản lí thanh toán',
+        route: payManageRoute,
       ),
       SideBarItem(
         icon: SvgIcons.setting,
         title: 'Cài đặt',
+        route: settingManageRoute,
       ),
     ];
     return Container(
       width: MediaQuery.of(context).size.width * 0.2,
       color: Colors.white,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/images/logodemo.png',
-            width: 100,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 32, 0, 0),
+            child: Image.asset(
+              'assets/images/logodemo.png',
+              width: 100,
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -68,22 +79,7 @@ class _SideBarState extends State<SideBar> {
                 onPressed: () {
                   setState(() {
                     selectedPage = index;
-                    if (selectedPage == 0) {
-                      navigateTo(userManageRoute);
-                      
-                    } else if (selectedPage == 1) {
-                      navigateTo(taskerManageRoute);
-                    } else if (selectedPage == 2) {
-                      navigateTo(serviceManageRoute);
-                    } else if (selectedPage == 3) {
-                      navigateTo(orderManageRoute);
-                    } else if (selectedPage == 4) {
-                      navigateTo(notificationManageRoute);
-                    } else if (selectedPage == 5) {
-                      navigateTo(payManageRoute);
-                    } else {
-                      navigateTo(settingManageRoute);
-                    }
+                    navigateTo(item.route);
                   });
                 },
               );
@@ -98,8 +94,10 @@ class _SideBarState extends State<SideBar> {
 class SideBarItem {
   final SvgIconData icon;
   final String title;
+  final String route;
   SideBarItem({
     required this.icon,
     required this.title,
+    required this.route,
   });
 }

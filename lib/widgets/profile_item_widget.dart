@@ -20,27 +20,24 @@ class ProfileItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
-      child: SizedBox(
-        width: sizeWidth,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(children: [
-            SvgIcon(
-              icon,
-              color: color ?? AppColor.text1,
-              size: 24,
-            ),
-            const SizedBox(
-              width: 16,
-            ),
-            Text(
-              title,
-              style: AppTextTheme.normalText(color ?? AppColor.text1),
-            )
-          ]),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(children: [
+          SvgIcon(
+            icon,
+            color: color ?? AppColor.text1,
+            size: 24,
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Text(
+            title,
+            style: AppTextTheme.normalText(color ?? AppColor.text1),
+          )
+        ]),
       ),
+      onTap: onTap,
     );
   }
 }

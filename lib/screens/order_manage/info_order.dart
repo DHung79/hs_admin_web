@@ -55,8 +55,6 @@ class _InfoOrderState extends State<InfoOrder> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      showProfileTasker2: showProfileTasker,
-      showProfileCustomer: showProfileCustomer,
       name: 'Quản lí đặt hàng',
       title: 'Quản lí đặt hàng / Thông tin đơn hàng',
       appBarHeight: 0,

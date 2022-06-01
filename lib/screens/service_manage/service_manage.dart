@@ -69,7 +69,6 @@ class _ServiceManageState extends State<ServiceManage> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      warningDelete: warningDelete,
       appBarHeight: 0,
       child: FutureBuilder(
           future: _pageState.currentUser,

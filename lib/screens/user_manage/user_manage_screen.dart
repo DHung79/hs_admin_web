@@ -6,14 +6,14 @@ import '../../main.dart';
 import '../../theme/app_theme.dart';
 import '../layout_template/content_screen.dart';
 
-class UserManage extends StatefulWidget {
-  const UserManage({Key? key}) : super(key: key);
+class UserManageScreen extends StatefulWidget {
+  const UserManageScreen({Key? key}) : super(key: key);
 
   @override
-  State<UserManage> createState() => _UserManageState();
+  State<UserManageScreen> createState() => _UserManageScreenState();
 }
 
-class _UserManageState extends State<UserManage> {
+class _UserManageScreenState extends State<UserManageScreen> {
   final _pageState = PageState();
   late final TextEditingController _searchController = TextEditingController();
   late bool _checkSearch = true;
