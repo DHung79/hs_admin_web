@@ -13,10 +13,25 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.initial();
     }
     //authentication
+    if (name == homeRoute) {
+      return AppRoutePath.home();
+    }
 
-    // if (name == homeRoute) {
-    //   return AppRoutePath.home();
-    // }
+    if (name == authenticationRoute) {
+      return AppRoutePath.authentication();
+    }
+
+    if (name == forgotPasswordRoute) {
+      return AppRoutePath.forgotPassword();
+    }
+
+    if (name == otpRoute) {
+      return AppRoutePath.otp();
+    }
+
+    if (name == resetPasswordRoute) {
+      return AppRoutePath.resetPassword();
+    }
 
     if (name == userManageRoute) {
       return AppRoutePath.userManage();
@@ -42,17 +57,6 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.settingManage();
     }
 
-    if (name == authenticationRoute) {
-      return AppRoutePath.authentication();
-    }
-
-    if (name == forgotPasswordRoute) {
-      return AppRoutePath.forgotPassword();
-    }
-
-    if (name == otpRoute) {
-      return AppRoutePath.otp();
-    }
     // if (name == roleRoute) {
     //   return AppRoutePath.roles();
     // }

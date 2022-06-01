@@ -100,7 +100,19 @@ class AuthenticationProvider {
   adminLogin(dynamic body) async {
     final url =
         ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/admin';
+    logDebug('path: $url\nbody: $body');
     final response = await RestApiHandlerData.login(
+      path: url,
+      body: jsonEncode(body),
+      headers: ApiHelper.headers(null),
+    );
+    return response;
+  }
+
+  checkOTP(dynamic body) async {
+    final url = ApiConstants.apiDomain + ApiConstants.apiVersion + '/otp';
+    logDebug('path: $url\nbody: $body');
+    final response = await RestApiHandlerData.postData(
       path: url,
       body: jsonEncode(body),
       headers: ApiHelper.headers(null),

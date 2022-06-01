@@ -79,3 +79,14 @@ class UserLanguage extends AuthenticationEvent {
 class TokenExpired extends AuthenticationEvent {}
 
 class GetLastUser extends AuthenticationEvent {}
+
+class CheckOTP extends AuthenticationEvent {
+  final String otp;
+
+  const CheckOTP({
+    required this.otp,
+  });
+
+  @override
+  List<Object> get props => [otp];
+}

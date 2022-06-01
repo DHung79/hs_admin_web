@@ -72,8 +72,17 @@ class AuthenticationRepository {
     await Future.delayed(
       const Duration(seconds: 1),
     );
-    final response = await provider
-        .adminLogin({'email': email, 'password': password});
+    final response =
+        await provider.adminLogin({'email': email, 'password': password});
+    return response;
+  }
+
+  Future<dynamic> checkOTP(String otp) async {
+    await Future.delayed(
+      const Duration(seconds: 1),
+    );
+    final response =
+        await provider.checkOTP({'otp': otp});
     return response;
   }
 }

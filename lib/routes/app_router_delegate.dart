@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/screens/onboarding/components/forgot_password_form.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/order_manage/info_order.dart';
@@ -61,7 +60,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
   }
 
   _screenFor(String route) {
-    if (route == initialRoute) {
+    if (route == initialRoute || route == homeRoute) {
       return const HomeScreen();
     }
     if (route == authenticationRoute) {
@@ -71,6 +70,9 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const AuthenticationScreen();
     }
     if (route == otpRoute) {
+      return const AuthenticationScreen();
+    }
+    if (route == resetPasswordRoute) {
       return const AuthenticationScreen();
     }
     if (route == userManageRoute) {

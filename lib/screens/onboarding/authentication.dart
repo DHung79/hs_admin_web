@@ -7,6 +7,7 @@ import '../../theme/app_theme.dart';
 import '/core/authentication/auth.dart';
 import 'components/login_form.dart';
 import 'components/otp_form.dart';
+import 'components/reset_password_form.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({
@@ -90,6 +91,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       return OTPForm(
         onNavigator: () {
           navigateTo(forgotPasswordRoute);
+        },
+      );
+    } else if (currentRoute == resetPasswordRoute) {
+      return ResetPasswordForm(
+        onNavigator: () {
+          navigateTo(authenticationRoute);
         },
       );
     } else {

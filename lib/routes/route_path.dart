@@ -15,10 +15,25 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  // AppRoutePath.home()
-  //     : name = homeRoute,
-  //       routeId = '',
-  //       isUnknown = false;
+  AppRoutePath.home()
+      : name = homeRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.forgotPassword()
+      : name = forgotPasswordRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.otp()
+      : name = otpRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.resetPassword()
+      : name = resetPasswordRoute,
+        routeId = '',
+        isUnknown = false;
 
   AppRoutePath.userManage()
       : name = userManageRoute,
@@ -49,6 +64,7 @@ class AppRoutePath {
       : name = addServiceRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.detailService()
       : name = detailServiceRoute,
         routeId = '',
@@ -58,6 +74,7 @@ class AppRoutePath {
       : name = orderManageRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.infoOrder()
       : name = infoOrderRoute,
         routeId = '',
@@ -67,6 +84,7 @@ class AppRoutePath {
       : name = notificationManageRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.addNotification()
       : name = addNotificationRoute,
         routeId = '',
@@ -81,30 +99,24 @@ class AppRoutePath {
       : name = settingManageRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.contactInfo()
       : name = contactInfoRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.editContact()
       : name = editContactRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.profileSetting()
       : name = profileSettingRoute,
         routeId = '',
         isUnknown = false;
+
   AppRoutePath.editProfile()
       : name = editProfileRoute,
-        routeId = '',
-        isUnknown = false;
-
-  AppRoutePath.forgotPassword()
-      : name = forgotPasswordRoute,
-        routeId = '',
-        isUnknown = false;
-
-  AppRoutePath.otp()
-      : name = otpRoute,
         routeId = '',
         isUnknown = false;
 
@@ -134,9 +146,18 @@ class AppRoutePath {
     if (name == authenticationRoute) {
       return AppRoutePath.authentication();
     }
-    // if (name == homeRoute) {
-    //   return AppRoutePath.home();
-    // }
+    if (name == forgotPasswordRoute) {
+      return AppRoutePath.forgotPassword();
+    }
+    if (name == otpRoute) {
+      return AppRoutePath.otp();
+    }
+    if (name == resetPasswordRoute) {
+      return AppRoutePath.resetPassword();
+    }
+    if (name == homeRoute) {
+      return AppRoutePath.home();
+    }
     if (name == userManageRoute) {
       return AppRoutePath.userManage();
     }
@@ -188,12 +209,7 @@ class AppRoutePath {
     if (name == editProfileRoute) {
       return AppRoutePath.editProfile();
     }
-    if (name == forgotPasswordRoute) {
-      return AppRoutePath.forgotPassword();
-    }
-    if (name == otpRoute) {
-      return AppRoutePath.otp();
-    }
+
     // if (name == roleRoute) {
     //   return AppRoutePath.roles();
     // }

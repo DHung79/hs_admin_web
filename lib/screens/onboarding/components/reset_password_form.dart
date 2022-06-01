@@ -1,43 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:validators/validators.dart';
-import '../../../core/authentication/bloc/authentication/authentication_bloc.dart';
-import '../../../core/authentication/bloc/authentication/authentication_event.dart';
-import '../../../core/authentication/bloc/authentication/authentication_state.dart';
-import '../../../main.dart';
+import 'package:hs_admin_web/main.dart';
+import 'package:hs_admin_web/routes/route_names.dart';
+import '../../../core/authentication/auth.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/input_widget.dart';
 
-class LoginForm extends StatefulWidget {
+class ResetPasswordForm extends StatefulWidget {
   final Function()? onNavigator;
-  const LoginForm({
+  const ResetPasswordForm({
     Key? key,
     this.onNavigator,
   }) : super(key: key);
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<ResetPasswordForm> createState() => _ResetPasswordFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _ResetPasswordFormState extends State<ResetPasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  bool? _isKeepSession = false;
-  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _checkPasswordController = TextEditingController();
+  bool _newPasswordSecure = true;
+  bool _checkPasswordSecure = true;
   String _errorMessage = '';
-  bool _showPassword = false;
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    AuthenticationBlocController().authenticationBloc.add(GetLastUser());
-    super.initState();
   }
 
   @override
@@ -48,11 +40,8 @@ class _LoginFormState extends State<LoginForm> {
         listener: (context, state) {
           if (state is AuthenticationFailure) {
             _showError(state.errorCode);
-          } else if (state is LoginLastUser) {
-            _emailController.text = state.username;
-            setState(() {
-              _isKeepSession = state.isKeepSession;
-            });
+          } else if (state is ResetPasswordDoneState) {
+            navigateTo(authenticationRoute);
           }
         },
         child: Column(
@@ -68,49 +57,20 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    _gobBack(),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 22),
+                      padding: const EdgeInsets.fromLTRB(10, 34, 10, 22),
                       child: Text(
-                        'ĐĂNG NHẬP',
+                        'NHẬP MẬT KHẨU MỚI',
                         style: AppTextTheme.mediumBigText(AppColor.text1),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: InputWidget(
-                        controller: _emailController,
-                        style: AppTextTheme.mediumBodyText(AppColor.text7),
-                        borderColor: AppColor.text7,
-                        hintText: 'Tài khoản',
-                        onSaved: (value) {
-                          _emailController.text = value!.trim();
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            if (_errorMessage.isNotEmpty) {
-                              _errorMessage = '';
-                            }
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty || value.trim().isEmpty) {
-                            return ValidatorText.empty(
-                                fieldName: ScreenUtil.t(I18nKey.email)!);
-                          }
-                          if (!isEmail(value.trim())) {
-                            return ValidatorText.invalidFormat(
-                                fieldName: ScreenUtil.t(I18nKey.email)!);
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: InputWidget(
-                        controller: _passwordController,
-                        obscureText: !_showPassword,
-                        hintText: 'Mật khẩu',
+                        controller: _newPasswordController,
+                        obscureText: _newPasswordSecure,
+                        hintText: 'Nhập mật khẩu',
                         style: AppTextTheme.mediumBodyText(
                           AppColor.text7,
                         ),
@@ -118,23 +78,23 @@ class _LoginFormState extends State<LoginForm> {
                         suffixIcon: TextButton(
                           onPressed: () {
                             setState(() {
-                              _showPassword = !_showPassword;
+                              _newPasswordSecure = !_newPasswordSecure;
                             });
                           },
-                          child: _showPassword
-                              ? SvgIcon(
-                                  SvgIcons.password,
+                          child: _newPasswordSecure
+                              ? Icon(
+                                  Icons.remove_red_eye,
                                   color: AppColor.text7,
                                   size: 24,
                                 )
-                              : Icon(
-                                  Icons.remove_red_eye,
+                              : SvgIcon(
+                                  SvgIcons.password,
                                   color: AppColor.text7,
                                   size: 24,
                                 ),
                         ),
                         onSaved: (value) {
-                          _passwordController.text = value!.trim();
+                          _newPasswordController.text = value!.trim();
                         },
                         onChanged: (value) {
                           setState(() {
@@ -162,6 +122,56 @@ class _LoginFormState extends State<LoginForm> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: InputWidget(
+                        controller: _checkPasswordController,
+                        obscureText: _checkPasswordSecure,
+                        hintText: 'Nhập lại mật khẩu',
+                        style: AppTextTheme.mediumBodyText(
+                          AppColor.text7,
+                        ),
+                        borderColor: AppColor.text7,
+                        suffixIcon: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _checkPasswordSecure = !_checkPasswordSecure;
+                            });
+                          },
+                          child: _checkPasswordSecure
+                              ? Icon(
+                                  Icons.remove_red_eye,
+                                  color: AppColor.text7,
+                                  size: 24,
+                                )
+                              : SvgIcon(
+                                  SvgIcons.password,
+                                  color: AppColor.text7,
+                                  size: 24,
+                                ),
+                        ),
+                        onSaved: (value) {
+                          _checkPasswordController.text = value!.trim();
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            if (_errorMessage.isNotEmpty) {
+                              _errorMessage = '';
+                            }
+                          });
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ValidatorText.empty(
+                                fieldName: ScreenUtil.t(I18nKey.password)!);
+                          }
+                          if (value != _newPasswordController.text) {
+                            return 'Mật khẩu không khớp';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                     if (_errorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -171,20 +181,16 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                       ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: rowCheckBox(context),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 0, 32),
                       child: AppButtonTheme.fillRounded(
                         color: AppColor.primary1,
                         constraints: const BoxConstraints(minHeight: 52),
                         borderRadius: BorderRadius.circular(4),
                         child: Text(
-                          'ĐĂNG NHẬP',
+                          'XÁC NHẬN',
                           style: AppTextTheme.headerTitle(AppColor.text2),
                         ),
-                        onPressed: login,
+                        onPressed: _resetPassword,
                       ),
                     ),
                   ],
@@ -197,78 +203,51 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  login() {
+  Widget _gobBack() {
+    return Row(
+      children: [
+        InkWell(
+          hoverColor: AppColor.transparent,
+          splashColor: AppColor.transparent,
+          highlightColor: AppColor.transparent,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgIcon(
+                  SvgIcons.arrowBack,
+                  size: 24,
+                  color: AppColor.text7,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 13),
+                  child: Text(
+                    'Đăng nhập',
+                    style: AppTextTheme.mediumBodyText(AppColor.text7),
+                  ),
+                )
+              ],
+            ),
+          ),
+          onTap: widget.onNavigator,
+        ),
+      ],
+    );
+  }
+
+  _resetPassword() {
     setState(() {
       _errorMessage = '';
     });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      AuthenticationBlocController().authenticationBloc.add(
-            UserLogin(
-              email: _emailController.text,
-              password: _passwordController.text,
-              keepSession: _isKeepSession!,
-              isMobile: false,
-            ),
-          );
+      navigateTo(authenticationRoute);
     } else {
       setState(() {
         _autovalidate = AutovalidateMode.onUserInteraction;
       });
     }
-  }
-
-  Widget rowCheckBox(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 2),
-              child: SizedBox(
-                height: 18,
-                width: 18,
-                child: Checkbox(
-                  splashRadius: 0,
-                  activeColor: AppColor.primary2,
-                  checkColor: Colors.white,
-                  value: _isKeepSession,
-                  onChanged: (value) {
-                    setState(() {
-                      _isKeepSession = value!;
-                    });
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(11),
-              child: Text(
-                'Nhớ tài khoản',
-                style: AppTextTheme.mediumBodyText(AppColor.text3),
-              ),
-            )
-          ],
-        ),
-        InkWell(
-          hoverColor: AppColor.transparent,
-          highlightColor: AppColor.transparent,
-          splashColor: AppColor.transparent,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-            child: Text(
-              'Quên mật khẩu',
-              style: AppTextTheme.mediumBodyText(
-                AppColor.text7,
-              ),
-            ),
-          ),
-          onTap: widget.onNavigator,
-        )
-      ],
-    );
   }
 
   _showError(String errorCode) {

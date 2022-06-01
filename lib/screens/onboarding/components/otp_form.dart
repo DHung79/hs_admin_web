@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../main.dart';
 import '../../../routes/route_names.dart';
@@ -20,7 +19,7 @@ class OTPForm extends StatefulWidget {
 }
 
 class _OTPFormState extends State<OTPForm> {
-  TextEditingController _otpController = TextEditingController();
+  final _otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
@@ -50,7 +49,7 @@ class _OTPFormState extends State<OTPForm> {
                   children: [
                     _gobBack(),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 22),
+                      padding: const EdgeInsets.fromLTRB(10, 34, 10, 22),
                       child: Text(
                         'NHẬP MÃ OTP',
                         style: AppTextTheme.mediumBigText(AppColor.text1),
@@ -63,6 +62,7 @@ class _OTPFormState extends State<OTPForm> {
                         style: AppTextTheme.mediumBodyText(AppColor.text7),
                         borderColor: AppColor.text7,
                         hintText: 'Nhập mã OTP',
+                        suffixIcon: _textFieldButton(),
                         onSaved: (value) {
                           _otpController.text = value!.trim();
                         },
@@ -75,7 +75,7 @@ class _OTPFormState extends State<OTPForm> {
                         },
                         validator: (value) {
                           if (value!.isEmpty || value.trim().isEmpty) {
-                            return ValidatorText.empty(fieldName: 'mã OTP');
+                            return ValidatorText.empty(fieldName: 'Mã OTP');
                           }
                           return null;
                         },
@@ -144,6 +144,24 @@ class _OTPFormState extends State<OTPForm> {
       ],
     );
   }
+
+  Widget _textFieldButton() {
+    return InkWell(
+      hoverColor: AppColor.transparent,
+      splashColor: AppColor.transparent,
+      highlightColor: AppColor.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+        child: Text(
+          'Gửi lại',
+          style: AppTextTheme.mediumBodyText(AppColor.shade5),
+        ),
+      ),
+      onTap: _resendOTP,
+    );
+  }
+
+  _resendOTP() {}
 
   _otp() {
     setState(() {

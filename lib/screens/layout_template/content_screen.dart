@@ -9,7 +9,6 @@ import '../../main.dart';
 import '../../routes/route_names.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/line_content.dart';
-import '../../widgets/warning_widget.dart';
 import '../navigationbar/sidebar.dart';
 
 class PageTemplate extends StatefulWidget {

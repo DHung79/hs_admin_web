@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/logger/logger.dart';
-
 import '../../theme/app_theme.dart';
 
 class SideBarButton extends StatefulWidget {

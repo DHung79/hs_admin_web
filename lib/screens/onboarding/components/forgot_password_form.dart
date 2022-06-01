@@ -49,7 +49,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   children: [
                     _gobBack(),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 22),
+                      padding: const EdgeInsets.fromLTRB(10, 34, 10, 22),
                       child: Text(
                         'QUÊN MẬT KHẨU',
                         style: AppTextTheme.mediumBigText(AppColor.text1),
@@ -62,7 +62,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                         style: AppTextTheme.mediumBodyText(AppColor.text7),
                         borderColor: AppColor.text7,
                         hintText: 'Nhập email',
-                        suffixIcon: _textFieldButton(),
                         onSaved: (value) {
                           _emailController.text = value!.trim();
                         },
@@ -147,22 +146,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           onTap: widget.onNavigator,
         ),
       ],
-    );
-  }
-
-  Widget _textFieldButton() {
-    return InkWell(
-      hoverColor: AppColor.transparent,
-      splashColor: AppColor.transparent,
-      highlightColor: AppColor.transparent,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-        child: Text(
-          'Kiểm tra',
-          style: AppTextTheme.mediumBodyText(AppColor.shade5),
-        ),
-      ),
-      onTap: _forgotPassword,
     );
   }
 
