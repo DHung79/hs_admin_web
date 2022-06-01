@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../core/admin/model/admin_model.dart';
-import '../../core/authentication/auth.dart';
-import '../../main.dart';
-import '../../theme/app_theme.dart';
+import 'package:hs_admin_web/widgets/jt_confirm_dialog.dart';
+import '../../../core/admin/model/admin_model.dart';
+import '../../../core/authentication/auth.dart';
+import '../../../main.dart';
+import '../../../theme/app_theme.dart';
 
-class AppBarWidget extends StatefulWidget {
+class TopNavigationBar extends StatefulWidget {
   final AdminModel admin;
   final void Function() onPressed;
   final String routeName;
   final String subTitle;
 
-  const AppBarWidget({
+  const TopNavigationBar({
     Key? key,
     required this.onPressed,
     required this.routeName,
@@ -19,10 +20,10 @@ class AppBarWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AppBarWidget> createState() => _AppBarWidgetState();
+  State<TopNavigationBar> createState() => _TopNavigationBarState();
 }
 
-class _AppBarWidgetState extends State<AppBarWidget> {
+class _TopNavigationBarState extends State<TopNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -107,11 +108,30 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         onPressed: () {},
       ),
       DialogItem(
-          title: ScreenUtil.t(I18nKey.signOut)!,
-          svgIcon: SvgIcons.logout,
-          onPressed: () {
-            AuthenticationBlocController().authenticationBloc.add(UserLogOut());
-          }),
+        title: ScreenUtil.t(I18nKey.signOut)!,
+        svgIcon: SvgIcons.logout,
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return JTConfirmDialog(
+                headerTitle: 'Cảnh báo',
+                contentText: 'Bạn có chắc chắn muốn đăng xuất?',
+                onCanceled: () {
+                  Navigator.of(context).pop();
+                },
+                onComfirmed: () {
+                  AuthenticationBlocController()
+                      .authenticationBloc
+                      .add(UserLogOut());
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+          );
+        },
+      ),
     ];
     return PopupMenuButton(
       offset: const Offset(0, 50),
@@ -174,7 +194,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         }).toList();
       },
       onSelected: (DialogItem item) {
-        item.onPressed;
+        item.onPressed!();
       },
     );
   }

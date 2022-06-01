@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/jt_indicator.dart';
 import '/core/admin/bloc/admin_bloc.dart';
 import '/core/admin/model/admin_model.dart';
-import '/screens/navigationbar/appbar.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../routes/route_names.dart';
 import '../../theme/app_theme.dart';
-import '../navigationbar/sidebar.dart';
+import 'components/top_navigation_bar.dart';
+import 'components/sidebar.dart';
 
 class PageTemplate extends StatefulWidget {
   final Widget child;
@@ -164,7 +164,7 @@ class _PageTemplateState extends State<PageTemplate> {
                 snapshot.hasData
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: AppBarWidget(
+                        child: TopNavigationBar(
                           admin: snapshot.data!,
                           routeName: widget.title,
                           subTitle: widget.name,

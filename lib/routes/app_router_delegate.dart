@@ -8,7 +8,6 @@ import '../screens/setting_manage/contact_info.dart';
 import '../screens/setting_manage/edit_contact.dart';
 import '../screens/setting_manage/profile_edit.dart';
 import '../screens/setting_manage/profile_setting.dart';
-import '../screens/user_manage/user_manage_screen.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication.dart';
 import '../screens/not_found/page_not_found_screen.dart';
@@ -18,7 +17,8 @@ import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_manage/info_tasker.dart';
 import '../screens/tasker_manage/tasker_manage.dart';
-import '../screens/user_manage/info_user.dart';
+import '../screens/user_management_screen/components/info_user.dart';
+import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
 import 'route_names.dart';
 import 'route_path.dart';
@@ -75,7 +75,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == resetPasswordRoute) {
       return const AuthenticationScreen();
     }
-    if (route == userManageRoute) {
+    if (route == userManagementRoute) {
       return const UserManageScreen();
     }
     if (route == addUserRoute) {

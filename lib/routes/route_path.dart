@@ -35,8 +35,8 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.userManage()
-      : name = userManageRoute,
+  AppRoutePath.userManagement()
+      : name = userManagementRoute,
         routeId = '',
         isUnknown = false;
 
@@ -158,8 +158,8 @@ class AppRoutePath {
     if (name == homeRoute) {
       return AppRoutePath.home();
     }
-    if (name == userManageRoute) {
-      return AppRoutePath.userManage();
+    if (name == userManagementRoute) {
+      return AppRoutePath.userManagement();
     }
     if (name == addUserRoute) {
       return AppRoutePath.addUser();

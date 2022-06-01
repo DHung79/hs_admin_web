@@ -23,6 +23,9 @@ int homeTabIndex = 0;
 int selectedPage = 0;
 Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 // Page index
+int userManagementIndex = 1;
+//Page search
+String userManagementSearchString = '';
 GlobalKey globalKey = GlobalKey();
 
 navigateTo(String route) async {

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import '../../core/authentication/auth.dart';
-import '../../main.dart';
-import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
-import '../../widgets/background_button_widget.dart';
-import '../../widgets/dropdown_widget.dart';
-import '../../widgets/form_user_widget.dart';
-import '../layout_template/content_screen.dart';
+import '../../../core/authentication/auth.dart';
+import '../../../main.dart';
+import '../../../theme/app_theme.dart';
+import '../../../widgets/back_button_widget.dart';
+import '../../../widgets/background_button_widget.dart';
+import '../../../widgets/dropdown_widget.dart';
+import '../../../widgets/form_user_widget.dart';
+import '../../layout_template/content_screen.dart';
 
-class AddUser extends StatefulWidget {
-  const AddUser({Key? key}) : super(key: key);
+class EditUser extends StatefulWidget {
+  const EditUser({Key? key}) : super(key: key);
 
   @override
-  State<AddUser> createState() => _AddUserState();
+  State<EditUser> createState() => _EditUserState();
 }
 
-class _AddUserState extends State<AddUser> {
+class _EditUserState extends State<EditUser> {
   final _pageState = PageState();
   late final TextEditingController nameController = TextEditingController();
   late final TextEditingController emailController = TextEditingController();
@@ -40,7 +40,7 @@ class _AddUserState extends State<AddUser> {
         _fetchDataOnPage();
       },
       name: 'Quản lí người dùng',
-      title: 'Quản lí người dùng/Thêm người dùng',
+      title: 'Quản lí người dùng/Chỉnh sửa thông tin người dùng',
       appBarHeight: 0,
       child: FutureBuilder(
           future: _pageState.currentUser,
@@ -56,66 +56,106 @@ class _AddUserState extends State<AddUser> {
                 children: [
                   BackButtonWidget(
                     onPressed: () {
-                      navigateTo(userManageRoute);
+                      navigateTo(userManagementRoute);
                     },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            'THÊM NGƯỜI DÙNG',
-                            style: AppTextTheme.mediumBigText(AppColor.text3),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            removeButton(),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            BackgroundButton(
-                              icon: SvgIcons.check,
-                              color: AppColor.text7,
-                              text: 'Thêm',
-                              onPressed: () {},
-                            )
-                          ],
-                        )
-                      ],
+                      children: [addUser(), buttonAuth()],
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 16,
-                            color: Color.fromRGBO(79, 117, 140, 0.24),
-                            blurStyle: BlurStyle.outer,
-                          ),
-                        ]),
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        imageUser(),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        profileUser(),
-                      ],
-                    ),
-                  )
+                  formprofile(context),
+                  const SizedBox(
+                    height: 29,
+                  ),
+                  deleteUser()
                 ],
               ),
             );
           }),
+    );
+  }
+
+  Row deleteUser() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(),
+        TextButton(
+          child: Row(children: [
+            SvgIcon(
+              SvgIcons.delete,
+              color: AppColor.text8,
+              size: 24,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Xóa người dùng',
+              style: AppTextTheme.mediumBodyText(AppColor.text8),
+            ),
+          ]),
+          onPressed: () {},
+        )
+      ],
+    );
+  }
+
+  Row buttonAuth() {
+    return Row(
+      children: [
+        removeButton(),
+        const SizedBox(
+          width: 10,
+        ),
+        BackgroundButton(
+          icon: SvgIcons.check,
+          color: AppColor.text7,
+          text: 'Đồng ý',
+          onPressed: () {},
+        )
+      ],
+    );
+  }
+
+  Padding addUser() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        'THÊM NGƯỜI DÙNG',
+        style: AppTextTheme.mediumBigText(AppColor.text3),
+      ),
+    );
+  }
+
+  Container formprofile(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 16,
+            color: Color.fromRGBO(79, 117, 140, 0.24),
+            blurStyle: BlurStyle.outer,
+          ),
+        ],
+      ),
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          imageUser(),
+          const SizedBox(
+            width: 10,
+          ),
+          profileUser(),
+        ],
+      ),
     );
   }
 
@@ -160,14 +200,14 @@ class _AddUserState extends State<AddUser> {
               children: [
                 FormUserWidget(
                   showTitle: true,
-                  isWidth: true,
+                  isWidth: false,
                   controller: nameController,
                   hintText: 'Nhập tên người dùng',
                   title: 'Tên',
                 ),
                 FormUserWidget(
                   showTitle: true,
-                  isWidth: true,
+                  isWidth: false,
                   controller: addressController,
                   hintText: 'Nhập địa chỉ',
                   title: 'Địa chỉ',
@@ -182,7 +222,7 @@ class _AddUserState extends State<AddUser> {
               children: [
                 FormUserWidget(
                   showTitle: true,
-                  isWidth: true,
+                  isWidth: false,
                   controller: emailController,
                   hintText: 'Nhập email',
                   title: 'Email',

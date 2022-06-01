@@ -33,8 +33,8 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.resetPassword();
     }
 
-    if (name == userManageRoute) {
-      return AppRoutePath.userManage();
+    if (name == userManagementRoute) {
+      return AppRoutePath.userManagement();
     }
 
     if (name == serviceManageRoute) {

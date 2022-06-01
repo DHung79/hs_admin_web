@@ -1,7 +1,7 @@
 const String initialRoute = '/';
 const String authenticationRoute = '/auth';
 const String homeRoute = '/home';
-const String userManageRoute = '/user-manage';
+const String userManagementRoute = '/user-management';
 const String addUserRoute = '/add-user';
 const String taskerManageRoute = '/tasker-manage';
 const String inforTaskerRoute = '/infor-tasker';

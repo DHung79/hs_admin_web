@@ -1,8 +1,8 @@
 class Paging {
   final int _totalRecords;
+  final int _totalPage;
   final int _limit;
   final int _page;
-  final int _totalPage;
 
   Paging.fromJson(Map<String, dynamic> json)
       : _totalRecords = json['total_records'] ?? 0,
@@ -16,10 +16,17 @@ class Paging {
         _limit = int.tryParse(json['PageSize']?.toString() ?? '0') ?? 0,
         _page = int.tryParse(json['PageIndex']?.toString() ?? '0') ?? 0;
 
+  Map<String, dynamic> toJson() => {
+        "totalRecords": _totalRecords,
+        "totalPage": _totalPage,
+        "limit": _limit,
+        "page": _page,
+      };
+
+  int get totalRecords => _totalRecords;
+  int get totalPage => _totalPage;
   int get limit => _limit;
   int get page => _page;
-  int get totalPage => _totalPage;
-  int get totalRecords => _totalRecords;
 
   bool get isFirstPage => page == 1;
   bool get isLastPage => page == totalPage;

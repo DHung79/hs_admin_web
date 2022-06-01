@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
-import '../../core/authentication/auth.dart';
-import '../../main.dart';
-import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
-import '../../widgets/line_content.dart';
-import '../layout_template/content_screen.dart';
+import '../../../core/authentication/auth.dart';
+import '../../../main.dart';
+import '../../../theme/app_theme.dart';
+import '../../../widgets/back_button_widget.dart';
+import '../../../widgets/line_content.dart';
+import '../../layout_template/content_screen.dart';
 
 class InfoUser extends StatefulWidget {
   const InfoUser({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _InfoUserState extends State<InfoUser> {
                 children: [
                   BackButtonWidget(
                     onPressed: () {
-                      navigateTo(userManageRoute);
+                      navigateTo(userManagementRoute);
                     },
                   ),
                   Padding(

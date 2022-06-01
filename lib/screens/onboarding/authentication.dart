@@ -35,7 +35,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {
           if (state is AppAutheticated) {
-            navigateTo(userManageRoute);
+            navigateTo(userManagementRoute);
           }
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
