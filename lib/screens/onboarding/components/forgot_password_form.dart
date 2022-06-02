@@ -129,7 +129,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.text7,
                 ),

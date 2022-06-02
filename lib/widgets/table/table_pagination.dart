@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/theme/app_colors.dart';
-import 'package:hs_admin_web/theme/app_text_theme.dart';
-import 'package:hs_admin_web/theme/app_theme.dart';
+import '/theme/app_theme.dart';
 import '../../core/base/models/common_model.dart';
 
 enum PagingButtonStyle { first, previous, number, next, last }
@@ -83,7 +81,10 @@ class TablePagination extends StatelessWidget {
     required BuildContext context,
   }) {
     return AppButtonTheme.fillRounded(
-      constraints: const BoxConstraints(minHeight: 44, maxWidth: 44),
+      constraints: BoxConstraints(
+        minHeight: _buttonSize,
+        maxWidth: _buttonSize,
+      ),
       borderRadius: BorderRadius.circular(10),
       color: _buttonColor(
         index: index,

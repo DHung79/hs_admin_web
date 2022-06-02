@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/widgets/jt_confirm_dialog.dart';
 import '../../../core/admin/model/admin_model.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/joytech_components/joytech_components.dart';
 
 class TopNavigationBar extends StatefulWidget {
   final AdminModel admin;
@@ -69,7 +69,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgIcon(
-                SvgIcons.comment,
+                SvgIcons.commentAlt,
                 color: AppColor.text7,
                 size: 24,
               ),
@@ -83,7 +83,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgIcon(
-                SvgIcons.bell,
+                SvgIcons.notifications,
                 color: AppColor.text7,
               ),
             ),
@@ -98,12 +98,12 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
   _adminInfo() {
     final List<DialogItem> _adminMenuItems = [
       DialogItem(
-        svgIcon: SvgIcons.person,
+        svgIcon: SvgIcons.user,
         title: 'Hồ Sơ',
         onPressed: () {},
       ),
       DialogItem(
-        svgIcon: SvgIcons.setting,
+        svgIcon: SvgIcons.settingTwo,
         title: 'Cài đặt',
         onPressed: () {},
       ),

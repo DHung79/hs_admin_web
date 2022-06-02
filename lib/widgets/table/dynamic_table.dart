@@ -20,6 +20,7 @@ class DynamicTable extends StatefulWidget {
   final TextStyle? headerStyle;
   final Color? headerColor;
   final TableBorder? headerBorder;
+  final Color? bodyColor;
   final TableBorder? bodyBorder;
   final Widget? Function(BuildContext, String)? getHeaderButton;
   final double headerHeight;
@@ -39,8 +40,9 @@ class DynamicTable extends StatefulWidget {
     this.tableBorder,
     this.headerStyle,
     this.headerColor,
-    this.bodyBorder,
     this.headerBorder,
+    this.bodyColor,
+    this.bodyBorder,
     this.getHeaderButton,
     this.headerHeight = 52,
     this.headerButtonAlignment = MainAxisAlignment.start,
@@ -60,21 +62,12 @@ class _DynamicTableState extends State<DynamicTable> {
     return LayoutBuilder(
       builder: (context, size) {
         final columnWidths = _buildColumnWidths(size: size);
-
-        return Scrollbar(
-          controller: _tableScrollController,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            controller: _tableScrollController,
-            physics: const ClampingScrollPhysics(),
-            child: Container(
+        return Stack(
+          children: [
+            Container(
+              width: size.maxWidth,
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 16,
-                      color: AppColor.shadow.withOpacity(0.16),
-                      blurStyle: BlurStyle.outer),
-                ],
+                color: widget.bodyColor ?? AppColor.shade2,
                 border: widget.tableBorder ??
                     Border.all(
                       color: AppColor.transparent,
@@ -83,26 +76,66 @@ class _DynamicTableState extends State<DynamicTable> {
               ),
               child: Column(
                 children: [
-                  if (!widget.hideHeaderSection) _buildHeader(columnWidths),
-                  widget.hasBodyData
-                      ? Padding(
-                          padding: widget.contentPadding,
-                          child: _buildBody(columnWidths),
-                        )
-                      : Container(
-                          constraints: const BoxConstraints(minHeight: 40),
-                          child: Padding(
-                            padding: widget.contentPadding,
-                            child: Center(
-                              child: Text(ScreenUtil.t(I18nKey.noData)!),
-                            ),
-                          ),
-                        ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: widget.headerColor,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    height: widget.headerHeight,
+                  ),
                 ],
               ),
             ),
-          ),
-        ).fixNestedDoubleScrollbar();
+            Scrollbar(
+              controller: _tableScrollController,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: widget.tableBorder ??
+                      Border.all(
+                        color: AppColor.transparent,
+                      ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColor.shadow.withOpacity(0.16),
+                      blurRadius: 16,
+                      blurStyle: BlurStyle.outer,
+                    ),
+                  ],
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  controller: _tableScrollController,
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      if (!widget.hideHeaderSection) _buildHeader(columnWidths),
+                      widget.hasBodyData
+                          ? Padding(
+                              padding: widget.contentPadding,
+                              child: _buildBody(columnWidths),
+                            )
+                          : Container(
+                              constraints: const BoxConstraints(minHeight: 40),
+                              child: Padding(
+                                padding: widget.contentPadding,
+                                child: SizedBox(
+                                  height: 82,
+                                  child: Center(
+                                    child: Text(ScreenUtil.t(I18nKey.noData)!),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            ).fixNestedDoubleScrollbar(),
+          ],
+        );
       },
     );
   }
@@ -202,23 +235,13 @@ class _DynamicTableState extends State<DynamicTable> {
                   var header = widget.columnHeaderBuilder!(context, title);
                   return header;
                 }
-                final index = headers.indexOf(title);
                 final textAlign = _centerHeaders.contains(title)
                     ? TextAlign.center
                     : _rightHeaders.contains(title)
                         ? TextAlign.right
                         : TextAlign.left;
-                return Container(
+                return SizedBox(
                   height: widget.headerHeight,
-                  decoration: BoxDecoration(
-                      color: widget.headerColor,
-                      borderRadius: index == 0
-                          ? const BorderRadius.only(
-                              topLeft: Radius.circular(20))
-                          : index == headers.length - 1
-                              ? const BorderRadius.only(
-                                  topRight: Radius.circular(20))
-                              : BorderRadius.zero),
                   child: Row(
                     mainAxisAlignment: widget.headerButtonAlignment,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

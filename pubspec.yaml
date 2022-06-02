@@ -53,6 +53,7 @@ dependencies:
   firebase_messaging: ^11.4.0
   syncfusion_flutter_xlsio: ^20.1.56-beta
   popover: ^0.2.6+3
+  dropdown_button2: ^1.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

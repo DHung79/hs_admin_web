@@ -84,7 +84,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
             child: Row(
               children: [
                 SvgIcon(
-                  SvgIcons.keyboardDown,
+                  SvgIcons.expandMore,
                   color: AppColor.text8,
                   size: 24,
                 ),

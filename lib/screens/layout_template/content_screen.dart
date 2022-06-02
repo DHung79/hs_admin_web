@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../widgets/jt_indicator.dart';
+import '../../widgets/joytech_components/joytech_components.dart';
 import '/core/admin/bloc/admin_bloc.dart';
 import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
@@ -59,7 +59,6 @@ class _PageTemplateState extends State<PageTemplate> {
   Future<AdminModel>? _currentUser;
 // int _totalNotifications;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  bool _showNoti = false;
   final _taskerBloc = AdminBloc();
 
   @override

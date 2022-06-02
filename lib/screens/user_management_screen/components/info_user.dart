@@ -320,7 +320,7 @@ class _InfoUserState extends State<InfoUser> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgIcon(
-                      SvgIcons.comment,
+                      SvgIcons.commentAlt,
                       color: AppColor.text5,
                       size: 24,
                     ),

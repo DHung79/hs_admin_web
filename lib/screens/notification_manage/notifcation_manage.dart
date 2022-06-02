@@ -96,7 +96,7 @@ class _NotificationManageState extends State<NotificationManage> {
                         _searchBar(),
                         backgroundButton(
                           text: 'Thêm dịch vụ',
-                          icon: SvgIcons.keyboardDown,
+                          icon: SvgIcons.expandMore,
                           color: AppColor.primary2,
                         ),
                       ]),
@@ -354,7 +354,7 @@ class _NotificationManageState extends State<NotificationManage> {
           child: Row(
             children: [
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -362,7 +362,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -370,7 +370,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -415,7 +415,7 @@ class _NotificationManageState extends State<NotificationManage> {
                       width: 10,
                     ),
                     SvgIcon(
-                      SvgIcons.circleCheck,
+                      SvgIcons.checkCircle,
                       color: AppColor.text7,
                       size: 24,
                     )
@@ -465,7 +465,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -489,7 +489,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowTopLeft,
+                  SvgIcons.arrowForwardIos,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -595,8 +595,7 @@ class _NotificationManageState extends State<NotificationManage> {
               ),
               child: SvgIcon(
                 SvgIcons.search,
-                color:
-                    _checkSearch ? AppColor.text7 : AppColor.primary2,
+                color: _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),

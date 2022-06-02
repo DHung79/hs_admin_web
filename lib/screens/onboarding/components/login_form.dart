@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                           },
                           child: _showPassword
                               ? SvgIcon(
-                                  SvgIcons.password,
+                                  SvgIcons.removeRedEye,
                                   color: AppColor.text7,
                                   size: 24,
                                 )

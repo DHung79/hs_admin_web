@@ -97,7 +97,7 @@ class _ServiceManageState extends State<ServiceManage> {
                           _searchBar(),
                           backgroundButton(
                               text: 'Thêm dịch vụ',
-                              icon: SvgIcons.keyboardDown,
+                              icon: SvgIcons.expandMore,
                               color: AppColor.primary2),
                         ],
                       ),
@@ -379,7 +379,7 @@ class _ServiceManageState extends State<ServiceManage> {
                       width: 10,
                     ),
                     SvgIcon(
-                      SvgIcons.circleCheck,
+                      SvgIcons.checkCircle,
                       color: AppColor.text7,
                       size: 24,
                     )
@@ -429,7 +429,7 @@ class _ServiceManageState extends State<ServiceManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -453,7 +453,7 @@ class _ServiceManageState extends State<ServiceManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowTopLeft,
+                  SvgIcons.callReceived,
                   size: 24,
                   color: AppColor.inactive1,
                 ),

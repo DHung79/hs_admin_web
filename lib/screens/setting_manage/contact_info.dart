@@ -210,7 +210,7 @@ class _ContactInfoState extends State<ContactInfo> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(children: [
                 SvgIcon(
-                  SvgIcons.editOutline,
+                  SvgIcons.edit,
                   color: AppColor.primary2,
                   size: 24,
                 ),

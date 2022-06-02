@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hs_admin_web/main.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
 import '../../../theme/app_theme.dart';
-import 'sidebar_item.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -12,6 +11,7 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
+  bool isMini = false;
   @override
   Widget build(BuildContext context) {
     final List<SideBarItem> _sideBarItems = [
@@ -21,23 +21,23 @@ class _SideBarState extends State<SideBar> {
         route: userManagementRoute,
       ),
       SideBarItem(
-        icon: SvgIcons.clean,
+        icon: SvgIcons.broom,
         title: 'Quản lí người giúp việc',
         route: taskerManageRoute,
       ),
       SideBarItem(
-        icon: SvgIcons.checkList,
+        icon: SvgIcons.listCheck,
         title: 'Quản lí dịch vụ',
         route: serviceManageRoute,
       ),
       SideBarItem(
-        icon: SvgIcons.note,
+        icon: SvgIcons.noteblockTextLine,
         title: 'Quản lí đặt hàng',
         route: orderManageRoute,
       ),
       SideBarItem(
         title: 'Quản lí thông báo đẩy',
-        icon: SvgIcons.noti,
+        icon: SvgIcons.bellRing,
         route: notificationManageRoute,
       ),
       SideBarItem(
@@ -46,46 +46,130 @@ class _SideBarState extends State<SideBar> {
         route: payManageRoute,
       ),
       SideBarItem(
-        icon: SvgIcons.setting,
+        icon: SvgIcons.settingTwo,
         title: 'Cài đặt',
         route: settingManageRoute,
       ),
     ];
+    final screenSize = MediaQuery.of(context).size;
+    if (screenSize.width < 1000) {
+      isMini = true;
+    }
     return Container(
-      width: MediaQuery.of(context).size.width * 0.2,
+      width: isMini ? 119 : 356,
       color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 32, 0, 0),
-            child: Image.asset(
-              'assets/images/logodemo.png',
-              width: 100,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
+              child: Image.asset(
+                'assets/images/logodemo.png',
+                width: 100,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _sideBarItems.length,
-            itemBuilder: (context, index) {
-              final item = _sideBarItems[index];
-              return SideBarButton(
-                icon: item.icon,
-                title: item.title,
-                active: selectedPage == index,
-                onPressed: () {
-                  setState(() {
-                    selectedPage = index;
-                    navigateTo(item.route);
-                  });
+            if (!isMini)
+              const SizedBox(
+                height: 16,
+              ),
+            SizedBox(
+              height: screenSize.height - 178,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                itemCount: _sideBarItems.length,
+                itemBuilder: (context, index) {
+                  final item = _sideBarItems[index];
+                  return _buildItem(
+                    svgIcon: item.icon,
+                    title: item.title,
+                    active: selectedPage == index,
+                    onPressed: () {
+                      setState(() {
+                        selectedPage = index;
+                        navigateTo(item.route);
+                      });
+                    },
+                  );
                 },
-              );
-            },
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: isMini ? EdgeInsets.zero : const EdgeInsets.all(8),
+                    child: _buildItem(
+                      svgIcon: SvgIcons.sidebarLeft,
+                      title: 'Thu nhỏ',
+                      active: false,
+                      mainAxisAlignment: isMini
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.end,
+                      onPressed: () {
+                        setState(() {
+                          isMini = !isMini;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItem({
+    IconData? icon,
+    SvgIconData? svgIcon,
+    Function()? onPressed,
+    required bool active,
+    required String title,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
+      child: InkWell(
+        splashFactory: NoSplash.splashFactory,
+        onTap: onPressed,
+        // splashColor: Colors.white,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.white12,
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 56),
+          child: Row(
+            mainAxisAlignment: mainAxisAlignment,
+            children: [
+              icon != null
+                  ? Icon(
+                      icon,
+                      size: 24,
+                      color: active ? AppColor.shade6 : AppColor.text7,
+                    )
+                  : SvgIcon(
+                      svgIcon,
+                      size: 24,
+                      color: active ? AppColor.shade6 : AppColor.text7,
+                    ),
+              if (!isMini)
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    title,
+                    style: AppTextTheme.normalText(
+                      active ? AppColor.shade6 : AppColor.text7,
+                    ),
+                  ),
+                )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

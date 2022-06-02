@@ -89,8 +89,7 @@ class _PayManageState extends State<PayManage> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         'Danh sách đơn đặt hàng',
-                        style:
-                            AppTextTheme.mediumBigText(AppColor.text3),
+                        style: AppTextTheme.mediumBigText(AppColor.text3),
                       ),
                     ),
                     Padding(
@@ -110,8 +109,7 @@ class _PayManageState extends State<PayManage> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color:
-                                        AppColor.shadow.withOpacity(0.24),
+                                    color: AppColor.shadow.withOpacity(0.24),
                                     blurStyle: BlurStyle.outer,
                                     blurRadius: 16)
                               ],
@@ -311,7 +309,7 @@ class _PayManageState extends State<PayManage> {
           child: Row(
             children: [
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -319,7 +317,7 @@ class _PayManageState extends State<PayManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -327,7 +325,7 @@ class _PayManageState extends State<PayManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.info1,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -372,7 +370,7 @@ class _PayManageState extends State<PayManage> {
                       width: 10,
                     ),
                     SvgIcon(
-                      SvgIcons.circleCheck,
+                      SvgIcons.checkCircle,
                       color: AppColor.text7,
                       size: 24,
                     )
@@ -422,7 +420,7 @@ class _PayManageState extends State<PayManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -446,7 +444,7 @@ class _PayManageState extends State<PayManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowTopLeft,
+                  SvgIcons.callReceived,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -552,8 +550,7 @@ class _PayManageState extends State<PayManage> {
               ),
               child: SvgIcon(
                 SvgIcons.search,
-                color:
-                    _checkSearch ? AppColor.text7 : AppColor.primary2,
+                color: _checkSearch ? AppColor.text7 : AppColor.primary2,
               ),
               onPressed: () {},
             ),

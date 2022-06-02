@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/widgets/jt_indicator.dart';
 import '../../../core/base/blocs/block_state.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
 import '../../../core/user/user.dart';
 import '../../../routes/route_names.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/joytech_components/joytech_components.dart';
+import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
 class UserList extends StatefulWidget {
@@ -35,10 +36,20 @@ class _UserListState extends State<UserList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildHeader(),
+        _buildTable(),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            'DANH SÁCH NGƯỜI DÙNG',
+            'Danh sách người dùng',
             style: AppTextTheme.mediumBigText(AppColor.text3),
           ),
         ),
@@ -80,59 +91,62 @@ class _UserListState extends State<UserList> {
             ],
           ),
         ),
-        _buildTable(),
       ],
     );
   }
 
   SizedBox _searchBar() {
-    final isSearching = widget.searchController.text.isNotEmpty;
+    bool isSearching = widget.searchController.text.isNotEmpty;
     return SizedBox(
       width: 265,
       height: 44,
-      child: TextFormField(
+      child: JTSearchField(
         controller: widget.searchController,
         cursorHeight: 20,
         cursorColor: AppColor.text7,
         style: AppTextTheme.normalText(AppColor.text1),
-        decoration: InputDecoration(
-          hoverColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          hintText: 'Tìm kiếm',
-          hintStyle: AppTextTheme.normalText(AppColor.text7),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Icon(
-              Icons.search,
-              color: isSearching ? AppColor.primary2 : AppColor.text7,
-              size: 24,
-            ),
-          ),
-          suffixIcon: isSearching
-              ? Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.close,
-                      color: AppColor.others1,
-                      size: 24,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        widget.searchController.text = '';
-                      });
-                    },
-                  ),
-                )
-              : null,
+        hoverColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
         ),
-        onChanged: (String value) {
-          setState(() {});
+        fillColor: Colors.white,
+        hintText: 'Tìm kiếm',
+        hintStyle: AppTextTheme.normalText(AppColor.text7),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(10),
+          child: SvgIcon(
+            SvgIcons.search,
+            color: isSearching ? AppColor.primary2 : AppColor.text7,
+            size: 24,
+          ),
+        ),
+        suffixIcon: isSearching
+            ? Padding(
+                padding: const EdgeInsets.all(10),
+                child: InkWell(
+                  child: Icon(
+                    Icons.close,
+                    color: AppColor.others1,
+                    size: 24,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      widget.searchController.text = '';
+                    });
+                  },
+                ),
+              )
+            : null,
+        onChanged: (newValue) {
+          setState(() {
+            widget.searchController.text = newValue;
+            widget.searchController.selection =
+                TextSelection.collapsed(offset: newValue.length);
+          });
+        },
+        onFetch: () {
+          widget.onFetch(1);
         },
       ),
     );
@@ -296,7 +310,59 @@ class _UserListState extends State<UserList> {
           title: item.address,
         ),
         tableCellText(
-          title: item.address,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SizedBox(
+                      child: SvgIcon(
+                        SvgIcons.info1,
+                        color: AppColor.shadow,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SizedBox(
+                      child: SvgIcon(
+                        SvgIcons.edit,
+                        color: AppColor.shadow,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SizedBox(
+                      child: SvgIcon(
+                        SvgIcons.delete,
+                        color: AppColor.shadow,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -313,61 +379,22 @@ class _UserListState extends State<UserList> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: InkWell(
-            child: Container(
-              height: 44,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      '10',
-                      style: AppTextTheme.normalText(AppColor.text1),
-                    ),
-                  ),
-                  SvgIcon(
-                    SvgIcons.keyboardDown,
-                    color: AppColor.text7,
-                    size: 24,
-                  )
-                ],
-              ),
+          child: JTDropdownButtonFormField<int>(
+            defaultValue: _limit,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
             ),
-            onTap: () {},
-          ),
-        ),
-        SizedBox(
-          height: 44,
-          child: InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-              ),
-              child: Row(
-                children: [
-                  SvgIcon(
-                    SvgIcons.calendar,
-                    color: AppColor.text8,
-                    size: 24,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Chỉnh sửa bảng',
-                      style: AppTextTheme.mediumBodyText(
-                        AppColor.text8,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            dataSource: const [
+              {'name': '10', 'value': 10},
+              {'name': '15', 'value': 15},
+              {'name': '20', 'value': 20},
+            ],
+            onChanged: (newValue) {
+              setState(() {
+                _limit = newValue!;
+                widget.onFetch(1, limit: _limit);
+              });
+            },
           ),
         ),
       ],

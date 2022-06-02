@@ -22,10 +22,8 @@ class UserManageScreen extends StatefulWidget {
 
 class _UserManageScreenState extends State<UserManageScreen> {
   final _pageState = PageState();
-  late final TextEditingController _searchController = TextEditingController();
-  late bool _checkSearch = true;
   final _userBloc = UserBloc();
-  final _userSearchController = TextEditingController();
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -57,7 +55,7 @@ class _UserManageScreenState extends State<UserManageScreen> {
               child: UserList(
                 userBloc: _userBloc,
                 onFetch: _fetchDataOnPage,
-                searchController: _userSearchController,
+                searchController: _searchController,
                 route: userManagementRoute,
               ),
             );
@@ -67,7 +65,7 @@ class _UserManageScreenState extends State<UserManageScreen> {
 
   _fetchDataOnPage(int page, {int? limit}) {
     userManagementIndex = page;
-    userManagementSearchString = _userSearchController.text;
+    userManagementSearchString = _searchController.text;
     Map<String, dynamic> params = {
       'limit': limit ?? 10,
       'page': userManagementIndex,

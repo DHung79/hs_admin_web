@@ -88,7 +88,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                                   size: 24,
                                 )
                               : SvgIcon(
-                                  SvgIcons.password,
+                                  SvgIcons.removeRedEye,
                                   color: AppColor.text7,
                                   size: 24,
                                 ),
@@ -145,7 +145,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                                   size: 24,
                                 )
                               : SvgIcon(
-                                  SvgIcons.password,
+                                  SvgIcons.removeRedEye,
                                   color: AppColor.text7,
                                   size: 24,
                                 ),
@@ -216,7 +216,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.text7,
                 ),

@@ -75,14 +75,14 @@ class _SettingState extends State<Setting> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   settingWidget(
-                                    icon: SvgIcons.person,
+                                    icon: SvgIcons.user,
                                     title: 'Hồ sơ của bạn',
                                     onTap: () {
                                       navigateTo(profileSettingRoute);
                                     },
                                   ),
                                   settingWidget(
-                                    icon: SvgIcons.call,
+                                    icon: SvgIcons.telephone,
                                     title: 'Thông tin liên lạc',
                                     onTap: () {
                                       navigateTo(contactInfoRoute);

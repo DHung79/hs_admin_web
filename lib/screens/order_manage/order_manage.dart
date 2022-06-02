@@ -311,7 +311,7 @@ class _OrderManageState extends State<OrderManage> {
           child: Row(
             children: [
               SvgIcon(
-                SvgIcons.addMoney,
+                SvgIcons.wallet,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -373,7 +373,7 @@ class _OrderManageState extends State<OrderManage> {
                       width: 10,
                     ),
                     SvgIcon(
-                      SvgIcons.circleCheck,
+                      SvgIcons.checkCircle,
                       color: AppColor.text7,
                       size: 24,
                     )
@@ -423,7 +423,7 @@ class _OrderManageState extends State<OrderManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.inactive1,
                 ),
@@ -447,7 +447,7 @@ class _OrderManageState extends State<OrderManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowTopLeft,
+                  SvgIcons.callReceived,
                   size: 24,
                   color: AppColor.inactive1,
                 ),

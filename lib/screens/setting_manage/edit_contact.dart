@@ -138,7 +138,7 @@ class _EditContactState extends State<EditContact> {
                                     AppTextTheme.mediumBodyText(AppColor.text3),
                               ),
                               SvgIcon(
-                                SvgIcons.bell,
+                                SvgIcons.notifications,
                                 color: AppColor.shadow,
                                 size: 24,
                               )
@@ -214,7 +214,7 @@ class _EditContactState extends State<EditContact> {
             vertical: isAddButton ? 13 : 16, horizontal: isAddButton ? 13 : 21),
         child: isAddButton
             ? SvgIcon(
-                SvgIcons.bell,
+                SvgIcons.notifications,
                 color: AppColor.text7,
                 size: 24,
               )

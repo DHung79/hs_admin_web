@@ -731,7 +731,7 @@ class _InfoOrderState extends State<InfoOrder> {
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: SvgIcon(
-                          SvgIcons.dollar1,
+                          SvgIcons.dollar,
                           color: AppColor.text5,
                           size: 24,
                         ),
@@ -793,7 +793,7 @@ class _InfoOrderState extends State<InfoOrder> {
                                       width: 10,
                                     ),
                                     SvgIcon(
-                                      SvgIcons.addMoney,
+                                      SvgIcons.info1,
                                       color: AppColor.shadow,
                                       size: 24,
                                     ),

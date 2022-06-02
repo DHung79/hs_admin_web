@@ -386,7 +386,7 @@ class _AddServiceState extends State<AddService> {
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: SvgIcon(
-                          SvgIcons.dollar1,
+                          SvgIcons.dollar,
                           color: AppColor.text5,
                           size: 24,
                         ),
@@ -448,7 +448,7 @@ class _AddServiceState extends State<AddService> {
                                       width: 10,
                                     ),
                                     SvgIcon(
-                                      SvgIcons.addMoney,
+                                      SvgIcons.info1,
                                       color: AppColor.shadow,
                                       size: 24,
                                     ),

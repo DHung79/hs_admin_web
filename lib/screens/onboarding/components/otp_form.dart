@@ -125,7 +125,7 @@ class _OTPFormState extends State<OTPForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgIcon(
-                  SvgIcons.arrowBack,
+                  SvgIcons.arrowIosBack,
                   size: 24,
                   color: AppColor.text7,
                 ),

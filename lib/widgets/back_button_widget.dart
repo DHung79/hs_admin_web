@@ -14,7 +14,7 @@ class BackButtonWidget extends StatelessWidget {
         child: Row(
           children: [
             SvgIcon(
-              SvgIcons.arrowBack,
+              SvgIcons.arrowIosBack,
               color: AppColor.text7,
               size: 24,
             ),
