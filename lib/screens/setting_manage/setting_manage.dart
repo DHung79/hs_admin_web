@@ -28,7 +28,7 @@ class _SettingState extends State<Setting> {
     ScreenUtil.init(context);
     return PageTemplate(
       title: 'Cài đặt',
-      name: 'Cài đặt',
+      subTitle: 'Cài đặt',
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

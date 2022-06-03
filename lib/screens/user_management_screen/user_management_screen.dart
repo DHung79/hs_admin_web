@@ -5,6 +5,7 @@ import '../../core/authentication/auth.dart';
 import '../../core/user/user.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
+import 'components/user_info.dart';
 import 'components/user_list.dart';
 
 class UserManageScreen extends StatefulWidget {
@@ -23,6 +24,8 @@ class UserManageScreen extends StatefulWidget {
 class _UserManageScreenState extends State<UserManageScreen> {
   final _pageState = PageState();
   final _userBloc = UserBloc();
+  final _userInfoBloc = UserBloc();
+
   final _searchController = TextEditingController();
 
   @override
@@ -32,11 +35,18 @@ class _UserManageScreenState extends State<UserManageScreen> {
   }
 
   @override
+  void dispose() {
+    _userBloc.dispose();
+    _userInfoBloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      name: 'Quản lí người dùng',
       title: 'Quản lí người dùng',
+      subTitle: _getSubTitle(),
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
@@ -47,20 +57,39 @@ class _UserManageScreenState extends State<UserManageScreen> {
           future: _pageState.currentUser,
           builder: (context, AsyncSnapshot<AdminModel> snapshot) {
             return PageContent(
-              userSnapshot: snapshot,
-              pageState: _pageState,
-              onFetch: () {
-                _fetchDataOnPage(1);
-              },
-              child: UserList(
-                userBloc: _userBloc,
-                onFetch: _fetchDataOnPage,
-                searchController: _searchController,
-                route: userManagementRoute,
-              ),
-            );
+                userSnapshot: snapshot,
+                pageState: _pageState,
+                onFetch: () {
+                  _fetchDataOnPage(1);
+                },
+                child: _buildContent());
           }),
     );
+  }
+
+  Widget _buildContent() {
+    if (widget.tab == 2) {
+      return UserInfo(
+        userInfoBloc: _userInfoBloc,
+        route: userManagementRoute,
+        userId: widget.id,
+      );
+    } else {
+      return UserList(
+        userBloc: _userBloc,
+        onFetch: _fetchDataOnPage,
+        searchController: _searchController,
+        route: userManagementRoute,
+      );
+    }
+  }
+
+  String _getSubTitle() {
+    if (widget.tab == 1) {
+      return 'Quản lí người dùng / Xem thông tin người dùng';
+    } else {
+      return 'Quản lí người dùng';
+    }
   }
 
   _fetchDataOnPage(int page, {int? limit}) {

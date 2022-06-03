@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/theme/app_theme.dart';
 
 class JTIndicator extends StatelessWidget {
   final double size;
@@ -17,7 +18,7 @@ class JTIndicator extends StatelessWidget {
         height: size,
         child: CircularProgressIndicator(
           strokeWidth: 2.0,
-          color: color,
+          color: color ?? AppColor.shadow,
         ),
       ),
     );

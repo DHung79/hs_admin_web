@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
-import '../../../widgets/back_button_widget.dart';
+import '../../../widgets/go_back_button.dart';
 import '../../../widgets/background_button_widget.dart';
 import '../../../widgets/dropdown_widget.dart';
 import '../../../widgets/form_user_widget.dart';
@@ -39,7 +39,7 @@ class _EditUserState extends State<EditUser> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Quản lí người dùng',
+      subTitle: 'Quản lí người dùng',
       title: 'Quản lí người dùng/Chỉnh sửa thông tin người dùng',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -54,7 +54,7 @@ class _EditUserState extends State<EditUser> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(userManagementRoute);
                     },

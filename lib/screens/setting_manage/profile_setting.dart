@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../widgets/go_back_button.dart';
 import '../../widgets/profile_item_widget.dart';
 import '../layout_template/content_screen.dart';
 
@@ -37,7 +37,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Cài đặt',
+      subTitle: 'Cài đặt',
       title: 'Cài đặt / Hồ sơ của bạn',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -52,7 +52,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(settingManageRoute);
                     },

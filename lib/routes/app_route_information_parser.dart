@@ -37,6 +37,26 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.userManagement();
     }
 
+    if (name == createUserRoute) {
+      return AppRoutePath.createUser();
+    }
+
+    if (name.startsWith(editUserRoute)) {
+      if (name.length > editUserRoute.length) {
+        final id = name.substring(editUserRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editUser(id);
+      }
+      return AppRoutePath.userManagement();
+    }
+
+    if (name.startsWith(userInfoRoute)) {
+      if (name.length > userInfoRoute.length) {
+        final id = name.substring(userInfoRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.userInfo(id);
+      }
+      return AppRoutePath.userManagement();
+    }
+
     if (name == serviceManageRoute) {
       return AppRoutePath.serviceManage();
     }
@@ -56,20 +76,6 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == settingManageRoute) {
       return AppRoutePath.settingManage();
     }
-
-    // if (name == roleRoute) {
-    //   return AppRoutePath.roles();
-    // }
-    // if (name == createRoleRoute) {
-    //   return AppRoutePath.createRoles();
-    // }
-    // if (name.startsWith(editRoleRoute)) {
-    //   if (name.length > editRoleRoute.length) {
-    //     final id = name.substring(editRoleRoute.length, name.length);
-    //     if (id.isNotEmpty) return AppRoutePath.editRoles(id);
-    //   }
-    //   return AppRoutePath.roles();
-    // }
 
     return AppRoutePath.unknown();
   }

@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../widgets/go_back_button.dart';
 import '../../widgets/background_button_widget.dart';
 import '../../widgets/dropdown_widget.dart';
 import '../../widgets/form_user_widget.dart';
@@ -54,7 +54,7 @@ class _AddServiceState extends State<AddService> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Quản lí dịch vụ',
+      subTitle: 'Quản lí dịch vụ',
       title: 'Quản lí dịch vụ',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -69,7 +69,7 @@ class _AddServiceState extends State<AddService> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(serviceManageRoute);
                     },

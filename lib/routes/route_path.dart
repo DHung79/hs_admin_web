@@ -40,8 +40,18 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.addUser()
-      : name = addUserRoute,
+  AppRoutePath.createUser()
+      : name = createUserRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.editUser(String id)
+      : name = editUserRoute + id,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.userInfo(String id)
+      : name = userInfoRoute + id,
         routeId = '',
         isUnknown = false;
 
@@ -120,18 +130,6 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  // AppRoutePath.roles()
-  //     : name = roleRoute,
-  //       routeId = '',
-  //       isUnknown = false;
-  // AppRoutePath.createRoles()
-  //     : name = createRoleRoute,
-  //       routeId = '',
-  //       isUnknown = false;
-  // AppRoutePath.editRoles(String id)
-  //     : name = editRoleRoute + id,
-  //       routeId = '',
-  //       isUnknown = false;
 
   AppRoutePath.unknown()
       : name = null,
@@ -161,8 +159,22 @@ class AppRoutePath {
     if (name == userManagementRoute) {
       return AppRoutePath.userManagement();
     }
-    if (name == addUserRoute) {
-      return AppRoutePath.addUser();
+    if (name == createUserRoute) {
+      return AppRoutePath.createUser();
+    }
+    if (name != null && name.startsWith(editUserRoute)) {
+      if (name.length > editUserRoute.length) {
+        final id = name.substring(editUserRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editUser(id);
+      }
+      return AppRoutePath.userManagement();
+    }
+    if (name != null && name.startsWith(userInfoRoute)) {
+      if (name.length > userInfoRoute.length) {
+        final id = name.substring(userInfoRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.userInfo(id);
+      }
+      return AppRoutePath.userManagement();
     }
     if (name == taskerManageRoute) {
       return AppRoutePath.taskerManage();
@@ -209,20 +221,6 @@ class AppRoutePath {
     if (name == editProfileRoute) {
       return AppRoutePath.editProfile();
     }
-
-    // if (name == roleRoute) {
-    //   return AppRoutePath.roles();
-    // }
-    // if (name == createRoleRoute) {
-    //   return AppRoutePath.createRoles();
-    // }
-    // if (name != null && name.startsWith(editRoleRoute)) {
-    //   if (name.length > editRoleRoute.length) {
-    //     final id = name.substring(editRoleRoute.length, name.length);
-    //     if (id.isNotEmpty) return AppRoutePath.editRoles(id);
-    //   }
-    //   return AppRoutePath.roles();
-    // }
     return AppRoutePath.unknown();
   }
 }

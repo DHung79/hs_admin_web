@@ -12,9 +12,7 @@ class ListItems extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           children: [
             InkWell(
-              onTap: () {
-               
-              },
+              onTap: () {},
               child: Container(
                 height: 50,
                 color: Colors.amber[100],
@@ -39,4 +37,3 @@ class ListItems extends StatelessWidget {
     );
   }
 }
-

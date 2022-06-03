@@ -66,7 +66,7 @@ class _PayManageState extends State<PayManage> {
     ScreenUtil.init(context);
     return PageTemplate(
       title: 'Quản lí đặt hàng',
-      name: 'Quản lí đặt hàng',
+      subTitle: 'Quản lí đặt hàng',
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

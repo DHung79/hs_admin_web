@@ -1,8 +1,14 @@
 const String initialRoute = '/';
-const String authenticationRoute = '/auth';
 const String homeRoute = '/home';
+const String authenticationRoute = '/auth';
+const String forgotPasswordRoute = '/forgot-password';
+const String otpRoute = '/otp';
+const String resetPasswordRoute = '/reset-password';
+const String changePasswordRoute = '/change-password';
 const String userManagementRoute = '/user-management';
-const String addUserRoute = '/add-user';
+const String createUserRoute = '/create-user';
+const String editUserRoute = '/edit-user';
+const String userInfoRoute = '/user-info';
 const String taskerManageRoute = '/tasker-manage';
 const String inforTaskerRoute = '/infor-tasker';
 const String serviceManageRoute = '/service-manage';
@@ -18,8 +24,6 @@ const String profileSettingRoute = '/profile-setting';
 const String editProfileRoute = profileSettingRoute + '/edit-profile';
 const String contactInfoRoute = '/contact-info';
 const String editContactRoute = contactInfoRoute + '/edit-contact';
-const String changePasswordRoute = '/change-password';
-const String forgotPasswordRoute = '/forgot-password';
-const String resetPasswordRoute = '/reset-password';
-const String otpRoute = '/otp';
+
+
 const String pageNotFoundRoute = '/page-not-found';

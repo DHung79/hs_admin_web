@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../widgets/go_back_button.dart';
 import '../../widgets/form_user_widget.dart';
 import '../../widgets/line_content.dart';
 import '../../widgets/profile_item_widget.dart';
@@ -42,7 +42,7 @@ class _ContactInfoState extends State<ContactInfo> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Cài đặt',
+      subTitle: 'Cài đặt',
       title: 'Cài đặt / Thông tin liên lạc',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -57,7 +57,7 @@ class _ContactInfoState extends State<ContactInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(settingManageRoute);
                     },

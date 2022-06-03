@@ -27,7 +27,7 @@ class PageTemplate extends StatefulWidget {
   final void Function() onFetch;
   final Widget? appBar;
   final String title;
-  final String name;
+  final String subTitle;
 
   const PageTemplate({
     Key? key,
@@ -47,7 +47,7 @@ class PageTemplate extends StatefulWidget {
     required this.onFetch,
     this.appBar,
     required this.title,
-    required this.name,
+    required this.subTitle,
   }) : super(key: key);
 
   @override
@@ -166,7 +166,7 @@ class _PageTemplateState extends State<PageTemplate> {
                         child: TopNavigationBar(
                           admin: snapshot.data!,
                           routeName: widget.title,
-                          subTitle: widget.name,
+                          subTitle: widget.subTitle,
                           onPressed: () {},
                         ),
                       )

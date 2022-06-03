@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../widgets/go_back_button.dart';
 import '../../widgets/form_user_widget.dart';
 import '../layout_template/content_screen.dart';
 
@@ -55,7 +55,7 @@ class _InfoOrderState extends State<InfoOrder> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Quản lí đặt hàng',
+      subTitle: 'Quản lí đặt hàng',
       title: 'Quản lí đặt hàng / Thông tin đơn hàng',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -70,7 +70,7 @@ class _InfoOrderState extends State<InfoOrder> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(orderManageRoute);
                     },

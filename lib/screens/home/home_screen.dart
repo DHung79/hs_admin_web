@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _fetchDataOnPage();
       },
       appBarHeight: 0,
-      name: '',
+      subTitle: '',
       title: '',
       child: FutureBuilder(
           future: _pageState.currentUser,

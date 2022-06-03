@@ -45,6 +45,7 @@ class UserBloc {
       // Await response from server.
       final data =
           await _repository.fetchDataById<UserModel, EditUserModel>(id: id);
+
       if (data.error != null) {
         // Error exist
         return Future.error(data.error!);

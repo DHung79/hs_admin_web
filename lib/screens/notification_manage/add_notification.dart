@@ -4,7 +4,7 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/back_button_widget.dart';
+import '../../widgets/go_back_button.dart';
 import '../../widgets/background_button_widget.dart';
 import '../../widgets/form_user_widget.dart';
 import '../layout_template/content_screen.dart';
@@ -41,7 +41,7 @@ class _AddNotificationState extends State<AddNotification> {
       onFetch: () {
         _fetchDataOnPage();
       },
-      name: 'Quản lí thông báo đẩy',
+      subTitle: 'Quản lí thông báo đẩy',
       title: 'Quản lí thông báo đẩy / Thêm thông báo đẩy',
       appBarHeight: 0,
       child: FutureBuilder(
@@ -56,7 +56,7 @@ class _AddNotificationState extends State<AddNotification> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButtonWidget(
+                  GoBackButton(
                     onPressed: () {
                       navigateTo(notificationManageRoute);
                     },

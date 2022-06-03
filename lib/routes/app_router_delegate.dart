@@ -16,7 +16,7 @@ import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_management_screen/info_tasker.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
-import '../screens/user_management_screen/components/info_user.dart';
+import '../screens/user_management_screen/components/user_info.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
 import 'route_names.dart';
@@ -77,8 +77,22 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == userManagementRoute) {
       return const UserManageScreen();
     }
-    if (route == addUserRoute) {
-      return const InfoUser();
+    if (route == createUserRoute) {
+      return const UserManageScreen();
+    }
+    if (route.startsWith(editUserRoute)) {
+      if (route.length > editUserRoute.length) {
+        final id = route.substring(editUserRoute.length + 1, route.length);
+        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 1);
+      }
+      return const UserManageScreen();
+    }
+    if (route.startsWith(userInfoRoute)) {
+      if (route.length > userInfoRoute.length) {
+        final id = route.substring(userInfoRoute.length + 1, route.length);
+        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 2);
+      }
+      return const UserManageScreen();
     }
     if (route == inforTaskerRoute) {
       return const InfoTasker();

@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/widgets/joytech_components/jt_indicator.dart';
+import '../../core/base/blocs/block_state.dart';
 import 'nested_scroll_fix.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -25,6 +27,7 @@ class DynamicTable extends StatefulWidget {
   final Widget? Function(BuildContext, String)? getHeaderButton;
   final double headerHeight;
   final MainAxisAlignment headerButtonAlignment;
+  final Stream<BlocState> blocState;
   const DynamicTable({
     Key? key,
     required this.columnWidthRatio,
@@ -46,6 +49,7 @@ class DynamicTable extends StatefulWidget {
     this.getHeaderButton,
     this.headerHeight = 52,
     this.headerButtonAlignment = MainAxisAlignment.start,
+    required this.blocState,
   }) : super(key: key);
 
   @override
@@ -112,23 +116,7 @@ class _DynamicTableState extends State<DynamicTable> {
                   child: Column(
                     children: [
                       if (!widget.hideHeaderSection) _buildHeader(columnWidths),
-                      widget.hasBodyData
-                          ? Padding(
-                              padding: widget.contentPadding,
-                              child: _buildBody(columnWidths),
-                            )
-                          : Container(
-                              constraints: const BoxConstraints(minHeight: 40),
-                              child: Padding(
-                                padding: widget.contentPadding,
-                                child: SizedBox(
-                                  height: 82,
-                                  child: Center(
-                                    child: Text(ScreenUtil.t(I18nKey.noData)!),
-                                  ),
-                                ),
-                              ),
-                            ),
+                      _buildBody(columnWidths),
                     ],
                   ),
                 ),
@@ -182,6 +170,55 @@ class _DynamicTableState extends State<DynamicTable> {
   }
 
   Widget _buildBody(Map<int, TableColumnWidth>? columnWidths) {
+    return StreamBuilder(
+        stream: widget.blocState,
+        builder: (context, state) {
+          if (!state.hasData || state.data == BlocState.fetching) {
+            return Container(
+              constraints: const BoxConstraints(minHeight: 40),
+              child: Padding(
+                padding: widget.contentPadding,
+                child: SizedBox(
+                  height: 82,
+                  child: Center(
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: JTIndicator(),
+                        ),
+                        Text(
+                          'Đang tải dữ liệu',
+                          style: AppTextTheme.mediumBodyText(AppColor.text8),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+          return widget.hasBodyData
+              ? Padding(
+                  padding: widget.contentPadding,
+                  child: _buildBodyContent(columnWidths),
+                )
+              : Container(
+                  constraints: const BoxConstraints(minHeight: 40),
+                  child: Padding(
+                    padding: widget.contentPadding,
+                    child: SizedBox(
+                      height: 82,
+                      child: Center(
+                        child: Text(ScreenUtil.t(I18nKey.noData)!),
+                      ),
+                    ),
+                  ),
+                );
+        });
+  }
+
+  Widget _buildBodyContent(Map<int, TableColumnWidth>? columnWidths) {
     return widget.hasSeparator
         ? Column(
             children: [

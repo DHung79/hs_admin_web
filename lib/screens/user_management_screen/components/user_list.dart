@@ -1,5 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import '../../../core/base/blocs/block_state.dart';
+import 'package:flutter/services.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
 import '../../../core/user/user.dart';
@@ -10,16 +12,17 @@ import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
 class UserList extends StatefulWidget {
+  final String route;
   final UserBloc userBloc;
   final Function(int, {int? limit}) onFetch;
   final TextEditingController searchController;
-  final String route;
+
   const UserList({
     Key? key,
+    required this.route,
     required this.userBloc,
     required this.onFetch,
     required this.searchController,
-    required this.route,
   }) : super(key: key);
 
   @override
@@ -69,23 +72,23 @@ class _UserListState extends State<UserList> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.add,
-                        color: Colors.white,
+                        color: AppColor.white,
                         size: 24,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           'Thêm người dùng',
-                          style: AppTextTheme.mediumBodyText(Colors.white),
+                          style: AppTextTheme.mediumBodyText(AppColor.white),
                         ),
                       ),
                     ],
                   ),
                 ),
                 onPressed: () {
-                  navigateTo(addUserRoute);
+                  navigateTo(createUserRoute);
                 },
               ),
             ],
@@ -133,6 +136,7 @@ class _UserListState extends State<UserList> {
                   onTap: () {
                     setState(() {
                       widget.searchController.text = '';
+                      widget.onFetch(1);
                     });
                   },
                 ),
@@ -183,70 +187,56 @@ class _UserListState extends State<UserList> {
         isConstant: true,
       ),
     ];
-    return Stack(
-      children: [
-        StreamBuilder(
-          stream: widget.userBloc.allData,
-          builder:
-              (context, AsyncSnapshot<ApiResponse<ListUserModel?>> snapshot) {
-            if (snapshot.hasData) {
-              final users = snapshot.data!.model!.records;
-              final meta = snapshot.data!.model!.meta;
-              _page = meta.page;
-              _count = users.length;
-              return Column(
-                children: [
-                  LayoutBuilder(
-                    builder: (context, size) {
-                      return DynamicTable(
-                        columnWidthRatio: tableHeaders,
-                        getHeaderButton: _getHeaderButton,
-                        headerColor: AppColor.white,
-                        headerBorder: TableBorder(
-                          bottom: BorderSide(color: AppColor.white),
-                        ),
-                        headerStyle:
-                            AppTextTheme.mediumHeaderTitle(AppColor.shadow),
-                        numberOfRows: users.length,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 16),
-                        rowBuilder: (index) => _rowFor(
-                          item: users[index],
-                          index: index,
-                          meta: meta,
-                        ),
-                        hasBodyData: users.isNotEmpty,
-                        bodyBorder: TableBorder(
-                          horizontalInside: BorderSide(
-                            color: AppColor.transparent,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  TablePagination(
-                    onFetch: (page) {
-                      widget.onFetch(page, limit: _limit);
-                    },
-                    pagination: meta,
-                    leading: tableLimit(),
-                  ),
-                ],
-              );
-            }
-            return const SizedBox();
-          },
-        ),
-        StreamBuilder(
-          stream: widget.userBloc.allDataState,
-          builder: (context, state) {
-            if (!state.hasData || state.data == BlocState.fetching) {
-              return const JTIndicator();
-            }
-            return const SizedBox();
-          },
-        ),
-      ],
+    return StreamBuilder(
+      stream: widget.userBloc.allData,
+      builder: (context, AsyncSnapshot<ApiResponse<ListUserModel?>> snapshot) {
+        if (snapshot.hasData) {
+          final users = snapshot.data!.model!.records;
+          final meta = snapshot.data!.model!.meta;
+          _page = meta.page;
+          _count = users.length;
+          return Column(
+            children: [
+              LayoutBuilder(
+                builder: (context, size) {
+                  return DynamicTable(
+                    columnWidthRatio: tableHeaders,
+                    getHeaderButton: _getHeaderButton,
+                    headerColor: AppColor.white,
+                    headerBorder: TableBorder(
+                      bottom: BorderSide(color: AppColor.white),
+                    ),
+                    headerStyle:
+                        AppTextTheme.mediumHeaderTitle(AppColor.shadow),
+                    numberOfRows: users.length,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    blocState: widget.userBloc.allDataState,
+                    hasBodyData: users.isNotEmpty,
+                    rowBuilder: (index) => _rowFor(
+                      item: users[index],
+                      index: index,
+                      meta: meta,
+                    ),
+                    bodyBorder: TableBorder(
+                      horizontalInside: BorderSide(
+                        color: AppColor.transparent,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              TablePagination(
+                onFetch: (page) {
+                  widget.onFetch(page, limit: _limit);
+                },
+                pagination: meta,
+                leading: tableLimit(),
+              ),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
@@ -326,7 +316,9 @@ class _UserListState extends State<UserList> {
                       ),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    navigateTo(userInfoRoute + '/' + item.id);
+                  },
                 ),
               ),
               Padding(
@@ -342,7 +334,9 @@ class _UserListState extends State<UserList> {
                       ),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    navigateTo(editUserRoute + '/' + item.id);
+                  },
                 ),
               ),
               Padding(
@@ -358,7 +352,9 @@ class _UserListState extends State<UserList> {
                       ),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    _confirmDelete(id: item.id);
+                  },
                 ),
               ),
             ],
@@ -401,42 +397,62 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  TextButton backgroundButton({
-    required String text,
-    required SvgIconData icon,
-    required Color color,
-    required onPressed,
+  _confirmDelete({
+    required String id,
   }) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 13,
-          horizontal: 16,
-        ),
-        child: Row(
-          children: [
-            SvgIcon(
-              icon,
-              color: Colors.white,
-              size: 24,
-            ),
-            const SizedBox(
-              width: 14,
-            ),
-            Text(
-              text,
-              style: AppTextTheme.mediumBodyText(Colors.white),
-            )
-          ],
-        ),
-      ),
-      onPressed: onPressed,
+    final _focusNode = FocusNode();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        FocusScope.of(context).requestFocus(_focusNode);
+        return RawKeyboardListener(
+          focusNode: _focusNode,
+          onKey: (RawKeyEvent event) {
+            setState(() {
+              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                Navigator.of(context).pop();
+                _deleteObjectById(id: id);
+              }
+              if (event.logicalKey == LogicalKeyboardKey.escape) {
+                Navigator.of(context).pop();
+              }
+            });
+          },
+          child: JTConfirmDialog(
+            headerTitle: 'Cảnh báo',
+            contentText: 'Bạn có muốn xóa người dùng này?',
+            onCanceled: () {
+              Navigator.of(context).pop();
+            },
+            onComfirmed: () {
+              Navigator.of(context).pop();
+              _deleteObjectById(id: id);
+            },
+          ),
+        );
+      },
     );
+  }
+
+  _deleteObjectById({
+    required String id,
+  }) {
+    widget.userBloc.deleteObject(id: id).then((model) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.email}.')),
+      );
+    }).catchError((e, stacktrace) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      logDebug(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(ScreenUtil.t(I18nKey.errorWhileDelete)!),
+        ),
+      );
+    });
   }
 }

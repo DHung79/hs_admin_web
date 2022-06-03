@@ -63,7 +63,7 @@ class _ServiceManageState extends State<ServiceManage> {
     ScreenUtil.init(context);
     return PageTemplate(
       title: 'Quản lí dịch vụ',
-      name: 'Quản lí dịch vụ',
+      subTitle: 'Quản lí dịch vụ',
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

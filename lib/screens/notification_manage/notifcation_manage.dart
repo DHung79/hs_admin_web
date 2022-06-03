@@ -62,7 +62,7 @@ class _NotificationManageState extends State<NotificationManage> {
     ScreenUtil.init(context);
     return PageTemplate(
       title: 'Quản lí thông báo đẩy',
-      name: 'Quản lí thông báo đẩy',
+      subTitle: 'Quản lí thông báo đẩy',
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

@@ -30,7 +30,7 @@ class _TaskerManagementScreenState extends State<TaskerManagementScreen> {
     ScreenUtil.init(context);
     return PageTemplate(
       title: 'Quản lí người giúp việc',
-      name: 'Quản lí người giúp việc',
+      subTitle: 'Quản lí người giúp việc',
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
