@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: InputWidget(
                         controller: _emailController,
-                        style: AppTextTheme.mediumBodyText(AppColor.text7),
+                        style: AppTextTheme.mediumBodyText(AppColor.black),
                         borderColor: AppColor.text7,
                         hintText: 'Tài khoản',
                         onSaved: (value) {
@@ -112,7 +112,7 @@ class _LoginFormState extends State<LoginForm> {
                         obscureText: !_showPassword,
                         hintText: 'Mật khẩu',
                         style: AppTextTheme.mediumBodyText(
-                          AppColor.text7,
+                          AppColor.black,
                         ),
                         borderColor: AppColor.text7,
                         suffixIcon: TextButton(

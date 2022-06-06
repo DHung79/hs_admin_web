@@ -42,6 +42,7 @@ class InputWidget extends StatelessWidget {
         cursorColor: AppColor.text7,
         style: style,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(16),
           filled: true,
           fillColor: AppColor.shade1,
           hintText: hintText,

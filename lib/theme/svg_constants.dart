@@ -110,6 +110,7 @@ class SvgIcons {
       SvgIconData(path: 'assets/svg/notifications.svg');
   static SvgIconData filter = SvgIconData(path: 'assets/svg/filter.svg');
   static SvgIconData edit = SvgIconData(path: 'assets/svg/edit.svg');
+  static SvgIconData logo = SvgIconData(path: 'assets/svg/logo.svg');
 }
 
 class SvgIcon extends StatelessWidget {

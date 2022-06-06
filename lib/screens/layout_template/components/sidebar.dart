@@ -64,12 +64,11 @@ class _SideBarState extends State<SideBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: Image.asset(
-                'assets/images/logodemo.png',
-                width: 100,
-              ),
-            ),
+                padding: const EdgeInsets.only(top: 32),
+                child: SvgIcon(
+                  SvgIcons.logo,
+                  size: 100,
+                )),
             if (!isMini)
               const SizedBox(
                 height: 16,
