@@ -54,6 +54,9 @@ dependencies:
   syncfusion_flutter_xlsio: ^20.1.56-beta
   popover: ^0.2.6+3
   dropdown_button2: ^1.5.2
+  firebase_core: ^1.17.1
+  firebase: ^9.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

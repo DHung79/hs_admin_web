@@ -7,6 +7,7 @@ import '../locator.dart';
 import '../routes/app_route_information_parser.dart';
 import '../routes/app_router_delegate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/firebase/firebase_config.dart';
 import 'locales/i18n.dart';
 import 'scroll_behavior.dart';
 import 'utils/app_state_notifier.dart';
@@ -41,6 +42,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadVersion();
   setupLocator();
+  FirebaseConfigs.configuration();
   runApp(
     ChangeNotifierProvider<AppStateNotifier>(
       create: (_) => AppStateNotifier(),
