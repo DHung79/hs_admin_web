@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 import '../../constants/api_constants.dart';
 import '../../helpers/api_helper.dart';
 import '../../rest/rest_api_handler_data.dart';
-import '../models/status.dart';
+import '../auth.dart';
 
 class AuthenticationProvider {
   signUpWithEmailAndPassword(dynamic body) async {
@@ -44,7 +43,8 @@ class AuthenticationProvider {
     final url = ApiConstants.apiDomain +
         ApiConstants.apiVersion +
         ApiConstants.forgotPassword +
-        '/reset-token';
+        ApiConstants.resetPassword +
+        ApiConstants.admin;
     final response = await RestApiHandlerData.putData<Status>(
       path: url,
       body: body,
@@ -56,7 +56,9 @@ class AuthenticationProvider {
   forgotPassword(dynamic body) async {
     final url = ApiConstants.apiDomain +
         ApiConstants.apiVersion +
-        ApiConstants.forgotPassword;
+        ApiConstants.forgotPassword +
+        ApiConstants.admin;
+    logDebug('path: $url\nbody: $body');
     final response = await RestApiHandlerData.postData<Status>(
       path: url,
       body: body,
@@ -100,7 +102,6 @@ class AuthenticationProvider {
   adminLogin(dynamic body) async {
     final url =
         ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/admin';
-    logDebug('path: $url\nbody: $body');
     final response = await RestApiHandlerData.login(
       path: url,
       body: jsonEncode(body),
@@ -110,9 +111,13 @@ class AuthenticationProvider {
   }
 
   checkOTP(dynamic body) async {
-    final url = ApiConstants.apiDomain + ApiConstants.apiVersion + '/otp';
+    final url = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.forgotPassword +
+        ApiConstants.otp +
+        ApiConstants.admin;
     logDebug('path: $url\nbody: $body');
-    final response = await RestApiHandlerData.postData(
+    final response = await RestApiHandlerData.postData<OtpModel>(
       path: url,
       body: jsonEncode(body),
       headers: ApiHelper.headers(null),

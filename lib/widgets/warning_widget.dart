@@ -70,7 +70,7 @@ class _WarningWidgetState extends State<WarningWidget> {
                     ),
                     _buttonWarning(
                       text: 'Xác nhận',
-                      icon: SvgIcons.checkCircle,
+                      icon: SvgIcons.checkCircleOutline,
                       onpressed: () {},
                     ),
                   ],

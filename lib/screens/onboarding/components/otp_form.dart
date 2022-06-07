@@ -23,6 +23,18 @@ class _OTPFormState extends State<OTPForm> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +44,9 @@ class _OTPFormState extends State<OTPForm> {
         listener: (context, state) {
           if (state is AuthenticationFailure) {
             _showError(state.errorCode);
+          }
+          if (state is CheckOTPDoneState) {
+            navigateTo(resetPasswordRoute);
           }
         },
         child: Column(
@@ -59,7 +74,6 @@ class _OTPFormState extends State<OTPForm> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: InputWidget(
                         controller: _otpController,
-                        style: AppTextTheme.mediumBodyText(AppColor.text7),
                         borderColor: AppColor.text7,
                         hintText: 'Nhập mã OTP',
                         suffixIcon: _textFieldButton(),
@@ -161,7 +175,12 @@ class _OTPFormState extends State<OTPForm> {
     );
   }
 
-  _resendOTP() {}
+  _resendOTP() {
+    setState(() {
+      _errorMessage = '';
+    });
+    AuthenticationBlocController().authenticationBloc.add(ResendOTP());
+  }
 
   _otp() {
     setState(() {
@@ -169,7 +188,9 @@ class _OTPFormState extends State<OTPForm> {
     });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      navigateTo(resetPasswordRoute);
+      AuthenticationBlocController().authenticationBloc.add(
+            CheckOTP(otp: _otpController.text),
+          );
     } else {
       setState(() {
         _autovalidate = AutovalidateMode.onUserInteraction;
@@ -179,7 +200,7 @@ class _OTPFormState extends State<OTPForm> {
 
   _showError(String errorCode) {
     setState(() {
-      _errorMessage = showError(errorCode, context);
+      _errorMessage = showError(errorCode, context, fieldName: 'otp');
     });
   }
 }

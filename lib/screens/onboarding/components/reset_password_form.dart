@@ -33,6 +33,12 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   }
 
   @override
+  void initState() {
+    AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -242,6 +248,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      AuthenticationBlocController().authenticationBloc.add(
+            ResetPassword(password: _newPasswordController.text),
+          );
       navigateTo(authenticationRoute);
     } else {
       setState(() {

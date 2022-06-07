@@ -35,7 +35,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               color: AppColor.primary1,
               width: MediaQuery.of(context).size.width * 0.4,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/logodemo.png'),
+              child: Image.asset('assets/images/logo_width.png'),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
@@ -57,7 +57,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                         children: [
                           InputWidget(
                             controller: passwordController,
-                            style: AppTextTheme.mediumBodyText(AppColor.text7),
                             borderColor: AppColor.text7,
                             hintText: 'Mật khẩu',
                           ),
@@ -65,7 +64,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                             height: 24,
                           ),
                           InputWidget(
-                            style: AppTextTheme.mediumBodyText(AppColor.text7),
                             borderColor: AppColor.text7,
                             hintText: 'Nhập lại mật khẩu',
                             controller: againPasswordController,

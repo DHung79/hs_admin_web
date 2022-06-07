@@ -8,11 +8,11 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
-class UserInfo extends StatefulWidget {
+class UserInfoContent extends StatefulWidget {
   final String route;
   final UserBloc userInfoBloc;
   final String userId;
-  const UserInfo({
+  const UserInfoContent({
     Key? key,
     required this.route,
     required this.userInfoBloc,
@@ -20,10 +20,10 @@ class UserInfo extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<UserInfo> createState() => _UserInfoState();
+  State<UserInfoContent> createState() => _UserInfoContentState();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _UserInfoContentState extends State<UserInfoContent> {
   final _scrollController = ScrollController();
 
   @override
@@ -113,13 +113,14 @@ class _UserInfoState extends State<UserInfo> {
             if (snapshot.hasData) {
               final user = snapshot.data!;
               return Container(
+                height: screenSize.height - 192 - 76 - 16,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       blurRadius: 16,
-                      color: Color.fromRGBO(79, 117, 140, 0.24),
+                      color: AppColor.shadow.withOpacity(0.24),
                       blurStyle: BlurStyle.outer,
                     ),
                   ],
@@ -132,12 +133,13 @@ class _UserInfoState extends State<UserInfo> {
                       padding: const EdgeInsets.only(top: 16),
                       child: _avatarField(user),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Container(
-                        width: 1,
-                        height: screenSize.height / 5 * 3,
-                        color: AppColor.shade1,
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Container(
+                          width: 1,
+                          color: AppColor.shade1,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -157,7 +159,7 @@ class _UserInfoState extends State<UserInfo> {
     return SizedBox(
       width: 200,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const CircleAvatar(

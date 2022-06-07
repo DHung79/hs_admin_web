@@ -64,17 +64,18 @@ class _SideBarState extends State<SideBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: const EdgeInsets.only(top: 32),
-                child: SvgIcon(
-                  SvgIcons.logo,
-                  size: 100,
-                )),
+              padding: const EdgeInsets.only(top: 32),
+              child: Image.asset(
+                'assets/images/logo_white.png',
+                width: 100,
+              ),
+            ),
             if (!isMini)
               const SizedBox(
                 height: 16,
               ),
             SizedBox(
-              height: screenSize.height - 178,
+              height: screenSize.height - 200,
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),

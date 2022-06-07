@@ -23,6 +23,16 @@ class ValidatorText {
     }
   }
 
+  static String invalid({required String fieldName}) {
+    var invalidFormat = ScreenUtil.t(I18nKey.invalidFormat)!;
+    var invalid = ScreenUtil.t(I18nKey.invalid)!;
+    if (invalidFormat.startsWith(ScreenUtil.t(I18nKey.invalid)!)) {
+      return invalid + ' ' + fieldName.toLowerCase();
+    } else {
+      return fieldName.toUpperCase() + ' ' + invalid.toLowerCase();
+    }
+  }
+
   static String atLeast({required String fieldName, required double atLeast}) {
     return fieldName +
         ' ' +
@@ -41,12 +51,26 @@ class ValidatorText {
   }
 }
 
-String showError(String errorCode, BuildContext context) {
+String showError(String errorCode, BuildContext context, {String? fieldName}) {
   ScreenUtil.init(context);
   String message = '';
   switch (errorCode) {
     case '100':
       message = ScreenUtil.t(I18nKey.notHavePermissionToControlDoor)!;
+      break;
+    case '400':
+      if (fieldName != null) {
+        message = ValidatorText.invalid(fieldName: fieldName);
+      } else {
+        message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
+      }
+      break;
+    case '404':
+      if (fieldName != null) {
+        message = ValidatorText.invalid(fieldName: fieldName);
+      } else {
+        message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
+      }
       break;
     case '900':
       message = ScreenUtil.t(I18nKey.unauthorized)!;
@@ -76,9 +100,7 @@ String showError(String errorCode, BuildContext context) {
             ScreenUtil.t(I18nKey.allowed)!.toLowerCase();
       }
       break;
-    case '400':
-      message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
-      break;
+
     case '1001':
       message = ScreenUtil.t(I18nKey.userNotFound)!;
       break;

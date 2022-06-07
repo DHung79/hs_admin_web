@@ -25,6 +25,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   String _errorMessage = '';
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -32,6 +44,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         listener: (context, state) {
           if (state is AuthenticationFailure) {
             _showError(state.errorCode);
+          }
+          if (state is ForgotPasswordDoneState) {
+            navigateTo(otpRoute);
           }
         },
         child: Column(
@@ -59,7 +74,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: InputWidget(
                         controller: _emailController,
-                        style: AppTextTheme.mediumBodyText(AppColor.text7),
                         borderColor: AppColor.text7,
                         hintText: 'Nhập email',
                         onSaved: (value) {
@@ -155,7 +169,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      navigateTo(otpRoute);
+      AuthenticationBlocController().authenticationBloc.add(
+            ForgotPassword(email: _emailController.text),
+          );
     } else {
       setState(() {
         _autovalidate = AutovalidateMode.onUserInteraction;

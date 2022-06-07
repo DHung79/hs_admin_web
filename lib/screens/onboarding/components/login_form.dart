@@ -160,6 +160,7 @@ class _LoginFormState extends State<LoginForm> {
                           }
                           return null;
                         },
+                        onFieldSubmitted: (value) => login(),
                       ),
                     ),
                     if (_errorMessage.isNotEmpty)
@@ -179,6 +180,7 @@ class _LoginFormState extends State<LoginForm> {
                       child: AppButtonTheme.fillRounded(
                         color: AppColor.primary1,
                         constraints: const BoxConstraints(minHeight: 52),
+                        highlightColor: AppColor.transparent,
                         borderRadius: BorderRadius.circular(4),
                         child: Text(
                           'ĐĂNG NHẬP',

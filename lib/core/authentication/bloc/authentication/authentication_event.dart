@@ -51,18 +51,14 @@ class ForgotPassword extends AuthenticationEvent {
 }
 
 class ResetPassword extends AuthenticationEvent {
-  final String email;
   final String password;
-  final String resetToken;
 
   const ResetPassword({
-    required this.email,
     required this.password,
-    required this.resetToken,
   });
 
   @override
-  List<Object> get props => [email, password, resetToken];
+  List<Object> get props => [password];
 }
 
 class UserLanguage extends AuthenticationEvent {
@@ -90,3 +86,5 @@ class CheckOTP extends AuthenticationEvent {
   @override
   List<Object> get props => [otp];
 }
+
+class ResendOTP extends AuthenticationEvent {}

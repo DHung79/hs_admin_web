@@ -116,7 +116,7 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgIcon(
-                                SvgIcons.checkCircle,
+                                SvgIcons.checkCircleOutline,
                                 color: AppColor.black,
                                 size: 24,
                               ),

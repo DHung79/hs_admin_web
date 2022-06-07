@@ -415,7 +415,7 @@ class _NotificationManageState extends State<NotificationManage> {
                       width: 10,
                     ),
                     SvgIcon(
-                      SvgIcons.checkCircle,
+                      SvgIcons.checkCircleOutline,
                       color: AppColor.text7,
                       size: 24,
                     )

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/screens/user_management_screen/components/edit_user_content.dart';
 import '/core/admin/model/admin_model.dart';
 import '/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../core/user/user.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/user_info.dart';
+import 'components/user_info_content.dart';
 import 'components/user_list.dart';
 
 class UserManageScreen extends StatefulWidget {
@@ -57,22 +58,35 @@ class _UserManageScreenState extends State<UserManageScreen> {
           future: _pageState.currentUser,
           builder: (context, AsyncSnapshot<AdminModel> snapshot) {
             return PageContent(
-                userSnapshot: snapshot,
-                pageState: _pageState,
-                onFetch: () {
-                  _fetchDataOnPage(1);
-                },
-                child: _buildContent());
+              userSnapshot: snapshot,
+              pageState: _pageState,
+              onFetch: () {
+                _fetchDataOnPage(1);
+              },
+              child: _buildContent(),
+            );
           }),
     );
   }
 
   Widget _buildContent() {
-    if (widget.tab == 2) {
-      return UserInfo(
+    if (widget.tab == 1) {
+      return UserInfoContent(
+        //create
         userInfoBloc: _userInfoBloc,
         route: userManagementRoute,
         userId: widget.id,
+      );
+    } else if (widget.tab == 2) {
+      return UserInfoContent(
+        userInfoBloc: _userInfoBloc,
+        route: userManagementRoute,
+        userId: widget.id,
+      );
+    } else if (widget.tab == 3) {
+      return EditUserContent(
+        route: userManagementRoute,
+        id: widget.id,
       );
     } else {
       return UserList(
@@ -86,7 +100,9 @@ class _UserManageScreenState extends State<UserManageScreen> {
 
   String _getSubTitle() {
     if (widget.tab == 1) {
-      return 'Quản lí người dùng / Xem thông tin người dùng';
+      return 'Quản lí người dùng / Chỉnh sửa thông tin người dùng';
+    } else if (widget.tab == 2) {
+      return 'Quản lí người dùng / Xem thông tin người dùng ';
     } else {
       return 'Quản lí người dùng';
     }

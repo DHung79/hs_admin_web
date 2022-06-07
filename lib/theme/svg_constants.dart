@@ -24,8 +24,6 @@ class SvgIcons {
       SvgIconData(path: 'assets/svg/check_box_outline_blank.svg');
   static SvgIconData checkCircleOutline =
       SvgIconData(path: 'assets/svg/check_circle_outline.svg');
-  static SvgIconData checkCircle =
-      SvgIconData(path: 'assets/svg/check_circle.svg');
   static SvgIconData check = SvgIconData(path: 'assets/svg/check.svg');
   static SvgIconData clipboard =
       SvgIconData(path: 'assets/svg/clipboard_1.svg');

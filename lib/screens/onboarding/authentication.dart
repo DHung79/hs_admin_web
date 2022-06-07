@@ -21,6 +21,7 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
@@ -60,7 +61,17 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     Container(
                       color: AppColor.primary1,
                       width: screenSize.width * 2 / 5,
-                      child: Image.asset('assets/images/logodemo.png'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            'assets/images/logo_width.png',
+                            width: 240,
+                            height: 100,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -73,8 +84,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   }
 
   Widget _buildContent() {
-    final currentRoute = getCurrentRouteName();
-
+    String? currentRoute = getCurrentRouteName();
     if (currentRoute == authenticationRoute) {
       return LoginForm(
         onNavigator: () {

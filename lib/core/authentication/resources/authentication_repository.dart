@@ -22,13 +22,14 @@ class AuthenticationRepository {
   }
 
   Future<dynamic> resetPassword(
-      String email, String password, String token) async {
+    String id,
+    String password,
+  ) async {
     await Future.delayed(
         const Duration(seconds: 1)); // simulate a network delay
     final body = convert.jsonEncode({
-      'email': email,
+      'id': id,
       'password': password,
-      'token': token,
     });
     final response = await provider.resetPassword(body);
     return response;
@@ -81,8 +82,7 @@ class AuthenticationRepository {
     await Future.delayed(
       const Duration(seconds: 1),
     );
-    final response =
-        await provider.checkOTP({'otp': otp});
+    final response = await provider.checkOTP({'otp': otp});
     return response;
   }
 }

@@ -14,6 +14,7 @@ class InputWidget extends StatelessWidget {
   final Function(String?)? onSaved;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
+  final Function(String)? onFieldSubmitted;
 
   const InputWidget({
     Key? key,
@@ -29,6 +30,7 @@ class InputWidget extends StatelessWidget {
     this.onSaved,
     this.onChanged,
     this.validator,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -40,7 +42,7 @@ class InputWidget extends StatelessWidget {
         initialValue: initialValue,
         obscureText: obscureText,
         cursorColor: AppColor.text7,
-        style: style,
+        style: style ?? AppTextTheme.mediumBodyText(AppColor.black),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(16),
           filled: true,
@@ -74,6 +76,7 @@ class InputWidget extends StatelessWidget {
         onSaved: onSaved,
         onChanged: onChanged,
         validator: validator,
+        onFieldSubmitted: onFieldSubmitted,
       ),
     );
   }

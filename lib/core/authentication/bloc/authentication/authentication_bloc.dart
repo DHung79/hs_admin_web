@@ -93,79 +93,25 @@ class AuthenticationBloc
       },
     );
 
-    on<ResetPassword>((event, emit) async {
-      try {
-        final data = await authenticationService.resetPassword(
-          event.email,
-          event.password,
-          event.resetToken,
-        );
-        if (data is ApiResponse) {
-          if (data.error == null) {
-            emit(ResetPasswordDoneState());
-          } else {
-            emit(AuthenticationFailure(
-              message: data.error!.errorMessage,
-              errorCode: data.error!.errorCode,
-            ));
-          }
-        } else {
-          if (data["error_message"] == null) {
-            emit(ResetPasswordDoneState());
-          } else {
-            emit(AuthenticationFailure(
-              message: data["error_message"],
-              errorCode: data["error_code"].toString(),
-            ));
-          }
-        }
-      } on Error catch (e) {
-        emit(AuthenticationFailure(
-          message: e.toString(),
-          errorCode: '',
-        ));
-      }
-    });
-
-    on<ForgotPassword>((event, emit) async {
-      try {
-        final data = await authenticationService.forgotPassword(event.email);
-        if (data is ApiResponse) {
-          if (data.error == null) {
-            emit(ForgotPasswordDoneState());
-          } else {
-            emit(AuthenticationFailure(
-              message: data.error!.errorMessage,
-              errorCode: data.error!.errorCode,
-            ));
-          }
-        } else {
-          if (data["error_message"] == null) {
-            emit(ForgotPasswordDoneState());
-          } else {
-            emit(AuthenticationFailure(
-              message: data["error_message"],
-              errorCode: data["error_code"].toString(),
-            ));
-          }
-        }
-      } on Error catch (e) {
-        emit(AuthenticationFailure(
-          message: e.toString(),
-          errorCode: '',
-        ));
-      }
-    });
-
-    on<UserLogOut>((event, emit) async {
-      // await authenticationService.signOut({'fcmToken': currentFcmToken});
+    on<TokenExpired>((event, emit) async {
       _cleanupCache();
-      emit(UserLogoutState());
+      emit(UserTokenExpired());
+    });
+
+    on<GetLastUser>((event, emit) async {
+      final SharedPreferences sharedPreferences = await prefs;
+      final username = sharedPreferences.getString('last_username') ?? '';
+      final keepSession = sharedPreferences.getBool('keep_session') ?? false;
+      emit(
+        LoginLastUser(
+          username: username,
+          isKeepSession: keepSession,
+        ),
+      );
     });
 
     on<GetUserData>((event, emit) async {
       final SharedPreferences sharedPreferences = await prefs;
-
       final token = sharedPreferences.getString('authtoken');
       if (token == null || token.isEmpty) {
         _cleanupCache();
@@ -200,7 +146,6 @@ class AuthenticationBloc
               final account = AdminModel.fromJson(json);
               // account.password =
               //     sharedPreferences.getString('last_userpassword') ?? '';
-
               emit(SetUserData(currentUser: account));
               return;
             } on Error catch (e) {
@@ -227,29 +172,46 @@ class AuthenticationBloc
       }
     });
 
-    on<TokenExpired>((event, emit) async {
-      _cleanupCache();
-      emit(UserTokenExpired());
-    });
-
-    on<GetLastUser>((event, emit) async {
-      final SharedPreferences sharedPreferences = await prefs;
-
-      final username = sharedPreferences.getString('last_username') ?? '';
-      final keepSession = sharedPreferences.getBool('keep_session') ?? false;
-      emit(
-        LoginLastUser(
-          username: username,
-          isKeepSession: keepSession,
-        ),
-      );
+    on<ForgotPassword>((event, emit) async {
+      try {
+        final SharedPreferences sharedPreferences = await prefs;
+        sharedPreferences.setString('resend_otp_email', event.email);
+        final data = await authenticationService.forgotPassword(event.email);
+        if (data is ApiResponse) {
+          if (data.error == null) {
+            emit(ForgotPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data.error!.errorMessage,
+              errorCode: data.error!.errorCode,
+            ));
+          }
+        } else {
+          if (data["error_message"] == null) {
+            emit(ForgotPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data["error_message"],
+              errorCode: data["error_code"].toString(),
+            ));
+          }
+        }
+      } on Error catch (e) {
+        emit(AuthenticationFailure(
+          message: e.toString(),
+          errorCode: '',
+        ));
+      }
     });
 
     on<CheckOTP>((event, emit) async {
       try {
+        final SharedPreferences sharedPreferences = await prefs;
         final data = await authenticationService.checkOTP(event.otp);
-        if (data is ApiResponse) {
-          if (data.error == null) {
+        if (data is ApiResponse<OtpModel>) {
+          if (data.model != null) {
+            sharedPreferences.remove('resend_otp_email');
+            sharedPreferences.setString('reset_id', data.model!.userId);
             emit(CheckOTPDoneState());
           } else {
             emit(AuthenticationFailure(
@@ -273,6 +235,80 @@ class AuthenticationBloc
           errorCode: '',
         ));
       }
+    });
+
+    on<ResendOTP>((event, emit) async {
+      try {
+        final SharedPreferences sharedPreferences = await prefs;
+        final email = sharedPreferences.getString('resend_otp_email') ?? '';
+        final data = await authenticationService.forgotPassword(email);
+        if (data is ApiResponse) {
+          if (data.error == null) {
+            emit(ForgotPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data.error!.errorMessage,
+              errorCode: data.error!.errorCode,
+            ));
+          }
+        } else {
+          if (data["error_message"] == null) {
+            emit(ForgotPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data["error_message"],
+              errorCode: data["error_code"].toString(),
+            ));
+          }
+        }
+      } on Error catch (e) {
+        emit(AuthenticationFailure(
+          message: e.toString(),
+          errorCode: '',
+        ));
+      }
+    });
+
+    on<ResetPassword>((event, emit) async {
+      try {
+        final SharedPreferences sharedPreferences = await prefs;
+        final userId = sharedPreferences.getString('reset_id') ?? '';
+        final data = await authenticationService.resetPassword(
+          userId,
+          event.password,
+        );
+        if (data is ApiResponse) {
+          if (data.error == null) {
+            sharedPreferences.remove('reset_id');
+            emit(ResetPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data.error!.errorMessage,
+              errorCode: data.error!.errorCode,
+            ));
+          }
+        } else {
+          if (data["error_message"] == null) {
+            emit(ResetPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data["error_message"],
+              errorCode: data["error_code"].toString(),
+            ));
+          }
+        }
+      } on Error catch (e) {
+        emit(AuthenticationFailure(
+          message: e.toString(),
+          errorCode: '',
+        ));
+      }
+    });
+
+    on<UserLogOut>((event, emit) async {
+      // await authenticationService.signOut({'fcmToken': currentFcmToken});
+      _cleanupCache();
+      emit(UserLogoutState());
     });
   }
 

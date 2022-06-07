@@ -16,7 +16,6 @@ import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_management_screen/info_tasker.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
-import '../screens/user_management_screen/components/user_info.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
 import 'route_names.dart';
@@ -78,12 +77,12 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const UserManageScreen();
     }
     if (route == createUserRoute) {
-      return const UserManageScreen();
+      return const UserManageScreen(tab: 1);
     }
     if (route.startsWith(editUserRoute)) {
       if (route.length > editUserRoute.length) {
         final id = route.substring(editUserRoute.length + 1, route.length);
-        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 1);
+        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 3);
       }
       return const UserManageScreen();
     }
