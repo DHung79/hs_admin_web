@@ -43,6 +43,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {
           if (state is AuthenticationFailure) {
+            logDebug(state.errorCode);
             _showError(state.errorCode);
           }
           if (state is ForgotPasswordDoneState) {
@@ -181,7 +182,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   _showError(String errorCode) {
     setState(() {
-      _errorMessage = showError(errorCode, context);
+      _errorMessage = showError(errorCode, context,fieldName: 'Email');
     });
   }
 }

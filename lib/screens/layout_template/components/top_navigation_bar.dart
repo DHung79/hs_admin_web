@@ -39,10 +39,19 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
   }
 
   _appbarTitle() {
+    final screenSize = MediaQuery.of(context).size;
+    final subTitle = widget.subTitle;
+    String disPlaySubTitle = subTitle;
+    if (subTitle.contains('/') && screenSize.width < 1200) {
+      final subName =
+          subTitle.substring(subTitle.indexOf(' / '), subTitle.length).trim();
+      disPlaySubTitle = subName.substring(2, subName.length);
+    }
+
     return Row(
       children: [
         Text(
-          widget.subTitle,
+          widget.routeName,
           style: AppTextTheme.mediumHeaderTitle(
             AppColor.text1,
           ),
@@ -51,7 +60,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           width: 24,
         ),
         Text(
-          widget.routeName,
+          disPlaySubTitle,
           style: AppTextTheme.normalText(
             AppColor.text7,
           ),
@@ -96,7 +105,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
   }
 
   _adminInfo() {
-    final List<DialogItem> _adminMenuItems = [
+    final _adminMenuItems = [
       DialogItem(
         svgIcon: SvgIcons.user,
         title: 'Hồ Sơ',
@@ -133,6 +142,8 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         },
       ),
     ];
+    final screenSize = MediaQuery.of(context).size;
+
     return PopupMenuButton(
       offset: const Offset(0, 50),
       color: AppColor.white,
@@ -144,15 +155,17 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: Row(
           children: [
-            Text(
-              widget.admin.name,
-              style: AppTextTheme.normalText(
-                AppColor.text1,
+            if (screenSize.width > 1200)
+              Text(
+                widget.admin.name,
+                style: AppTextTheme.normalText(
+                  AppColor.text1,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 16,
-            ),
+            if (screenSize.width > 1200)
+              const SizedBox(
+                width: 16,
+              ),
             const CircleAvatar(
               radius: 12,
               backgroundImage: NetworkImage('assets/images/logo.png'),

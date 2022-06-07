@@ -8,7 +8,7 @@ import '../screens/setting_manage/edit_contact.dart';
 import '../screens/setting_manage/profile_edit.dart';
 import '../screens/setting_manage/profile_setting.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
-import '../screens/onboarding/authentication.dart';
+import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
 import '../screens/order_manage/order_manage.dart';
 import '../screens/pay_manage/pay_manage.dart';

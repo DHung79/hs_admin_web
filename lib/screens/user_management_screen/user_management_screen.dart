@@ -71,11 +71,8 @@ class _UserManageScreenState extends State<UserManageScreen> {
 
   Widget _buildContent() {
     if (widget.tab == 1) {
-      return UserInfoContent(
-        //create
-        userInfoBloc: _userInfoBloc,
+      return const EditUserContent(
         route: userManagementRoute,
-        userId: widget.id,
       );
     } else if (widget.tab == 2) {
       return UserInfoContent(

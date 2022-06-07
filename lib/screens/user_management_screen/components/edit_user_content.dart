@@ -6,6 +6,7 @@ import '../../../core/user/user.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
+import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
@@ -25,7 +26,7 @@ class EditUserContent extends StatefulWidget {
 
 class _EditUserContentState extends State<EditUserContent> {
   final _userBloc = UserBloc();
-  late EditUserModel _editModel;
+  EditUserModel _editModel = EditUserModel.fromModel(null);
   @override
   void initState() {
     if (widget.id != null) {
@@ -52,11 +53,12 @@ class _EditUserContentState extends State<EditUserContent> {
             return const JTIndicator();
           }
           if (snapshot.hasData) {
+            _editModel = EditUserModel.fromModel(snapshot.data);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeader(user: snapshot.data!),
-                // _buildProfile(context),
+                _buildContent(),
                 _deleteButton(user: snapshot.data!),
               ],
             );
@@ -75,8 +77,7 @@ class _EditUserContentState extends State<EditUserContent> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          // _buildProfile(context),
-          _deleteButton(),
+          _buildContent(),
         ],
       );
     }
@@ -90,7 +91,12 @@ class _EditUserContentState extends State<EditUserContent> {
           padding: const EdgeInsets.all(10),
           child: GoBackButton(
             onPressed: () {
-              navigateTo(userManagementRoute);
+              _confirmDialog(
+                contentText: 'Bạn có muốn trở về?',
+                onComfirmed: () {
+                  navigateTo(userManagementRoute);
+                },
+              );
             },
           ),
         ),
@@ -116,56 +122,61 @@ class _EditUserContentState extends State<EditUserContent> {
                     child: Row(
                       children: [
                         SvgIcon(
-                          SvgIcons.delete,
-                          color: AppColor.text8,
+                          SvgIcons.close,
+                          color: AppColor.text3,
                           size: 24,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Xóa người dùng',
-                            style: AppTextTheme.mediumBodyText(AppColor.text8),
+                            'Hủy bỏ',
+                            style: AppTextTheme.mediumBodyText(AppColor.text3),
                           ),
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      _confirmDelete(id: _editModel.id);
-                    },
-                  ),
-                  AppButtonTheme.fillRounded(
-                    constraints: const BoxConstraints(minHeight: 44),
-                    color: AppColor.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColor.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: SvgIcon(
-                              SvgIcons.check,
-                              color: AppColor.others2,
-                              size: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Đồng ý',
-                              style: AppTextTheme.mediumBodyText(
-                                  AppColor.primary2),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     onPressed: () {},
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: AppButtonTheme.fillRounded(
+                      constraints: const BoxConstraints(minHeight: 44),
+                      color: AppColor.shade9,
+                      borderRadius: BorderRadius.circular(10),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: AppColor.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: SvgIcon(
+                                  SvgIcons.check,
+                                  color: AppColor.shade9,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Đồng ý',
+                                style:
+                                    AppTextTheme.mediumBodyText(AppColor.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),
@@ -204,7 +215,12 @@ class _EditUserContentState extends State<EditUserContent> {
               ],
             ),
             onPressed: () {
-              _confirmDelete(id: _editModel.id);
+              _confirmDialog(
+                contentText: 'Bạn có muốn xóa người dùng này?',
+                onComfirmed: () {
+                  _deleteObjectById(id: widget.id!);
+                },
+              );
             },
           ),
         ),
@@ -212,8 +228,9 @@ class _EditUserContentState extends State<EditUserContent> {
     );
   }
 
-  _confirmDelete({
-    required String id,
+  _confirmDialog({
+    required String contentText,
+    required Function()? onComfirmed,
   }) {
     final _focusNode = FocusNode();
     showDialog(
@@ -227,7 +244,7 @@ class _EditUserContentState extends State<EditUserContent> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: id);
+                onComfirmed!();
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -236,13 +253,13 @@ class _EditUserContentState extends State<EditUserContent> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa người dùng này?',
+            contentText: contentText,
             onCanceled: () {
               Navigator.of(context).pop();
             },
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: id);
+              onComfirmed!();
             },
           ),
         );
@@ -271,152 +288,144 @@ class _EditUserContentState extends State<EditUserContent> {
     });
   }
 
-  Padding addUser() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Text(
-        'THÊM NGƯỜI DÙNG',
-        style: AppTextTheme.mediumBigText(AppColor.text3),
-      ),
-    );
-  }
-
-  Container formprofile(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 16,
-            color: Color.fromRGBO(79, 117, 140, 0.24),
-            blurStyle: BlurStyle.outer,
-          ),
-        ],
-      ),
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          imageUser(),
-          const SizedBox(
-            width: 10,
-          ),
-          // profileUser(),
-        ],
-      ),
-    );
-  }
-
-  TextButton removeButton() {
-    return TextButton(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 13,
-          horizontal: 16,
+  Widget _buildContent() {
+    return LayoutBuilder(builder: (context, size) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 16,
+              color: AppColor.shadow.withOpacity(0.24),
+              blurStyle: BlurStyle.outer,
+            ),
+          ],
         ),
-        child: Row(
+        width: size.maxWidth,
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 200,
+                child: _avatarField(),
+              ),
+              SizedBox(
+                width: size.maxWidth - 232,
+                child: _buildInputField(),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildInputField() {
+    return LayoutBuilder(builder: (context, size) {
+      final elementWidth = size.maxWidth;
+      return Wrap(
+        children: [
+          _buildInput(
+            width: elementWidth,
+            title: 'Tên',
+            hintText: 'Nhập tên người dùng',
+            initialValue: _editModel.name,
+            onChanged: (value) {},
+            onSaved: (value) {},
+            validator: (value) {
+              return null;
+            },
+          ),
+          _buildInput(
+            width: elementWidth,
+            title: 'Số điện thoại ',
+            hintText: 'Nhập số điện thoại',
+            initialValue: _editModel.name,
+            onChanged: (value) {},
+            onSaved: (value) {},
+            validator: (value) {
+              return null;
+            },
+          ),
+          _buildInput(
+            width: elementWidth,
+            title: 'Địa chỉ',
+            hintText: 'Nhập địa chỉ',
+            initialValue: _editModel.name,
+            onChanged: (value) {},
+            onSaved: (value) {},
+            validator: (value) {
+              return null;
+            },
+          ),
+        ],
+      );
+    });
+  }
+
+  Widget _buildInput({
+    required double width,
+    String title = '',
+    String? hintText,
+    String? initialValue,
+    Function(String?)? onChanged,
+    Function(String?)? onSaved,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: width > 450 ? width / 2 : width,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgIcon(
-              SvgIcons.close,
-              color: AppColor.text3,
-              size: 24,
+            if (title.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  title,
+                  style: AppTextTheme.normalText(AppColor.black),
+                ),
+              ),
+            InputWidget(
+              initialValue: initialValue,
+              borderColor: AppColor.text7,
+              hintText: hintText,
+              onSaved: onSaved,
+              onChanged: onChanged,
+              validator: validator,
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Hủy bỏ',
-              style: AppTextTheme.mediumBodyText(AppColor.text3),
-            )
           ],
         ),
       ),
-      onPressed: () {},
     );
   }
 
-  // Flexible profileUser() {
-  //   return Flexible(
-  //     flex: 4,
-  //     child: Form(
-  //         child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Flexible(
-  //           flex: 1,
-  //           child: Column(
-  //             children: [
-  //               FormUserWidget(
-  //                 showTitle: true,
-  //                 isWidth: false,
-  //                 controller: nameController,
-  //                 hintText: 'Nhập tên người dùng',
-  //                 title: 'Tên',
-  //               ),
-  //               FormUserWidget(
-  //                 showTitle: true,
-  //                 isWidth: false,
-  //                 controller: addressController,
-  //                 hintText: 'Nhập địa chỉ',
-  //                 title: 'Địa chỉ',
-  //               ),
-  //               const DropdownWidget(),
-  //             ],
-  //           ),
-  //         ),
-  //         Expanded(
-  //           flex: 1,
-  //           child: Column(
-  //             children: [
-  //               FormUserWidget(
-  //                 showTitle: true,
-  //                 isWidth: false,
-  //                 controller: emailController,
-  //                 hintText: 'Nhập email',
-  //                 title: 'Email',
-  //               ),
-  //               FormUserWidget(
-  //                 showTitle: true,
-  //                 isWidth: false,
-  //                 controller: numberPhoneController,
-  //                 hintText: 'Nhập số điện thoại',
-  //                 title: 'Số điện thoại',
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     )),
-  //   );
-  // }
-
-  Flexible imageUser() {
-    return Flexible(
-      flex: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(
-              width: 100,
-              height: 100,
-              child: CircleAvatar(
-                backgroundImage: const NetworkImage(''),
-                backgroundColor: AppColor.text7,
-              ),
+  Widget _avatarField() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          const SizedBox(
+            width: 100,
+            height: 100,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage('assets/images/logo.png'),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 16,
-              ),
-              child: InkWell(
-                onTap: () {},
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: InkWell(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 16,
+                ),
                 child: Text(
                   'Thay đổi hình ảnh',
                   style: AppTextTheme.mediumBodyText(
@@ -424,12 +433,11 @@ class _EditUserContentState extends State<EditUserContent> {
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+              onTap: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
-
-  void _fetchDataOnPage() {}
 }

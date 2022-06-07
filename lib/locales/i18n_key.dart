@@ -307,4 +307,7 @@ class I18nKey {
   static const another = 'another';
   static const accountLoggedOutOfDevice = 'accountLoggedOutOfDevice';
   static const allowed = 'allowed';
+  static const emailDoesNotExist = 'emailDoesNotExist';
+  static const incorrectOTP = 'incorrectOTP';
+  static const isExpired = 'isExpired';
 }

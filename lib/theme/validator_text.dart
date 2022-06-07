@@ -60,14 +60,18 @@ String showError(String errorCode, BuildContext context, {String? fieldName}) {
       break;
     case '400':
       if (fieldName != null) {
-        message = ValidatorText.invalid(fieldName: fieldName);
+        if (fieldName == 'Email') {
+          message = ScreenUtil.t(I18nKey.emailDoesNotExist)!;
+        } else {
+          message = fieldName + ' ' + ScreenUtil.t(I18nKey.isExpired)!;
+        }
       } else {
         message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
       }
       break;
     case '404':
       if (fieldName != null) {
-        message = ValidatorText.invalid(fieldName: fieldName);
+        message = ScreenUtil.t(I18nKey.incorrectOTP)!;
       } else {
         message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
       }
