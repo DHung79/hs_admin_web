@@ -65,13 +65,13 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const AuthenticationScreen();
     }
     if (route == forgotPasswordRoute) {
-      return const AuthenticationScreen();
+      return const AuthenticationScreen(form: 1);
     }
     if (route == otpRoute) {
-      return const AuthenticationScreen();
+      return const AuthenticationScreen(form: 2);
     }
     if (route == resetPasswordRoute) {
-      return const AuthenticationScreen();
+      return const AuthenticationScreen(form: 3);
     }
     if (route == userManagementRoute) {
       return const UserManageScreen();

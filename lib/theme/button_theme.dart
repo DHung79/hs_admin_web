@@ -42,7 +42,7 @@ class AppButtonTheme {
       child: TextButton(
         style: TextButton.styleFrom(
           backgroundColor: color,
-          primary: highlightColor,
+          primary: highlightColor ?? Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius,
           ),

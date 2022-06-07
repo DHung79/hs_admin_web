@@ -10,8 +10,10 @@ import 'components/otp_form.dart';
 import 'components/reset_password_form.dart';
 
 class AuthenticationScreen extends StatefulWidget {
+  final int form;
   const AuthenticationScreen({
     Key? key,
+    this.form = 0,
   }) : super(key: key);
 
   @override
@@ -84,33 +86,30 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   }
 
   Widget _buildContent() {
-    String? currentRoute = getCurrentRouteName();
-    if (currentRoute == authenticationRoute) {
-      return LoginForm(
-        onNavigator: () {
-          navigateTo(forgotPasswordRoute);
-        },
-      );
-    } else if (currentRoute == forgotPasswordRoute) {
+    if (widget.form == 1) {
       return ForgotPasswordForm(
         onNavigator: () {
           navigateTo(authenticationRoute);
         },
       );
-    } else if (currentRoute == otpRoute) {
+    } else if (widget.form == 2) {
       return OTPForm(
         onNavigator: () {
           navigateTo(forgotPasswordRoute);
         },
       );
-    } else if (currentRoute == resetPasswordRoute) {
+    } else if (widget.form == 3) {
       return ResetPasswordForm(
         onNavigator: () {
           navigateTo(authenticationRoute);
         },
       );
     } else {
-      return const SizedBox();
+      return LoginForm(
+        onNavigator: () {
+          navigateTo(forgotPasswordRoute);
+        },
+      );
     }
   }
 }
