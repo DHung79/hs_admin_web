@@ -302,5 +302,7 @@
     "accountLoggedOutOfDevice": "Account is currently logged in more than the number of",
     "emailDoesNotExist": "Email does not exist",
     "incorrectOTP": "Incorrect OTP",
-    "isExpired": "Is expired"
+    "isExpired": "Is expired",
+    "noSearchResults": "Search results not found",
+    "isLoading": "Loading..."
 }

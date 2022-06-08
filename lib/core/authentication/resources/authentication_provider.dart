@@ -104,7 +104,7 @@ class AuthenticationProvider {
         ApiConstants.apiDomain + ApiConstants.apiVersion + '/login/admin';
     final response = await RestApiHandlerData.login(
       path: url,
-      body: jsonEncode(body),
+      body: body,
       headers: ApiHelper.headers(null),
     );
     return response;
@@ -119,7 +119,7 @@ class AuthenticationProvider {
     logDebug('path: $url\nbody: $body');
     final response = await RestApiHandlerData.postData<OtpModel>(
       path: url,
-      body: jsonEncode(body),
+      body: body,
       headers: ApiHelper.headers(null),
     );
     return response;

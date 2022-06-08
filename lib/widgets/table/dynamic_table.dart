@@ -18,6 +18,7 @@ class DynamicTable extends StatefulWidget {
   final Widget Function(BuildContext, String)? columnHeaderBuilder;
   final TableCellVerticalAlignment verticalAlignment;
   final bool hasBodyData;
+  final bool isSearch;
   final BoxBorder? tableBorder;
   final TextStyle? headerStyle;
   final Color? headerColor;
@@ -50,6 +51,7 @@ class DynamicTable extends StatefulWidget {
     this.headerHeight = 52,
     this.headerButtonAlignment = MainAxisAlignment.start,
     required this.blocState,
+    this.isSearch = false,
   }) : super(key: key);
 
   @override
@@ -188,7 +190,7 @@ class _DynamicTableState extends State<DynamicTable> {
                           child: JTIndicator(),
                         ),
                         Text(
-                          'Đang tải dữ liệu',
+                          ScreenUtil.t(I18nKey.isLoading)!,
                           style: AppTextTheme.mediumBodyText(AppColor.text8),
                         ),
                       ],
@@ -210,7 +212,12 @@ class _DynamicTableState extends State<DynamicTable> {
                     child: SizedBox(
                       height: 82,
                       child: Center(
-                        child: Text(ScreenUtil.t(I18nKey.noData)!),
+                        child: Text(
+                          widget.isSearch
+                              ? ScreenUtil.t(I18nKey.noSearchResults)!
+                              : ScreenUtil.t(I18nKey.noData)!,
+                          style: AppTextTheme.mediumBodyText(AppColor.text8),
+                        ),
                       ),
                     ),
                   ),

@@ -27,6 +27,7 @@ class EditUserContent extends StatefulWidget {
 class _EditUserContentState extends State<EditUserContent> {
   final _userBloc = UserBloc();
   EditUserModel _editModel = EditUserModel.fromModel(null);
+
   @override
   void initState() {
     if (widget.id != null) {
@@ -135,7 +136,14 @@ class _EditUserContentState extends State<EditUserContent> {
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _confirmDialog(
+                        contentText: 'Bạn có muốn hủy bỏ?',
+                        onComfirmed: () {
+                          navigateTo(userManagementRoute);
+                        },
+                      );
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -175,7 +183,9 @@ class _EditUserContentState extends State<EditUserContent> {
                           ],
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        
+                      },
                     ),
                   ),
                 ],

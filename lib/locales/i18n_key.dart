@@ -310,4 +310,6 @@ class I18nKey {
   static const emailDoesNotExist = 'emailDoesNotExist';
   static const incorrectOTP = 'incorrectOTP';
   static const isExpired = 'isExpired';
+  static const noSearchResults = 'noSearchResults';
+  static const isLoading = 'isLoading';
 }

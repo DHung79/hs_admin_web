@@ -251,7 +251,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       AuthenticationBlocController().authenticationBloc.add(
             ResetPassword(password: _newPasswordController.text),
           );
-      navigateTo(authenticationRoute);
     } else {
       setState(() {
         _autovalidate = AutovalidateMode.onUserInteraction;

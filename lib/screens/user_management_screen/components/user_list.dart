@@ -212,6 +212,7 @@ class _UserListState extends State<UserList> {
                     contentPadding: const EdgeInsets.symmetric(vertical: 16),
                     blocState: widget.userBloc.allDataState,
                     hasBodyData: users.isNotEmpty,
+                    isSearch: widget.searchController.text.isNotEmpty,
                     rowBuilder: (index) => _rowFor(
                       item: users[index],
                       index: index,

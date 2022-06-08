@@ -43,7 +43,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {
           if (state is AuthenticationFailure) {
-            logDebug(state.errorCode);
             _showError(state.errorCode);
           }
           if (state is ForgotPasswordDoneState) {

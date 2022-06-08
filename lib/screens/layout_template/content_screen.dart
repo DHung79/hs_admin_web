@@ -151,6 +151,7 @@ class _PageTemplateState extends State<PageTemplate> {
   }
 
   Widget _buildContent(AsyncSnapshot<AdminModel> snapshot) {
+    final _scrollController = ScrollController();
     return Container(
       color: AppColor.shade1,
       child: Row(
@@ -172,10 +173,18 @@ class _PageTemplateState extends State<PageTemplate> {
                       )
                     : const JTIndicator(),
                 Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: widget.child,
-                )),
+                    child: Scrollbar(
+                      thumbVisibility: _scrollController.hasClients,
+                      controller: _scrollController,
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const ClampingScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: widget.child,
+                        ),
+                      ),
+                    )),
               ],
             ),
           ),

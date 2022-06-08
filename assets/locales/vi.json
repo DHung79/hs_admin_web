@@ -303,5 +303,7 @@
   "allowed": "Cho phép!",
   "emailDoesNotExist": "Email không tồn tại",
   "incorrectOTP": "Mã OTP không đúng",
-  "isExpired": "đã hết hạn"
+  "isExpired": "đã hết hạn",
+  "noSearchResults": "Không tìm thấy kết quả tìm kiếm",
+  "isLoading": "Đang tải dữ liệu"
 }
