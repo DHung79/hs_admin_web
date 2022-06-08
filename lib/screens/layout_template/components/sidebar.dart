@@ -54,7 +54,7 @@ class _SideBarState extends State<SideBar> {
     final screenSize = MediaQuery.of(context).size;
     if (screenSize.width < 1000) {
       isMini = true;
-    }
+    } 
     return Container(
       width: isMini ? 119 : 356,
       color: Colors.white,
@@ -96,6 +96,7 @@ class _SideBarState extends State<SideBar> {
                 },
               ),
             ),
+            if(screenSize.width > 1000)
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,

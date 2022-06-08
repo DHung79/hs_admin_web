@@ -13,7 +13,7 @@ class JTDropdownButtonFormField<T> extends StatelessWidget {
   final double? width;
   final double? height;
   final BoxDecoration? decoration;
-
+  final EdgeInsetsGeometry contentPadding;
   const JTDropdownButtonFormField({
     Key? key,
     required this.defaultValue,
@@ -25,6 +25,7 @@ class JTDropdownButtonFormField<T> extends StatelessWidget {
     this.width = 70,
     this.height = 44,
     this.decoration,
+    this.contentPadding = const EdgeInsets.symmetric(horizontal: 10),
   }) : super(key: key);
 
   @override
@@ -55,7 +56,7 @@ class JTDropdownButtonFormField<T> extends StatelessWidget {
               isExpanded: true,
               value: _displayedValue,
               buttonDecoration: decoration,
-              buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
+              buttonPadding: contentPadding,
               dropdownOverButton: true,
               dropdownDecoration: decoration,
               dropdownPadding: EdgeInsets.zero,

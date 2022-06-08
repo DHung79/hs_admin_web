@@ -9,6 +9,7 @@ import '../../../widgets/go_back_button.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
+import '../../../widgets/joytech_components/jt_dropdown.dart';
 
 class EditUserContent extends StatefulWidget {
   final String route;
@@ -27,7 +28,7 @@ class EditUserContent extends StatefulWidget {
 class _EditUserContentState extends State<EditUserContent> {
   final _userBloc = UserBloc();
   EditUserModel _editModel = EditUserModel.fromModel(null);
-
+  final _paymentController = TextEditingController();
   @override
   void initState() {
     if (widget.id != null) {
@@ -183,9 +184,7 @@ class _EditUserContentState extends State<EditUserContent> {
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 ],
@@ -336,6 +335,12 @@ class _EditUserContentState extends State<EditUserContent> {
   Widget _buildInputField() {
     return LayoutBuilder(builder: (context, size) {
       final elementWidth = size.maxWidth;
+      if (_editModel.gender.isEmpty) {
+        _editModel.gender = 'Male';
+      }
+      if (_paymentController.text.isEmpty) {
+        _paymentController.text = '1';
+      }
       return Wrap(
         children: [
           _buildInput(
@@ -371,6 +376,47 @@ class _EditUserContentState extends State<EditUserContent> {
               return null;
             },
           ),
+          _buildDropDown<String>(
+            width: elementWidth,
+            title: 'Giới tính',
+            defaultValue: _editModel.gender,
+            dataSource: [
+              {'name': 'Nam', 'value': 'Male'},
+              {'name': 'Nữ', 'value': 'Female'},
+              {'name': 'Khác', 'value': 'Other'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editModel.gender = value!;
+              });
+            },
+          ),
+          _buildDropDown<String>(
+            width: elementWidth,
+            title: 'Hình thức thanh toán',
+            defaultValue: _paymentController.text,
+            dataSource: [
+              {'name': 'Tài khoản ngân hàng', 'value': '1'},
+              {'name': 'Trả sau', 'value': '2'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _paymentController.text = value!;
+              });
+            },
+          ),
+          if (_paymentController.text == '1')
+            _buildInput(
+              width: elementWidth,
+              title: 'Tài khoản ngân hàng',
+              hintText: 'Nhập số tài khoản',
+              initialValue: _editModel.name,
+              onChanged: (value) {},
+              onSaved: (value) {},
+              validator: (value) {
+                return null;
+              },
+            ),
         ],
       );
     });
@@ -399,7 +445,7 @@ class _EditUserContentState extends State<EditUserContent> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
                   title,
-                  style: AppTextTheme.normalText(AppColor.black),
+                  style: AppTextTheme.normalText(AppColor.shadow),
                 ),
               ),
             InputWidget(
@@ -409,6 +455,49 @@ class _EditUserContentState extends State<EditUserContent> {
               onSaved: onSaved,
               onChanged: onChanged,
               validator: validator,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropDown<T>({
+    required double width,
+    String title = '',
+    required T defaultValue,
+    required List<Map<String, dynamic>> dataSource,
+    Function(T?)? onChanged,
+  }) {
+    final boxWidth = width > 450 ? width / 2 : width;
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: boxWidth,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (title.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  title,
+                  style: AppTextTheme.normalText(AppColor.shadow),
+                ),
+              ),
+            JTDropdownButtonFormField<T>(
+              width: boxWidth,
+              height: 52,
+              defaultValue: defaultValue,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: AppColor.shade1,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              dataSource: dataSource,
+              onChanged: onChanged,
             ),
           ],
         ),
