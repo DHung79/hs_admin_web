@@ -72,6 +72,7 @@ class UserModel extends BaseModel {
 class EditUserModel extends EditBaseModel {
   String id = ''; // For editing
   String name = '';
+  String email = '';
   String password = '';
   String address = '';
   String phoneNumber = '';
@@ -80,6 +81,7 @@ class EditUserModel extends EditBaseModel {
   EditUserModel.fromModel(UserModel? user) {
     id = user?.id ?? '';
     name = user?.name ?? '';
+    email = user?.email ?? '';
     password = '';
     address = user?.address ?? '';
     phoneNumber = user?.phoneNumber ?? '';
@@ -89,7 +91,9 @@ class EditUserModel extends EditBaseModel {
   Map<String, dynamic> toCreateJson() {
     Map<String, dynamic> params = {
       'name': name,
+      'email': email,
       'phoneNumber': phoneNumber,
+      'password': password,
       'gender': gender,
       'address': address,
     };
@@ -100,6 +104,7 @@ class EditUserModel extends EditBaseModel {
     Map<String, dynamic> params = {
       'id': id,
       'name': name,
+      'email': email,
       'phoneNumber': phoneNumber,
       'gender': gender,
       'address': address,

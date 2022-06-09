@@ -166,10 +166,14 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
               const SizedBox(
                 width: 16,
               ),
-            const CircleAvatar(
-              radius: 12,
-              backgroundImage: NetworkImage('assets/images/logo.png'),
-            )
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                "assets/images/logo.png",
+                width: 24,
+                height: 24,
+              ),
+            ),
           ],
         ),
       ),

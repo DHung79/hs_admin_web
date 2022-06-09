@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
+import 'package:validators/validators.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/user/user.dart';
 import '../../../main.dart';
@@ -36,6 +37,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
   final _userBloc = UserBloc();
   late EditUserModel _editModel;
   final _paymentController = TextEditingController();
+  bool _showPassword = false;
 
   @override
   void initState() {
@@ -52,10 +54,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: _renderError(),
-        ),
+        _renderError(),
         _buildContent(),
         if (widget.userModel != null) _deleteButton(),
       ],
@@ -164,7 +163,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      'Đồng ý',
+                      widget.userModel != null ? 'Đồng ý' : 'Thêm',
                       style: AppTextTheme.mediumBodyText(AppColor.white),
                     ),
                   ),
@@ -277,18 +276,116 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
       if (_paymentController.text.isEmpty) {
         _paymentController.text = '1';
       }
+      if (_editModel.gender.isEmpty) {
+        _editModel.gender = 'male';
+      }
       return Wrap(
         children: [
+          if (widget.userModel == null)
+            _buildInput(
+              width: elementWidth,
+              title: 'Email',
+              hintText: 'Nhập email',
+              initialValue: _editModel.email,
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return ValidatorText.empty(
+                      fieldName: ScreenUtil.t(I18nKey.email)!);
+                }
+                if (!isEmail(value.trim())) {
+                  return ValidatorText.invalidFormat(
+                      fieldName: ScreenUtil.t(I18nKey.email)!);
+                }
+                return null;
+              },
+              onChanged: (value) {
+                setState(() {
+                  if (_errorMessage.isNotEmpty) {
+                    _errorMessage = '';
+                  }
+                });
+              },
+              onSaved: (value) => _editModel.email = value!.trim(),
+            ),
+          if (widget.userModel == null)
+            _buildInput(
+              width: elementWidth,
+              title: 'Mật khẩu',
+              hintText: 'Nhập mật khẩu',
+              initialValue: _editModel.password,
+              obscureText: !_showPassword,
+              suffixIcon: TextButton(
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+                child: _showPassword
+                    ? SvgIcon(
+                        SvgIcons.removeRedEye,
+                        color: AppColor.text7,
+                        size: 24,
+                      )
+                    : SvgIcon(
+                        SvgIcons.eyeOff,
+                        color: AppColor.text7,
+                        size: 24,
+                      ),
+              ),
+              onSaved: (value) {
+                _editModel.password = value!.trim();
+              },
+              onChanged: (value) {
+                setState(() {
+                  if (_errorMessage.isNotEmpty) {
+                    _errorMessage = '';
+                  }
+                });
+              },
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ValidatorText.empty(
+                      fieldName: ScreenUtil.t(I18nKey.password)!);
+                }
+                if (value.length < 6) {
+                  return ValidatorText.atLeast(
+                      fieldName: ScreenUtil.t(I18nKey.password)!, atLeast: 6);
+                }
+                if (value.length > 50) {
+                  return ValidatorText.moreThan(
+                      fieldName: ScreenUtil.t(I18nKey.password)!, moreThan: 50);
+                }
+                return null;
+              },
+            ),
           _buildInput(
             width: elementWidth,
             title: 'Tên',
             hintText: 'Nhập tên người dùng',
             initialValue: _editModel.name,
-            onChanged: (value) {},
-            onSaved: (value) {},
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
             validator: (value) {
+              if (value!.trim().isEmpty) {
+                return ValidatorText.empty(
+                    fieldName: ScreenUtil.t(I18nKey.name)!);
+              } else if (value.trim().length > 50) {
+                return ValidatorText.moreThan(
+                    fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
+              } else if (value.trim().length < 5) {
+                return ValidatorText.atLeast(
+                  fieldName: ScreenUtil.t(I18nKey.name)!,
+                  atLeast: 5,
+                );
+              }
               return null;
             },
+            onSaved: (value) => _editModel.name = value!.trim(),
           ),
           _buildInput(
             width: elementWidth,
@@ -310,6 +407,13 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               }
               return null;
             },
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
             onSaved: (value) {
               _editModel.phoneNumber = value!.trim();
             },
@@ -319,11 +423,31 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
             title: 'Địa chỉ',
             hintText: 'Nhập địa chỉ',
             initialValue: _editModel.address,
-            onChanged: (value) {},
-            onSaved: (value) {},
             validator: (value) {
+              if (value!.trim().isEmpty) {
+                return ValidatorText.empty(
+                    fieldName: ScreenUtil.t(I18nKey.address)!);
+              } else if (value.trim().length > 300) {
+                return ValidatorText.moreThan(
+                  fieldName: ScreenUtil.t(I18nKey.address)!,
+                  moreThan: 300,
+                );
+              } else if (value.trim().length < 5) {
+                return ValidatorText.atLeast(
+                  fieldName: ScreenUtil.t(I18nKey.address)!,
+                  atLeast: 5,
+                );
+              }
               return null;
             },
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
+            onSaved: (value) => _editModel.address = value!.trim(),
           ),
           _buildDropDown<String>(
             width: elementWidth,
@@ -359,8 +483,14 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               width: elementWidth,
               title: 'Tài khoản ngân hàng',
               hintText: 'Nhập số tài khoản',
-              initialValue: _editModel.name,
-              onChanged: (value) {},
+              initialValue: _editModel.id,
+              onChanged: (value) {
+                setState(() {
+                  if (_errorMessage.isNotEmpty) {
+                    _errorMessage = '';
+                  }
+                });
+              },
               onSaved: (value) {},
               validator: (value) {
                 return null;
@@ -381,6 +511,8 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
     Function(String?)? onSaved,
     String? Function(String?)? validator,
     List<TextInputFormatter>? inputFormatters,
+    bool obscureText = false,
+    Widget? suffixIcon,
   }) {
     return Container(
       constraints: BoxConstraints(
@@ -403,6 +535,8 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               keyboardType: keyboardType,
               inputFormatters: inputFormatters,
               initialValue: initialValue,
+              obscureText: obscureText,
+              suffixIcon: suffixIcon,
               borderColor: AppColor.text7,
               hintText: hintText,
               onSaved: onSaved,
@@ -463,11 +597,12 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const SizedBox(
-            width: 100,
-            height: 100,
-            child: CircleAvatar(
-              backgroundImage: NetworkImage('assets/images/logo.png'),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.asset(
+              "assets/images/logo.png",
+              width: 100,
+              height: 100,
             ),
           ),
           Padding(
@@ -495,22 +630,25 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
 
   Widget _renderError() {
     if (_errorMessage.isNotEmpty) {
-      return Container(
-        decoration: BoxDecoration(
-          color: AppColor.white,
-          borderRadius: BorderRadius.circular(4.0),
-          border: Border.all(
-            color: Theme.of(context).errorColor,
-            width: 1,
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColor.white,
+            borderRadius: BorderRadius.circular(4.0),
+            border: Border.all(
+              color: Theme.of(context).errorColor,
+              width: 1,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            _errorMessage,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontStyle: FontStyle.italic,
-                color: Theme.of(context).errorColor),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              _errorMessage,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).errorColor),
+            ),
           ),
         ),
       );

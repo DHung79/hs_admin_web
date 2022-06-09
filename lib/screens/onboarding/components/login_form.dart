@@ -127,8 +127,8 @@ class _LoginFormState extends State<LoginForm> {
                                   color: AppColor.text7,
                                   size: 24,
                                 )
-                              : Icon(
-                                  Icons.remove_red_eye,
+                              : SvgIcon(
+                                  SvgIcons.eyeOff,
                                   color: AppColor.text7,
                                   size: 24,
                                 ),

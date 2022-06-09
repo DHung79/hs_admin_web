@@ -53,16 +53,16 @@ class UserApiProvider {
     return response;
   }
 
-  Future<ApiResponse<T?>> deleteUserById<T extends BaseModel>({
-    String? id,
+  Future<ApiResponse<T?>>
+      createUser<T extends BaseModel, K extends EditBaseModel>({
+    required K? editModel,
   }) async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.users +
-        '/$id';
-    final body = convert.jsonEncode({});
+    final path =
+        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.users;
+    final body = convert.jsonEncode(EditBaseModel.toCreateJson(editModel!));
     final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.deleteData<T>(
+    logDebug('path: $path\nbody: $body');
+    final response = await RestApiHandlerData.postData<T>(
       path: path,
       body: body,
       headers: ApiHelper.headers(token),
@@ -90,15 +90,16 @@ class UserApiProvider {
     return response;
   }
 
-  Future<ApiResponse<T?>>
-      createUser<T extends BaseModel, K extends EditBaseModel>({
-    required K? editModel,
+  Future<ApiResponse<T?>> deleteUserById<T extends BaseModel>({
+    String? id,
   }) async {
-    final path =
-        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.users;
-    final body = convert.jsonEncode(EditBaseModel.toCreateJson(editModel!));
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        '/$id';
+    final body = convert.jsonEncode({});
     final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.postData<T>(
+    final response = await RestApiHandlerData.deleteData<T>(
       path: path,
       body: body,
       headers: ApiHelper.headers(token),

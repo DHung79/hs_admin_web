@@ -482,14 +482,14 @@ class _InfoTaskerState extends State<InfoTasker> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.asset(
+              "assets/images/logo.png",
               width: 100,
               height: 100,
-              child: CircleAvatar(
-                backgroundImage: const NetworkImage(''),
-                backgroundColor: AppColor.text7,
-              ),
             ),
+          ),
             const SizedBox(
               height: 10,
             ),
