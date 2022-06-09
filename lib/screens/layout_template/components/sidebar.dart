@@ -23,7 +23,7 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.broom,
         title: 'Quản lí người giúp việc',
-        route: taskerManageRoute,
+        route: taskerManagementRoute,
       ),
       SideBarItem(
         icon: SvgIcons.listCheck,

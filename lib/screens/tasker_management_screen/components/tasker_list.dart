@@ -1,34 +1,34 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/tasker/tasker.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
-import '../../../core/user/user.dart';
 import '../../../routes/route_names.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
-class UserList extends StatefulWidget {
+class TaskerList extends StatefulWidget {
   final String route;
-  final UserBloc userBloc;
+  final TaskerBloc taskerBloc;
   final Function(int, {int? limit}) onFetch;
   final TextEditingController searchController;
 
-  const UserList({
+  const TaskerList({
     Key? key,
     required this.route,
-    required this.userBloc,
+    required this.taskerBloc,
     required this.onFetch,
     required this.searchController,
   }) : super(key: key);
 
   @override
-  State<UserList> createState() => _UserListState();
+  State<TaskerList> createState() => _TaskerListState();
 }
 
-class _UserListState extends State<UserList> {
+class _TaskerListState extends State<TaskerList> {
   int _page = 0;
   int _limit = 10;
   int _count = 0;
@@ -51,7 +51,7 @@ class _UserListState extends State<UserList> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            'Danh sách người dùng',
+            'Danh sách người giúp việc',
             style: AppTextTheme.mediumBigText(AppColor.text3),
           ),
         ),
@@ -79,7 +79,7 @@ class _UserListState extends State<UserList> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          'Thêm người dùng',
+                          'Thêm người giúp việc',
                           style: AppTextTheme.mediumBodyText(AppColor.white),
                         ),
                       ),
@@ -87,7 +87,7 @@ class _UserListState extends State<UserList> {
                   ),
                 ),
                 onPressed: () {
-                  navigateTo(createUserRoute);
+                  navigateTo(createTaskerRoute);
                 },
               ),
             ],
@@ -172,10 +172,6 @@ class _UserListState extends State<UserList> {
         width: 250,
       ),
       TableHeader(
-        title: 'Phương thức đăng nhập',
-        width: 250,
-      ),
-      TableHeader(
         title: ScreenUtil.t(I18nKey.phoneNumber)!,
         width: 160,
         isConstant: true,
@@ -191,13 +187,14 @@ class _UserListState extends State<UserList> {
       ),
     ];
     return StreamBuilder(
-      stream: widget.userBloc.allData,
-      builder: (context, AsyncSnapshot<ApiResponse<ListUserModel?>> snapshot) {
+      stream: widget.taskerBloc.allData,
+      builder:
+          (context, AsyncSnapshot<ApiResponse<ListTaskerModel?>> snapshot) {
         if (snapshot.hasData) {
-          final users = snapshot.data!.model!.records;
+          final taskers = snapshot.data!.model!.records;
           final meta = snapshot.data!.model!.meta;
           _page = meta.page;
-          _count = users.length;
+          _count = taskers.length;
           return Column(
             children: [
               LayoutBuilder(
@@ -211,13 +208,13 @@ class _UserListState extends State<UserList> {
                     ),
                     headerStyle:
                         AppTextTheme.mediumHeaderTitle(AppColor.shadow),
-                    numberOfRows: users.length,
+                    numberOfRows: taskers.length,
                     contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    blocState: widget.userBloc.allDataState,
-                    hasBodyData: users.isNotEmpty,
+                    blocState: widget.taskerBloc.allDataState,
+                    hasBodyData: taskers.isNotEmpty,
                     isSearch: widget.searchController.text.isNotEmpty,
                     rowBuilder: (index) => _rowFor(
-                      item: users[index],
+                      item: taskers[index],
                       index: index,
                       meta: meta,
                     ),
@@ -283,7 +280,7 @@ class _UserListState extends State<UserList> {
   }
 
   TableRow _rowFor({
-    required UserModel item,
+    required TaskerModel item,
     required Paging meta,
     required int index,
   }) {
@@ -297,9 +294,6 @@ class _UserListState extends State<UserList> {
           title: item.name,
         ),
         tableCellText(title: item.email),
-        tableCellText(
-          title: item.authGoogleId.isNotEmpty ? 'Google' : 'App User',
-        ),
         tableCellText(
           title: item.phoneNumber,
         ),
@@ -324,7 +318,7 @@ class _UserListState extends State<UserList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(userInfoRoute + '/' + item.id);
+                    navigateTo(taskerInfoRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -342,7 +336,7 @@ class _UserListState extends State<UserList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(editUserRoute + '/' + item.id);
+                    navigateTo(editTaskerRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -446,7 +440,7 @@ class _UserListState extends State<UserList> {
   _deleteObjectById({
     required String id,
   }) {
-    widget.userBloc.deleteObject(id: id).then((model) async {
+    widget.taskerBloc.deleteObject(id: id).then((model) async {
       await Future.delayed(const Duration(milliseconds: 400));
       widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
       ScaffoldMessenger.of(context).showSnackBar(

@@ -49,6 +49,7 @@ class EditTaskerModel extends EditBaseModel {
   String address = '';
   String phoneNumber = '';
   String gender = '';
+  String password = '';
 
   EditTaskerModel.fromModel(TaskerModel? model) {
     id = model?.id ?? '';
@@ -56,16 +57,18 @@ class EditTaskerModel extends EditBaseModel {
     email = model?.email ?? '';
     address = model?.address ?? '';
     phoneNumber = model?.phoneNumber ?? '';
-    gender = model?.gender ?? 'Male';
+    gender = model?.gender ?? 'male';
+    password = '';
   }
 
-  Map<String, dynamic> toEditInfoJson() {
+  Map<String, dynamic> toCreateJson() {
     Map<String, dynamic> params = {
       'name': name,
       'email': email,
       'address': address,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,
       'gender': gender,
+      'password': password,
     };
     return params;
   }
@@ -76,7 +79,7 @@ class EditTaskerModel extends EditBaseModel {
       'name': name,
       'email': email,
       'address': address,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,
       'gender': gender,
     };
 

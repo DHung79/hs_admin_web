@@ -522,7 +522,7 @@ class _OrderManageState extends State<OrderManage> {
         ),
       ),
       onPressed: () {
-        navigateTo(inforTaskerRoute);
+        navigateTo(taskerInfoRoute);
       },
     );
   }

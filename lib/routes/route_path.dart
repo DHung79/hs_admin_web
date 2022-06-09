@@ -55,13 +55,23 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.taskerManage()
-      : name = taskerManageRoute,
+  AppRoutePath.taskerManagement()
+      : name = taskerManagementRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.infoTasker()
-      : name = inforTaskerRoute,
+  AppRoutePath.createTasker()
+      : name = createTaskerRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.editTasker(String id)
+      : name = editTaskerRoute + id,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.taskerInfo(String id)
+      : name = taskerInfoRoute + id,
         routeId = '',
         isUnknown = false;
 
@@ -130,7 +140,6 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-
   AppRoutePath.unknown()
       : name = null,
         routeId = '',
@@ -176,11 +185,25 @@ class AppRoutePath {
       }
       return AppRoutePath.userManagement();
     }
-    if (name == taskerManageRoute) {
-      return AppRoutePath.taskerManage();
+    if (name == taskerManagementRoute) {
+      return AppRoutePath.taskerManagement();
     }
-    if (name == inforTaskerRoute) {
-      return AppRoutePath.infoTasker();
+    if (name == createTaskerRoute) {
+      return AppRoutePath.createTasker();
+    }
+    if (name != null && name.startsWith(editTaskerRoute)) {
+      if (name.length > editTaskerRoute.length) {
+        final id = name.substring(editTaskerRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editTasker(id);
+      }
+      return AppRoutePath.taskerManagement();
+    }
+    if (name != null && name.startsWith(taskerInfoRoute)) {
+      if (name.length > taskerInfoRoute.length) {
+        final id = name.substring(taskerInfoRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.taskerInfo(id);
+      }
+      return AppRoutePath.taskerManagement();
     }
     if (name == serviceManageRoute) {
       return AppRoutePath.serviceManage();

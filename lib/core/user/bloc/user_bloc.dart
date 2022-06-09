@@ -66,24 +66,6 @@ class UserBloc {
     _isFetching = false;
   }
 
-  // Future<UserModel> fetchDataById(String id) async {
-  //   try {
-  //     // Await response from server.
-  //     final data =
-  //         await _repository.fetchDataById<UserModel, EditUserModel>(id: id);
-
-  //     if (data.error != null) {
-  //       // Error exist
-  //       return Future.error(data.error!);
-  //     } else {
-  //       // Adding response data.
-  //       return Future.value(data.model);
-  //     }
-  //   } on AppException catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
-
   Future<UserModel> deleteObject({String? id}) async {
     try {
       // Await response from server.
@@ -146,5 +128,6 @@ class UserBloc {
   dispose() {
     _allDataFetcher.close();
     _allDataState.close();
+    _userDataFetcher.close();
   }
 }

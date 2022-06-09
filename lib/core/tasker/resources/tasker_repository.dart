@@ -13,15 +13,20 @@ class TaskerRepository {
           _provider.fetchAllTaskers<T>(params: params);
 
   Future<ApiResponse<T?>>
-      getProfile<T extends BaseModel, K extends EditBaseModel>() =>
-          _provider.fetchTaskerByToken<T>();
-
-  Future<ApiResponse<T?>>
       fetchDataById<T extends BaseModel, K extends EditBaseModel>({
     String? id,
   }) =>
           _provider.fetchTaskerById<T>(
             id: id,
+          );
+
+  Future<ApiResponse<T?>>
+      createObject<T extends BaseModel, K extends EditBaseModel>({
+    K? editModel,
+    String? id,
+  }) =>
+          _provider.createTasker<T, K>(
+            editModel: editModel,
           );
 
   Future<ApiResponse<T?>>

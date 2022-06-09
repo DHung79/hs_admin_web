@@ -54,7 +54,7 @@ class _InfoTaskerState extends State<InfoTasker> {
               children: [
                 GoBackButton(
                   onPressed: () {
-                    navigateTo(taskerManageRoute);
+                    navigateTo(taskerManagementRoute);
                   },
                 ),
                 Padding(

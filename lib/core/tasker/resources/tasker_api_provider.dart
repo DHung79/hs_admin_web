@@ -24,19 +24,6 @@ class TaskerApiProvider {
     return response;
   }
 
-  Future<ApiResponse<T?>> fetchTaskerByToken<T extends BaseModel>() async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.taskers +
-        ApiConstants.me;
-    final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.getData<T>(
-      path: path,
-      headers: ApiHelper.headers(token),
-    );
-    return response;
-  }
-
   Future<ApiResponse<T?>> fetchTaskerById<T extends BaseModel>({
     String? id,
   }) async {
@@ -47,6 +34,23 @@ class TaskerApiProvider {
     final token = await ApiHelper.getUserToken();
     final response = await RestApiHandlerData.getData<T>(
       path: path,
+      headers: ApiHelper.headers(token),
+    );
+    return response;
+  }
+
+  Future<ApiResponse<T?>>
+      createTasker<T extends BaseModel, K extends EditBaseModel>({
+    required K? editModel,
+  }) async {
+    final path =
+        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.taskers;
+    final body = convert.jsonEncode(EditBaseModel.toCreateJson(editModel!));
+    final token = await ApiHelper.getUserToken();
+    logDebug('path: $path\nbody: $body');
+    final response = await RestApiHandlerData.postData<T>(
+      path: path,
+      body: body,
       headers: ApiHelper.headers(token),
     );
     return response;

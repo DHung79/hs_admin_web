@@ -9,8 +9,10 @@ const String userManagementRoute = '/user-management';
 const String createUserRoute = '/create-user';
 const String editUserRoute = '/edit-user';
 const String userInfoRoute = '/user-info';
-const String taskerManageRoute = '/tasker-manage';
-const String inforTaskerRoute = '/infor-tasker';
+const String taskerManagementRoute = '/tasker-management';
+const String createTaskerRoute = '/create-tasker';
+const String editTaskerRoute = '/edit-tasker';
+const String taskerInfoRoute = '/tasker-info';
 const String serviceManageRoute = '/service-manage';
 const String addServiceRoute = '/add-service';
 const String detailServiceRoute = '/detail-service';
@@ -24,6 +26,5 @@ const String profileSettingRoute = '/profile-setting';
 const String editProfileRoute = profileSettingRoute + '/edit-profile';
 const String contactInfoRoute = '/contact-info';
 const String editContactRoute = contactInfoRoute + '/edit-contact';
-
 
 const String pageNotFoundRoute = '/page-not-found';

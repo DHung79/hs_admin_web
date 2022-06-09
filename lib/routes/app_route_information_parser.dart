@@ -57,6 +57,30 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.userManagement();
     }
 
+    if (name == taskerManagementRoute) {
+      return AppRoutePath.taskerManagement();
+    }
+
+    if (name == createTaskerRoute) {
+      return AppRoutePath.createTasker();
+    }
+
+    if (name.startsWith(editTaskerRoute)) {
+      if (name.length > editTaskerRoute.length) {
+        final id = name.substring(editTaskerRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editTasker(id);
+      }
+      return AppRoutePath.taskerManagement();
+    }
+
+    if (name.startsWith(taskerInfoRoute)) {
+      if (name.length > taskerInfoRoute.length) {
+        final id = name.substring(taskerInfoRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.taskerInfo(id);
+      }
+      return AppRoutePath.taskerManagement();
+    }
+
     if (name == serviceManageRoute) {
       return AppRoutePath.serviceManage();
     }

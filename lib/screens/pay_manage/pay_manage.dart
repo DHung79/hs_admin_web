@@ -519,7 +519,7 @@ class _PayManageState extends State<PayManage> {
         ),
       ),
       onPressed: () {
-        navigateTo(inforTaskerRoute);
+        navigateTo(taskerInfoRoute);
       },
     );
   }

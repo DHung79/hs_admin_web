@@ -169,9 +169,9 @@ class EditBaseModel {
     if (model is EditUserModel) {
       return model.toCreateJson();
     }
-    // if (model is EditRoleModel) {
-    //   return model.toCreateJson();
-    // }
+    if (model is EditTaskerModel) {
+      return model.toCreateJson();
+    }
     return {};
   }
 

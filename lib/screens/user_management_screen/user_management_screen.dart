@@ -10,20 +10,20 @@ import '../layout_template/content_screen.dart';
 import 'components/user_info_content.dart';
 import 'components/user_list.dart';
 
-class UserManageScreen extends StatefulWidget {
+class UserManagementScreen extends StatefulWidget {
   final int tab;
   final String id;
-  const UserManageScreen({
+  const UserManagementScreen({
     Key? key,
     this.tab = 0,
     this.id = '',
   }) : super(key: key);
 
   @override
-  State<UserManageScreen> createState() => _UserManageScreenState();
+  State<UserManagementScreen> createState() => _UserManagementScreenState();
 }
 
-class _UserManageScreenState extends State<UserManageScreen> {
+class _UserManagementScreenState extends State<UserManagementScreen> {
   final _pageState = PageState();
   final _userBloc = UserBloc();
   final _searchController = TextEditingController();

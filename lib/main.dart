@@ -25,8 +25,10 @@ int selectedPage = 0;
 Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 // Page index
 int userManagementIndex = 1;
+int taskerManagementIndex = 1;
 //Page search
 String userManagementSearchString = '';
+String taskerManagementSearchString = '';
 GlobalKey globalKey = GlobalKey();
 
 navigateTo(String route) async {

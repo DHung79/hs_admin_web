@@ -14,7 +14,6 @@ import '../screens/order_manage/order_manage.dart';
 import '../screens/pay_manage/pay_manage.dart';
 import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
-import '../screens/tasker_management_screen/info_tasker.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
@@ -59,7 +58,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
 
   _screenFor(String route) {
     if (route == initialRoute) {
-      return const UserManageScreen();
+      return const UserManagementScreen();
     }
     if (route == authenticationRoute) {
       return const AuthenticationScreen();
@@ -74,31 +73,46 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const AuthenticationScreen(form: 3);
     }
     if (route == userManagementRoute) {
-      return const UserManageScreen();
+      return const UserManagementScreen();
     }
     if (route == createUserRoute) {
-      return const UserManageScreen(tab: 1);
+      return const UserManagementScreen(tab: 1);
     }
     if (route.startsWith(editUserRoute)) {
       if (route.length > editUserRoute.length) {
         final id = route.substring(editUserRoute.length + 1, route.length);
-        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 3);
+        if (id.isNotEmpty) return UserManagementScreen(id: id, tab: 3);
       }
-      return const UserManageScreen();
+      return const UserManagementScreen();
     }
     if (route.startsWith(userInfoRoute)) {
       if (route.length > userInfoRoute.length) {
         final id = route.substring(userInfoRoute.length + 1, route.length);
-        if (id.isNotEmpty) return UserManageScreen(id: id, tab: 2);
+        if (id.isNotEmpty) return UserManagementScreen(id: id, tab: 2);
       }
-      return const UserManageScreen();
+      return const UserManagementScreen();
     }
-    if (route == inforTaskerRoute) {
-      return const InfoTasker();
-    }
-    if (route == taskerManageRoute) {
+    if (route == taskerManagementRoute) {
       return const TaskerManagementScreen();
     }
+    if (route == createTaskerRoute) {
+      return const TaskerManagementScreen(tab: 1);
+    }
+    if (route.startsWith(editTaskerRoute)) {
+      if (route.length > editTaskerRoute.length) {
+        final id = route.substring(editTaskerRoute.length + 1, route.length);
+        if (id.isNotEmpty) return TaskerManagementScreen(id: id, tab: 3);
+      }
+      return const TaskerManagementScreen();
+    }
+    if (route.startsWith(taskerInfoRoute)) {
+      if (route.length > taskerInfoRoute.length) {
+        final id = route.substring(taskerInfoRoute.length + 1, route.length);
+        if (id.isNotEmpty) return TaskerManagementScreen(id: id, tab: 2);
+      }
+      return const TaskerManagementScreen();
+    }
+
     if (route == serviceManageRoute) {
       return const ServiceManage();
     }
