@@ -380,6 +380,7 @@ class _UserListState extends State<UserList> {
             defaultValue: _limit,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
             ),
             dataSource: const [
               {'name': '10', 'value': 10},

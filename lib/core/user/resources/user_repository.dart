@@ -43,17 +43,11 @@ class UserRepository {
           );
 
   Future<ApiResponse<T?>>
-      editProfile<T extends BaseModel, K extends EditBaseModel>({
+      createObject<T extends BaseModel, K extends EditBaseModel>({
     K? editModel,
+    String? id,
   }) =>
-          _provider.editProfile<T, K>(
+          _provider.createUser<T, K>(
             editModel: editModel,
           );
-
-  // Future<ApiResponse<T?>>
-  //     userChangePassword<T extends BaseModel, K extends EditBaseModel>(
-  //             {Map<String, dynamic>? params}) =>
-  //         _provider.userChangePassword<T>(
-  //           params: params,
-  //         );
 }

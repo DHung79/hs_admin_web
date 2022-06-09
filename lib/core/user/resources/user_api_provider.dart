@@ -56,9 +56,11 @@ class UserApiProvider {
   Future<ApiResponse<T?>> deleteUserById<T extends BaseModel>({
     String? id,
   }) async {
-    final path =
-        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.users;
-    final body = convert.jsonEncode({'id': id});
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        '/$id';
+    final body = convert.jsonEncode({});
     final token = await ApiHelper.getUserToken();
     final response = await RestApiHandlerData.deleteData<T>(
       path: path,
@@ -89,39 +91,18 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<T?>>
-      editProfile<T extends BaseModel, K extends EditBaseModel>({
-    K? editModel,
+      createUser<T extends BaseModel, K extends EditBaseModel>({
+    required K? editModel,
   }) async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.users +
-        ApiConstants.me;
-    final body = convert.jsonEncode(EditBaseModel.toEditProfileJson(editModel!));
-    logDebug('path: $path\nbody: $body');
+    final path =
+        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.users;
+    final body = convert.jsonEncode(EditBaseModel.toCreateJson(editModel!));
     final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.putData<T>(
+    final response = await RestApiHandlerData.postData<T>(
       path: path,
       body: body,
       headers: ApiHelper.headers(token),
     );
     return response;
   }
-
-//   Future<ApiResponse<T?>> userChangePassword<T extends BaseModel>(
-//       {Map<String, dynamic>? params}) async {
-//     final path = ApiConstants.apiDomain +
-//         ApiConstants.apiVersion +
-//         ApiConstants.users +
-//         ApiConstants.me +
-//         ApiConstants.changePassword;
-//     final token = await ApiHelper.getUserToken();
-//     final body = convert.jsonEncode(params);
-//     logDebug('path: $path\nbody: $body');
-//     final response = await RestApiHandlerData.putData<T>(
-//       path: path,
-//       body: body,
-//       headers: ApiHelper.headers(token),
-//     );
-//     return response;
-//   }
 }

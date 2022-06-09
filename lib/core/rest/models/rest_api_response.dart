@@ -166,9 +166,9 @@ class EditBaseModel {
     if (model is EditServiceModel) {
       return model.toCreateJson();
     }
-    // if (model is EditUserModel) {
-    //   return model.toCreateJson();
-    // }
+    if (model is EditUserModel) {
+      return model.toCreateJson();
+    }
     // if (model is EditRoleModel) {
     //   return model.toCreateJson();
     // }
@@ -176,8 +176,8 @@ class EditBaseModel {
   }
 
   static Map<String, dynamic> toEditProfileJson(EditBaseModel model) {
-    if (model is EditUserModel) {
-      return model.toEditProfileJson();
+    if (model is EditAdminModel) {
+      return model.toEditInfoJson();
     }
     return {};
   }

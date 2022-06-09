@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/screens/user_management_screen/components/edit_user_content.dart';
+import 'package:hs_admin_web/screens/user_management_screen/components/create_edit_user_form.dart';
 import '/core/admin/model/admin_model.dart';
 import '/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
@@ -25,8 +26,6 @@ class UserManageScreen extends StatefulWidget {
 class _UserManageScreenState extends State<UserManageScreen> {
   final _pageState = PageState();
   final _userBloc = UserBloc();
-  final _userInfoBloc = UserBloc();
-
   final _searchController = TextEditingController();
 
   @override
@@ -38,7 +37,6 @@ class _UserManageScreenState extends State<UserManageScreen> {
   @override
   void dispose() {
     _userBloc.dispose();
-    _userInfoBloc.dispose();
     super.dispose();
   }
 
@@ -71,19 +69,22 @@ class _UserManageScreenState extends State<UserManageScreen> {
 
   Widget _buildContent() {
     if (widget.tab == 1) {
-      return const EditUserContent(
+      return CreateEditUserForm(
+        userBloc: _userBloc,
         route: userManagementRoute,
+        onFetch: _fetchDataOnPage,
       );
     } else if (widget.tab == 2) {
       return UserInfoContent(
-        userInfoBloc: _userInfoBloc,
         route: userManagementRoute,
         userId: widget.id,
+        onFetch: _fetchDataOnPage,
       );
     } else if (widget.tab == 3) {
       return EditUserContent(
         route: userManagementRoute,
-        id: widget.id,
+        userId: widget.id,
+        onFetch: _fetchDataOnPage,
       );
     } else {
       return UserList(

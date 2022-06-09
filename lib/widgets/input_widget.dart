@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
 
 class InputWidget extends StatelessWidget {
@@ -7,6 +8,7 @@ class InputWidget extends StatelessWidget {
   final BoxConstraints? constraints;
   final TextStyle? style;
   final bool obscureText;
+  final TextInputType? keyboardType;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final Color? borderColor;
@@ -15,7 +17,7 @@ class InputWidget extends StatelessWidget {
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final Function(String)? onFieldSubmitted;
-
+  final List<TextInputFormatter>? inputFormatters;
   const InputWidget({
     Key? key,
     this.initialValue,
@@ -23,6 +25,7 @@ class InputWidget extends StatelessWidget {
     this.constraints = const BoxConstraints(minHeight: 52),
     this.style,
     this.obscureText = false,
+    this.keyboardType,
     this.suffixIcon,
     this.prefixIcon,
     this.borderColor,
@@ -31,6 +34,7 @@ class InputWidget extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.onFieldSubmitted,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -41,6 +45,8 @@ class InputWidget extends StatelessWidget {
         controller: controller,
         initialValue: initialValue,
         obscureText: obscureText,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
         cursorColor: AppColor.text7,
         style: style ?? AppTextTheme.mediumBodyText(AppColor.black),
         decoration: InputDecoration(

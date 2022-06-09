@@ -6,17 +6,19 @@ import '../../../core/user/user.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
+import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
 class UserInfoContent extends StatefulWidget {
   final String route;
-  final UserBloc userInfoBloc;
   final String userId;
+  final Function(int, {int? limit}) onFetch;
+
   const UserInfoContent({
     Key? key,
     required this.route,
-    required this.userInfoBloc,
     required this.userId,
+    required this.onFetch,
   }) : super(key: key);
 
   @override
@@ -25,24 +27,50 @@ class UserInfoContent extends StatefulWidget {
 
 class _UserInfoContentState extends State<UserInfoContent> {
   final _scrollController = ScrollController();
+  final _userBloc = UserBloc();
 
   @override
   void initState() {
+    if (widget.userId.isNotEmpty) {
+      _userBloc.fetchDataById(widget.userId);
+    }
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _userBloc.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(),
-        _buildProfile(context),
-        _deleteButton(),
-      ],
+    return StreamBuilder(
+      stream: _userBloc.userData,
+      builder: (context, AsyncSnapshot<ApiResponse<UserModel?>> snapshot) {
+        if (snapshot.hasData) {
+          final user = snapshot.data!.model!;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              _buildProfile(user),
+              _deleteButton(),
+            ],
+          );
+        } else {
+          if (snapshot.hasError) {
+            logDebug(snapshot.error.toString());
+            return ErrorMessageText(
+              message:
+                  ScreenUtil.t(I18nKey.userNotFound)! + ': ${widget.userId}',
+            );
+          }
+          return const JTIndicator();
+        }
+      },
     );
   }
 
@@ -54,6 +82,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
           padding: const EdgeInsets.all(10),
           child: GoBackButton(
             onPressed: () {
+              widget.onFetch(1);
               navigateTo(userManagementRoute);
             },
           ),
@@ -104,54 +133,45 @@ class _UserInfoContentState extends State<UserInfoContent> {
     );
   }
 
-  Widget _buildProfile(BuildContext context) {
+  Widget _buildProfile(UserModel user) {
     final screenSize = MediaQuery.of(context).size;
     return LayoutBuilder(builder: (context, size) {
-      return StreamBuilder(
-          stream: widget.userInfoBloc.fetchDataById(widget.userId).asStream(),
-          builder: (context, AsyncSnapshot<UserModel> snapshot) {
-            if (snapshot.hasData) {
-              final user = snapshot.data!;
-              return Container(
-                height: screenSize.height - 192 - 76 - 16,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 16,
-                      color: AppColor.shadow.withOpacity(0.24),
-                      blurStyle: BlurStyle.outer,
-                    ),
-                  ],
+      return Container(
+        height: screenSize.height - 192 - 76 - 16,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 16,
+              color: AppColor.shadow.withOpacity(0.24),
+              blurStyle: BlurStyle.outer,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _avatarField(user),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Container(
+                  width: 1,
+                  color: AppColor.shade1,
                 ),
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: _avatarField(user),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Container(
-                          width: 1,
-                          color: AppColor.shade1,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: _userDetail(user),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return const JTIndicator();
-            }
-          });
+              ),
+            ),
+            Expanded(
+              child: _userDetail(user),
+            ),
+          ],
+        ),
+      );
     });
   }
 
@@ -475,8 +495,9 @@ class _UserInfoContentState extends State<UserInfoContent> {
   _deleteObjectById({
     required String id,
   }) {
-    widget.userInfoBloc.deleteObject(id: id).then((model) async {
+    _userBloc.deleteObject(id: id).then((model) async {
       await Future.delayed(const Duration(milliseconds: 400));
+      widget.onFetch(1);
       navigateTo(userManagementRoute);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

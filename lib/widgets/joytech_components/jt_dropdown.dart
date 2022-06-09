@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
 import '../../theme/app_theme.dart';
 
 class JTDropdownButtonFormField<T> extends StatelessWidget {
@@ -41,48 +40,39 @@ class JTDropdownButtonFormField<T> extends StatelessWidget {
     if (_displayedValue == null) {
       return const Text('Could not find the default value');
     }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+    return SizedBox(
+      width: width,
+      height: height,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2(
+          isExpanded: true,
+          value: _displayedValue,
+          buttonDecoration: decoration,
+          buttonPadding: contentPadding,
+          dropdownOverButton: true,
+          dropdownDecoration: decoration,
+          dropdownPadding: EdgeInsets.zero,
+          icon: SvgIcon(
+            SvgIcons.expandMore,
+            color: AppColor.text7,
+            size: 24,
           ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton2(
-              isExpanded: true,
-              value: _displayedValue,
-              buttonDecoration: decoration,
-              buttonPadding: contentPadding,
-              dropdownOverButton: true,
-              dropdownDecoration: decoration,
-              dropdownPadding: EdgeInsets.zero,
-              icon: SvgIcon(
-                SvgIcons.expandMore,
-                color: AppColor.text7,
-                size: 24,
+          style: onChanged != null
+              ? AppTextTheme.normalText(AppColor.text1)
+              : AppTextTheme.normalText(AppColor.text7),
+          onChanged: onChanged,
+          items:
+              dataSource.map<DropdownMenuItem<T>>((Map<String, dynamic> value) {
+            return DropdownMenuItem<T>(
+              value: value['value'] as T,
+              child: Text(
+                value['name'],
+                style: AppTextTheme.normalText(AppColor.text1),
               ),
-              style: onChanged != null
-                  ? AppTextTheme.normalText(AppColor.text1)
-                  : AppTextTheme.normalText(AppColor.text7),
-              onChanged: onChanged,
-              items: dataSource
-                  .map<DropdownMenuItem<T>>((Map<String, dynamic> value) {
-                return DropdownMenuItem<T>(
-                  value: value['value'] as T,
-                  child: Text(
-                    value['name'],
-                    style: AppTextTheme.normalText(AppColor.text1),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
+            );
+          }).toList(),
         ),
-      ],
+      ),
     );
   }
 }

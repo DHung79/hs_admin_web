@@ -83,13 +83,13 @@ class EditUserModel extends EditBaseModel {
     password = '';
     address = user?.address ?? '';
     phoneNumber = user?.phoneNumber ?? '';
-    gender = user?.gender ?? 'Male';
+    gender = user?.gender ?? 'male';
   }
 
-  Map<String, dynamic> toEditProfileJson() {
+  Map<String, dynamic> toCreateJson() {
     Map<String, dynamic> params = {
       'name': name,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,
       'gender': gender,
       'address': address,
     };
@@ -100,7 +100,7 @@ class EditUserModel extends EditBaseModel {
     Map<String, dynamic> params = {
       'id': id,
       'name': name,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,
       'gender': gender,
       'address': address,
     };
