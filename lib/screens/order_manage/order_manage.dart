@@ -56,6 +56,7 @@ class _OrderManageState extends State<OrderManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: orderManageRoute,
       title: 'Quản lí đặt hàng',
       subTitle: 'Quản lí đặt hàng',
       pageState: _pageState,

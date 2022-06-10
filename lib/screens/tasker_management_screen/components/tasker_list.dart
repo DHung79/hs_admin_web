@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/base/blocs/block_state.dart';
 import '../../../core/tasker/tasker.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
@@ -236,7 +237,16 @@ class _TaskerListState extends State<TaskerList> {
             ],
           );
         }
-        return const SizedBox();
+        return StreamBuilder(
+          stream: widget.taskerBloc.allDataState,
+          builder: (context, state) {
+            if (!state.hasData || state.data == BlocState.fetching) {
+              return const JTIndicator();
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
       },
     );
   }

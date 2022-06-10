@@ -44,6 +44,7 @@ class _TaskerManagementScreenState extends State<TaskerManagementScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: taskerManagementRoute,
       title: 'Quản lí người giúp việc',
       subTitle: _getSubTitle(),
       pageState: _pageState,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/tasker/tasker.dart';
@@ -175,6 +176,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
   }
 
   Widget _avatarField(TaskerModel tasker) {
+    double rateNumber = 3.5;
     return SizedBox(
       width: 200,
       child: Column(
@@ -189,40 +191,129 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
               height: 100,
             ),
           ),
-          const SizedBox(
-            height: 10,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              tasker.name,
+              style: AppTextTheme.mediumBodyText(AppColor.text3),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'ID: 300451841',
+                style: AppTextTheme.normalText(
+                  AppColor.text8,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 13),
+                child: SvgIcon(
+                  SvgIcons.contentPasteBlack,
+                  color: AppColor.text8,
+                  size: 24,
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RatingBar.builder(
+                  ignoreGestures: true,
+                  allowHalfRating: true,
+                  initialRating: 4.5,
+                  minRating: 1,
+                  itemCount: 5,
+                  itemSize: 24,
+                  direction: Axis.horizontal,
+                  unratedColor: AppColor.primary2,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 3),
+                  itemBuilder: (context, index) {
+                    return SvgIcon(
+                      rateNumber.floor() == index
+                          ? SvgIcons.starHalf
+                          : rateNumber.floor() > index
+                              ? SvgIcons.star
+                              : SvgIcons.starOutline,
+                      color: AppColor.primary2,
+                    );
+                  },
+                  onRatingUpdate: (value) {},
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    rateNumber.toString(),
+                    style: AppTextTheme.normalHeaderTitle(AppColor.black),
+                  ),
+                ),
+              ],
+            ),
           ),
           Text(
-            tasker.name,
-            style: AppTextTheme.mediumBodyText(AppColor.text3),
+            '(643 đánh giá)',
+            style: AppTextTheme.normalHeaderTitle(
+              AppColor.text3,
+            ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: AppButtonTheme.fillRounded(
+              color: AppColor.transparent,
+              highlightColor: AppColor.shade1,
+              constraints: const BoxConstraints(minHeight: 44),
+              borderRadius: BorderRadius.circular(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgIcon(
-                    SvgIcons.commentAlt,
-                    color: AppColor.text5,
+                    SvgIcons.starOutline,
+                    color: AppColor.text8,
                     size: 24,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Nhắn tin',
-                    style: AppTextTheme.mediumBodyText(
-                      AppColor.text5,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Chi tiết đánh giá',
+                      style: AppTextTheme.normalText(
+                        AppColor.text8,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
+              onPressed: () {},
             ),
+          ),
+          AppButtonTheme.fillRounded(
+            color: AppColor.transparent,
+            highlightColor: AppColor.shade1,
+            constraints: const BoxConstraints(minHeight: 44),
+            borderRadius: BorderRadius.circular(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgIcon(
+                  SvgIcons.commentAlt,
+                  color: AppColor.shade5,
+                  size: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    'Nhắn tin',
+                    style: AppTextTheme.mediumBodyText(
+                      AppColor.shade5,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            onPressed: () {},
           ),
         ],
       ),
@@ -247,7 +338,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: _profileType(
-                  title: 'Thông tin liên lạc',
+                  title: 'Thông tin cá nhân',
                   children: [
                     _profileItem(
                       width: itemWidth / 2,
@@ -260,16 +351,40 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                       description: tasker.email,
                     ),
                     _profileItem(
-                      width: itemWidth,
+                      width: itemWidth / 2,
                       title: 'Địa chỉ:',
+                      description: tasker.address,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'CMND:',
+                      description: tasker.address,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Ngày cấp:',
+                      description: tasker.address,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Nơi cấp:',
+                      description: tasker.address,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Trình độ học vấn:',
+                      description: tasker.address,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Trình độ tiếng anh:',
                       description: tasker.address,
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Divider(
                   thickness: 1,
                   color: AppColor.shade1,
@@ -301,8 +416,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                 ],
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Divider(
                   thickness: 1,
                   color: AppColor.shade1,
@@ -313,7 +427,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                 children: [
                   _profileItem(
                     width: itemWidth / 2,
-                    title: 'Dịch vụ đã sử dụng:',
+                    title: 'Công việc đã nhận:',
                     description: tasker.phoneNumber,
                   ),
                   _profileItem(
@@ -334,8 +448,53 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                 ],
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.shade1,
+                ),
+              ),
+              _profileType(
+                title: 'Thông tin pháp lý',
+                children: [
+                  _profileItem(
+                    width: itemWidth / 2,
+                    title: 'Tiền án:',
+                    description: tasker.phoneNumber,
+                  ),
+                  _profileItem(
+                    width: itemWidth / 2,
+                    title: 'Giấy xác thực:',
+                    description: 'Xem chi tiết',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Divider(
+                  thickness: 1,
+                  color: AppColor.shade1,
+                ),
+              ),
+              _profileType(
+                title: 'Thông tin định danh',
+                children: [
+                  _profileItem(
+                    width: itemWidth / 2,
+                    title: 'ID:',
+                    description: tasker.phoneNumber,
+                  ),
+                  _profileItem(
+                    width: itemWidth / 2,
+                    title: 'Hộ khẩu:',
+                    description: 'Xem chi tiết',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Divider(
                   thickness: 1,
                   color: AppColor.shade1,
@@ -373,7 +532,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
     required List<Widget> children,
   }) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 100),
+      constraints: const BoxConstraints(minHeight: 54),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -399,22 +558,28 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
     required String title,
     required String description,
     required double width,
+    Function()? onTap,
   }) {
     return Container(
       width: width,
       constraints: const BoxConstraints(minHeight: 18),
       child: Wrap(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Text(
-              title,
-              style: AppTextTheme.normalText(AppColor.text8),
-            ),
-          ),
           Text(
-            description,
-            style: AppTextTheme.normalText(AppColor.text3),
+            title,
+            style: AppTextTheme.normalText(AppColor.text8),
+          ),
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                description,
+                style: AppTextTheme.normalText(
+                  onTap != null ? AppColor.shade5 : AppColor.text3,
+                ),
+              ),
+            ),
+            onTap: onTap,
           ),
         ],
       ),

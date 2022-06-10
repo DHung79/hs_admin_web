@@ -50,6 +50,7 @@ class _InfoOrderState extends State<InfoOrder> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+       route: orderManageRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

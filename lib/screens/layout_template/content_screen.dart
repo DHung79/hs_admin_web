@@ -28,6 +28,7 @@ class PageTemplate extends StatefulWidget {
   final Widget? appBar;
   final String title;
   final String subTitle;
+  final String route;
 
   const PageTemplate({
     Key? key,
@@ -48,6 +49,7 @@ class PageTemplate extends StatefulWidget {
     this.appBar,
     required this.title,
     required this.subTitle,
+    required this.route,
   }) : super(key: key);
 
   @override
@@ -156,7 +158,7 @@ class _PageTemplateState extends State<PageTemplate> {
       color: AppColor.shade1,
       child: Row(
         children: [
-          const SideBar(),
+          SideBar(route: widget.route),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -174,17 +176,17 @@ class _PageTemplateState extends State<PageTemplate> {
                     : const JTIndicator(),
                 Expanded(
                     child: Scrollbar(
-                      thumbVisibility: _scrollController.hasClients,
-                      controller: _scrollController,
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        physics: const ClampingScrollPhysics(),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: widget.child,
-                        ),
-                      ),
-                    )),
+                  thumbVisibility: _scrollController.hasClients,
+                  controller: _scrollController,
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: widget.child,
+                    ),
+                  ),
+                )),
               ],
             ),
           ),
@@ -217,19 +219,7 @@ class PageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!userSnapshot.hasData) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: SizedBox(
-            width: 24,
-            height: 24,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-              color: Theme.of(context).textTheme.button!.color,
-            ),
-          ),
-        ),
-      );
+      return const JTIndicator();
     }
 
     if (!pageState.isInitData) {

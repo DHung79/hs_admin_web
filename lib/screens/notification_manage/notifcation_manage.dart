@@ -61,6 +61,7 @@ class _NotificationManageState extends State<NotificationManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: notificationManageRoute,
       title: 'Quản lí thông báo đẩy',
       subTitle: 'Quản lí thông báo đẩy',
       pageState: _pageState,

@@ -37,6 +37,7 @@ class _ContactInfoState extends State<ContactInfo> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: serviceManageRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
@@ -337,13 +338,13 @@ class _ContactInfoState extends State<ContactInfo> {
         child: Column(
           children: [
             ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                "assets/images/logo.png",
+                width: 100,
+                height: 100,
+              ),
             ),
-          ),
             const SizedBox(
               height: 10,
             ),

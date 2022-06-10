@@ -44,6 +44,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: userManagementRoute,
       title: 'Quản lí người dùng',
       subTitle: _getSubTitle(),
       pageState: _pageState,

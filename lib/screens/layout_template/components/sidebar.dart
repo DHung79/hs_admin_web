@@ -4,7 +4,8 @@ import 'package:hs_admin_web/routes/route_names.dart';
 import '../../../theme/app_theme.dart';
 
 class SideBar extends StatefulWidget {
-  const SideBar({Key? key}) : super(key: key);
+  final String route;
+  const SideBar({Key? key, required this.route}) : super(key: key);
 
   @override
   _SideBarState createState() => _SideBarState();
@@ -54,7 +55,7 @@ class _SideBarState extends State<SideBar> {
     final screenSize = MediaQuery.of(context).size;
     if (screenSize.width < 1000) {
       isMini = true;
-    } 
+    }
     return Container(
       width: isMini ? 119 : 356,
       color: Colors.white,
@@ -85,41 +86,39 @@ class _SideBarState extends State<SideBar> {
                   return _buildItem(
                     svgIcon: item.icon,
                     title: item.title,
-                    active: selectedPage == index,
+                    active: widget.route == item.route,
                     onPressed: () {
-                      setState(() {
-                        selectedPage = index;
-                        navigateTo(item.route);
-                      });
+                      navigateTo(item.route);
                     },
                   );
                 },
               ),
             ),
-            if(screenSize.width > 1000)
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: isMini ? EdgeInsets.zero : const EdgeInsets.all(8),
-                    child: _buildItem(
-                      svgIcon: SvgIcons.sidebarLeft,
-                      title: 'Thu nhỏ',
-                      active: false,
-                      mainAxisAlignment: isMini
-                          ? MainAxisAlignment.start
-                          : MainAxisAlignment.end,
-                      onPressed: () {
-                        setState(() {
-                          isMini = !isMini;
-                        });
-                      },
+            if (screenSize.width > 1000)
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding:
+                          isMini ? EdgeInsets.zero : const EdgeInsets.all(8),
+                      child: _buildItem(
+                        svgIcon: SvgIcons.sidebarLeft,
+                        title: 'Thu nhỏ',
+                        active: false,
+                        mainAxisAlignment: isMini
+                            ? MainAxisAlignment.start
+                            : MainAxisAlignment.end,
+                        onPressed: () {
+                          setState(() {
+                            isMini = !isMini;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

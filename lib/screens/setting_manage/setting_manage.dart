@@ -27,6 +27,7 @@ class _SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: serviceManageRoute,
       title: 'Cài đặt',
       subTitle: 'Cài đặt',
       pageState: _pageState,

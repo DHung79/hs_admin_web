@@ -21,7 +21,6 @@ export 'locales/i18n_key.dart';
 
 int notiBadges = 0;
 int homeTabIndex = 0;
-int selectedPage = 0;
 Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 // Page index
 int userManagementIndex = 1;

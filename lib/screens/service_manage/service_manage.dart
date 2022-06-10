@@ -62,6 +62,7 @@ class _ServiceManageState extends State<ServiceManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: serviceManageRoute,
       title: 'Quản lí dịch vụ',
       subTitle: 'Quản lí dịch vụ',
       pageState: _pageState,

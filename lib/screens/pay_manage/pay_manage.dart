@@ -65,6 +65,7 @@ class _PayManageState extends State<PayManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: payManageRoute,
       title: 'Quản lí đặt hàng',
       subTitle: 'Quản lí đặt hàng',
       pageState: _pageState,

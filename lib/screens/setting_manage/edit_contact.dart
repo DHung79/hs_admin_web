@@ -36,6 +36,7 @@ class _EditContactState extends State<EditContact> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: serviceManageRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

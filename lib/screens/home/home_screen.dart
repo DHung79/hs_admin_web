@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/core/admin/model/admin_model.dart';
+import 'package:hs_admin_web/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
+      route: homeRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {

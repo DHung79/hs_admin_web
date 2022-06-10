@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/base/blocs/block_state.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
 import '../../../core/user/user.dart';
@@ -239,7 +240,16 @@ class _UserListState extends State<UserList> {
             ],
           );
         }
-        return const SizedBox();
+        return StreamBuilder(
+          stream: widget.userBloc.allDataState,
+          builder: (context, state) {
+            if (!state.hasData || state.data == BlocState.fetching) {
+              return const JTIndicator();
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
       },
     );
   }
