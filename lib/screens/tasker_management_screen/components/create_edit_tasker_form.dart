@@ -464,38 +464,38 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               });
             },
           ),
-          _buildDropDown<String>(
+          // _buildDropDown<String>(
+          //   width: elementWidth,
+          //   title: 'Hình thức thanh toán',
+          //   defaultValue: _paymentController.text,
+          //   dataSource: [
+          //     {'name': 'Tài khoản ngân hàng', 'value': '1'},
+          //     {'name': 'Trả sau', 'value': '2'},
+          //   ],
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _paymentController.text = value!;
+          //     });
+          //   },
+          // ),
+          // if (_paymentController.text == '1')
+          _buildInput(
             width: elementWidth,
-            title: 'Hình thức thanh toán',
-            defaultValue: _paymentController.text,
-            dataSource: [
-              {'name': 'Tài khoản ngân hàng', 'value': '1'},
-              {'name': 'Trả sau', 'value': '2'},
-            ],
+            title: 'Tài khoản ngân hàng',
+            hintText: 'Nhập số tài khoản',
+            initialValue: _editModel.id,
             onChanged: (value) {
               setState(() {
-                _paymentController.text = value!;
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
               });
             },
+            onSaved: (value) {},
+            validator: (value) {
+              return null;
+            },
           ),
-          if (_paymentController.text == '1')
-            _buildInput(
-              width: elementWidth,
-              title: 'Tài khoản ngân hàng',
-              hintText: 'Nhập số tài khoản',
-              initialValue: _editModel.id,
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              onSaved: (value) {},
-              validator: (value) {
-                return null;
-              },
-            ),
         ],
       );
     });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hs_admin_web/routes/route_names.dart';
+import 'package:hs_admin_web/screens/tasker_management_screen/components/tasker_rating_dialog.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/tasker/tasker.dart';
 import '../../../main.dart';
@@ -286,7 +287,14 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                   ),
                 ],
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return TaskerRatingDialog(tasker: tasker,);
+                    });
+              },
             ),
           ),
           AppButtonTheme.fillRounded(

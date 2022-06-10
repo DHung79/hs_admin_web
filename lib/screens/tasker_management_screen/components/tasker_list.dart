@@ -169,12 +169,18 @@ class _TaskerListState extends State<TaskerList> {
         isConstant: true,
       ),
       TableHeader(
-        title: 'Email',
-        width: 250,
+        title: ScreenUtil.t(I18nKey.gender)!,
+        width: 150,
+        isConstant: true,
       ),
       TableHeader(
         title: ScreenUtil.t(I18nKey.phoneNumber)!,
-        width: 160,
+        width: 200,
+        isConstant: true,
+      ),
+      TableHeader(
+        title: ScreenUtil.t(I18nKey.status)!,
+        width: 200,
         isConstant: true,
       ),
       TableHeader(
@@ -261,7 +267,11 @@ class _TaskerListState extends State<TaskerList> {
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: 'Email',
+        title: ScreenUtil.t(I18nKey.status)!,
+        onPressed: () {},
+      ),
+      TableHeaderButton(
+        title: ScreenUtil.t(I18nKey.gender)!,
         onPressed: () {},
       ),
       TableHeaderButton(
@@ -299,13 +309,23 @@ class _TaskerListState extends State<TaskerList> {
     return TableRow(
       children: [
         tableCellText(
-            title: '${recordOffset + index + 1}', alignment: Alignment.center),
+          title: '${recordOffset + index + 1}',
+          alignment: Alignment.center,
+        ),
         tableCellText(
           title: item.name,
         ),
-        tableCellText(title: item.email),
+        tableCellText(
+          title: _getGender(item.gender),
+        ),
         tableCellText(
           title: item.phoneNumber,
+        ),
+        tableCellText(
+          title: item.gender == 'male' ? 'Không hoạt động' : 'Hoạt động',
+          style: AppTextTheme.mediumBodyText(
+            item.gender == 'male' ? AppColor.others1 : AppColor.shade9,
+          ),
         ),
         tableCellText(
           title: item.address,
@@ -466,5 +486,18 @@ class _TaskerListState extends State<TaskerList> {
         ),
       );
     });
+  }
+
+  String _getGender(String gender) {
+    switch (gender) {
+      case 'male':
+        return 'Nam';
+      case 'female':
+        return 'Nữ';
+      case 'orther':
+        return 'Khác';
+      default:
+        return '';
+    }
   }
 }
