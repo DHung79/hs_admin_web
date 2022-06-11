@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:hs_admin_web/core/tasker/model/tasker_model.dart';
+import '/core/tasker/model/tasker_model.dart';
 import '../../../theme/app_theme.dart';
 
 class TaskerRatingDialog extends StatefulWidget {

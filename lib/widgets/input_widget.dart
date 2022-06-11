@@ -18,6 +18,7 @@ class InputWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final Function(String)? onFieldSubmitted;
   final List<TextInputFormatter>? inputFormatters;
+  final bool? enabled;
   const InputWidget({
     Key? key,
     this.initialValue,
@@ -35,6 +36,7 @@ class InputWidget extends StatelessWidget {
     this.validator,
     this.onFieldSubmitted,
     this.inputFormatters,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class InputWidget extends StatelessWidget {
     return Container(
       constraints: constraints,
       child: TextFormField(
+        enabled: enabled,
         controller: controller,
         initialValue: initialValue,
         obscureText: obscureText,

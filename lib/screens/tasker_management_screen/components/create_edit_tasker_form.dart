@@ -10,6 +10,8 @@ import '../../../widgets/go_back_button.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/joytech_components/jt_dropdown.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 
 class CreateEditTaskerForm extends StatefulWidget {
   final String route;
@@ -38,7 +40,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
   late EditTaskerModel _editModel;
   final _paymentController = TextEditingController();
   bool _showPassword = false;
-
+  final _createCardIDDateController = TextEditingController();
   @override
   void initState() {
     _editModel = EditTaskerModel.fromModel(widget.taskerModel);
@@ -389,6 +391,96 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
           ),
           _buildInput(
             width: elementWidth,
+            title: 'CMND',
+            hintText: 'Nhập CMND',
+            initialValue: _editModel.idCard,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            obscureText: !_showPassword,
+            onSaved: (value) {
+              _editModel.idCard = value!.trim();
+            },
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                return ValidatorText.empty(fieldName: 'CMND');
+              }
+              if (value.length < 9) {
+                return ValidatorText.atLeast(fieldName: 'CMND', atLeast: 9);
+              }
+              if (value.length > 9 && value.length < 12) {
+                return ValidatorText.invalidFormat(fieldName: 'CMND');
+              }
+              if (value.length > 12) {
+                return ValidatorText.moreThan(fieldName: 'CMND', moreThan: 12);
+              }
+              return null;
+            },
+          ),
+          InkWell(
+            child: _buildInput(
+              width: elementWidth,
+              enabled: false,
+              title: 'Ngày cấp:',
+              hintText: 'dd/MM/yyyy',
+              controller: _createCardIDDateController,
+              // initialValue: _editModel.createIdCardDate,
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return ValidatorText.empty(fieldName: '');
+                }
+                return null;
+              },
+            ),
+            onTap: () async {
+              setState(() {
+                _pickDate().then((value) {
+                  if (value != null) {
+                    _createCardIDDateController.text =
+                        DateFormat('dd/MM/yyyy').format(value);
+                  }
+                });
+              });
+            },
+          ),
+          _buildInput(
+            width: elementWidth,
+            title: 'Nơi cấp',
+            hintText: 'Nhập nơi cấp',
+            initialValue: _editModel.address,
+            validator: (value) {
+              if (value!.trim().isEmpty) {
+                return ValidatorText.empty(fieldName: 'Nơi cấp');
+              } else if (value.trim().length > 300) {
+                return ValidatorText.moreThan(
+                  fieldName: 'Nơi cấp',
+                  moreThan: 300,
+                );
+              } else if (value.trim().length < 5) {
+                return ValidatorText.atLeast(
+                  fieldName: 'Nơi cấp',
+                  atLeast: 5,
+                );
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
+            onSaved: (value) => _editModel.address = value!.trim(),
+          ),
+
+          _buildInput(
+            width: elementWidth,
             title: 'Số điện thoại ',
             hintText: 'Nhập số điện thoại',
             initialValue: _editModel.phoneNumber,
@@ -513,6 +605,8 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
     List<TextInputFormatter>? inputFormatters,
     bool obscureText = false,
     Widget? suffixIcon,
+    bool? enabled = true,
+    TextEditingController? controller,
   }) {
     return Container(
       constraints: BoxConstraints(
@@ -532,6 +626,8 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
                 ),
               ),
             InputWidget(
+              controller: controller,
+              enabled: enabled,
               keyboardType: keyboardType,
               inputFormatters: inputFormatters,
               initialValue: initialValue,
@@ -766,5 +862,81 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
         ),
       );
     });
+  }
+
+  DateTime _formatDateTime(dynamic value) {
+    DateTime _dateTimeLocal = DateTime.now();
+    if (value != null) {
+      if (value is int) {
+        if (value != 0) {
+          final _dateTime = DateTime.fromMillisecondsSinceEpoch(value);
+          _dateTimeLocal = _dateTime.toLocal();
+        }
+      } else if (value is String && value.isNotEmpty) {
+        final _dateTime = DateFormat("dd/MM/yyyy").parse(value);
+        _dateTimeLocal = _dateTime.toLocal();
+      }
+    }
+    return _dateTimeLocal;
+  }
+
+  // int _formatDateTimeToInt(String value) {
+  //   int intValue = 0;
+  //   final _dateTime = DateTime.tryParse(value);
+  //   final _dateTimeLocal = _dateTime!.toLocal();
+  //   intValue = _dateTimeLocal.millisecondsSinceEpoch;
+  //   return intValue;
+  // }
+
+  Future<DateTime?> _pickDate() {
+    return showRoundedDatePicker(
+      context: context,
+      initialDate: _formatDateTime(_editModel.createIdCardDate),
+      firstDate: DateTime(DateTime.now().year - 200),
+      lastDate: DateTime(DateTime.now().year + 200),
+      textPositiveButton: 'Lưu',
+      textNegativeButton: 'Hủy',
+      theme: ThemeData(
+        primaryColor: AppColor.primary1,
+      ),
+      styleYearPicker: MaterialRoundedYearPickerStyle(
+        textStyleYearSelected: AppTextTheme.bigText(AppColor.primary1),
+        textStyleYear: AppTextTheme.bigText(AppColor.primary2),
+        // backgroundPicker: AppColor.primary2,
+      ),
+      styleDatePicker: MaterialRoundedDatePickerStyle(
+        textStyleDayButton: AppTextTheme.bigText(AppColor.black),
+        textStyleYearButton: AppTextTheme.bigText(AppColor.white),
+        textStyleMonthYearHeader: AppTextTheme.bigText(AppColor.white),
+        textStyleDayHeader: AppTextTheme.bigText(AppColor.primary1),
+        textStyleCurrentDayOnCalendar: AppTextTheme.bigText(AppColor.primary1),
+        textStyleDayOnCalendar: AppTextTheme.bigText(AppColor.black),
+        textStyleDayOnCalendarSelected: AppTextTheme.bigText(AppColor.white),
+        textStyleDayOnCalendarDisabled:
+            AppTextTheme.headerTitle(AppColor.shadow),
+        paddingDatePicker: const EdgeInsets.all(0),
+        paddingMonthHeader: const EdgeInsets.all(28),
+        paddingActionBar: const EdgeInsets.all(12),
+        paddingDateYearHeader: const EdgeInsets.all(28),
+        sizeArrow: 46,
+        colorArrowNext: AppColor.white,
+        colorArrowPrevious: AppColor.white,
+        marginLeftArrowPrevious: 12,
+        marginTopArrowPrevious: 12,
+        marginTopArrowNext: 12,
+        marginRightArrowNext: 28,
+        textStyleButtonPositive:
+            AppTextTheme.bigText(AppColor.primary1).copyWith(fontSize: 20),
+        textStyleButtonNegative:
+            AppTextTheme.bigText(AppColor.black).copyWith(fontSize: 20),
+        decorationDateSelected: BoxDecoration(
+          color: AppColor.primary1,
+          shape: BoxShape.circle,
+        ),
+        backgroundHeaderMonth: AppColor.primary2,
+        backgroundPicker: AppColor.white,
+        backgroundActionBar: AppColor.white,
+      ),
+    );
   }
 }

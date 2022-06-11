@@ -50,6 +50,11 @@ class EditTaskerModel extends EditBaseModel {
   String phoneNumber = '';
   String gender = '';
   String password = '';
+  String idCard = '';
+  String createIdCardDate = '';
+  String createIdCardAt = '';
+  String educationLevel = '';
+  String englishProficiency = '';
 
   EditTaskerModel.fromModel(TaskerModel? model) {
     id = model?.id ?? '';
@@ -59,6 +64,11 @@ class EditTaskerModel extends EditBaseModel {
     phoneNumber = model?.phoneNumber ?? '';
     gender = model?.gender ?? 'male';
     password = '';
+    idCard = '';
+    createIdCardDate = '';
+    createIdCardAt = '';
+    educationLevel = '';
+    englishProficiency = '';
   }
 
   Map<String, dynamic> toCreateJson() {
@@ -69,6 +79,11 @@ class EditTaskerModel extends EditBaseModel {
       'phoneNumber': phoneNumber,
       'gender': gender,
       'password': password,
+      'idCard': idCard,
+      'createIdCardDate': createIdCardDate,
+      'createIdCardAt': createIdCardAt,
+      'educationLevel': educationLevel,
+      'englishProficiency': englishProficiency,
     };
     return params;
   }
@@ -81,6 +96,11 @@ class EditTaskerModel extends EditBaseModel {
       'address': address,
       'phoneNumber': phoneNumber,
       'gender': gender,
+      'idCard': idCard,
+      'createIdCardDate': createIdCardDate,
+      'createIdCardAt': createIdCardAt,
+      'educationLevel': educationLevel,
+      'englishProficiency': englishProficiency,
     };
 
     return params;
