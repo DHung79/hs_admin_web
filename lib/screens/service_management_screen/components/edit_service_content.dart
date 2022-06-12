@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/user/user.dart';
+import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import 'create_edit_user_form.dart';
+import 'create_edit_service_form.dart';
 
-class EditUserContent extends StatefulWidget {
+class EditServiceContent extends StatefulWidget {
   final String route;
-  final String userId;
+  final String id;
   final Function(int, {int? limit}) onFetch;
 
-  const EditUserContent({
+  const EditServiceContent({
     Key? key,
     required this.route,
-    required this.userId,
+    required this.id,
     required this.onFetch,
   }) : super(key: key);
 
   @override
-  State<EditUserContent> createState() => _EditUserContentState();
+  State<EditServiceContent> createState() => _EditServiceContentState();
 }
 
-class _EditUserContentState extends State<EditUserContent> {
-  final _userBloc = UserBloc();
+class _EditServiceContentState extends State<EditServiceContent> {
+  final _serviceBloc = ServiceBloc();
 
   @override
   void initState() {
-    if (widget.userId.isNotEmpty) {
-      _userBloc.fetchDataById(widget.userId);
+    if (widget.id.isNotEmpty) {
+      _serviceBloc.fetchDataById(widget.id);
     }
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
@@ -36,7 +36,7 @@ class _EditUserContentState extends State<EditUserContent> {
 
   @override
   void dispose() {
-    _userBloc.dispose();
+    _serviceBloc.dispose();
     super.dispose();
   }
 
@@ -44,14 +44,14 @@ class _EditUserContentState extends State<EditUserContent> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return StreamBuilder(
-      stream: _userBloc.userData,
-      builder: (context, AsyncSnapshot<ApiResponse<UserModel?>> snapshot) {
+      stream: _serviceBloc.serviceData,
+      builder: (context, AsyncSnapshot<ApiResponse<ServiceModel?>> snapshot) {
         if (snapshot.hasData) {
-          final user = snapshot.data!.model;
-          return CreateEditUserForm(
-            userBloc: _userBloc,
-            route: userManagementRoute,
-            userModel: user,
+          final service = snapshot.data!.model;
+          return CreateEditServiceForm(
+            serviceBloc: _serviceBloc,
+            route: serviceManagementRoute,
+            serviceModel: service,
             onFetch: widget.onFetch,
           );
         } else {
@@ -59,7 +59,7 @@ class _EditUserContentState extends State<EditUserContent> {
             logDebug(snapshot.error.toString());
             return ErrorMessageText(
               message:
-                  ScreenUtil.t(I18nKey.userNotFound)! + ': ${widget.userId}',
+                  'Không tìm thấy dịch vụ: ${widget.id}',
             );
           }
           return const JTIndicator();

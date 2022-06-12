@@ -23,8 +23,8 @@ class ServiceModel extends BaseModel {
           json: json,
           key: 'category',
         ),
-        _createdTime = json['created_time'],
-        _updatedTime = json['updated_time'] {
+        _createdTime = json['created_time'] ?? 0,
+        _updatedTime = json['updated_time'] ?? 0 {
     _translations.addAll(BaseModel.mapList<TranslationModel>(
       json: json,
       key: 'translation',
@@ -112,6 +112,31 @@ class EditServiceModel extends EditBaseModel {
     };
     return params;
   }
+}
+
+class PriceModel extends BaseModel {
+  final String __id;
+  final String _name;
+  final String _price;
+  final String _type;
+
+  PriceModel.fromJson(Map<String, dynamic> json)
+      : __id = json['_id'] ?? '',
+        _name = json['name'] ?? '',
+        _price = json['price'] ?? '',
+        _type = json['type'] ?? '';
+
+  Map<String, dynamic> toJson() => {
+        '_id': __id,
+        'name': _name,
+        'price': _price,
+        'type': _type,
+      };
+
+  String get id => __id;
+  String get name => _name;
+  String get price => _price;
+  String get type => _type;
 }
 
 class ListServiceModel extends BaseModel {

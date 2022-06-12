@@ -1,4 +1,4 @@
-import 'package:hs_admin_web/main.dart';
+import '/main.dart';
 
 import '../../rest/models/rest_api_response.dart';
 

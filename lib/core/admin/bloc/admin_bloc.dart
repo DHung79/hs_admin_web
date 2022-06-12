@@ -1,4 +1,4 @@
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
+import '/core/admin/model/admin_model.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../main.dart';
 import '../../base/blocs/block_state.dart';

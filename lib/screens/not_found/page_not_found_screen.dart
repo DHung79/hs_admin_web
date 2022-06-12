@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/theme/app_theme.dart';
+import '/theme/app_theme.dart';
 import '../../main.dart';
-import '../../routes/route_names.dart';
 
 class PageNotFoundScreen extends StatefulWidget {
   final String route;

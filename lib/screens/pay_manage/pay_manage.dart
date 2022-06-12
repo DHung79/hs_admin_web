@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -65,7 +64,7 @@ class _PayManageState extends State<PayManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: payManageRoute,
+      route: payManagementRoute,
       title: 'Quản lí đặt hàng',
       subTitle: 'Quản lí đặt hàng',
       pageState: _pageState,

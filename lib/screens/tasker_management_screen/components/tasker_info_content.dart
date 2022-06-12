@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '/routes/route_names.dart';
 import '../components/tasker_rating_dialog.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/tasker/tasker.dart';

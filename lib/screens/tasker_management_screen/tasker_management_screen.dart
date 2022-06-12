@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/tasker/tasker.dart';
 import '/core/admin/model/admin_model.dart';
-import '/routes/route_names.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hs_admin_web/main.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/main.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/input_widget.dart';

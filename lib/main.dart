@@ -18,6 +18,7 @@ export '../core/logger/logger.dart';
 export 'locales/i18n.dart';
 export 'utils/screen_util.dart';
 export 'locales/i18n_key.dart';
+export '/routes/route_names.dart';
 
 int notiBadges = 0;
 int homeTabIndex = 0;
@@ -25,9 +26,12 @@ Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 // Page index
 int userManagementIndex = 1;
 int taskerManagementIndex = 1;
+int serviceManagementIndex = 1;
 //Page search
 String userManagementSearchString = '';
 String taskerManagementSearchString = '';
+String serviceManagementSearchString = '';
+
 GlobalKey globalKey = GlobalKey();
 
 navigateTo(String route) async {

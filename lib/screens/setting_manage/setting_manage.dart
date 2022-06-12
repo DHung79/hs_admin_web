@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/widgets/profile_item_widget.dart';
+import '/core/admin/model/admin_model.dart';
+import '/widgets/profile_item_widget.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -27,7 +26,7 @@ class _SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: serviceManageRoute,
+      route: serviceManagementRoute,
       title: 'Cài đặt',
       subTitle: 'Cài đặt',
       pageState: _pageState,

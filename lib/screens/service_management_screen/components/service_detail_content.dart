@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/user/user.dart';
+import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
-class UserInfoContent extends StatefulWidget {
+class ServiceDetailContent extends StatefulWidget {
   final String route;
-  final String userId;
+  final String id;
   final Function(int, {int? limit}) onFetch;
 
-  const UserInfoContent({
+  const ServiceDetailContent({
     Key? key,
     required this.route,
-    required this.userId,
+    required this.id,
     required this.onFetch,
   }) : super(key: key);
 
   @override
-  State<UserInfoContent> createState() => _UserInfoContentState();
+  State<ServiceDetailContent> createState() => _ServiceDetailContentState();
 }
 
-class _UserInfoContentState extends State<UserInfoContent> {
+class _ServiceDetailContentState extends State<ServiceDetailContent> {
   final _scrollController = ScrollController();
-  final _userBloc = UserBloc();
+  final _serviceBloc = ServiceBloc();
 
   @override
   void initState() {
-    if (widget.userId.isNotEmpty) {
-      _userBloc.fetchDataById(widget.userId);
+    if (widget.id.isNotEmpty) {
+      _serviceBloc.fetchDataById(widget.id);
     }
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
@@ -39,7 +39,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
 
   @override
   void dispose() {
-    _userBloc.dispose();
+    _serviceBloc.dispose();
     super.dispose();
   }
 
@@ -47,15 +47,15 @@ class _UserInfoContentState extends State<UserInfoContent> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return StreamBuilder(
-      stream: _userBloc.userData,
-      builder: (context, AsyncSnapshot<ApiResponse<UserModel?>> snapshot) {
+      stream: _serviceBloc.serviceData,
+      builder: (context, AsyncSnapshot<ApiResponse<ServiceModel?>> snapshot) {
         if (snapshot.hasData) {
-          final user = snapshot.data!.model!;
+          final service = snapshot.data!.model!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeader(),
-              _buildProfile(user),
+              _buildProfile(service),
               _deleteButton(),
             ],
           );
@@ -63,8 +63,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
           if (snapshot.hasError) {
             logDebug(snapshot.error.toString());
             return ErrorMessageText(
-              message:
-                  ScreenUtil.t(I18nKey.userNotFound)! + ': ${widget.userId}',
+              message: 'Không tìm thấy dịch vụ: ${widget.id}',
             );
           }
           return const JTIndicator();
@@ -82,7 +81,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
           child: GoBackButton(
             onPressed: () {
               widget.onFetch(1);
-              navigateTo(userManagementRoute);
+              navigateTo(serviceManagementRoute);
             },
           ),
         ),
@@ -92,7 +91,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Thông tin người dùng',
+                'Thông tin dịch vụ',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
               AppButtonTheme.outlineRounded(
@@ -122,7 +121,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
                   ),
                 ),
                 onPressed: () {
-                  navigateTo(editUserRoute + '/' + widget.userId);
+                  navigateTo(editServiceRoute + '/' + widget.id);
                 },
               ),
             ],
@@ -132,7 +131,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
     );
   }
 
-  Widget _buildProfile(UserModel user) {
+  Widget _buildProfile(ServiceModel service) {
     final screenSize = MediaQuery.of(context).size;
     return LayoutBuilder(builder: (context, size) {
       return Container(
@@ -154,7 +153,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: _avatarField(user),
+              child: _avatarField(service),
             ),
             Center(
               child: Padding(
@@ -166,7 +165,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
               ),
             ),
             Expanded(
-              child: _userDetail(user),
+              child: _serviceDetail(service),
             ),
           ],
         ),
@@ -174,7 +173,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
     });
   }
 
-  Widget _avatarField(UserModel user) {
+  Widget _avatarField(ServiceModel service) {
     return SizedBox(
       width: 200,
       child: Column(
@@ -193,43 +192,15 @@ class _UserInfoContentState extends State<UserInfoContent> {
             height: 10,
           ),
           Text(
-            user.name,
+            service.name,
             style: AppTextTheme.mediumBodyText(AppColor.text3),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgIcon(
-                    SvgIcons.commentAlt,
-                    color: AppColor.text5,
-                    size: 24,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Nhắn tin',
-                    style: AppTextTheme.mediumBodyText(
-                      AppColor.text5,
-                    ),
-                  )
-                ],
-              ),
-            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _userDetail(UserModel user) {
+  Widget _serviceDetail(ServiceModel service) {
     return LayoutBuilder(builder: (context, size) {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
@@ -246,23 +217,13 @@ class _UserInfoContentState extends State<UserInfoContent> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: _profileType(
-                  title: 'Thông tin liên lạc',
+                child: _detailType(
+                  title: 'Thông tin chi tiết',
                   children: [
-                    _profileItem(
-                      width: itemWidth / 2,
-                      title: 'Số điện thoại:',
-                      description: user.phoneNumber,
-                    ),
-                    _profileItem(
-                      width: itemWidth / 2,
-                      title: 'Email:',
-                      description: user.email,
-                    ),
-                    _profileItem(
+                    _detailItem(
                       width: itemWidth,
-                      title: 'Địa chỉ:',
-                      description: user.address,
+                      title: 'Loại dịch vụ:',
+                      description: service.name,
                     ),
                   ],
                 ),
@@ -275,28 +236,23 @@ class _UserInfoContentState extends State<UserInfoContent> {
                   color: AppColor.shade1,
                 ),
               ),
-              _profileType(
-                title: 'Thông tin thanh toán',
+              _detailType(
+                title: 'Giá',
                 children: [
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Số tiền hiện tại:',
-                    description: user.phoneNumber,
+                  _detailItem(
+                    width: itemWidth / 4,
+                    title: 'Tên:',
+                    description: service.name,
                   ),
-                  _profileItem(
+                  _detailItem(
                     width: itemWidth / 2,
-                    title: 'Tổng số tiền:',
-                    description: user.address,
+                    title: 'Giá thành:',
+                    description: service.name,
                   ),
-                  _profileItem(
+                  _detailItem(
                     width: itemWidth / 2,
-                    title: 'Hình thức thành toán:',
-                    description: user.email,
-                  ),
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Số thẻ:',
-                    description: user.email,
+                    title: 'Tính theo:',
+                    description: 'Theo giờ',
                   ),
                 ],
               ),
@@ -308,28 +264,18 @@ class _UserInfoContentState extends State<UserInfoContent> {
                   color: AppColor.shade1,
                 ),
               ),
-              _profileType(
-                title: 'Thông tin dịch vụ',
+              _detailType(
+                title: 'Hình thức thanh toán',
                 children: [
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Dịch vụ đã sử dụng:',
-                    description: user.phoneNumber,
+                  _detailItem(
+                    width: itemWidth / 4,
+                    title: 'Hình thức 1:',
+                    description: 'Momo',
                   ),
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Thành công:',
-                    description: user.address,
-                  ),
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Thất bại:',
-                    description: user.email,
-                  ),
-                  _profileItem(
-                    width: itemWidth / 2,
-                    title: 'Tỉ lệ:',
-                    description: user.email,
+                  _detailItem(
+                    width: itemWidth / 4,
+                    title: 'Hình thức 2:',
+                    description: 'Tiền mặt',
                   ),
                 ],
               ),
@@ -341,23 +287,23 @@ class _UserInfoContentState extends State<UserInfoContent> {
                   color: AppColor.shade1,
                 ),
               ),
-              _profileType(
+              _detailType(
                 title: 'Thông tin khác',
                 children: [
-                  _profileItem(
+                  _detailItem(
                     width: itemWidth / 2,
                     title: 'Tham gia hệ thống:',
-                    description: user.phoneNumber,
+                    description: service.createdTime.toString(),
                   ),
-                  _profileItem(
+                  _detailItem(
                     width: itemWidth / 2,
                     title: 'Cập nhật lần cuối:',
-                    description: user.address,
+                    description: service.updatedTime.toString(),
                   ),
-                  _profileItem(
+                  _detailItem(
                     width: itemWidth,
                     title: 'Người cập nhật:',
-                    description: user.email,
+                    description: service.id,
                   ),
                 ],
               ),
@@ -368,7 +314,33 @@ class _UserInfoContentState extends State<UserInfoContent> {
     });
   }
 
-  Widget _profileType({
+  Widget _buildPriceDetail({
+    required double itemWidth,
+    required double numOfItem,
+    required PriceModel model,
+  }) {
+    return Row(
+      children: [
+        _detailItem(
+          width: itemWidth / numOfItem,
+          title: 'Tên:',
+          description: model.name,
+        ),
+        _detailItem(
+          width: itemWidth / numOfItem,
+          title: 'Giá thành:',
+          description: model.price,
+        ),
+        _detailItem(
+          width: itemWidth / numOfItem,
+          title: 'Tính theo:',
+          description: model.type,
+        ),
+      ],
+    );
+  }
+
+  Widget _detailType({
     required String title,
     required List<Widget> children,
   }) {
@@ -395,7 +367,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
     );
   }
 
-  Widget _profileItem({
+  Widget _detailItem({
     required String title,
     required String description,
     required double width,
@@ -442,14 +414,14 @@ class _UserInfoContentState extends State<UserInfoContent> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    'Xóa người dùng',
+                    'Xóa dịch vụ',
                     style: AppTextTheme.mediumBodyText(AppColor.text8),
                   ),
                 ),
               ],
             ),
             onPressed: () {
-              _confirmDelete(id: widget.userId);
+              _confirmDelete(id: widget.id);
             },
           ),
         ),
@@ -481,7 +453,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa người dùng này?',
+            contentText: 'Bạn có muốn xóa dịch vụ này?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
@@ -498,13 +470,13 @@ class _UserInfoContentState extends State<UserInfoContent> {
   _deleteObjectById({
     required String id,
   }) {
-    _userBloc.deleteObject(id: id).then((model) async {
+    _serviceBloc.deleteObject(id: id).then((model) async {
       await Future.delayed(const Duration(milliseconds: 400));
       widget.onFetch(1);
-      navigateTo(userManagementRoute);
+      navigateTo(serviceManagementRoute);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.email}.')),
+            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.name}.')),
       );
     }).catchError((e, stacktrace) async {
       await Future.delayed(const Duration(milliseconds: 400));

@@ -18,12 +18,13 @@ class ServiceRepository {
   }) =>
       _provider.fetchAllServices<T>(params: params);
 
-  Future<ApiResponse<T?>> fetchDataById<T extends BaseModel>({
+  Future<ApiResponse<T?>>
+      fetchDataById<T extends BaseModel, K extends EditBaseModel>({
     String? id,
   }) =>
-      _provider.fetchServiceById<T>(
-        id: id,
-      );
+          _provider.fetchServiceById<T>(
+            id: id,
+          );
 
   Future<ApiResponse<T?>>
       editObject<T extends BaseModel, K extends EditBaseModel>({

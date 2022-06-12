@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -50,7 +49,7 @@ class _InfoOrderState extends State<InfoOrder> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-       route: orderManageRoute,
+       route: orderManagementRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
@@ -73,7 +72,7 @@ class _InfoOrderState extends State<InfoOrder> {
                 children: [
                   GoBackButton(
                     onPressed: () {
-                      navigateTo(orderManageRoute);
+                      navigateTo(orderManagementRoute);
                     },
                   ),
                   Padding(

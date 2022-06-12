@@ -2,33 +2,33 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/base/blocs/block_state.dart';
+import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
-import '../../../core/user/user.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
-class UserList extends StatefulWidget {
+class ServiceList extends StatefulWidget {
   final String route;
-  final UserBloc userBloc;
+  final ServiceBloc serviceBloc;
   final Function(int, {int? limit}) onFetch;
   final TextEditingController searchController;
 
-  const UserList({
+  const ServiceList({
     Key? key,
     required this.route,
-    required this.userBloc,
+    required this.serviceBloc,
     required this.onFetch,
     required this.searchController,
   }) : super(key: key);
 
   @override
-  State<UserList> createState() => _UserListState();
+  State<ServiceList> createState() => _ServiceListState();
 }
 
-class _UserListState extends State<UserList> {
+class _ServiceListState extends State<ServiceList> {
   int _page = 0;
   int _limit = 10;
   int _count = 0;
@@ -51,7 +51,7 @@ class _UserListState extends State<UserList> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            'Danh sách người dùng',
+            'Danh sách dịch vụ',
             style: AppTextTheme.mediumBigText(AppColor.text3),
           ),
         ),
@@ -79,7 +79,7 @@ class _UserListState extends State<UserList> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          'Thêm người dùng',
+                          'Thêm dịch vụ',
                           style: AppTextTheme.mediumBodyText(AppColor.white),
                         ),
                       ),
@@ -87,7 +87,7 @@ class _UserListState extends State<UserList> {
                   ),
                 ),
                 onPressed: () {
-                  navigateTo(createUserRoute);
+                  navigateTo(createServiceRoute);
                 },
               ),
             ],
@@ -165,24 +165,21 @@ class _UserListState extends State<UserList> {
       TableHeader(
         title: ScreenUtil.t(I18nKey.name)!,
         width: 250,
+      ),
+      TableHeader(
+        title: 'Giá ',
+        width: 200,
         isConstant: true,
       ),
       TableHeader(
-        title: 'Email',
-        width: 250,
-      ),
-      TableHeader(
-        title: 'Phương thức đăng nhập',
-        width: 250,
-      ),
-      TableHeader(
-        title: ScreenUtil.t(I18nKey.phoneNumber)!,
+        title: 'Cập nhật mới',
         width: 160,
         isConstant: true,
       ),
       TableHeader(
-        title: ScreenUtil.t(I18nKey.address)!,
+        title: 'Trạng thái',
         width: 250,
+        isConstant: true,
       ),
       TableHeader(
         title: 'Hành động',
@@ -191,13 +188,14 @@ class _UserListState extends State<UserList> {
       ),
     ];
     return StreamBuilder(
-      stream: widget.userBloc.allData,
-      builder: (context, AsyncSnapshot<ApiResponse<ListUserModel?>> snapshot) {
+      stream: widget.serviceBloc.allData,
+      builder:
+          (context, AsyncSnapshot<ApiResponse<ListServiceModel?>> snapshot) {
         if (snapshot.hasData) {
-          final users = snapshot.data!.model!.records;
+          final services = snapshot.data!.model!.records;
           final meta = snapshot.data!.model!.meta;
           _page = meta.page;
-          _count = users.length;
+          _count = services.length;
           return Column(
             children: [
               LayoutBuilder(
@@ -211,13 +209,13 @@ class _UserListState extends State<UserList> {
                     ),
                     headerStyle:
                         AppTextTheme.mediumHeaderTitle(AppColor.shadow),
-                    numberOfRows: users.length,
+                    numberOfRows: services.length,
                     contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    blocState: widget.userBloc.allDataState,
-                    hasBodyData: users.isNotEmpty,
+                    blocState: widget.serviceBloc.allDataState,
+                    hasBodyData: services.isNotEmpty,
                     isSearch: widget.searchController.text.isNotEmpty,
                     rowBuilder: (index) => _rowFor(
-                      item: users[index],
+                      item: services[index],
                       index: index,
                       meta: meta,
                     ),
@@ -240,7 +238,7 @@ class _UserListState extends State<UserList> {
           );
         }
         return StreamBuilder(
-          stream: widget.userBloc.allDataState,
+          stream: widget.serviceBloc.allDataState,
           builder: (context, state) {
             if (!state.hasData || state.data == BlocState.fetching) {
               return const JTIndicator();
@@ -263,15 +261,15 @@ class _UserListState extends State<UserList> {
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: 'Email',
+        title: 'Giá',
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: ScreenUtil.t(I18nKey.phoneNumber)!,
+        title: 'Cập nhật mới',
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: ScreenUtil.t(I18nKey.address)!,
+        title: 'Trạng thái',
         onPressed: () {},
       ),
     ];
@@ -292,7 +290,7 @@ class _UserListState extends State<UserList> {
   }
 
   TableRow _rowFor({
-    required UserModel item,
+    required ServiceModel item,
     required Paging meta,
     required int index,
   }) {
@@ -305,15 +303,12 @@ class _UserListState extends State<UserList> {
         tableCellText(
           title: item.name,
         ),
-        tableCellText(title: item.email),
+        tableCellText(title: item.translations.last.name),
         tableCellText(
-          title: item.authGoogleId.isNotEmpty ? 'Google' : 'App User',
+          title: item.translations.last.name,
         ),
         tableCellText(
-          title: item.phoneNumber,
-        ),
-        tableCellText(
-          title: item.address,
+          title: item.translations.last.name
         ),
         tableCellText(
           child: Row(
@@ -333,7 +328,7 @@ class _UserListState extends State<UserList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(userInfoRoute + '/' + item.id);
+                    navigateTo(serviceDetailRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -351,7 +346,7 @@ class _UserListState extends State<UserList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(editUserRoute + '/' + item.id);
+                    navigateTo(editServiceRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -438,7 +433,7 @@ class _UserListState extends State<UserList> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa người dùng này?',
+            contentText: 'Bạn có muốn xóa dịch vụ này?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
@@ -455,12 +450,12 @@ class _UserListState extends State<UserList> {
   _deleteObjectById({
     required String id,
   }) {
-    widget.userBloc.deleteObject(id: id).then((model) async {
+    widget.serviceBloc.deleteObject(id: id).then((model) async {
       await Future.delayed(const Duration(milliseconds: 400));
       widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.email}.')),
+            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.name}.')),
       );
     }).catchError((e, stacktrace) async {
       await Future.delayed(const Duration(milliseconds: 400));

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hs_admin_web/main.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
-import 'package:hs_admin_web/screens/onboarding/components/forgot_password_form.dart';
+import '/main.dart';
+import '/screens/onboarding/components/forgot_password_form.dart';
 import '../../theme/app_theme.dart';
 import '/core/authentication/auth.dart';
 import 'components/login_form.dart';

@@ -42,13 +42,6 @@ class ApiResponse<T> {
 
 class BaseModel {
   static T fromJson<T extends BaseModel>(Map<String, dynamic> json) {
-    // Models
-    // if (T == AccountModel) {
-    //   return AccountModel.fromJson(json) as T;
-    // }
-    // if (T == AccountListModel) {
-    //   return AccountListModel.fromJson(json) as T;
-    // }
     if (T == Status) {
       return Status.fromJson(json) as T;
     }
@@ -92,6 +85,9 @@ class BaseModel {
     }
     if (T == OtpModel) {
       return OtpModel.fromJson(json) as T;
+    }
+    if (T == PriceModel) {
+      return PriceModel.fromJson(json) as T;
     }
 
     logError("Unknown BaseModel class: $T");
@@ -146,18 +142,15 @@ class BaseModel {
 
 class EditBaseModel {
   static T fromModel<T extends EditBaseModel>(BaseModel model) {
+    if (T == EditUserModel) {
+      return EditUserModel.fromModel(model as UserModel) as T;
+    }
+    if (T == EditTaskerModel) {
+      return EditTaskerModel.fromModel(model as TaskerModel) as T;
+    }
     if (T == EditServiceModel) {
       return EditServiceModel.fromModel(model as ServiceModel) as T;
     }
-    // if (model is EditRoleModel) {
-    //   return EditRoleModel.fromModel(model as RoleModel) as T;
-    // }
-    // if (T == EditVehicleModel) {
-    //   return EditVehicleModel.fromModel(model as VehicleEventModel) as T;
-    // }
-    // if (T == EditFaceRoleModel) {
-    //   return EditFaceRoleModel.fromModel(model as FaceUserModel) as T;
-    // }
     logError("Unknown EditBaseModel class: $T");
     throw Exception("Unknown EditBaseModel class: $T");
   }

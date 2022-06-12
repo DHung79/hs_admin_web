@@ -75,23 +75,28 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.serviceManage()
-      : name = serviceManageRoute,
+  AppRoutePath.serviceManagement()
+      : name = serviceManagementRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.addService()
-      : name = addServiceRoute,
+  AppRoutePath.createService()
+      : name = createServiceRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.detailService()
-      : name = detailServiceRoute,
+  AppRoutePath.editService(String id)
+      : name = editServiceRoute + id,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.serviceDetail(String id)
+      : name = serviceDetailRoute + id,
         routeId = '',
         isUnknown = false;
 
   AppRoutePath.orderManage()
-      : name = orderManageRoute,
+      : name = orderManagementRoute,
         routeId = '',
         isUnknown = false;
 
@@ -111,12 +116,12 @@ class AppRoutePath {
         isUnknown = false;
 
   AppRoutePath.payManage()
-      : name = payManageRoute,
+      : name = payManagementRoute,
         routeId = '',
         isUnknown = false;
 
   AppRoutePath.settingManage()
-      : name = settingManageRoute,
+      : name = settingRoute,
         routeId = '',
         isUnknown = false;
 
@@ -205,16 +210,27 @@ class AppRoutePath {
       }
       return AppRoutePath.taskerManagement();
     }
-    if (name == serviceManageRoute) {
-      return AppRoutePath.serviceManage();
+    if (name == serviceManagementRoute) {
+      return AppRoutePath.serviceManagement();
     }
-    if (name == addServiceRoute) {
-      return AppRoutePath.addService();
+    if (name == createServiceRoute) {
+      return AppRoutePath.createService();
     }
-    if (name == detailServiceRoute) {
-      return AppRoutePath.detailService();
+    if (name != null && name.startsWith(editServiceRoute)) {
+      if (name.length > editServiceRoute.length) {
+        final id = name.substring(editServiceRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editService(id);
+      }
+      return AppRoutePath.serviceManagement();
     }
-    if (name == orderManageRoute) {
+    if (name != null && name.startsWith(serviceDetailRoute)) {
+      if (name.length > serviceDetailRoute.length) {
+        final id = name.substring(serviceDetailRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.serviceDetail(id);
+      }
+      return AppRoutePath.serviceManagement();
+    }
+    if (name == orderManagementRoute) {
       return AppRoutePath.orderManage();
     }
     if (name == infoOrderRoute) {
@@ -226,10 +242,10 @@ class AppRoutePath {
     if (name == addNotificationRoute) {
       return AppRoutePath.addNotification();
     }
-    if (name == payManageRoute) {
+    if (name == payManagementRoute) {
       return AppRoutePath.payManage();
     }
-    if (name == settingManageRoute) {
+    if (name == settingRoute) {
       return AppRoutePath.settingManage();
     }
     if (name == profileSettingRoute) {

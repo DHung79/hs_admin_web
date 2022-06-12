@@ -43,13 +43,14 @@ class ServiceApiProvider {
   Future<ApiResponse<T?>> deleteService<T extends BaseModel>({
     String? id,
   }) async {
-    final path =
-        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.users;
-    final body = convert.jsonEncode({'id': id});
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.services +
+        '/$id';
+
     final token = await ApiHelper.getUserToken();
     final response = await RestApiHandlerData.deleteData<T>(
       path: path,
-      body: body,
       headers: ApiHelper.headers(token),
     );
     return response;

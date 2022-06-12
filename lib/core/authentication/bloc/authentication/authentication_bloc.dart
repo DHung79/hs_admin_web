@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
+import '/core/admin/model/admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import '../../../../../main.dart';

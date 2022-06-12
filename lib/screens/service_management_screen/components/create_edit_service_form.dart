@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/user/user.dart';
+import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
@@ -10,37 +10,35 @@ import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/joytech_components/jt_dropdown.dart';
 
-class CreateEditUserForm extends StatefulWidget {
+class CreateEditServiceForm extends StatefulWidget {
   final String route;
-  final UserBloc userBloc;
-  final UserModel? userModel;
+  final ServiceBloc serviceBloc;
+  final ServiceModel? serviceModel;
   final Function(int, {int? limit}) onFetch;
 
-  const CreateEditUserForm({
+  const CreateEditServiceForm({
     Key? key,
     required this.route,
-    this.userModel,
-    required this.userBloc,
+    this.serviceModel,
+    required this.serviceBloc,
     required this.onFetch,
   }) : super(key: key);
 
   @override
-  State<CreateEditUserForm> createState() => _CreateEditUserFormState();
+  State<CreateEditServiceForm> createState() => _CreateEditServiceFormState();
 }
 
-class _CreateEditUserFormState extends State<CreateEditUserForm> {
+class _CreateEditServiceFormState extends State<CreateEditServiceForm> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
   bool _processing = false;
-  final _userBloc = UserBloc();
-  late EditUserModel _editModel;
-  final _paymentController = TextEditingController();
-  bool _showPassword = false;
+  final _serviceBloc = ServiceBloc();
+  late EditServiceModel _editModel;
 
   @override
   void initState() {
-    _editModel = EditUserModel.fromModel(widget.userModel);
+    _editModel = EditServiceModel.fromModel(widget.serviceModel);
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
@@ -55,7 +53,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
         _buildHeader(),
         _renderError(),
         _buildContent(),
-        if (widget.userModel != null) _deleteButton(),
+        if (widget.serviceModel != null) _deleteButton(),
       ],
     );
   }
@@ -72,7 +70,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                 contentText: 'Bạn có muốn trở về?',
                 onComfirmed: () {
                   widget.onFetch(1);
-                  navigateTo(userManagementRoute);
+                  navigateTo(serviceManagementRoute);
                 },
               );
             },
@@ -84,9 +82,9 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.userModel != null
-                    ? 'Chỉnh sửa thông tin người dùng'
-                    : 'Thêm người dùng',
+                widget.serviceModel != null
+                    ? 'Chỉnh sửa thông tin dịch vụ'
+                    : 'Thêm dịch vụ',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
               _headerActions(),
@@ -127,7 +125,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               contentText: 'Bạn có muốn hủy bỏ?',
               onComfirmed: () {
                 widget.onFetch(1);
-                navigateTo(userManagementRoute);
+                navigateTo(serviceManagementRoute);
               },
             );
           },
@@ -162,7 +160,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      widget.userModel != null ? 'Đồng ý' : 'Thêm',
+                      widget.serviceModel != null ? 'Đồng ý' : 'Thêm',
                       style: AppTextTheme.mediumBodyText(AppColor.white),
                     ),
                   ),
@@ -174,10 +172,10 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                 : () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      if (widget.userModel != null) {
-                        _editUser();
+                      if (widget.serviceModel != null) {
+                        _editService();
                       } else {
-                        _createUser();
+                        _createService();
                       }
                     } else {
                       setState(() {
@@ -212,7 +210,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    'Xóa người dùng',
+                    'Xóa dịch vụ',
                     style: AppTextTheme.mediumBodyText(AppColor.text8),
                   ),
                 ),
@@ -220,7 +218,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
             ),
             onPressed: () {
               _confirmDialog(
-                contentText: 'Bạn có muốn xóa người dùng này?',
+                contentText: 'Bạn có muốn xóa dịch vụ này?',
                 onComfirmed: () {
                   _deleteObjectById(id: _editModel.id);
                 },
@@ -272,197 +270,52 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
   Widget _buildInputField() {
     return LayoutBuilder(builder: (context, size) {
       final elementWidth = size.maxWidth;
-      if (_paymentController.text.isEmpty) {
-        _paymentController.text = '1';
-      }
-      if (_editModel.gender.isEmpty) {
-        _editModel.gender = 'male';
-      }
       return Wrap(
         children: [
-          if (widget.userModel == null)
-            _buildInput(
-              width: elementWidth,
-              title: 'Email',
-              hintText: 'Nhập email',
-              initialValue: _editModel.email,
-              validator: (value) {
-                if (value!.trim().isEmpty) {
-                  return ValidatorText.empty(
-                      fieldName: ScreenUtil.t(I18nKey.email)!);
-                }
-                if (!isEmail(value.trim())) {
-                  return ValidatorText.invalidFormat(
-                      fieldName: ScreenUtil.t(I18nKey.email)!);
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              onSaved: (value) => _editModel.email = value!.trim(),
-            ),
-          if (widget.userModel == null)
-            _buildInput(
-              width: elementWidth,
-              title: 'Mật khẩu',
-              hintText: 'Nhập mật khẩu',
-              initialValue: _editModel.password,
-              obscureText: !_showPassword,
-              suffixIcon: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _showPassword = !_showPassword;
-                  });
-                },
-                child: _showPassword
-                    ? SvgIcon(
-                        SvgIcons.removeRedEye,
-                        color: AppColor.text7,
-                        size: 24,
-                      )
-                    : SvgIcon(
-                        SvgIcons.eyeOff,
-                        color: AppColor.text7,
-                        size: 24,
-                      ),
-              ),
-              onSaved: (value) {
-                _editModel.password = value!.trim();
-              },
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return ValidatorText.empty(
-                      fieldName: ScreenUtil.t(I18nKey.password)!);
-                }
-                if (value.length < 6) {
-                  return ValidatorText.atLeast(
-                      fieldName: ScreenUtil.t(I18nKey.password)!, atLeast: 6);
-                }
-                if (value.length > 50) {
-                  return ValidatorText.moreThan(
-                      fieldName: ScreenUtil.t(I18nKey.password)!, moreThan: 50);
-                }
-                return null;
-              },
-            ),
-          _buildInput(
-            width: elementWidth,
-            title: 'Tên',
-            hintText: 'Nhập tên người dùng',
-            initialValue: _editModel.name,
-            onChanged: (value) {
-              setState(() {
-                if (_errorMessage.isNotEmpty) {
-                  _errorMessage = '';
-                }
-              });
-            },
-            validator: (value) {
-              if (value!.trim().isEmpty) {
-                return ValidatorText.empty(
-                    fieldName: ScreenUtil.t(I18nKey.name)!);
-              } else if (value.trim().length > 50) {
-                return ValidatorText.moreThan(
-                    fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
-              } else if (value.trim().length < 5) {
-                return ValidatorText.atLeast(
-                  fieldName: ScreenUtil.t(I18nKey.name)!,
-                  atLeast: 5,
-                );
-              }
-              return null;
-            },
-            onSaved: (value) => _editModel.name = value!.trim(),
-          ),
-          _buildInput(
-            width: elementWidth,
-            title: 'Số điện thoại ',
-            hintText: 'Nhập số điện thoại',
-            initialValue: _editModel.phoneNumber,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value!.isEmpty || value.trim().isEmpty) {
-                return ValidatorText.empty(
-                    fieldName: ScreenUtil.t(I18nKey.phoneNumber)!);
-              }
-              String pattern =
-                  r'^(\+843|\+845|\+847|\+848|\+849|\+841|03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$';
-              RegExp regExp = RegExp(pattern);
-              if (!regExp.hasMatch(value)) {
-                return ScreenUtil.t(I18nKey.invalidPhoneNumber)!;
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {
-                if (_errorMessage.isNotEmpty) {
-                  _errorMessage = '';
-                }
-              });
-            },
-            onSaved: (value) {
-              _editModel.phoneNumber = value!.trim();
-            },
-          ),
-          _buildInput(
-            width: elementWidth,
-            title: 'Địa chỉ',
-            hintText: 'Nhập địa chỉ',
-            initialValue: _editModel.address,
-            validator: (value) {
-              if (value!.trim().isEmpty) {
-                return ValidatorText.empty(
-                    fieldName: ScreenUtil.t(I18nKey.address)!);
-              } else if (value.trim().length > 300) {
-                return ValidatorText.moreThan(
-                  fieldName: ScreenUtil.t(I18nKey.address)!,
-                  moreThan: 300,
-                );
-              } else if (value.trim().length < 5) {
-                return ValidatorText.atLeast(
-                  fieldName: ScreenUtil.t(I18nKey.address)!,
-                  atLeast: 5,
-                );
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {
-                if (_errorMessage.isNotEmpty) {
-                  _errorMessage = '';
-                }
-              });
-            },
-            onSaved: (value) => _editModel.address = value!.trim(),
-          ),
-          _buildDropDown<String>(
-            width: elementWidth,
-            title: 'Giới tính',
-            defaultValue: _editModel.gender,
-            dataSource: [
-              {'name': 'Nam', 'value': 'male'},
-              {'name': 'Nữ', 'value': 'female'},
-              {'name': 'Khác', 'value': 'other'},
-            ],
-            onChanged: (value) {
-              setState(() {
-                _editModel.gender = value!;
-              });
-            },
-          ),
+          // _buildInput(
+          //   width: elementWidth,
+          //   title: 'Tên',
+          //   hintText: 'Nhập tên dịch vụ',
+          //   initialValue: _editModel.name,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       if (_errorMessage.isNotEmpty) {
+          //         _errorMessage = '';
+          //       }
+          //     });
+          //   },
+          //   validator: (value) {
+          //     if (value!.trim().isEmpty) {
+          //       return ValidatorText.empty(
+          //           fieldName: ScreenUtil.t(I18nKey.name)!);
+          //     } else if (value.trim().length > 50) {
+          //       return ValidatorText.moreThan(
+          //           fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
+          //     } else if (value.trim().length < 5) {
+          //       return ValidatorText.atLeast(
+          //         fieldName: ScreenUtil.t(I18nKey.name)!,
+          //         atLeast: 5,
+          //       );
+          //     }
+          //     return null;
+          //   },
+          //   onSaved: (value) => _editModel.name = value!.trim(),
+          // ),
+          // _buildDropDown<String>(
+          //   width: elementWidth,
+          //   title: 'Giới tính',
+          //   defaultValue: _editModel.gender,
+          //   dataSource: [
+          //     {'name': 'Nam', 'value': 'male'},
+          //     {'name': 'Nữ', 'value': 'female'},
+          //     {'name': 'Khác', 'value': 'other'},
+          //   ],
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _editModel.gender = value!;
+          //     });
+          //   },
+          // ),
           // _buildDropDown<String>(
           //   width: elementWidth,
           //   title: 'Hình thức thanh toán',
@@ -694,14 +547,14 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
     );
   }
 
-  _createUser() async {
+  _createService() async {
     setState(() {
       _processing = true;
     });
-    _userBloc.createObject(editModel: _editModel).then(
+    _serviceBloc.createObject(editModel: _editModel).then(
       (value) async {
         widget.onFetch(1);
-        navigateTo(userManagementRoute);
+        navigateTo(serviceManagementRoute);
         await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {
@@ -720,14 +573,14 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
     );
   }
 
-  _editUser() async {
+  _editService() async {
     setState(() {
       _processing = true;
     });
-    _userBloc.editObject(editModel: _editModel, id: _editModel.id).then(
+    _serviceBloc.editObject(editModel: _editModel, id: _editModel.id).then(
       (value) async {
         widget.onFetch(1);
-        navigateTo(userManagementRoute);
+        navigateTo(serviceManagementRoute);
         await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {
@@ -748,13 +601,13 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
   _deleteObjectById({
     required String id,
   }) {
-    _userBloc.deleteObject(id: id).then((model) async {
+    _serviceBloc.deleteObject(id: id).then((model) async {
       await Future.delayed(const Duration(milliseconds: 400));
       widget.onFetch(1);
-      navigateTo(userManagementRoute);
+      navigateTo(serviceManagementRoute);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.email}.')),
+            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.name}.')),
       );
     }).catchError((e, stacktrace) async {
       await Future.delayed(const Duration(milliseconds: 400));

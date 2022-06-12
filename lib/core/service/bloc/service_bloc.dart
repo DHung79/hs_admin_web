@@ -7,11 +7,12 @@ import '../service.dart';
 
 class ServiceBloc {
   final _repository = ServiceRepository();
-  final BehaviorSubject<ApiResponse<ListServiceModel?>> _allDataFetcher =
-      BehaviorSubject<ApiResponse<ListServiceModel>>();
+  final _allDataFetcher = BehaviorSubject<ApiResponse<ListServiceModel?>>();
+  final _serviceDataFetcher = BehaviorSubject<ApiResponse<ServiceModel?>>();
   final _allDataState = BehaviorSubject<BlocState>();
 
   Stream<ApiResponse<ListServiceModel?>> get allData => _allDataFetcher.stream;
+  Stream<ApiResponse<ServiceModel?>> get serviceData => _serviceDataFetcher.stream;
   Stream<BlocState> get allDataState => _allDataState.stream;
   bool _isFetching = false;
 
@@ -40,20 +41,29 @@ class ServiceBloc {
     _isFetching = false;
   }
 
-  Future<ServiceModel> fetchDataById(String id) async {
+   fetchDataById(String id) async {
+    if (_isFetching) return;
+    _isFetching = true;
+    // Start fetching data.
+    _allDataState.sink.add(BlocState.fetching);
     try {
       // Await response from server.
-      final data = await _repository.fetchDataById<ServiceModel>(id: id);
+      final data =
+          await _repository.fetchDataById<ServiceModel, EditServiceModel>(id: id);
+      if (_serviceDataFetcher.isClosed) return;
       if (data.error != null) {
         // Error exist
-        return Future.error(data.error!);
+        _serviceDataFetcher.sink.addError(data.error!);
       } else {
         // Adding response data.
-        return Future.value(data.model);
+        _serviceDataFetcher.sink.add(data);
       }
     } on AppException catch (e) {
-      return Future.error(e);
+      _serviceDataFetcher.sink.addError(e);
     }
+    // Complete fetching.
+    _allDataState.sink.add(BlocState.completed);
+    _isFetching = false;
   }
 
   Future<ServiceModel> deleteObject({String? id}) async {
@@ -72,85 +82,51 @@ class ServiceBloc {
     }
   }
 
-  // Future<ServiceModel> editProfile({
-  //   EditServiceModel? editModel,
-  // }) async {
-  //   try {
-  //     // Await response from server.
-  //     final data = await _repository.editProfile<ServiceModel, EditServiceModel>(
-  //       editModel: editModel,
-  //     );
-  //     if (data.error != null) {
-  //       // Error exist
-  //       return Future.error(data.error!);
-  //     } else {
-  //       // Adding response data.
-  //       return Future.value(data.model);
-  //     }
-  //   } on AppException catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
+ Future<ServiceModel> createObject({
+    EditServiceModel? editModel,
+  }) async {
+    try {
+      // Await response from server.
+      final data = await _repository.createObject<ServiceModel, EditServiceModel>(
+        editModel: editModel,
+      );
+      if (data.error != null) {
+        // Error exist
+        return Future.error(data.error!);
+      } else {
+        // Adding response data.
+        return Future.value(data.model);
+      }
+    } on AppException catch (e) {
+      return Future.error(e);
+    }
+  }
 
-  // Future<ServiceModel> editObject({
-  //   EditServiceModel? editModel,
-  //   String? id,
-  // }) async {
-  //   try {
-  //     // Await response from server.
-  //     final data = await _repository.editObject<ServiceModel, EditServiceModel>(
-  //       editModel: editModel,
-  //       id: id,
-  //     );
-  //     if (data.error != null) {
-  //       // Error exist
-  //       return Future.error(data.error!);
-  //     } else {
-  //       // Adding response data.
-  //       return Future.value(data.model);
-  //     }
-  //   } on AppException catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
-
-  // Future<ServiceModel> getProfile() async {
-  //   try {
-  //     // Await response from server.
-  //     final data = await _repository.getProfile<ServiceModel, EditServiceModel>();
-  //     if (data.error != null) {
-  //       // Error exist
-  //       return Future.error(data.error!);
-  //     } else {
-  //       // Adding response data.
-  //       return Future.value(data.model);
-  //     }
-  //   } on AppException catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
-
-  // Future<ServiceModel> userChangePassword({Map<String, dynamic>? params}) async {
-  //   try {
-  //     // Await response from server.
-  //     final data =
-  //         await _repository.userChangePassword<ServiceModel, EditServiceModel>(
-  //       params: params,
-  //     );
-  //     if (data.error != null) {
-  //       // Error exist
-  //       return Future.error(data.error!);
-  //     } else {
-  //       // Adding response data.
-  //       return Future.value(data.model);
-  //     }
-  //   } on AppException catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
+  Future<ServiceModel> editObject({
+    EditServiceModel? editModel,
+    String? id,
+  }) async {
+    try {
+      // Await response from server.
+      final data = await _repository.editObject<ServiceModel, EditServiceModel>(
+        editModel: editModel,
+        id: id,
+      );
+      if (data.error != null) {
+        // Error exist
+        return Future.error(data.error!);
+      } else {
+        // Adding response data.
+        return Future.value(data.model);
+      }
+    } on AppException catch (e) {
+      return Future.error(e);
+    }
+  }
 
   dispose() {
     _allDataFetcher.close();
     _allDataState.close();
+    _serviceDataFetcher.close();
   }
 }

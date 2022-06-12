@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/order_manage/info_order.dart';
-import '../screens/service_manage/add_service.dart';
-import '../screens/service_manage/detail_service.dart';
+import '../screens/service_management_screen/service_management_screen.dart';
 import '../screens/setting_manage/contact_info.dart';
 import '../screens/setting_manage/edit_contact.dart';
 import '../screens/setting_manage/profile_edit.dart';
@@ -72,6 +71,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == resetPasswordRoute) {
       return const AuthenticationScreen(form: 3);
     }
+
     if (route == userManagementRoute) {
       return const UserManagementScreen();
     }
@@ -92,6 +92,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       }
       return const UserManagementScreen();
     }
+
     if (route == taskerManagementRoute) {
       return const TaskerManagementScreen();
     }
@@ -113,16 +114,28 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const TaskerManagementScreen();
     }
 
-    if (route == serviceManageRoute) {
-      return const ServiceManage();
+    if (route == serviceManagementRoute) {
+      return const ServiceManagementScreen();
     }
-    if (route == addServiceRoute) {
-      return const AddService();
+    if (route == createServiceRoute) {
+      return const ServiceManagementScreen(tab: 1);
     }
-    if (route == detailServiceRoute) {
-      return const DetailService();
+    if (route.startsWith(editServiceRoute)) {
+      if (route.length > editServiceRoute.length) {
+        final id = route.substring(editServiceRoute.length + 1, route.length);
+        if (id.isNotEmpty) return ServiceManagementScreen(id: id, tab: 3);
+      }
+      return const ServiceManagementScreen();
     }
-    if (route == orderManageRoute) {
+    if (route.startsWith(serviceDetailRoute)) {
+      if (route.length > serviceDetailRoute.length) {
+        final id = route.substring(serviceDetailRoute.length + 1, route.length);
+        if (id.isNotEmpty) return ServiceManagementScreen(id: id, tab: 2);
+      }
+      return const ServiceManagementScreen();
+    }
+
+    if (route == orderManagementRoute) {
       return const OrderManage();
     }
     if (route == infoOrderRoute) {
@@ -134,10 +147,10 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == addNotificationRoute) {
       return const AddNotification();
     }
-    if (route == payManageRoute) {
+    if (route == payManagementRoute) {
       return const PayManage();
     }
-    if (route == settingManageRoute) {
+    if (route == settingRoute) {
       return const Setting();
     }
     if (route == profileSettingRoute) {
@@ -152,21 +165,6 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == editProfileRoute) {
       return const EditProfile();
     }
-
-    // if (route == roleRoute) {
-    //   return const UserManagementScreen(tab: 1);
-    // }
-    // if (route == createRoleRoute) {
-    //   return const UserManagementScreen();
-    // }
-    // if (route.startsWith(editRoleRoute)) {
-    //   if (route.length > editRoleRoute.length) {
-    //     final id = route.substring(editRoleRoute.length + 1, route.length);
-    //     if (id.isNotEmpty) return UserManagementScreen(id: id);
-    //   }
-    //   return const UserManagementScreen(tab: 1);
-    // }
-
     return PageNotFoundScreen(route);
   }
 

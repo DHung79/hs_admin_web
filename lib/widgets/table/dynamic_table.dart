@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/widgets/joytech_components/jt_indicator.dart';
+import '/widgets/joytech_components/jt_indicator.dart';
 import '../../core/base/blocs/block_state.dart';
 import 'nested_scroll_fix.dart';
 import '../../main.dart';

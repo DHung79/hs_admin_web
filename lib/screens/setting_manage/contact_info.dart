@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -37,7 +36,7 @@ class _ContactInfoState extends State<ContactInfo> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: serviceManageRoute,
+      route: serviceManagementRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
@@ -60,7 +59,7 @@ class _ContactInfoState extends State<ContactInfo> {
                 children: [
                   GoBackButton(
                     onPressed: () {
-                      navigateTo(settingManageRoute);
+                      navigateTo(settingRoute);
                     },
                   ),
                   titleAddNoti(),

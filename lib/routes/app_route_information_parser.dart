@@ -16,19 +16,15 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == homeRoute) {
       return AppRoutePath.home();
     }
-
     if (name == authenticationRoute) {
       return AppRoutePath.authentication();
     }
-
     if (name == forgotPasswordRoute) {
       return AppRoutePath.forgotPassword();
     }
-
     if (name == otpRoute) {
       return AppRoutePath.otp();
     }
-
     if (name == resetPasswordRoute) {
       return AppRoutePath.resetPassword();
     }
@@ -36,11 +32,9 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == userManagementRoute) {
       return AppRoutePath.userManagement();
     }
-
     if (name == createUserRoute) {
       return AppRoutePath.createUser();
     }
-
     if (name.startsWith(editUserRoute)) {
       if (name.length > editUserRoute.length) {
         final id = name.substring(editUserRoute.length, name.length);
@@ -48,7 +42,6 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       }
       return AppRoutePath.userManagement();
     }
-
     if (name.startsWith(userInfoRoute)) {
       if (name.length > userInfoRoute.length) {
         final id = name.substring(userInfoRoute.length, name.length);
@@ -60,11 +53,9 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     if (name == taskerManagementRoute) {
       return AppRoutePath.taskerManagement();
     }
-
     if (name == createTaskerRoute) {
       return AppRoutePath.createTasker();
     }
-
     if (name.startsWith(editTaskerRoute)) {
       if (name.length > editTaskerRoute.length) {
         final id = name.substring(editTaskerRoute.length, name.length);
@@ -72,7 +63,6 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       }
       return AppRoutePath.taskerManagement();
     }
-
     if (name.startsWith(taskerInfoRoute)) {
       if (name.length > taskerInfoRoute.length) {
         final id = name.substring(taskerInfoRoute.length, name.length);
@@ -81,11 +71,28 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.taskerManagement();
     }
 
-    if (name == serviceManageRoute) {
-      return AppRoutePath.serviceManage();
+    if (name == serviceManagementRoute) {
+      return AppRoutePath.serviceManagement();
+    }
+    if (name == createServiceRoute) {
+      return AppRoutePath.createService();
+    }
+    if (name.startsWith(editServiceRoute)) {
+      if (name.length > editServiceRoute.length) {
+        final id = name.substring(editServiceRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editService(id);
+      }
+      return AppRoutePath.serviceManagement();
+    }
+    if (name.startsWith(serviceDetailRoute)) {
+      if (name.length > serviceDetailRoute.length) {
+        final id = name.substring(serviceDetailRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.serviceDetail(id);
+      }
+      return AppRoutePath.serviceManagement();
     }
 
-    if (name == orderManageRoute) {
+    if (name == orderManagementRoute) {
       return AppRoutePath.orderManage();
     }
 
@@ -93,11 +100,11 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.notificationManage();
     }
 
-    if (name == payManageRoute) {
+    if (name == payManagementRoute) {
       return AppRoutePath.payManage();
     }
 
-    if (name == settingManageRoute) {
+    if (name == settingRoute) {
       return AppRoutePath.settingManage();
     }
 

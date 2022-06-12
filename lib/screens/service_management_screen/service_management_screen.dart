@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'components/edit_user_content.dart';
-import 'components/create_edit_user_form.dart';
+import '../../core/service/service.dart';
 import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
-import '../../core/user/user.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/user_info_content.dart';
-import 'components/user_list.dart';
+import 'components/create_edit_service_form.dart';
+import 'components/edit_service_content.dart';
+import 'components/service_detail_content.dart';
+import 'components/service_list.dart';
 
-class UserManagementScreen extends StatefulWidget {
+class ServiceManagementScreen extends StatefulWidget {
   final int tab;
   final String id;
-  const UserManagementScreen({
+  const ServiceManagementScreen({
     Key? key,
     this.tab = 0,
     this.id = '',
   }) : super(key: key);
 
   @override
-  State<UserManagementScreen> createState() => _UserManagementScreenState();
+  State<ServiceManagementScreen> createState() => _ServiceManagementScreenState();
 }
 
-class _UserManagementScreenState extends State<UserManagementScreen> {
+class _ServiceManagementScreenState extends State<ServiceManagementScreen> {
   final _pageState = PageState();
-  final _userBloc = UserBloc();
+  final _serviceBloc = ServiceBloc();
   final _searchController = TextEditingController();
 
   @override
@@ -35,7 +35,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
 
   @override
   void dispose() {
-    _userBloc.dispose();
+    _serviceBloc.dispose();
     super.dispose();
   }
 
@@ -43,8 +43,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: userManagementRoute,
-      title: 'Quản lí người dùng',
+      route: serviceManagementRoute,
+      title: 'Quản lí dịch vụ',
       subTitle: _getSubTitle(),
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
@@ -69,51 +69,51 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
 
   Widget _buildContent() {
     if (widget.tab == 1) {
-      return CreateEditUserForm(
-        userBloc: _userBloc,
-        route: userManagementRoute,
+      return CreateEditServiceForm(
+        serviceBloc: _serviceBloc,
+        route: serviceManagementRoute,
         onFetch: _fetchDataOnPage,
       );
     } else if (widget.tab == 2) {
-      return UserInfoContent(
-        route: userManagementRoute,
-        userId: widget.id,
+      return ServiceDetailContent(
+        route: serviceManagementRoute,
+        id: widget.id,
         onFetch: _fetchDataOnPage,
       );
     } else if (widget.tab == 3) {
-      return EditUserContent(
-        route: userManagementRoute,
-        userId: widget.id,
+      return EditServiceContent(
+        route: serviceManagementRoute,
+        id: widget.id,
         onFetch: _fetchDataOnPage,
       );
     } else {
-      return UserList(
-        userBloc: _userBloc,
+      return ServiceList(
+        serviceBloc: _serviceBloc,
         onFetch: _fetchDataOnPage,
         searchController: _searchController,
-        route: userManagementRoute,
+        route: serviceManagementRoute,
       );
     }
   }
 
   String _getSubTitle() {
     if (widget.tab == 1) {
-      return 'Quản lí người dùng / Chỉnh sửa thông tin người dùng';
+      return 'Quản lí dịch vụ / Chỉnh sửa thông tin dịch vụ';
     } else if (widget.tab == 2) {
-      return 'Quản lí người dùng / Xem thông tin người dùng ';
+      return 'Quản lí dịch vụ / Xem thông tin dịch vụ ';
     } else {
-      return 'Quản lí người dùng';
+      return 'Quản lí dịch vụ';
     }
   }
 
   _fetchDataOnPage(int page, {int? limit}) {
-    userManagementIndex = page;
-    userManagementSearchString = _searchController.text;
+    serviceManagementIndex = page;
+    serviceManagementSearchString = _searchController.text;
     Map<String, dynamic> params = {
       'limit': limit ?? 10,
-      'page': userManagementIndex,
-      'search_string': userManagementSearchString,
+      'page': serviceManagementIndex,
+      'search_string': serviceManagementSearchString,
     };
-    _userBloc.fetchAllData(params: params);
+    _serviceBloc.fetchAllData(params: params);
   }
 }

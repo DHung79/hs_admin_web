@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/theme/app_colors.dart';
-import 'package:hs_admin_web/theme/app_text_theme.dart';
+import '/theme/app_colors.dart';
+import '/theme/app_text_theme.dart';
 
 DataCell rowCellData({
   String? title,

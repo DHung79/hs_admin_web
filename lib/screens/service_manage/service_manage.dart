@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/core/admin/model/admin_model.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../../theme/app_theme.dart';
@@ -62,7 +61,7 @@ class _ServiceManageState extends State<ServiceManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: serviceManageRoute,
+      route: serviceManagementRoute,
       title: 'Quản lí dịch vụ',
       subTitle: 'Quản lí dịch vụ',
       pageState: _pageState,
@@ -305,7 +304,7 @@ class _ServiceManageState extends State<ServiceManage> {
             children: [
               actionButton(
                   onPressed: () {
-                    navigateTo(detailServiceRoute);
+                    navigateTo(serviceDetailRoute);
                   },
                   icon: SvgIcons.barChart),
               const SizedBox(
@@ -529,7 +528,7 @@ class _ServiceManageState extends State<ServiceManage> {
         ),
       ),
       onPressed: () {
-        navigateTo(addServiceRoute);
+        navigateTo(createServiceRoute);
       },
     );
   }

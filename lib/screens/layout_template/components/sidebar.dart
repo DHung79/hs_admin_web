@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hs_admin_web/main.dart';
-import 'package:hs_admin_web/routes/route_names.dart';
+import '/main.dart';
 import '../../../theme/app_theme.dart';
 
 class SideBar extends StatefulWidget {
@@ -29,12 +28,12 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.listCheck,
         title: 'Quản lí dịch vụ',
-        route: serviceManageRoute,
+        route: serviceManagementRoute,
       ),
       SideBarItem(
         icon: SvgIcons.noteblockTextLine,
         title: 'Quản lí đặt hàng',
-        route: orderManageRoute,
+        route: orderManagementRoute,
       ),
       SideBarItem(
         title: 'Quản lí thông báo đẩy',
@@ -44,12 +43,12 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.wallet,
         title: 'Quản lí thanh toán',
-        route: payManageRoute,
+        route: payManagementRoute,
       ),
       SideBarItem(
         icon: SvgIcons.settingTwo,
         title: 'Cài đặt',
-        route: settingManageRoute,
+        route: settingRoute,
       ),
     ];
     final screenSize = MediaQuery.of(context).size;
