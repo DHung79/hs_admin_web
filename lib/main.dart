@@ -27,10 +27,13 @@ Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 int userManagementIndex = 1;
 int taskerManagementIndex = 1;
 int serviceManagementIndex = 1;
+int tasksIndex = 1;
 //Page search
 String userManagementSearchString = '';
 String taskerManagementSearchString = '';
 String serviceManagementSearchString = '';
+String tasksSearchString = '';
+
 
 GlobalKey globalKey = GlobalKey();
 

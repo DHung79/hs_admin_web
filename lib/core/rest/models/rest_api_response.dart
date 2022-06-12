@@ -1,7 +1,7 @@
+import '../../task/model/task_model.dart';
 import '../../admin/model/admin_model.dart';
 import '../../authentication/models/status.dart';
 import '/core/user/model/user_model.dart';
-
 import '../../logger/logger.dart';
 import '../../service/service.dart';
 import '../../tasker/model/tasker_model.dart';
@@ -88,6 +88,15 @@ class BaseModel {
     }
     if (T == PriceModel) {
       return PriceModel.fromJson(json) as T;
+    }
+    if (T == TaskModel) {
+      return TaskModel.fromJson(json) as T;
+    }
+    if (T == ListTaskModel) {
+      return ListTaskModel.fromJson(json) as T;
+    }
+    if (T == LocationModel) {
+      return LocationModel.fromJson(json) as T;
     }
 
     logError("Unknown BaseModel class: $T");

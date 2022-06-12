@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/tasks_screen/tasks_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/order_manage/info_order.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
@@ -9,9 +10,7 @@ import '../screens/setting_manage/profile_setting.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
-import '../screens/order_manage/order_manage.dart';
 import '../screens/pay_manage/pay_manage.dart';
-import '../screens/service_manage/service_manage.dart';
 import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
@@ -135,12 +134,17 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const ServiceManagementScreen();
     }
 
-    if (route == orderManagementRoute) {
-      return const OrderManage();
+    if (route == tasksRoute) {
+      return const TasksScreen();
     }
-    if (route == infoOrderRoute) {
-      return const InfoOrder();
+    if (route.startsWith(taskDetailRoute)) {
+      if (route.length > taskDetailRoute.length) {
+        final id = route.substring(taskDetailRoute.length + 1, route.length);
+        if (id.isNotEmpty) return TasksScreen(id: id);
+      }
+      return const TasksScreen();
     }
+
     if (route == notificationManageRoute) {
       return const NotificationManage();
     }

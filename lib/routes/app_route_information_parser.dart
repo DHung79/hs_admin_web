@@ -92,8 +92,15 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.serviceManagement();
     }
 
-    if (name == orderManagementRoute) {
-      return AppRoutePath.orderManage();
+    if (name == tasksRoute) {
+      return AppRoutePath.tasks();
+    }
+    if (name.startsWith(taskDetailRoute)) {
+      if (name.length > taskDetailRoute.length) {
+        final id = name.substring(taskDetailRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.taskDetail(id);
+      }
+      return AppRoutePath.tasks();
     }
 
     if (name == notificationManageRoute) {

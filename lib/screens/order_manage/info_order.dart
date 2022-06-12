@@ -49,7 +49,7 @@ class _InfoOrderState extends State<InfoOrder> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-       route: orderManagementRoute,
+       route: tasksRoute,
       pageState: _pageState,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
@@ -72,7 +72,7 @@ class _InfoOrderState extends State<InfoOrder> {
                 children: [
                   GoBackButton(
                     onPressed: () {
-                      navigateTo(orderManagementRoute);
+                      navigateTo(tasksRoute);
                     },
                   ),
                   Padding(

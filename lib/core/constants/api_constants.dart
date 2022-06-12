@@ -17,6 +17,7 @@ class ApiConstants {
   static String admin = '/admin';
   //Taskers
   static String taskers = '/taskers';
+  static String tasks = '/tasks';
   static String statistical = '/statistical';
   static String provinceApi = 'https://provinces.open-api.vn/api/?depth=2';
 }

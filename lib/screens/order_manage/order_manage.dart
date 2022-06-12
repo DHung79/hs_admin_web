@@ -55,7 +55,7 @@ class _OrderManageState extends State<OrderManage> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return PageTemplate(
-      route: orderManagementRoute,
+      route: tasksRoute,
       title: 'Quản lí đặt hàng',
       subTitle: 'Quản lí đặt hàng',
       pageState: _pageState,
@@ -223,7 +223,7 @@ class _OrderManageState extends State<OrderManage> {
             children: [
               TextButton(
                 onPressed: () {
-                  navigateTo(infoOrderRoute);
+                  navigateTo(taskDetailRoute);
                 },
                 child: Text(
                   service,

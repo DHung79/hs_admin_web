@@ -33,7 +33,7 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.noteblockTextLine,
         title: 'Quản lí đặt hàng',
-        route: orderManagementRoute,
+        route: tasksRoute,
       ),
       SideBarItem(
         title: 'Quản lí thông báo đẩy',

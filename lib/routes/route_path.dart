@@ -95,13 +95,13 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.orderManage()
-      : name = orderManagementRoute,
+  AppRoutePath.tasks()
+      : name = tasksRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.infoOrder()
-      : name = infoOrderRoute,
+  AppRoutePath.taskDetail(String id)
+      : name = taskDetailRoute + id,
         routeId = '',
         isUnknown = false;
 
@@ -170,6 +170,7 @@ class AppRoutePath {
     if (name == homeRoute) {
       return AppRoutePath.home();
     }
+
     if (name == userManagementRoute) {
       return AppRoutePath.userManagement();
     }
@@ -190,6 +191,7 @@ class AppRoutePath {
       }
       return AppRoutePath.userManagement();
     }
+
     if (name == taskerManagementRoute) {
       return AppRoutePath.taskerManagement();
     }
@@ -210,6 +212,7 @@ class AppRoutePath {
       }
       return AppRoutePath.taskerManagement();
     }
+
     if (name == serviceManagementRoute) {
       return AppRoutePath.serviceManagement();
     }
@@ -230,12 +233,18 @@ class AppRoutePath {
       }
       return AppRoutePath.serviceManagement();
     }
-    if (name == orderManagementRoute) {
-      return AppRoutePath.orderManage();
+
+    if (name == tasksRoute) {
+      return AppRoutePath.tasks();
     }
-    if (name == infoOrderRoute) {
-      return AppRoutePath.infoOrder();
+    if (name != null && name.startsWith(taskDetailRoute)) {
+      if (name.length > taskDetailRoute.length) {
+        final id = name.substring(taskDetailRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.taskDetail(id);
+      }
+      return AppRoutePath.tasks();
     }
+    
     if (name == notificationManageRoute) {
       return AppRoutePath.notificationManage();
     }
