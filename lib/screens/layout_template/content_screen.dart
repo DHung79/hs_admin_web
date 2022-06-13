@@ -60,7 +60,7 @@ class _PageTemplateState extends State<PageTemplate> {
   Future<AdminModel>? _currentUser;
 // int _totalNotifications;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _taskerBloc = AdminBloc();
+  final _adminBloc = AdminBloc();
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _PageTemplateState extends State<PageTemplate> {
 
   @override
   void dispose() {
-    _taskerBloc.dispose();
+    _adminBloc.dispose();
     super.dispose();
   }
 

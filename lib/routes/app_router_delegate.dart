@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../screens/setting_screen/setting_screen.dart';
 import '../screens/tasks_screen/tasks_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
-import '../screens/order_manage/info_order.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
 import '../screens/setting_manage/contact_info.dart';
 import '../screens/setting_manage/edit_contact.dart';
@@ -11,7 +11,6 @@ import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
 import '../screens/pay_manage/pay_manage.dart';
-import '../screens/setting_manage/setting_manage.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
@@ -155,7 +154,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const PayManage();
     }
     if (route == settingRoute) {
-      return const Setting();
+      return const SettingScreen();
     }
     if (route == profileSettingRoute) {
       return const ProfileSetting();
