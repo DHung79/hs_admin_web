@@ -81,6 +81,8 @@ class SvgIcons {
   static SvgIconData star1 = SvgIconData(path: 'assets/svg/star_1.svg');
   static SvgIconData starHalf = SvgIconData(path: 'assets/svg/star_half.svg');
   static SvgIconData starOutline =
+      SvgIconData(path: 'assets/svg/star_out_line.svg');
+  static SvgIconData starOutlineRounded =
       SvgIconData(path: 'assets/svg/star_outline.svg');
   static SvgIconData star = SvgIconData(path: 'assets/svg/star.svg');
   static SvgIconData tablePlusLine =

@@ -4,7 +4,7 @@ import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import 'create_edit_service_form.dart';
+import 'edit_service_form.dart';
 
 class EditServiceContent extends StatefulWidget {
   final String route;
@@ -48,7 +48,7 @@ class _EditServiceContentState extends State<EditServiceContent> {
       builder: (context, AsyncSnapshot<ApiResponse<ServiceModel?>> snapshot) {
         if (snapshot.hasData) {
           final service = snapshot.data!.model;
-          return CreateEditServiceForm(
+          return EditServiceForm(
             serviceBloc: _serviceBloc,
             route: serviceManagementRoute,
             serviceModel: service,

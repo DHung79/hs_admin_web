@@ -225,7 +225,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                 RatingBar.builder(
                   ignoreGestures: true,
                   allowHalfRating: true,
-                  initialRating: 4.5,
+                  initialRating: 5,
                   minRating: 1,
                   itemCount: 5,
                   itemSize: 24,
@@ -271,7 +271,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgIcon(
-                    SvgIcons.starOutline,
+                    SvgIcons.starOutlineRounded,
                     color: AppColor.text8,
                     size: 24,
                   ),

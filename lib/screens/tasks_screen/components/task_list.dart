@@ -149,12 +149,12 @@ class _TaskListState extends State<TaskList> {
       ),
       TableHeader(
         title: 'Trạng thái',
-        width: 250,
+        width: 200,
         isConstant: true,
       ),
       TableHeader(
         title: 'Hành động',
-        width: 150,
+        width: 120,
         isConstant: true,
       ),
     ];

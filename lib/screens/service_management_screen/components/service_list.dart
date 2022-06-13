@@ -61,35 +61,6 @@ class _ServiceListState extends State<ServiceList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _searchBar(),
-              AppButtonTheme.fillRounded(
-                constraints: const BoxConstraints(minHeight: 44),
-                color: AppColor.primary2,
-                borderRadius: BorderRadius.circular(10),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: AppColor.white,
-                        size: 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Thêm dịch vụ',
-                          style: AppTextTheme.mediumBodyText(AppColor.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  navigateTo(createServiceRoute);
-                },
-              ),
             ],
           ),
         ),
@@ -178,7 +149,7 @@ class _ServiceListState extends State<ServiceList> {
       ),
       TableHeader(
         title: 'Trạng thái',
-        width: 250,
+        width: 200,
         isConstant: true,
       ),
       TableHeader(
@@ -295,7 +266,7 @@ class _ServiceListState extends State<ServiceList> {
     required int index,
   }) {
     final recordOffset = meta.recordOffset;
-
+    final action = index % 2 == 0;
     return TableRow(
       children: [
         tableCellText(
@@ -308,7 +279,10 @@ class _ServiceListState extends State<ServiceList> {
           title: item.translations.last.name,
         ),
         tableCellText(
-          title: item.translations.last.name
+          title: action ? 'Hoạt động' : 'Không hoạt động',
+          style: AppTextTheme.mediumBodyText(
+            action ? AppColor.shade9 : AppColor.others1,
+          ),
         ),
         tableCellText(
           child: Row(
@@ -357,14 +331,14 @@ class _ServiceListState extends State<ServiceList> {
                     padding: const EdgeInsets.all(4),
                     child: SizedBox(
                       child: SvgIcon(
-                        SvgIcons.delete,
+                        action ? SvgIcons.eyeOff : SvgIcons.removeRedEye,
                         color: AppColor.shadow,
                         size: 24,
                       ),
                     ),
                   ),
                   onTap: () {
-                    _confirmDelete(id: item.id);
+                    navigateTo(editServiceRoute + '/' + item.id);
                   },
                 ),
               ),

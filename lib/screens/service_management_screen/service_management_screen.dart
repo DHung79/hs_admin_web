@@ -4,7 +4,7 @@ import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/create_edit_service_form.dart';
+import 'components/edit_service_form.dart';
 import 'components/edit_service_content.dart';
 import 'components/service_detail_content.dart';
 import 'components/service_list.dart';
@@ -69,7 +69,7 @@ class _ServiceManagementScreenState extends State<ServiceManagementScreen> {
 
   Widget _buildContent() {
     if (widget.tab == 1) {
-      return CreateEditServiceForm(
+      return EditServiceForm(
         serviceBloc: _serviceBloc,
         route: serviceManagementRoute,
         onFetch: _fetchDataOnPage,

@@ -10,13 +10,13 @@ import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/joytech_components/jt_dropdown.dart';
 
-class CreateEditServiceForm extends StatefulWidget {
+class EditServiceForm extends StatefulWidget {
   final String route;
   final ServiceBloc serviceBloc;
   final ServiceModel? serviceModel;
   final Function(int, {int? limit}) onFetch;
 
-  const CreateEditServiceForm({
+  const EditServiceForm({
     Key? key,
     required this.route,
     this.serviceModel,
@@ -25,10 +25,10 @@ class CreateEditServiceForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CreateEditServiceForm> createState() => _CreateEditServiceFormState();
+  State<EditServiceForm> createState() => _EditServiceFormState();
 }
 
-class _CreateEditServiceFormState extends State<CreateEditServiceForm> {
+class _EditServiceFormState extends State<EditServiceForm> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
