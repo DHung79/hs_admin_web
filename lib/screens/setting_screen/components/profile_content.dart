@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../../core/admin/admin.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/task/task.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
-import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
+import 'change_password_dialog.dart';
 
 class ProfileContent extends StatefulWidget {
   final String route;
-  final Function() onFetch;
-
+  final AdminModel account;
   const ProfileContent({
     Key? key,
     required this.route,
-    required this.onFetch,
+    required this.account,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,7 @@ class ProfileContent extends StatefulWidget {
 
 class _ProfileContentState extends State<ProfileContent> {
   final _scrollController = ScrollController();
-  final _taskBloc = TaskBloc();
+  final _accountBloc = AdminBloc();
 
   @override
   void initState() {
@@ -34,35 +32,20 @@ class _ProfileContentState extends State<ProfileContent> {
 
   @override
   void dispose() {
-    _taskBloc.dispose();
+    _accountBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-    return StreamBuilder(
-      stream: _taskBloc.taskData,
-      builder: (context, AsyncSnapshot<ApiResponse<TaskModel?>> snapshot) {
-        if (snapshot.hasData) {
-          final task = snapshot.data!.model!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              _buildProfile(task),
-            ],
-          );
-        } else {
-          if (snapshot.hasError) {
-            logDebug(snapshot.error.toString());
-            return ErrorMessageText(
-              message: 'Không tìm thấy',
-            );
-          }
-          return const JTIndicator();
-        }
-      },
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        _buildProfile(),
+      ],
     );
   }
 
@@ -74,19 +57,91 @@ class _ProfileContentState extends State<ProfileContent> {
           padding: const EdgeInsets.all(10),
           child: GoBackButton(
             onPressed: () {
-              widget.onFetch();
-              navigateTo(tasksRoute);
+              navigateTo(settingRoute);
             },
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(10, 17, 10, 17),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Thông tin đặt hàng',
+                'Hồ sơ của bạn',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: AppButtonTheme.fillRounded(
+                      color: AppColor.transparent,
+                      highlightColor: AppColor.shade1,
+                      constraints: const BoxConstraints(minHeight: 44),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Row(
+                        children: [
+                          SvgIcon(
+                            SvgIcons.frame,
+                            color: AppColor.text8,
+                            size: 24,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Đổi mật khẩu',
+                              style:
+                                  AppTextTheme.mediumBodyText(AppColor.text8),
+                            ),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return ChangePasswordDialog(
+                              oldPassword: widget.account.password,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  AppButtonTheme.outlineRounded(
+                    constraints: const BoxConstraints(minHeight: 44),
+                    color: AppColor.transparent,
+                    outlineColor: AppColor.primary2,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: AppColor.primary2,
+                            size: 24,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Chỉnh sửa',
+                              style: AppTextTheme.mediumBodyText(
+                                  AppColor.primary2),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onPressed: () {
+                      navigateTo(editProfileRoute);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -95,13 +150,12 @@ class _ProfileContentState extends State<ProfileContent> {
     );
   }
 
-  Widget _buildProfile(TaskModel task) {
-    final screenSize = MediaQuery.of(context).size;
+  Widget _buildProfile() {
     return LayoutBuilder(builder: (context, size) {
       return Container(
-        height: screenSize.height - 192 - 76 - 16,
+        height: 268,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -112,24 +166,84 @@ class _ProfileContentState extends State<ProfileContent> {
           ],
         ),
         padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: _avatarField(task),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Container(
-                  width: 1,
-                  color: AppColor.shade1,
-                ),
+            Container(
+              constraints: const BoxConstraints(maxHeight: 160),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: _avatarField(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      constraints: const BoxConstraints(maxHeight: 160),
+                      width: 1,
+                      color: AppColor.shade1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: _buildContent(),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Expanded(
-              child: _taskDetail(task),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Divider(
+                thickness: 1,
+                color: AppColor.shade1,
+              ),
+            ),
+            AppButtonTheme.fillRounded(
+              color: AppColor.transparent,
+              highlightColor: AppColor.shade1,
+              constraints: const BoxConstraints(minHeight: 44),
+              borderRadius: BorderRadius.circular(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SvgIcon(
+                    SvgIcons.logout,
+                    color: AppColor.text7,
+                    size: 24,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Đăng xuất',
+                      style: AppTextTheme.normalText(AppColor.text7),
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return JTConfirmDialog(
+                      headerTitle: 'Cảnh báo',
+                      contentText: 'Bạn có chắc chắn muốn đăng xuất?',
+                      onCanceled: () {
+                        Navigator.of(context).pop();
+                      },
+                      onComfirmed: () {
+                        AuthenticationBlocController()
+                            .authenticationBloc
+                            .add(UserLogOut());
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -137,7 +251,7 @@ class _ProfileContentState extends State<ProfileContent> {
     });
   }
 
-  Widget _avatarField(TaskModel task) {
+  Widget _avatarField() {
     return SizedBox(
       width: 200,
       child: Column(
@@ -156,7 +270,7 @@ class _ProfileContentState extends State<ProfileContent> {
             height: 10,
           ),
           Text(
-            task.address!,
+            widget.account.name,
             style: AppTextTheme.mediumBodyText(AppColor.text3),
           ),
         ],
@@ -164,7 +278,7 @@ class _ProfileContentState extends State<ProfileContent> {
     );
   }
 
-  Widget _taskDetail(TaskModel task) {
+  Widget _buildContent() {
     return LayoutBuilder(builder: (context, size) {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
@@ -181,95 +295,26 @@ class _ProfileContentState extends State<ProfileContent> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: _detailType(
-                  title: 'Thông tin chi tiết',
+                child: _profileType(
+                  title: 'Thông tin liên lạc',
                   children: [
-                    _detailItem(
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Số điện thoại:',
+                      description: widget.account.phoneNumber,
+                    ),
+                    _profileItem(
+                      width: itemWidth / 2,
+                      title: 'Email:',
+                      description: widget.account.email,
+                    ),
+                    _profileItem(
                       width: itemWidth,
-                      title: 'Loại đặt hàng:',
-                      description: task.address!,
+                      title: 'Địa chỉ:',
+                      description: widget.account.address,
                     ),
                   ],
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Divider(
-                  thickness: 1,
-                  color: AppColor.shade1,
-                ),
-              ),
-              _detailType(
-                title: 'Giá',
-                children: [
-                  _detailItem(
-                    width: itemWidth / 4,
-                    title: 'Tên:',
-                    description: task.tasker!.name,
-                  ),
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Giá thành:',
-                    description: task.user!.name,
-                  ),
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Tính theo:',
-                    description: 'Theo giờ',
-                  ),
-                ],
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Divider(
-                  thickness: 1,
-                  color: AppColor.shade1,
-                ),
-              ),
-              _detailType(
-                title: 'Hình thức thanh toán',
-                children: [
-                  _detailItem(
-                    width: itemWidth / 4,
-                    title: 'Hình thức 1:',
-                    description: 'Momo',
-                  ),
-                  _detailItem(
-                    width: itemWidth / 4,
-                    title: 'Hình thức 2:',
-                    description: 'Tiền mặt',
-                  ),
-                ],
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Divider(
-                  thickness: 1,
-                  color: AppColor.shade1,
-                ),
-              ),
-              _detailType(
-                title: 'Thông tin khác',
-                children: [
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Tham gia hệ thống:',
-                    description: task.createdTime.toString(),
-                  ),
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Cập nhật lần cuối:',
-                    description: task.updatedTime.toString(),
-                  ),
-                  _detailItem(
-                    width: itemWidth,
-                    title: 'Người cập nhật:',
-                    description: task.id!,
-                  ),
-                ],
               ),
             ],
           ),
@@ -278,7 +323,7 @@ class _ProfileContentState extends State<ProfileContent> {
     });
   }
 
-  Widget _detailType({
+  Widget _profileType({
     required String title,
     required List<Widget> children,
   }) {
@@ -305,7 +350,7 @@ class _ProfileContentState extends State<ProfileContent> {
     );
   }
 
-  Widget _detailItem({
+  Widget _profileItem({
     required String title,
     required String description,
     required double width,

@@ -86,4 +86,18 @@ class AuthenticationRepository {
     final response = await provider.checkOTP(body);
     return response;
   }
+
+  Future<dynamic> changePassword(
+    String password,
+    String newPassword,
+  ) async {
+    await Future.delayed(
+        const Duration(seconds: 1)); // simulate a network delay
+    final body = convert.jsonEncode({
+      'password': password,
+      'new_password': newPassword,
+    });
+    final response = await provider.changePassword(body);
+    return response;
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:validators/validators.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/service/service.dart';
 import '../../../main.dart';
@@ -8,7 +7,6 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '../../../widgets/joytech_components/jt_dropdown.dart';
 
 class EditServiceForm extends StatefulWidget {
   final String route;

@@ -1,15 +1,9 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/base/blocs/block_state.dart';
-import '../../../core/task/task.dart';
 import '../../../main.dart';
-import '../../../core/base/models/common_model.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '../../../widgets/joytech_components/jt_dropdown.dart';
-import '../../../widgets/table/table.dart';
+
 
 class SettingContent extends StatefulWidget {
   final String route;
@@ -28,9 +22,6 @@ class SettingContent extends StatefulWidget {
 }
 
 class _SettingContentState extends State<SettingContent> {
-  int _page = 0;
-  int _limit = 10;
-  int _count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +79,9 @@ class _SettingContentState extends State<SettingContent> {
                 ),
               ],
             ),
-            onPressed: () {},
+            onPressed: () {
+              navigateTo(profileRoute);
+            },
           ),
           AppButtonTheme.fillRounded(
             color: AppColor.transparent,

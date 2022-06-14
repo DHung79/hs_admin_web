@@ -5,7 +5,6 @@ import '../../../core/user/user.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
-import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
 class UserInfoContent extends StatefulWidget {

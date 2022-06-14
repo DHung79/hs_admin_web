@@ -78,14 +78,14 @@ class _SettingState extends State<Setting> {
                                     icon: SvgIcons.user,
                                     title: 'Hồ sơ của bạn',
                                     onTap: () {
-                                      navigateTo(profileSettingRoute);
+                                      navigateTo(profileRoute);
                                     },
                                   ),
                                   settingWidget(
                                     icon: SvgIcons.telephone,
                                     title: 'Thông tin liên lạc',
                                     onTap: () {
-                                      navigateTo(contactInfoRoute);
+                                      navigateTo(contactRoute);
                                     },
                                   ),
                                 ],

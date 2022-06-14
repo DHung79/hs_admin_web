@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '/screens/setting_screen/components/edit_profile.dart';
+import '/widgets/joytech_components/jt_indicator.dart';
 import '../../core/admin/admin.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
@@ -56,23 +58,44 @@ class _SettingScreenState extends State<SettingScreen> {
               onFetch: () {
                 _fetchDataOnPage();
               },
-              child: _buildContent(),
+              child: snapshot.hasData
+                  ? _buildContent(snapshot.data!)
+                  : const JTIndicator(),
             );
           }),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(AdminModel account) {
     if (widget.tab == 1) {
+      //profile
       return ProfileContent(
-        route: tasksRoute,
-        onFetch: _fetchDataOnPage,
+        route: settingRoute,
+        account: account,
+      );
+    } else if (widget.tab == 2) {
+      //contact
+      return ProfileContent(
+        route: settingRoute,
+        account: account,
+      );
+    } else if (widget.tab == 3) {
+      //edit profile
+      return EditProfile(
+        route: settingRoute,
+        account: account,
+      );
+    } else if (widget.tab == 4) {
+      //edit contact
+      return ProfileContent(
+        route: settingRoute,
+        account: account,
       );
     } else {
       return SettingContent(
         onFetch: _fetchDataOnPage,
         searchController: _searchController,
-        route: tasksRoute,
+        route: settingRoute,
       );
     }
   }
@@ -80,6 +103,12 @@ class _SettingScreenState extends State<SettingScreen> {
   String _getSubTitle() {
     if (widget.tab == 1) {
       return 'Cài đặt / Hồ sơ của bạn';
+    } else if (widget.tab == 2) {
+      return 'Cài đặt / Thông tin liên lạc';
+    } else if (widget.tab == 3) {
+      return 'Cài đặt / Hồ sơ của bạn / Chỉnh sửa hồ sơ';
+    } else if (widget.tab == 4) {
+      return 'Cài đặt / Thông tin liên lạc / Chỉnh sửa thông tin liên lạc';
     } else {
       return 'Cài đặt';
     }

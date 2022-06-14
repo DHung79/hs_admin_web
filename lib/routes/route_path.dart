@@ -120,28 +120,28 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.settingManage()
+  AppRoutePath.setting()
       : name = settingRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.contactInfo()
-      : name = contactInfoRoute,
-        routeId = '',
-        isUnknown = false;
-
-  AppRoutePath.editContact()
-      : name = editContactRoute,
-        routeId = '',
-        isUnknown = false;
-
-  AppRoutePath.profileSetting()
-      : name = profileSettingRoute,
+  AppRoutePath.profile()
+      : name = profileRoute,
         routeId = '',
         isUnknown = false;
 
   AppRoutePath.editProfile()
       : name = editProfileRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.contact()
+      : name = contactRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.editContact()
+      : name = editContactRoute,
         routeId = '',
         isUnknown = false;
 
@@ -244,7 +244,7 @@ class AppRoutePath {
       }
       return AppRoutePath.tasks();
     }
-    
+
     if (name == notificationManageRoute) {
       return AppRoutePath.notificationManage();
     }
@@ -254,20 +254,21 @@ class AppRoutePath {
     if (name == payManagementRoute) {
       return AppRoutePath.payManage();
     }
+    
     if (name == settingRoute) {
-      return AppRoutePath.settingManage();
+      return AppRoutePath.setting();
     }
-    if (name == profileSettingRoute) {
-      return AppRoutePath.profileSetting();
-    }
-    if (name == contactInfoRoute) {
-      return AppRoutePath.contactInfo();
-    }
-    if (name == editContactRoute) {
-      return AppRoutePath.editContact();
+    if (name == profileRoute) {
+      return AppRoutePath.profile();
     }
     if (name == editProfileRoute) {
       return AppRoutePath.editProfile();
+    }
+    if (name == contactRoute) {
+      return AppRoutePath.contact();
+    }
+    if (name == editContactRoute) {
+      return AppRoutePath.editContact();
     }
     return AppRoutePath.unknown();
   }

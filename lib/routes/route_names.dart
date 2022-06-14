@@ -22,10 +22,9 @@ const String taskDetailRoute = '/task-detail';
 const String notificationManageRoute = '/notification-manage';
 const String addNotificationRoute = '/add-notification';
 const String payManagementRoute = '/pay-manage';
-const String settingRoute = '/setting-manage';
-const String profileSettingRoute = '/profile-setting';
-const String editProfileRoute = profileSettingRoute + '/edit-profile';
-const String contactInfoRoute = '/contact-info';
-const String editContactRoute = contactInfoRoute + '/edit-contact';
-
+const String settingRoute = '/setting';
+const String profileRoute = '/profile';
+const String editProfileRoute = '/edit-profile';
+const String contactRoute = '/contact';
+const String editContactRoute = '/edit-contact';
 const String pageNotFoundRoute = '/page-not-found';

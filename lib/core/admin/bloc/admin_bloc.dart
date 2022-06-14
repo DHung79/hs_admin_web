@@ -113,6 +113,26 @@ class AdminBloc {
     }
   }
 
+ Future<AdminModel> editProfile({
+    EditAdminModel? editModel,
+  }) async {
+    try {
+      // Await response from server.
+      final data = await _repository.editProfile<AdminModel, EditAdminModel>(
+        editModel: editModel,
+      );
+      if (data.error != null) {
+        // Error exist
+        return Future.error(data.error!);
+      } else {
+        // Adding response data.
+        return Future.value(data.model);
+      }
+    } on AppException catch (e) {
+      return Future.error(e);
+    }
+  }
+
   dispose() {
     _allDataFetcher.close();
     _allDataState.close();

@@ -139,14 +139,26 @@ class AuthenticationBloc
           _cleanupCache();
           emit(UserTokenExpired());
         } else {
+          
           final userJson = sharedPreferences.getString('userJson');
           if (userJson != null && userJson.isNotEmpty) {
             try {
-              Map<String, dynamic> json = convert.jsonDecode(userJson);
-              final account = AdminModel.fromJson(json);
-              // account.password =
-              //     sharedPreferences.getString('last_userpassword') ?? '';
-              emit(SetUserData(currentUser: account));
+              final account = await AdminBloc().getProfile();
+              // ignore: unnecessary_null_comparison
+              if (account == null) {
+                Map<String, dynamic> json = convert.jsonDecode(userJson);
+                final account = AdminModel.fromJson(json);
+                account.password =
+                    sharedPreferences.getString('last_userpassword') ?? '';
+                emit(SetUserData(currentUser: account));
+              } else {
+                final json = account.toJson();
+                final jsonStr = convert.jsonEncode(json);
+                sharedPreferences.setString('userJson', jsonStr);
+                account.password =
+                    sharedPreferences.getString('last_userpassword') ?? '';
+                emit(SetUserData(currentUser: account));
+              }
               return;
             } on Error catch (e) {
               emit(AuthenticationFailure(
@@ -154,19 +166,20 @@ class AuthenticationBloc
                 errorCode: '',
               ));
             }
-          }
-          final account = await AdminBloc().getProfile();
-          // ignore: unnecessary_null_comparison
-          if (account == null) {
-            _cleanupCache();
-            emit(UserTokenExpired());
           } else {
-            final json = account.toJson();
-            final jsonStr = convert.jsonEncode(json);
-            sharedPreferences.setString('userJson', jsonStr);
-            // account.password =
-            //     sharedPreferences.getString('last_userpassword') ?? '';
-            emit(SetUserData(currentUser: account));
+            final account = await AdminBloc().getProfile();
+            // ignore: unnecessary_null_comparison
+            if (account == null) {
+              _cleanupCache();
+              emit(UserTokenExpired());
+            } else {
+              final json = account.toJson();
+              final jsonStr = convert.jsonEncode(json);
+              sharedPreferences.setString('userJson', jsonStr);
+              account.password =
+                  sharedPreferences.getString('last_userpassword') ?? '';
+              emit(SetUserData(currentUser: account));
+            }
           }
         }
       }
@@ -290,6 +303,48 @@ class AuthenticationBloc
         } else {
           if (data["error_message"] == null) {
             emit(ResetPasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data["error_message"],
+              errorCode: data["error_code"].toString(),
+            ));
+          }
+        }
+      } on Error catch (e) {
+        emit(AuthenticationFailure(
+          message: e.toString(),
+          errorCode: '',
+        ));
+      }
+    });
+
+    on<ChangePassword>((event, emit) async {
+      try {
+        final SharedPreferences sharedPreferences = await prefs;
+        final data = await authenticationService.changePassword(
+          event.password,
+          event.newPassword,
+        );
+        if (data is ApiResponse) {
+          if (data.error == null) {
+            final userJson = sharedPreferences.getString('userJson');
+            if (userJson != null && userJson.isNotEmpty) {
+              Map<String, dynamic> json = convert.jsonDecode(userJson);
+              final account = AdminModel.fromJson(json);
+              account.password = event.newPassword;
+              emit(SetUserData(currentUser: account));
+            }
+            emit(ChangePasswordDoneState());
+          } else {
+            emit(AuthenticationFailure(
+              message: data.error!.errorMessage,
+              errorCode: data.error!.errorCode,
+            ));
+          }
+        } else {
+          if (data["error_message"] == null) {
+            sharedPreferences.setString('last_userpassword', event.newPassword);
+            emit(ChangePasswordDoneState());
           } else {
             emit(AuthenticationFailure(
               message: data["error_message"],

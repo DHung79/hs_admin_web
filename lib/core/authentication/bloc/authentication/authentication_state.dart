@@ -62,3 +62,5 @@ class LoginLastUser extends AuthenticationState {
 }
 
 class CheckOTPDoneState extends AuthenticationState {}
+
+class ChangePasswordDoneState extends AuthenticationState {}

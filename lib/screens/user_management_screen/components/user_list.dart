@@ -7,7 +7,6 @@ import '../../../core/base/models/common_model.dart';
 import '../../../core/user/user.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
 class UserList extends StatefulWidget {

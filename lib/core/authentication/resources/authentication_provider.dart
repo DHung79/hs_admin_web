@@ -1,3 +1,4 @@
+import 'package:hs_admin_web/core/admin/admin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 import '../../constants/api_constants.dart';
@@ -120,6 +121,25 @@ class AuthenticationProvider {
       path: url,
       body: body,
       headers: ApiHelper.headers(null),
+    );
+    return response;
+  }
+
+  changePassword(dynamic body) async {
+    final url = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.admins +
+        ApiConstants.me +
+        ApiConstants.changePassword;
+    final SharedPreferences sharedPreferences = await prefs;
+    var token = sharedPreferences.getString('authtoken') ?? '';
+    logDebug('path: $url\nbody: $body');
+    logDebug('token: $token');
+
+    final response = await RestApiHandlerData.putData<AdminModel>(
+      path: url,
+      body: body,
+      headers: ApiHelper.headers(token),
     );
     return response;
   }

@@ -5,7 +5,6 @@ import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
-import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
 class ServiceDetailContent extends StatefulWidget {
@@ -312,32 +311,6 @@ class _ServiceDetailContentState extends State<ServiceDetailContent> {
         ),
       );
     });
-  }
-
-  Widget _buildPriceDetail({
-    required double itemWidth,
-    required double numOfItem,
-    required PriceModel model,
-  }) {
-    return Row(
-      children: [
-        _detailItem(
-          width: itemWidth / numOfItem,
-          title: 'Tên:',
-          description: model.name,
-        ),
-        _detailItem(
-          width: itemWidth / numOfItem,
-          title: 'Giá thành:',
-          description: model.price,
-        ),
-        _detailItem(
-          width: itemWidth / numOfItem,
-          title: 'Tính theo:',
-          description: model.type,
-        ),
-      ],
-    );
   }
 
   Widget _detailType({

@@ -46,6 +46,12 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
       final subName =
           subTitle.substring(subTitle.indexOf(' / '), subTitle.length).trim();
       disPlaySubTitle = subName.substring(2, subName.length);
+      if (disPlaySubTitle.contains('/') && screenSize.width < 800) {
+        final subName = disPlaySubTitle
+            .substring(disPlaySubTitle.indexOf(' / '), disPlaySubTitle.length)
+            .trim();
+        disPlaySubTitle = subName.substring(2, subName.length);
+      }
     }
 
     return Row(
@@ -109,12 +115,16 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
       DialogItem(
         svgIcon: SvgIcons.user,
         title: 'Hồ Sơ',
-        onPressed: () {},
+        onPressed: () {
+          navigateTo(profileRoute);
+        },
       ),
       DialogItem(
         svgIcon: SvgIcons.settingTwo,
         title: 'Cài đặt',
-        onPressed: () {},
+        onPressed: () {
+          navigateTo(settingRoute);
+        },
       ),
       DialogItem(
         title: ScreenUtil.t(I18nKey.signOut)!,

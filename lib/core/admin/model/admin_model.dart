@@ -11,7 +11,7 @@ class AdminModel extends BaseModel {
   final bool _superAdmin;
   final int _createdTime;
   final int _updatedTime;
-
+  String _password;
   AdminModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
         _name = json['name'] ?? '',
@@ -21,7 +21,8 @@ class AdminModel extends BaseModel {
         _gender = json['gender'] ?? '',
         _superAdmin = json['super_admin'] ?? false,
         _createdTime = json['created_time'],
-        _updatedTime = json['updated_time'];
+        _updatedTime = json['updated_time'],
+        _password = '';
 
   Map<String, dynamic> toJson() => {
         "_id": __id,
@@ -44,6 +45,10 @@ class AdminModel extends BaseModel {
   bool get superAdmin => _superAdmin;
   int get createdTime => _createdTime;
   int get updatedTime => _updatedTime;
+  String get password => _password;
+  set password(value) {
+    _password = value;
+  }
 }
 
 class EditAdminModel extends EditBaseModel {
@@ -53,6 +58,8 @@ class EditAdminModel extends EditBaseModel {
   String address = '';
   String phoneNumber = '';
   String gender = '';
+  String password = '';
+  String newPassword = '';
 
   EditAdminModel.fromModel(AdminModel? model) {
     id = model?.id ?? '';
@@ -61,6 +68,8 @@ class EditAdminModel extends EditBaseModel {
     address = model?.address ?? '';
     phoneNumber = model?.phoneNumber ?? '';
     gender = model?.gender ?? 'Male';
+    password = model?.password ?? '';
+    newPassword = '';
   }
 
   Map<String, dynamic> toEditInfoJson() {

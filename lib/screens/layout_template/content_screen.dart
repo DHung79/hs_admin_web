@@ -59,7 +59,6 @@ class _PageTemplateState extends State<PageTemplate> {
   late AuthenticationBloc _authenticationBloc;
   Future<AdminModel>? _currentUser;
 // int _totalNotifications;
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _adminBloc = AdminBloc();
 
   @override
@@ -106,7 +105,7 @@ class _PageTemplateState extends State<PageTemplate> {
         future: _currentUser,
         builder: (context, AsyncSnapshot<AdminModel> snapshot) {
           return Scaffold(
-            key: _key,
+            key: globalMainKey,
             backgroundColor: Colors.white,
             appBar: widget.showAppBar
                 ? PreferredSize(

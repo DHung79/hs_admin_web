@@ -112,7 +112,19 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     }
 
     if (name == settingRoute) {
-      return AppRoutePath.settingManage();
+      return AppRoutePath.setting();
+    }
+    if (name == profileRoute) {
+      return AppRoutePath.profile();
+    }
+    if (name == editProfileRoute) {
+      return AppRoutePath.editProfile();
+    }
+    if (name == contactRoute) {
+      return AppRoutePath.contact();
+    }
+    if (name == editContactRoute) {
+      return AppRoutePath.editContact();
     }
 
     return AppRoutePath.unknown();

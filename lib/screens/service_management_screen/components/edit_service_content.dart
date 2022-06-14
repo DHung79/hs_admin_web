@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/service/service.dart';
 import '../../../main.dart';
-import '../../../widgets/joytech_components/error_message_text.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import 'edit_service_form.dart';
 

@@ -1,13 +1,10 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../core/base/blocs/block_state.dart';
 import '../../../core/service/service.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '../../../widgets/joytech_components/jt_dropdown.dart';
 import '../../../widgets/table/table.dart';
 
 class ServiceList extends StatefulWidget {
@@ -381,64 +378,5 @@ class _ServiceListState extends State<ServiceList> {
         ),
       ],
     );
-  }
-
-  _confirmDelete({
-    required String id,
-  }) {
-    final _focusNode = FocusNode();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        FocusScope.of(context).requestFocus(_focusNode);
-        return RawKeyboardListener(
-          focusNode: _focusNode,
-          onKey: (RawKeyEvent event) {
-            setState(() {
-              if (event.logicalKey == LogicalKeyboardKey.enter) {
-                Navigator.of(context).pop();
-                _deleteObjectById(id: id);
-              }
-              if (event.logicalKey == LogicalKeyboardKey.escape) {
-                Navigator.of(context).pop();
-              }
-            });
-          },
-          child: JTConfirmDialog(
-            headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa dịch vụ này?',
-            onCanceled: () {
-              Navigator.of(context).pop();
-            },
-            onComfirmed: () {
-              Navigator.of(context).pop();
-              _deleteObjectById(id: id);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  _deleteObjectById({
-    required String id,
-  }) {
-    widget.serviceBloc.deleteObject(id: id).then((model) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.name}.')),
-      );
-    }).catchError((e, stacktrace) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      logDebug(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ScreenUtil.t(I18nKey.errorWhileDelete)!),
-        ),
-      );
-    });
   }
 }

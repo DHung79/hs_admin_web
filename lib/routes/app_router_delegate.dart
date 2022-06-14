@@ -3,10 +3,6 @@ import '../screens/setting_screen/setting_screen.dart';
 import '../screens/tasks_screen/tasks_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
-import '../screens/setting_manage/contact_info.dart';
-import '../screens/setting_manage/edit_contact.dart';
-import '../screens/setting_manage/profile_edit.dart';
-import '../screens/setting_manage/profile_setting.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
@@ -153,21 +149,23 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route == payManagementRoute) {
       return const PayManage();
     }
+
     if (route == settingRoute) {
       return const SettingScreen();
     }
-    if (route == profileSettingRoute) {
-      return const ProfileSetting();
-    }
-    if (route == contactInfoRoute) {
-      return const ContactInfo();
-    }
-    if (route == editContactRoute) {
-      return const EditContact();
+    if (route == profileRoute) {
+      return const SettingScreen(tab: 1);
     }
     if (route == editProfileRoute) {
-      return const EditProfile();
+      return const SettingScreen(tab: 3);
     }
+    if (route == contactRoute) {
+      return const SettingScreen(tab: 2);
+    }
+    if (route == editContactRoute) {
+      return const SettingScreen(tab: 4);
+    }
+
     return PageNotFoundScreen(route);
   }
 

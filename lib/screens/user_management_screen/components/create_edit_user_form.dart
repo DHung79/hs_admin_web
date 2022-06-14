@@ -8,7 +8,6 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '../../../widgets/joytech_components/jt_dropdown.dart';
 
 class CreateEditUserForm extends StatefulWidget {
   final String route;
@@ -278,6 +277,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
       if (_editModel.gender.isEmpty) {
         _editModel.gender = 'male';
       }
+
       return Wrap(
         children: [
           if (widget.userModel == null)

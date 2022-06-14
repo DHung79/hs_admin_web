@@ -35,7 +35,7 @@ String serviceManagementSearchString = '';
 String tasksSearchString = '';
 
 
-GlobalKey globalKey = GlobalKey();
+GlobalKey globalMainKey = GlobalKey();
 
 navigateTo(String route) async {
   locator<AppRouterDelegate>().navigateTo(route);
