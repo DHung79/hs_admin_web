@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../core/admin/admin.dart';
-import '../../../core/authentication/auth.dart';
-import '../../../main.dart';
-import '../../../theme/app_theme.dart';
-import '../../../widgets/go_back_button.dart';
-import '../../../widgets/input_widget.dart';
-import '../../../widgets/joytech_components/joytech_components.dart';
+import '../../../../../core/admin/admin.dart';
+import '../../../../../core/authentication/auth.dart';
+import '../../../../../main.dart';
+import '../../../../../theme/app_theme.dart';
+import '../../../../../widgets/go_back_button.dart';
+import '../../../../../widgets/input_widget.dart';
+import '../../../../../widgets/joytech_components/joytech_components.dart';
 
 class EditProfile extends StatefulWidget {
   final String route;
@@ -64,7 +64,12 @@ class _EditProfileState extends State<EditProfile> {
           padding: const EdgeInsets.all(10),
           child: GoBackButton(
             onPressed: () {
-              navigateTo(profileRoute);
+              _confirmDialog(
+                contentText: 'Bạn có muốn hủy bỏ?',
+                onComfirmed: () {
+                  navigateTo(profileRoute);
+                },
+              );
             },
           ),
         ),

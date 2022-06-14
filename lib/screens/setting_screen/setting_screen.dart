@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '/screens/setting_screen/components/edit_profile.dart';
+import 'package:hs_admin_web/screens/setting_screen/components/contact_content/contact_content.dart';
 import '/widgets/joytech_components/jt_indicator.dart';
 import '../../core/admin/admin.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/profile_content.dart';
+import 'components/profile_content/components/edit_profile.dart';
+import 'components/profile_content/profile_content.dart';
 import 'components/setting_content.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else if (widget.tab == 2) {
       //contact
-      return ProfileContent(
+      return ContactContent(
         route: settingRoute,
         account: account,
       );

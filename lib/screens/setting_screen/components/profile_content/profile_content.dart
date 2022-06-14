@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../core/admin/admin.dart';
-import '../../../core/authentication/auth.dart';
-import '../../../main.dart';
-import '../../../theme/app_theme.dart';
-import '../../../widgets/go_back_button.dart';
-import '../../../widgets/joytech_components/joytech_components.dart';
-import 'change_password_dialog.dart';
+
+import '../../../../core/admin/admin.dart';
+import '../../../../core/authentication/auth.dart';
+import '../../../../main.dart';
+import '../../../../theme/app_theme.dart';
+import '../../../../widgets/go_back_button.dart';
+import '../../../../widgets/joytech_components/joytech_components.dart';
+import 'components/change_password_dialog.dart';
+
 
 class ProfileContent extends StatefulWidget {
   final String route;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/authentication/auth.dart';
-import '../../../main.dart';
-import '../../../theme/app_theme.dart';
-import '../../../widgets/input_widget.dart';
-import '../../../widgets/joytech_components/joytech_components.dart';
+import '../../../../../core/authentication/auth.dart';
+import '../../../../../main.dart';
+import '../../../../../theme/app_theme.dart';
+import '../../../../../widgets/input_widget.dart';
+import '../../../../../widgets/joytech_components/joytech_components.dart';
 
 class ChangePasswordDialog extends StatefulWidget {
   final String oldPassword;

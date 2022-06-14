@@ -4,7 +4,6 @@ import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
-
 class SettingContent extends StatefulWidget {
   final String route;
   final Function() onFetch;
@@ -22,7 +21,6 @@ class SettingContent extends StatefulWidget {
 }
 
 class _SettingContentState extends State<SettingContent> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -105,7 +103,9 @@ class _SettingContentState extends State<SettingContent> {
                 ),
               ],
             ),
-            onPressed: () {},
+            onPressed: () {
+              navigateTo(contactRoute);
+            },
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
