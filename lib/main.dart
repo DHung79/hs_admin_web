@@ -34,6 +34,7 @@ String taskerManagementSearchString = '';
 String serviceManagementSearchString = '';
 String tasksSearchString = '';
 
+bool lockResend = false;
 
 GlobalKey globalMainKey = GlobalKey();
 

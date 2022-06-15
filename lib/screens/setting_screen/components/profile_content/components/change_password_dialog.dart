@@ -53,8 +53,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 JTToast.init(context);
                 Navigator.of(context).pop();
                 await Future.delayed(const Duration(milliseconds: 400));
-                JTToast.successToast(
-                    message: 'Bạn đã đổi mật khẩu thành công');
+                JTToast.successToast(message: 'Bạn đã đổi mật khẩu thành công');
               }
             },
             child: Form(
@@ -83,32 +82,15 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         color: AppColor.shade1,
                       ),
                     ),
-                    InputWidget(
+                    _buildField(
                       controller: _oldPasswordController,
                       obscureText: _oldPasswordSecure,
                       hintText: 'Nhập mật khẩu cũ',
-                      style: AppTextTheme.mediumBodyText(
-                        AppColor.text7,
-                      ),
-                      borderColor: AppColor.text7,
-                      suffixIcon: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _oldPasswordSecure = !_oldPasswordSecure;
-                          });
-                        },
-                        child: _oldPasswordSecure
-                            ? Icon(
-                                Icons.remove_red_eye,
-                                color: AppColor.text7,
-                                size: 24,
-                              )
-                            : SvgIcon(
-                                SvgIcons.removeRedEye,
-                                color: AppColor.text7,
-                                size: 24,
-                              ),
-                      ),
+                      onPressed: () {
+                        setState(() {
+                          _oldPasswordSecure = !_oldPasswordSecure;
+                        });
+                      },
                       onSaved: (value) {
                         _oldPasswordController.text = value!.trim();
                       },
@@ -133,32 +115,15 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: InputWidget(
+                      child: _buildField(
                         controller: _newPasswordController,
                         obscureText: _newPasswordSecure,
                         hintText: 'Nhập mật khẩu',
-                        style: AppTextTheme.mediumBodyText(
-                          AppColor.text7,
-                        ),
-                        borderColor: AppColor.text7,
-                        suffixIcon: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _newPasswordSecure = !_newPasswordSecure;
-                            });
-                          },
-                          child: _newPasswordSecure
-                              ? Icon(
-                                  Icons.remove_red_eye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                )
-                              : SvgIcon(
-                                  SvgIcons.removeRedEye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                ),
-                        ),
+                        onPressed: () {
+                          setState(() {
+                            _newPasswordSecure = !_newPasswordSecure;
+                          });
+                        },
                         onSaved: (value) {
                           _newPasswordController.text = value!.trim();
                         },
@@ -188,32 +153,15 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         },
                       ),
                     ),
-                    InputWidget(
+                    _buildField(
                       controller: _checkNewPasswordController,
                       obscureText: _checkNewPasswordSecure,
                       hintText: 'Nhập lại mật khẩu',
-                      style: AppTextTheme.mediumBodyText(
-                        AppColor.text7,
-                      ),
-                      borderColor: AppColor.text7,
-                      suffixIcon: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _checkNewPasswordSecure = !_checkNewPasswordSecure;
-                          });
-                        },
-                        child: _checkNewPasswordSecure
-                            ? Icon(
-                                Icons.remove_red_eye,
-                                color: AppColor.text7,
-                                size: 24,
-                              )
-                            : SvgIcon(
-                                SvgIcons.removeRedEye,
-                                color: AppColor.text7,
-                                size: 24,
-                              ),
-                      ),
+                      onPressed: () {
+                        setState(() {
+                          _checkNewPasswordSecure = !_checkNewPasswordSecure;
+                        });
+                      },
                       onSaved: (value) {
                         _checkNewPasswordController.text = value!.trim();
                       },
@@ -321,6 +269,43 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
         ),
       );
     });
+  }
+
+  _buildField({
+    Function(String?)? onSaved,
+    Function(String?)? onChanged,
+    String? Function(String?)? validator,
+    required void Function()? onPressed,
+    required bool obscureText,
+    required TextEditingController controller,
+    required String hintText,
+  }) {
+    return InputWidget(
+      controller: controller,
+      obscureText: obscureText,
+      hintText: hintText,
+      style: AppTextTheme.mediumBodyText(
+        AppColor.text7,
+      ),
+      borderColor: AppColor.text7,
+      suffixIcon: TextButton(
+        onPressed: onPressed,
+        child: obscureText
+            ? SvgIcon(
+                SvgIcons.eyeOff,
+                color: AppColor.text7,
+                size: 24,
+              )
+            : SvgIcon(
+                SvgIcons.removeRedEye,
+                color: AppColor.text7,
+                size: 24,
+              ),
+      ),
+      onSaved: onSaved,
+      onChanged: onChanged,
+      validator: validator,
+    );
   }
 
   _changePassword() {

@@ -139,7 +139,6 @@ class AuthenticationBloc
           _cleanupCache();
           emit(UserTokenExpired());
         } else {
-          
           final userJson = sharedPreferences.getString('userJson');
           if (userJson != null && userJson.isNotEmpty) {
             try {
@@ -186,10 +185,35 @@ class AuthenticationBloc
     });
 
     on<ForgotPassword>((event, emit) async {
+      emit(AuthenticationLoading());
       try {
         final SharedPreferences sharedPreferences = await prefs;
-        sharedPreferences.setString('resend_otp_email', event.email);
-        final data = await authenticationService.forgotPassword(event.email);
+        final String email =
+            sharedPreferences.getString('resend_otp_email') ?? '';
+        if (event.email != email) {
+          sharedPreferences.setString('resend_otp_email', event.email);
+          final data = await authenticationService.forgotPassword(event.email);
+          if (data is ApiResponse) {
+            if (data.error == null) {
+              emit(ForgotPasswordDoneState());
+            } else {
+              emit(AuthenticationFailure(
+                message: data.error!.errorMessage,
+                errorCode: data.error!.errorCode,
+              ));
+            }
+          } else {
+            if (data["error_message"] == null) {
+              emit(ForgotPasswordDoneState());
+            } else {
+              emit(AuthenticationFailure(
+                message: data["error_message"],
+                errorCode: data["error_code"].toString(),
+              ));
+            }
+          }
+        }else{
+        final data = await authenticationService.checkEmail(event.email);
         if (data is ApiResponse) {
           if (data.error == null) {
             emit(ForgotPasswordDoneState());
@@ -209,6 +233,7 @@ class AuthenticationBloc
             ));
           }
         }
+        }
       } on Error catch (e) {
         emit(AuthenticationFailure(
           message: e.toString(),
@@ -218,6 +243,7 @@ class AuthenticationBloc
     });
 
     on<CheckOTP>((event, emit) async {
+      emit(AuthenticationLoading());
       try {
         final SharedPreferences sharedPreferences = await prefs;
         final data = await authenticationService.checkOTP(event.otp);
@@ -251,6 +277,7 @@ class AuthenticationBloc
     });
 
     on<ResendOTP>((event, emit) async {
+      emit(AuthenticationLoading());
       try {
         final SharedPreferences sharedPreferences = await prefs;
         final email = sharedPreferences.getString('resend_otp_email') ?? '';
@@ -283,6 +310,7 @@ class AuthenticationBloc
     });
 
     on<ResetPassword>((event, emit) async {
+      emit(AuthenticationLoading());
       try {
         final SharedPreferences sharedPreferences = await prefs;
         final userId = sharedPreferences.getString('reset_id') ?? '';
@@ -319,6 +347,7 @@ class AuthenticationBloc
     });
 
     on<ChangePassword>((event, emit) async {
+      emit(AuthenticationLoading());
       try {
         final SharedPreferences sharedPreferences = await prefs;
         final data = await authenticationService.changePassword(

@@ -11,13 +11,13 @@ import '../../../widgets/joytech_components/joytech_components.dart';
 class EditServiceForm extends StatefulWidget {
   final String route;
   final ServiceBloc serviceBloc;
-  final ServiceModel? serviceModel;
+  final ServiceModel serviceModel;
   final Function(int, {int? limit}) onFetch;
 
   const EditServiceForm({
     Key? key,
     required this.route,
-    this.serviceModel,
+    required this.serviceModel,
     required this.serviceBloc,
     required this.onFetch,
   }) : super(key: key);
@@ -51,7 +51,6 @@ class _EditServiceFormState extends State<EditServiceForm> {
         _buildHeader(),
         _renderError(),
         _buildContent(),
-        if (widget.serviceModel != null) _deleteButton(),
       ],
     );
   }
@@ -80,9 +79,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.serviceModel != null
-                    ? 'Chỉnh sửa thông tin dịch vụ'
-                    : 'Thêm dịch vụ',
+                'Chỉnh sửa dịch vụ',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
               _headerActions(),
@@ -158,7 +155,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      widget.serviceModel != null ? 'Đồng ý' : 'Thêm',
+                      'Đồng ý',
                       style: AppTextTheme.mediumBodyText(AppColor.white),
                     ),
                   ),
@@ -170,58 +167,13 @@ class _EditServiceFormState extends State<EditServiceForm> {
                 : () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      if (widget.serviceModel != null) {
-                        _editService();
-                      } else {
-                        _createService();
-                      }
+                      _editService();
                     } else {
                       setState(() {
                         _autovalidate = AutovalidateMode.onUserInteraction;
                       });
                     }
                   },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _deleteButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: AppButtonTheme.fillRounded(
-            color: AppColor.transparent,
-            highlightColor: AppColor.shade1,
-            constraints: const BoxConstraints(minHeight: 44),
-            borderRadius: BorderRadius.circular(10),
-            child: Row(
-              children: [
-                SvgIcon(
-                  SvgIcons.delete,
-                  color: AppColor.text8,
-                  size: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    'Xóa dịch vụ',
-                    style: AppTextTheme.mediumBodyText(AppColor.text8),
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {
-              _confirmDialog(
-                contentText: 'Bạn có muốn xóa dịch vụ này?',
-                onComfirmed: () {
-                  _deleteObjectById(id: _editModel.id);
-                },
-              );
-            },
           ),
         ),
       ],
@@ -270,82 +222,100 @@ class _EditServiceFormState extends State<EditServiceForm> {
       final elementWidth = size.maxWidth;
       return Wrap(
         children: [
-          // _buildInput(
-          //   width: elementWidth,
-          //   title: 'Tên',
-          //   hintText: 'Nhập tên dịch vụ',
-          //   initialValue: _editModel.name,
-          //   onChanged: (value) {
-          //     setState(() {
-          //       if (_errorMessage.isNotEmpty) {
-          //         _errorMessage = '';
-          //       }
-          //     });
-          //   },
-          //   validator: (value) {
-          //     if (value!.trim().isEmpty) {
-          //       return ValidatorText.empty(
-          //           fieldName: ScreenUtil.t(I18nKey.name)!);
-          //     } else if (value.trim().length > 50) {
-          //       return ValidatorText.moreThan(
-          //           fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
-          //     } else if (value.trim().length < 5) {
-          //       return ValidatorText.atLeast(
-          //         fieldName: ScreenUtil.t(I18nKey.name)!,
-          //         atLeast: 5,
-          //       );
-          //     }
-          //     return null;
-          //   },
-          //   onSaved: (value) => _editModel.name = value!.trim(),
-          // ),
-          // _buildDropDown<String>(
-          //   width: elementWidth,
-          //   title: 'Giới tính',
-          //   defaultValue: _editModel.gender,
-          //   dataSource: [
-          //     {'name': 'Nam', 'value': 'male'},
-          //     {'name': 'Nữ', 'value': 'female'},
-          //     {'name': 'Khác', 'value': 'other'},
-          //   ],
-          //   onChanged: (value) {
-          //     setState(() {
-          //       _editModel.gender = value!;
-          //     });
-          //   },
-          // ),
-          // _buildDropDown<String>(
-          //   width: elementWidth,
-          //   title: 'Hình thức thanh toán',
-          //   defaultValue: _paymentController.text,
-          //   dataSource: [
-          //     {'name': 'Tài khoản ngân hàng', 'value': '1'},
-          //     {'name': 'Trả sau', 'value': '2'},
-          //   ],
-          //   onChanged: (value) {
-          //     setState(() {
-          //       _paymentController.text = value!;
-          //     });
-          //   },
-          // ),
-          // if (_paymentController.text == '1')
-          //   _buildInput(
-          //     width: elementWidth,
-          //     title: 'Tài khoản ngân hàng',
-          //     hintText: 'Nhập số tài khoản',
-          //     initialValue: _editModel.id,
-          //     onChanged: (value) {
-          //       setState(() {
-          //         if (_errorMessage.isNotEmpty) {
-          //           _errorMessage = '';
-          //         }
-          //       });
-          //     },
-          //     onSaved: (value) {},
-          //     validator: (value) {
-          //       return null;
-          //     },
-          //   ),
+          _buildInput(
+            width: elementWidth,
+            title: 'Tên',
+            hintText: 'Nhập tên dịch vụ',
+            initialValue: _editModel.name,
+            onChanged: (value) {
+              setState(() {
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
+            validator: (value) {
+              if (value!.trim().isEmpty) {
+                return ValidatorText.empty(
+                    fieldName: ScreenUtil.t(I18nKey.name)!);
+              } else if (value.trim().length > 50) {
+                return ValidatorText.moreThan(
+                    fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
+              } else if (value.trim().length < 5) {
+                return ValidatorText.atLeast(
+                  fieldName: ScreenUtil.t(I18nKey.name)!,
+                  atLeast: 5,
+                );
+              }
+              return null;
+            },
+            onSaved: (value) => _editModel.name = value!.trim(),
+          ),
+          _buildDropDown<int>(
+            width: elementWidth,
+            title: 'Loại',
+            defaultValue: _editModel.quantityType,
+            dataSource: [
+              {'name': 'Giờ', 'value': 0},
+              {'name': 'Phòng', 'value': 1},
+              {'name': 'Khác', 'value': 2},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editModel.quantityType = value!;
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Lựa chọn',
+                  style: AppTextTheme.mediumBodyText(AppColor.shadow),
+                ),
+                InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        SvgIcon(
+                          SvgIcons.add,
+                          color: AppColor.primary2,
+                          size: 24,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 13),
+                          child: Text(
+                            'Thêm',
+                            style:
+                                AppTextTheme.mediumBodyText(AppColor.primary2),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _editModel.options.add(OptionsModel.fromJson({}));
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          for (var option in _editModel.options)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 0, 24),
+              child: _buildOption(
+                option: option,
+                width: elementWidth,
+              ),
+            ),
         ],
       );
     });
@@ -363,13 +333,15 @@ class _EditServiceFormState extends State<EditServiceForm> {
     List<TextInputFormatter>? inputFormatters,
     bool obscureText = false,
     Widget? suffixIcon,
+    EdgeInsetsGeometry contentPadding = const EdgeInsets.all(16),
+    TextEditingController? controller,
   }) {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: width > 450 ? width / 2 : width,
+        maxWidth: width,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: contentPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -382,6 +354,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                 ),
               ),
             InputWidget(
+              controller: controller,
               keyboardType: keyboardType,
               inputFormatters: inputFormatters,
               initialValue: initialValue,
@@ -406,38 +379,239 @@ class _EditServiceFormState extends State<EditServiceForm> {
     required List<Map<String, dynamic>> dataSource,
     Function(T?)? onChanged,
   }) {
-    final boxWidth = width > 450 ? width / 2 : width;
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: boxWidth,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (title.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  title,
-                  style: AppTextTheme.normalText(AppColor.shadow),
-                ),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                title,
+                style: AppTextTheme.normalText(AppColor.shadow),
               ),
-            JTDropdownButtonFormField<T>(
-              width: boxWidth,
-              height: 48,
-              defaultValue: defaultValue,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: AppColor.shade1,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              dataSource: dataSource,
-              onChanged: onChanged,
             ),
-          ],
+          JTDropdownButtonFormField<T>(
+            width: width,
+            height: 48,
+            defaultValue: defaultValue,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: AppColor.shade1,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            dataSource: dataSource,
+            onChanged: onChanged,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOption({
+    required OptionsModel option,
+    required double width,
+  }) {
+    final index = _editModel.options.indexOf(option) + 1;
+    final elementWidth = width / 2 - 2 - 32;
+    final nameController = TextEditingController(text: option.name);
+    nameController.selection =
+        TextSelection.collapsed(offset: option.name.length);
+    final noteController = TextEditingController(text: option.note);
+    noteController.selection =
+        TextSelection.collapsed(offset: option.note.length);
+    final priceController = TextEditingController(text: '${option.price}');
+    priceController.selection =
+        TextSelection.collapsed(offset: '${option.price}'.length);
+    final quantityController =
+        TextEditingController(text: '${option.quantity}');
+    quantityController.selection =
+        TextSelection.collapsed(offset: '${option.quantity}'.length);
+
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+          border: Border(
+        left: BorderSide(
+          width: 4,
+          color: AppColor.text7,
         ),
+      )),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    'Lựa chọn $index',
+                    style: AppTextTheme.mediumHeaderTitle(AppColor.black),
+                  ),
+                ),
+                InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        SvgIcon(
+                          SvgIcons.delete,
+                          color: AppColor.text7,
+                          size: 24,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 13),
+                          child: Text(
+                            'Xóa',
+                            style: AppTextTheme.mediumBodyText(AppColor.text7),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _editModel.options.remove(option);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Wrap(
+              runSpacing: 16,
+              spacing: 16,
+              children: [
+                _buildInput(
+                  width: elementWidth,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: 'Nhập tên dịch vụ',
+                  controller: nameController,
+                  onChanged: (value) {
+                    setState(() {
+                      option.name = value!.trim();
+
+                      if (_errorMessage.isNotEmpty) {
+                        _errorMessage = '';
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return ValidatorText.empty(
+                          fieldName: ScreenUtil.t(I18nKey.name)!);
+                    } else if (value.trim().length > 50) {
+                      return ValidatorText.moreThan(
+                          fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
+                    } else if (value.trim().length < 5) {
+                      return ValidatorText.atLeast(
+                        fieldName: ScreenUtil.t(I18nKey.name)!,
+                        atLeast: 5,
+                      );
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => option.name = value!.trim(),
+                ),
+                _buildInput(
+                  width: elementWidth,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: 'Nhập tên dịch vụ',
+                  controller: noteController,
+                  onChanged: (value) {
+                    setState(() {
+                      option.note = value!.trim();
+
+                      if (_errorMessage.isNotEmpty) {
+                        _errorMessage = '';
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return ValidatorText.empty(
+                          fieldName: ScreenUtil.t(I18nKey.note)!);
+                    } else if (value.trim().length > 50) {
+                      return ValidatorText.moreThan(
+                          fieldName: ScreenUtil.t(I18nKey.note)!, moreThan: 50);
+                    } else if (value.trim().length < 5) {
+                      return ValidatorText.atLeast(
+                        fieldName: ScreenUtil.t(I18nKey.note)!,
+                        atLeast: 5,
+                      );
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => option.note = value!.trim(),
+                ),
+                _buildInput(
+                  width: elementWidth,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: 'Nhập tên dịch vụ',
+                  controller: priceController,
+                  onChanged: (value) {
+                    setState(() {
+                      option.price = int.tryParse(value!.trim())!;
+
+                      if (_errorMessage.isNotEmpty) {
+                        _errorMessage = '';
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return ValidatorText.empty(fieldName: 'Giá');
+                    } else if (value.trim().length > 50) {
+                      return ValidatorText.moreThan(
+                        fieldName: 'Giá',
+                        moreThan: 50,
+                      );
+                    }
+                    return null;
+                  },
+                  onSaved: (value) =>
+                      option.price = int.tryParse(value!.trim())!,
+                ),
+                _buildInput(
+                  width: elementWidth,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: 'Nhập tên dịch vụ',
+                  controller: quantityController,
+                  onChanged: (value) {
+                    setState(() {
+                      option.quantity = int.tryParse(value!.trim())!;
+
+                      if (_errorMessage.isNotEmpty) {
+                        _errorMessage = '';
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return ValidatorText.empty(fieldName: 'Giá');
+                    } else if (value.trim().length > 50) {
+                      return ValidatorText.moreThan(
+                        fieldName: 'Giá',
+                        moreThan: 50,
+                      );
+                    }
+                    return null;
+                  },
+                  onSaved: (value) =>
+                      option.quantity = int.tryParse(value!.trim())!,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -545,36 +719,11 @@ class _EditServiceFormState extends State<EditServiceForm> {
     );
   }
 
-  _createService() async {
-    setState(() {
-      _processing = true;
-    });
-    _serviceBloc.createObject(editModel: _editModel).then(
-      (value) async {
-        widget.onFetch(1);
-        navigateTo(serviceManagementRoute);
-        await Future.delayed(const Duration(milliseconds: 400));
-      },
-    ).onError((ApiError error, stackTrace) {
-      setState(() {
-        _processing = false;
-        _errorMessage = showError(error.errorCode, context);
-      });
-    }).catchError(
-      (error, stackTrace) {
-        setState(() {
-          _processing = false;
-          logDebug(error);
-          _errorMessage = error.toString();
-        });
-      },
-    );
-  }
-
   _editService() async {
     setState(() {
       _processing = true;
     });
+
     _serviceBloc.editObject(editModel: _editModel, id: _editModel.id).then(
       (value) async {
         widget.onFetch(1);
@@ -594,27 +743,5 @@ class _EditServiceFormState extends State<EditServiceForm> {
         });
       },
     );
-  }
-
-  _deleteObjectById({
-    required String id,
-  }) {
-    _serviceBloc.deleteObject(id: id).then((model) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      widget.onFetch(1);
-      navigateTo(serviceManagementRoute);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.name}.')),
-      );
-    }).catchError((e, stacktrace) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      logDebug(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ScreenUtil.t(I18nKey.errorWhileDelete)!),
-        ),
-      );
-    });
   }
 }

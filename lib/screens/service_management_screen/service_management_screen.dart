@@ -4,7 +4,6 @@ import '/core/admin/model/admin_model.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/edit_service_form.dart';
 import 'components/edit_service_content.dart';
 import 'components/service_detail_content.dart';
 import 'components/service_list.dart';
@@ -19,7 +18,8 @@ class ServiceManagementScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ServiceManagementScreen> createState() => _ServiceManagementScreenState();
+  State<ServiceManagementScreen> createState() =>
+      _ServiceManagementScreenState();
 }
 
 class _ServiceManagementScreenState extends State<ServiceManagementScreen> {
@@ -69,11 +69,7 @@ class _ServiceManagementScreenState extends State<ServiceManagementScreen> {
 
   Widget _buildContent() {
     if (widget.tab == 1) {
-      return EditServiceForm(
-        serviceBloc: _serviceBloc,
-        route: serviceManagementRoute,
-        onFetch: _fetchDataOnPage,
-      );
+      return const SizedBox();
     } else if (widget.tab == 2) {
       return ServiceDetailContent(
         route: serviceManagementRoute,

@@ -43,6 +43,14 @@ class AuthenticationRepository {
     return response;
   }
 
+  Future<dynamic> checkEmail(String email) async {
+    await Future.delayed(
+        const Duration(seconds: 1)); // simulate a network delay
+    final body = convert.jsonEncode({'email': email});
+    final response = await provider.checkEmail(body);
+    return response;
+  }
+
   Future<dynamic> removeFcmToken(String fcmToken) async {
     await Future.delayed(
         const Duration(seconds: 1)); // simulate a network delay

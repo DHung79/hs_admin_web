@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/authentication/auth.dart';
@@ -22,11 +23,20 @@ class _OTPFormState extends State<OTPForm> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
-  
+  bool _processing = false;
+  Timer? _delayResend;
+  Timer? _delayCheckOtp;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _delayCheckOtp?.cancel();
+    _delayResend?.cancel();
+    super.dispose();
   }
 
   @override
@@ -112,7 +122,7 @@ class _OTPFormState extends State<OTPForm> {
                           'TIẾP TỤC',
                           style: AppTextTheme.headerTitle(AppColor.text2),
                         ),
-                        onPressed: _otp,
+                        onPressed: !_processing ? _otp : null,
                       ),
                     ),
                   ],
@@ -167,22 +177,41 @@ class _OTPFormState extends State<OTPForm> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
         child: Text(
           'Gửi lại',
-          style: AppTextTheme.mediumBodyText(AppColor.shade5),
+          style: AppTextTheme.mediumBodyText(
+              lockResend ? AppColor.text7 : AppColor.shade5),
         ),
       ),
-      onTap: _resendOTP,
+      onTap: !lockResend ? _resendOTP : null,
     );
   }
 
   _resendOTP() {
     setState(() {
       _errorMessage = '';
+      lockResend = true;
+      _delayResend = Timer.periodic(const Duration(minutes: 5), (timer) {
+        if (timer.tick == 1) {
+          timer.cancel();
+          setState(() {
+            lockResend = false;
+          });
+        }
+      });
     });
     AuthenticationBlocController().authenticationBloc.add(ResendOTP());
   }
 
   _otp() {
     setState(() {
+      _processing = true;
+      _delayCheckOtp = Timer.periodic(const Duration(seconds: 2), (timer) {
+        if (timer.tick == 1) {
+          timer.cancel();
+          setState(() {
+            _processing = false;
+          });
+        }
+      });
       _errorMessage = '';
     });
     if (_formKey.currentState!.validate()) {

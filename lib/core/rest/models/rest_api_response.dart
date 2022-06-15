@@ -1,11 +1,12 @@
-import '../../task/model/task_model.dart';
-import '../../admin/model/admin_model.dart';
-import '../../authentication/models/status.dart';
+import '/core/contact/model/contact_model.dart';
+import '/core/task/model/task_model.dart';
+import '/core/admin/model/admin_model.dart';
+import '/core/authentication/models/status.dart';
 import '/core/user/model/user_model.dart';
-import '../../logger/logger.dart';
-import '../../service/service.dart';
-import '../../tasker/model/tasker_model.dart';
-import '../../user/model/user_model.dart';
+import '/core/logger/logger.dart';
+import '/core/service/service.dart';
+import '/core/tasker/model/tasker_model.dart';
+
 
 class ApiError implements Exception {
   String _errorCode = '';
@@ -80,9 +81,6 @@ class BaseModel {
     if (T == OptionsModel) {
       return OptionsModel.fromJson(json) as T;
     }
-    if (T == UnitModel) {
-      return UnitModel.fromJson(json) as T;
-    }
     if (T == OtpModel) {
       return OtpModel.fromJson(json) as T;
     }
@@ -97,6 +95,11 @@ class BaseModel {
     }
     if (T == LocationModel) {
       return LocationModel.fromJson(json) as T;
+    } if (T == SupportContactModel) {
+      return SupportContactModel.fromJson(json) as T;
+    }
+    if (T == ContactModel) {
+      return ContactModel.fromJson(json) as T;
     }
 
     logError("Unknown BaseModel class: $T");

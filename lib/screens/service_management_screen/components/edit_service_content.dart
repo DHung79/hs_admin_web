@@ -46,7 +46,7 @@ class _EditServiceContentState extends State<EditServiceContent> {
       stream: _serviceBloc.serviceData,
       builder: (context, AsyncSnapshot<ApiResponse<ServiceModel?>> snapshot) {
         if (snapshot.hasData) {
-          final service = snapshot.data!.model;
+          final service = snapshot.data!.model!;
           return EditServiceForm(
             serviceBloc: _serviceBloc,
             route: serviceManagementRoute,

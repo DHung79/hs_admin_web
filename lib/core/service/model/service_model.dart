@@ -12,6 +12,7 @@ class ServiceModel extends BaseModel {
   final int _updatedTime;
   final List<TranslationModel> _translations = [];
   final List<OptionsModel> _options = [];
+  final int _quantityType;
 
   ServiceModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
@@ -24,7 +25,8 @@ class ServiceModel extends BaseModel {
           key: 'category',
         ),
         _createdTime = json['created_time'] ?? 0,
-        _updatedTime = json['updated_time'] ?? 0 {
+        _updatedTime = json['updated_time'] ?? 0,
+        _quantityType = json['quantity_type'] ?? 0 {
     _translations.addAll(BaseModel.mapList<TranslationModel>(
       json: json,
       key: 'translation',
@@ -44,6 +46,7 @@ class ServiceModel extends BaseModel {
         'category': _categoryModel.toJson(),
         'created_time': _createdTime,
         'updated_time': _updatedTime,
+        'quantity_type': _quantityType,
         'translation': _translations.map((e) => e.toJson()).toList(),
         'options': _options.map((e) => e.toJson()).toList(),
       };
@@ -56,6 +59,8 @@ class ServiceModel extends BaseModel {
   CategoryModel get categoryModel => _categoryModel;
   int get createdTime => _createdTime;
   int get updatedTime => _updatedTime;
+  int get quantityType => _quantityType;
+
   List<TranslationModel> get translations => _translations;
   List<OptionsModel> get options => _options;
 }
@@ -69,6 +74,7 @@ class EditServiceModel extends EditBaseModel {
   CategoryModel? categoryModel;
   int createdTime = 0;
   int updatedTime = 0;
+  int quantityType = 0;
   List<TranslationModel> translations = [];
   List<OptionsModel> options = [];
 
@@ -83,6 +89,7 @@ class EditServiceModel extends EditBaseModel {
     updatedTime = model?.updatedTime ?? 0;
     translations = model?.translations ?? [];
     options = model?.options ?? [];
+    quantityType = model?.quantityType ?? 0;
   }
 
   Map<String, dynamic> toCreateJson() {
@@ -94,6 +101,7 @@ class EditServiceModel extends EditBaseModel {
       'categoryModel': categoryModel,
       'translations': translations,
       'options': options,
+      'quantity': quantityType,
     };
 
     return params;
@@ -109,6 +117,7 @@ class EditServiceModel extends EditBaseModel {
       'categoryModel': categoryModel,
       'translations': translations,
       'options': options,
+      'quantity': quantityType,
     };
     return params;
   }
@@ -196,56 +205,21 @@ class TranslationModel extends BaseModel {
 }
 
 class OptionsModel extends BaseModel {
-  final String _name;
-  final int _price;
-  final int _quantity;
-  final String _note;
-  final UnitModel _unit;
-  final String __id;
+  String name;
+  int price;
+  int quantity;
+  String note;
 
   OptionsModel.fromJson(Map<String, dynamic> json)
-      : _name = json['name'] ?? '',
-        _price = json['price'] ?? 0,
-        _quantity = json['quantity'] ?? 0,
-        _note = json['note'] ?? '',
-        _unit = BaseModel.map<UnitModel>(
-          json: json,
-          key: 'unit',
-        ),
-        __id = json['_id'] ?? '';
+      : name = json['name'] ?? '',
+        price = json['price'] ?? 0,
+        quantity = json['quantity'] ?? 0,
+        note = json['note'] ?? '';
 
   Map<String, dynamic> toJson() => {
-        'name': _name,
-        'price': _price,
-        'quantity': _quantity,
-        'note': _note,
-        'unit': _unit.toJson(),
-        '_id': __id,
+        'name': name,
+        'price': price,
+        'quantity': quantity,
+        'note': note,
       };
-  String get name => _name;
-  int get price => _price;
-  int get quantity => _quantity;
-  String get note => _note;
-  UnitModel get unit => _unit;
-  String get id => __id;
-}
-
-class UnitModel extends BaseModel {
-  final String _name;
-  final List<TranslationModel> _translations = [];
-
-  UnitModel.fromJson(Map<String, dynamic> json) : _name = json['name'] ?? '' {
-    _translations.addAll(BaseModel.mapList<TranslationModel>(
-      json: json,
-      key: 'translation',
-    ));
-  }
-
-  Map<String, dynamic> toJson() => {
-        'name': _name,
-        'translation': _translations.map((e) => e.toJson()).toList(),
-      };
-
-  String get name => _name;
-  List<TranslationModel> get translations => _translations;
 }

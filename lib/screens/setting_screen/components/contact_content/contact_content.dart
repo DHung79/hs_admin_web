@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/core/contact/model/contact_model.dart';
 import '../../../../core/admin/admin.dart';
 import '../../../../core/authentication/auth.dart';
 import '../../../../main.dart';
@@ -22,7 +23,7 @@ class ContactContent extends StatefulWidget {
 class _ContactContentState extends State<ContactContent> {
   final _scrollController = ScrollController();
   final _accountBloc = AdminBloc();
-
+  bool _isUserContact = true;
   @override
   void initState() {
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
@@ -66,7 +67,7 @@ class _ContactContentState extends State<ContactContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Hồ sơ của bạn',
+                'Thông tin liên lạc',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
               Row(
@@ -100,7 +101,7 @@ class _ContactContentState extends State<ContactContent> {
                       ),
                     ),
                     onPressed: () {
-                      navigateTo(editProfileRoute);
+                      navigateTo(editContactRoute);
                     },
                   ),
                 ],
@@ -137,7 +138,7 @@ class _ContactContentState extends State<ContactContent> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
-                    child: _avatarField(),
+                    child: _switchField(),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -213,27 +214,53 @@ class _ContactContentState extends State<ContactContent> {
     });
   }
 
-  Widget _avatarField() {
+  Widget _switchField() {
     return SizedBox(
       width: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
+          AppButtonTheme.fillRounded(
+            color: _isUserContact ? AppColor.primary2 : AppColor.white,
+            highlightColor: AppColor.shade1,
+            constraints: const BoxConstraints(minHeight: 38, maxWidth: 200),
+            borderRadius: BorderRadius.circular(10),
+            child: Center(
+              child: Text(
+                'Khách hàng',
+                style: AppTextTheme.mediumBodyText(
+                  _isUserContact ? AppColor.white : AppColor.text3,
+                ),
+              ),
             ),
+            onPressed: () {
+              setState(() {
+                _isUserContact = true;
+              });
+            },
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            widget.account.name,
-            style: AppTextTheme.mediumBodyText(AppColor.text3),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: AppButtonTheme.fillRounded(
+              color: !_isUserContact ? AppColor.primary2 : AppColor.white,
+              highlightColor: AppColor.shade1,
+              constraints: const BoxConstraints(minHeight: 38, maxWidth: 200),
+              borderRadius: BorderRadius.circular(10),
+              child: Center(
+                child: Text(
+                  'Người giúp việc',
+                  style: AppTextTheme.mediumBodyText(
+                    !_isUserContact ? AppColor.white : AppColor.text3,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  _isUserContact = false;
+                });
+              },
+            ),
           ),
         ],
       ),
@@ -241,6 +268,46 @@ class _ContactContentState extends State<ContactContent> {
   }
 
   Widget _buildContent() {
+    final supportContact = SupportContactModel.fromJson({
+      'user': [
+        {
+          "name": "Hotline User 1",
+          "description": "0335475756",
+        },
+        {
+          "name": "Hotline User 2",
+          "description": "0335475756",
+        },
+        {
+          "name": "Email",
+          "description": "grugru@gmail.com",
+        },
+        {
+          "name": "Địa chỉ",
+          "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
+        }
+      ],
+      'tasker': [
+        {
+          "name": "Hotline Tasker 1",
+          "description": "0335475756",
+        },
+        {
+          "name": "Hotline Tasker 2",
+          "description": "0335475756",
+        },
+        {
+          "name": "Email",
+          "description": "grugru@gmail.com:",
+        },
+        {
+          "name": "Địa chỉ",
+          "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
+        }
+      ]
+    });
+    final contacts =
+        _isUserContact ? supportContact.user : supportContact.tasker;
     return LayoutBuilder(builder: (context, size) {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
@@ -258,23 +325,14 @@ class _ContactContentState extends State<ContactContent> {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: _profileType(
-                  title: 'Thông tin liên lạc',
+                  title: 'Kênh liên lạc',
                   children: [
-                    _profileItem(
-                      width: itemWidth / 2,
-                      title: 'Số điện thoại:',
-                      description: widget.account.phoneNumber,
-                    ),
-                    _profileItem(
-                      width: itemWidth / 2,
-                      title: 'Email:',
-                      description: widget.account.email,
-                    ),
-                    _profileItem(
-                      width: itemWidth,
-                      title: 'Địa chỉ:',
-                      description: widget.account.address,
-                    ),
+                    for (var item in contacts)
+                      _profileItem(
+                        width: itemWidth / 2,
+                        title: item.name,
+                        description: item.description,
+                      ),
                   ],
                 ),
               ),
@@ -325,7 +383,7 @@ class _ContactContentState extends State<ContactContent> {
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: Text(
-              title,
+              '$title:',
               style: AppTextTheme.normalText(AppColor.text8),
             ),
           ),

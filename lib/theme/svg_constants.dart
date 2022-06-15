@@ -92,7 +92,7 @@ class SvgIcons {
       SvgIconData(path: 'assets/svg/telephone_1.svg');
   static SvgIconData trophy = SvgIconData(path: 'assets/svg/trophy_1.svg');
   static SvgIconData user = SvgIconData(path: 'assets/svg/user_1.svg');
-  static SvgIconData vector1 = SvgIconData(path: 'assets/svg/vector_1.svg');
+  static SvgIconData add = SvgIconData(path: 'assets/svg/add.svg');
   static SvgIconData vector2 = SvgIconData(path: 'assets/svg/vector_2.svg');
   static SvgIconData vector3 = SvgIconData(path: 'assets/svg/vector_3.svg');
   static SvgIconData vector4 = SvgIconData(path: 'assets/svg/vector_4.svg');

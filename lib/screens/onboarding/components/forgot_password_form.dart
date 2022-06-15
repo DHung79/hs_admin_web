@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/main.dart';
@@ -22,11 +23,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _emailController = TextEditingController();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
-
+  bool _processing = false;
+  Timer? _delayForgotPassword;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _delayForgotPassword?.cancel();
+    super.dispose();
   }
 
   @override
@@ -83,6 +91,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                             if (_errorMessage.isNotEmpty) {
                               _errorMessage = '';
                             }
+                            if (_processing && _errorMessage.isEmpty) {
+                              _processing = false;
+                            }
                           });
                         },
                         validator: (value) {
@@ -116,7 +127,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           'TIẾP TỤC',
                           style: AppTextTheme.headerTitle(AppColor.text2),
                         ),
-                        onPressed: _forgotPassword,
+                        onPressed: !_processing ? _forgotPassword : null,
                       ),
                     ),
                   ],
@@ -165,9 +176,20 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   _forgotPassword() {
     setState(() {
       _errorMessage = '';
+      _processing = true;
+      _delayForgotPassword =
+          Timer.periodic(const Duration(seconds: 2), (timer) {
+        if (timer.tick == 1) {
+          timer.cancel();
+          setState(() {
+            _processing = false;
+          });
+        }
+      });
     });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
       AuthenticationBlocController().authenticationBloc.add(
             ForgotPassword(email: _emailController.text),
           );
@@ -180,7 +202,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   _showError(String errorCode) {
     setState(() {
-      _errorMessage = showError(errorCode, context,fieldName: 'Email');
+      _errorMessage = showError(errorCode, context, fieldName: 'Email');
     });
   }
 }

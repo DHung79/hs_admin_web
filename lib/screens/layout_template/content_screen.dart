@@ -171,7 +171,7 @@ class _PageTemplateState extends State<PageTemplate> {
                           onPressed: () {},
                         ),
                       )
-                    : const JTIndicator(),
+                    : const SizedBox(),
                 Expanded(
                     child: Scrollbar(
                   thumbVisibility: _scrollController.hasClients,

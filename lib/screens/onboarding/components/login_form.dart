@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
@@ -27,11 +28,18 @@ class _LoginFormState extends State<LoginForm> {
   final _passwordController = TextEditingController();
   String _errorMessage = '';
   bool _showPassword = false;
-
+  bool _processing = false;
+  Timer? _delayLogin;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _delayLogin?.cancel();
+    super.dispose();
   }
 
   @override
@@ -90,6 +98,9 @@ class _LoginFormState extends State<LoginForm> {
                             if (_errorMessage.isNotEmpty) {
                               _errorMessage = '';
                             }
+                            if (_processing && _errorMessage.isEmpty) {
+                              _processing = false;
+                            }
                           });
                         },
                         validator: (value) {
@@ -141,6 +152,9 @@ class _LoginFormState extends State<LoginForm> {
                             if (_errorMessage.isNotEmpty) {
                               _errorMessage = '';
                             }
+                            if (_processing && _errorMessage.isEmpty) {
+                              _processing = false;
+                            }
                           });
                         },
                         validator: (value) {
@@ -185,7 +199,7 @@ class _LoginFormState extends State<LoginForm> {
                           'ĐĂNG NHẬP',
                           style: AppTextTheme.headerTitle(AppColor.text2),
                         ),
-                        onPressed: login,
+                        onPressed: !_processing ? login : null,
                       ),
                     ),
                   ],
@@ -201,7 +215,17 @@ class _LoginFormState extends State<LoginForm> {
   login() {
     setState(() {
       _errorMessage = '';
+      _processing = true;
+      _delayLogin = Timer.periodic(const Duration(seconds: 2), (timer) {
+        if (timer.tick == 1) {
+          timer.cancel();
+          setState(() {
+            _processing = false;
+          });
+        }
+      });
     });
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       AuthenticationBlocController().authenticationBloc.add(

@@ -67,6 +67,21 @@ class AuthenticationProvider {
     return response;
   }
 
+  checkEmail(dynamic body) async {
+    final url = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.forgotPassword +
+        ApiConstants.admin +
+        ApiConstants.checkEmail;
+    logDebug('path: $url\nbody: $body');
+    final response = await RestApiHandlerData.postData<Status>(
+      path: url,
+      body: body,
+      headers: ApiHelper.headers(null),
+    );
+    return response;
+  }
+
   removeFcmToken(dynamic body) async {
     final url = ApiConstants.apiDomain + ApiConstants.apiVersion + '/fcm_token';
     final response = await RestApiHandlerData.deleteData<Status>(
