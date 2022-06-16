@@ -274,7 +274,7 @@ class _LoginFormState extends State<LoginForm> {
                 'Nhớ tài khoản',
                 style: AppTextTheme.mediumBodyText(AppColor.text3),
               ),
-            )
+            ),
           ],
         ),
         InkWell(

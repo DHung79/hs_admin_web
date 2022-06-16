@@ -13,6 +13,7 @@ class ServiceModel extends BaseModel {
   final List<TranslationModel> _translations = [];
   final List<OptionsModel> _options = [];
   final int _quantityType;
+  final List<PaymentModel> _payments = [];
 
   ServiceModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
@@ -27,6 +28,10 @@ class ServiceModel extends BaseModel {
         _createdTime = json['created_time'] ?? 0,
         _updatedTime = json['updated_time'] ?? 0,
         _quantityType = json['quantity_type'] ?? 0 {
+    _payments.addAll(BaseModel.mapList<PaymentModel>(
+      json: json,
+      key: 'payments',
+    ));
     _translations.addAll(BaseModel.mapList<TranslationModel>(
       json: json,
       key: 'translation',
@@ -47,6 +52,7 @@ class ServiceModel extends BaseModel {
         'created_time': _createdTime,
         'updated_time': _updatedTime,
         'quantity_type': _quantityType,
+        'payment_type': _payments.map((e) => e.toJson()).toList(),
         'translation': _translations.map((e) => e.toJson()).toList(),
         'options': _options.map((e) => e.toJson()).toList(),
       };
@@ -60,7 +66,7 @@ class ServiceModel extends BaseModel {
   int get createdTime => _createdTime;
   int get updatedTime => _updatedTime;
   int get quantityType => _quantityType;
-
+  List<PaymentModel> get payments => _payments;
   List<TranslationModel> get translations => _translations;
   List<OptionsModel> get options => _options;
 }
@@ -77,6 +83,7 @@ class EditServiceModel extends EditBaseModel {
   int quantityType = 0;
   List<TranslationModel> translations = [];
   List<OptionsModel> options = [];
+  List<PaymentModel> payments = [];
 
   EditServiceModel.fromModel(ServiceModel? model) {
     id = model?.id ?? '';
@@ -90,6 +97,7 @@ class EditServiceModel extends EditBaseModel {
     translations = model?.translations ?? [];
     options = model?.options ?? [];
     quantityType = model?.quantityType ?? 0;
+    payments = model?.payments ?? [];
   }
 
   Map<String, dynamic> toCreateJson() {
@@ -102,6 +110,7 @@ class EditServiceModel extends EditBaseModel {
       'translations': translations,
       'options': options,
       'quantity': quantityType,
+      'payments': payments,
     };
 
     return params;
@@ -118,6 +127,7 @@ class EditServiceModel extends EditBaseModel {
       'translations': translations,
       'options': options,
       'quantity': quantityType,
+      'payments': payments,
     };
     return params;
   }
@@ -146,6 +156,20 @@ class PriceModel extends BaseModel {
   String get name => _name;
   String get price => _price;
   String get type => _type;
+}
+
+class PaymentModel extends BaseModel {
+  String name;
+  bool isActive;
+
+  PaymentModel.fromJson(Map<String, dynamic> json)
+      : name = json['name'] ?? '',
+        isActive = json['is_active'] ?? false;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'is_active': isActive,
+      };
 }
 
 class ListServiceModel extends BaseModel {

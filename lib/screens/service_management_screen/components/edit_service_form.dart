@@ -37,6 +37,11 @@ class _EditServiceFormState extends State<EditServiceForm> {
   @override
   void initState() {
     _editModel = EditServiceModel.fromModel(widget.serviceModel);
+    if (_editModel.options.length < 2) {
+      for (int i = 0; i <= 2 - _editModel.options.length; i++) {
+        _editModel.options.add(OptionsModel.fromJson({}));
+      }
+    }
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
@@ -50,7 +55,10 @@ class _EditServiceFormState extends State<EditServiceForm> {
       children: [
         _buildHeader(),
         _renderError(),
-        _buildContent(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 24),
+          child: _buildContent(),
+        ),
       ],
     );
   }
@@ -316,9 +324,90 @@ class _EditServiceFormState extends State<EditServiceForm> {
                 width: elementWidth,
               ),
             ),
+          if (_editModel.payments.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      'Hình thức thanh toán',
+                      style: AppTextTheme.mediumBodyText(AppColor.shadow),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      for (var payment in _editModel.payments)
+                        _buildCheckBox(
+                          title: payment.name,
+                          onChanged: (value) {
+                            setState(() {
+                              payment.isActive = value!;
+                            });
+                          },
+                          isCheck: payment.isActive,
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
         ],
       );
     });
+  }
+
+  Widget _buildCheckBox({
+    required bool isCheck,
+    Function(bool?)? onChanged,
+    required String title,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: AppColor.shade1,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: SizedBox(
+                  height: 18,
+                  width: 18,
+                  child: Checkbox(
+                    splashRadius: 0,
+                    activeColor: AppColor.shade9,
+                    checkColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    side: BorderSide(
+                      color: AppColor.text7,
+                      width: 2,
+                    ),
+                    value: isCheck,
+                    onChanged: onChanged,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(11),
+                child: Text(
+                  title,
+                  style: AppTextTheme.mediumBodyText(AppColor.text3),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildInput({
