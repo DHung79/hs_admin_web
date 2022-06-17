@@ -284,7 +284,7 @@ class AuthenticationBloc
         final data = await authenticationService.forgotPassword(email);
         if (data is ApiResponse) {
           if (data.error == null) {
-            emit(ForgotPasswordDoneState());
+            emit(ResendDoneState());
           } else {
             emit(AuthenticationFailure(
               message: data.error!.errorMessage,
@@ -293,7 +293,7 @@ class AuthenticationBloc
           }
         } else {
           if (data["error_message"] == null) {
-            emit(ForgotPasswordDoneState());
+            emit(ResendDoneState());
           } else {
             emit(AuthenticationFailure(
               message: data["error_message"],

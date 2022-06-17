@@ -22,6 +22,8 @@ class ResetPasswordDoneState extends AuthenticationState {}
 
 class ForgotPasswordDoneState extends AuthenticationState {}
 
+class ResendDoneState extends AuthenticationState {}
+
 class UserTokenExpired extends AuthenticationState {}
 
 class SetUserData<T extends BaseModel> extends AuthenticationState {
