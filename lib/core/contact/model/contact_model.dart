@@ -1,20 +1,17 @@
 import '../../rest/models/rest_api_response.dart';
 
 class ContactModel extends BaseModel {
-  final String _name;
-  final String _description;
+  String name;
+  String description;
 
   ContactModel.fromJson(Map<String, dynamic> json)
-      : _name = json['name'] ?? '',
-        _description = json['description'] ?? '';
+      : name = json['name'] ?? '',
+        description = json['description'] ?? '';
 
   Map<String, dynamic> toJson() => {
-        'name': _name,
-        'description': _description,
+        'name': name,
+        'description': description,
       };
-
-  String get name => _name;
-  String get description => _description;
 }
 
 class SupportContactModel extends BaseModel {

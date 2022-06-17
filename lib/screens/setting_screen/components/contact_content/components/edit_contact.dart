@@ -2,32 +2,73 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../../core/admin/admin.dart';
 import '../../../../../core/authentication/auth.dart';
+import '../../../../../core/contact/contact.dart';
 import '../../../../../main.dart';
 import '../../../../../theme/app_theme.dart';
 import '../../../../../widgets/go_back_button.dart';
 import '../../../../../widgets/input_widget.dart';
 import '../../../../../widgets/joytech_components/joytech_components.dart';
 
-class EditProfile extends StatefulWidget {
+class EditContact extends StatefulWidget {
   final String route;
   final AdminModel account;
-  const EditProfile({
+  const EditContact({
     Key? key,
     required this.route,
     required this.account,
   }) : super(key: key);
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditContact> createState() => _EditContactState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditContactState extends State<EditContact> {
   final _accountBloc = AdminBloc();
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
   bool _processing = false;
   late EditAdminModel _editModel;
+  bool _isUserContact = true;
+  int _currentTag = 0;
+  final supportContact = SupportContactModel.fromJson({
+    'user': [
+      {
+        "name": "Hotline User 1",
+        "description": "0335475756",
+      },
+      {
+        "name": "Hotline User 2",
+        "description": "0335475756",
+      },
+      {
+        "name": "Email",
+        "description": "grugru@gmail.com",
+      },
+      {
+        "name": "Địa chỉ",
+        "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
+      }
+    ],
+    'tasker': [
+      {
+        "name": "Hotline Tasker 1",
+        "description": "0335475756",
+      },
+      {
+        "name": "Hotline Tasker 2",
+        "description": "0335475756",
+      },
+      {
+        "name": "Email",
+        "description": "grugru@gmail.com:",
+      },
+      {
+        "name": "Địa chỉ",
+        "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
+      }
+    ]
+  });
 
   @override
   void initState() {
@@ -50,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(),
-        _buildProfile(),
+        _buildContact(),
       ],
     );
   }
@@ -78,7 +119,7 @@ class _EditProfileState extends State<EditProfile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Chỉnh sửa hồ sơ',
+                'Chỉnh sửa thông tin liên lạc',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
               _headerActions(),
@@ -89,7 +130,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget _buildProfile() {
+  Widget _buildContact() {
     return LayoutBuilder(builder: (context, size) {
       return Form(
         key: _formKey,
@@ -97,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Container(
           constraints: const BoxConstraints(minHeight: 250),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -115,11 +156,11 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
-                    child: _avatarField(),
+                    child: _switchField(),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      padding: const EdgeInsets.only(left: 16),
                       child: _buildContent(),
                     ),
                   ),
@@ -132,33 +173,55 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-  Widget _avatarField() {
+  Widget _switchField() {
     return SizedBox(
       width: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          AppButtonTheme.fillRounded(
+            color: _isUserContact ? AppColor.primary2 : AppColor.white,
+            highlightColor: AppColor.shade1,
+            constraints: const BoxConstraints(minHeight: 38, maxWidth: 200),
+            borderRadius: BorderRadius.circular(10),
+            child: Center(
               child: Text(
-                'Thay đổi hình ảnh',
-                style: AppTextTheme.mediumBodyText(AppColor.primary2),
+                'Khách hàng',
+                style: AppTextTheme.mediumBodyText(
+                  _isUserContact ? AppColor.white : AppColor.text3,
+                ),
               ),
             ),
-            onTap: () {},
+            onPressed: () {
+              setState(() {
+                _isUserContact = true;
+                _currentTag = 0;
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: AppButtonTheme.fillRounded(
+              color: !_isUserContact ? AppColor.primary2 : AppColor.white,
+              highlightColor: AppColor.shade1,
+              constraints: const BoxConstraints(minHeight: 38, maxWidth: 200),
+              borderRadius: BorderRadius.circular(10),
+              child: Center(
+                child: Text(
+                  'Người giúp việc',
+                  style: AppTextTheme.mediumBodyText(
+                    !_isUserContact ? AppColor.white : AppColor.text3,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  _isUserContact = false;
+                  _currentTag = 0;
+                });
+              },
+            ),
           ),
         ],
       ),
@@ -170,121 +233,186 @@ class _EditProfileState extends State<EditProfile> {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
       final elementWidth = size.maxWidth;
+
+      final contacts =
+          _isUserContact ? supportContact.user : supportContact.tasker;
       return Container(
         constraints: BoxConstraints(maxHeight: screenSize.height / 5 * 3),
         width: itemWidth,
-        child: Wrap(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            _buildInput(
+            SizedBox(
               width: elementWidth,
-              title: 'Tên',
-              hintText: 'Nhập tên người dùng',
-              initialValue: _editModel.name,
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              validator: (value) {
-                if (value!.trim().isEmpty) {
-                  return ValidatorText.empty(
-                      fieldName: ScreenUtil.t(I18nKey.name)!);
-                } else if (value.trim().length > 50) {
-                  return ValidatorText.moreThan(
-                      fieldName: ScreenUtil.t(I18nKey.name)!, moreThan: 50);
-                } else if (value.trim().length < 5) {
-                  return ValidatorText.atLeast(
-                    fieldName: ScreenUtil.t(I18nKey.name)!,
-                    atLeast: 5,
-                  );
-                }
-                return null;
-              },
-              onSaved: (value) => _editModel.name = value!.trim(),
+              height: 82,
+              child: Row(
+                children: [
+                  ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: contacts.length,
+                      itemBuilder: (context, index) {
+                        final isSelected = _currentTag == index;
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 16,
+                                  color: AppColor.shadow.withOpacity(0.16),
+                                  blurStyle: BlurStyle.outer,
+                                ),
+                              ],
+                            ),
+                            child: AppButtonTheme.fillRounded(
+                              color: isSelected
+                                  ? AppColor.primary2
+                                  : AppColor.white,
+                              highlightColor: AppColor.shade1,
+                              constraints: const BoxConstraints(
+                                  maxHeight: 50, maxWidth: 50),
+                              borderRadius: BorderRadius.circular(10),
+                              child: Center(
+                                child: Text(
+                                  (index + 1).toString(),
+                                  style: AppTextTheme.mediumBodyText(
+                                    isSelected
+                                        ? AppColor.white
+                                        : AppColor.text3,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _currentTag = index;
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      }),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: AppButtonTheme.outlineRounded(
+                        outlineColor: AppColor.text7,
+                        constraints:
+                            const BoxConstraints(maxHeight: 50, maxWidth: 50),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Center(
+                          child: SvgIcon(
+                            SvgIcons.add,
+                            size: 24,
+                            color: AppColor.text7,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            contacts.add(ContactModel.fromJson({}));
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            _buildInput(
-              width: elementWidth,
-              title: 'Số điện thoại ',
-              hintText: 'Nhập số điện thoại',
-              initialValue: _editModel.phoneNumber,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value!.isEmpty || value.trim().isEmpty) {
-                  return ValidatorText.empty(
-                      fieldName: ScreenUtil.t(I18nKey.phoneNumber)!);
-                }
-                String pattern =
-                    r'^(\+843|\+845|\+847|\+848|\+849|\+841|03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$';
-                RegExp regExp = RegExp(pattern);
-                if (!regExp.hasMatch(value)) {
-                  return ScreenUtil.t(I18nKey.invalidPhoneNumber)!;
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              onSaved: (value) {
-                _editModel.phoneNumber = value!.trim();
-              },
-            ),
-            _buildInput(
-              width: elementWidth,
-              title: 'Địa chỉ',
-              hintText: 'Nhập địa chỉ',
-              initialValue: _editModel.address,
-              validator: (value) {
-                if (value!.trim().isEmpty) {
-                  return ValidatorText.empty(
-                      fieldName: ScreenUtil.t(I18nKey.address)!);
-                } else if (value.trim().length > 300) {
-                  return ValidatorText.moreThan(
-                    fieldName: ScreenUtil.t(I18nKey.address)!,
-                    moreThan: 300,
-                  );
-                } else if (value.trim().length < 5) {
-                  return ValidatorText.atLeast(
-                    fieldName: ScreenUtil.t(I18nKey.address)!,
-                    atLeast: 5,
-                  );
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  if (_errorMessage.isNotEmpty) {
-                    _errorMessage = '';
-                  }
-                });
-              },
-              onSaved: (value) => _editModel.address = value!.trim(),
-            ),
-            _buildDropDown<String>(
-              width: elementWidth,
-              title: 'Giới tính',
-              defaultValue: _editModel.gender,
-              dataSource: [
-                {'name': 'Nam', 'value': 'male'},
-                {'name': 'Nữ', 'value': 'female'},
-                {'name': 'Khác', 'value': 'other'},
-              ],
-              onChanged: (value) {
-                setState(() {
-                  _editModel.gender = value!;
-                });
-              },
+            _buildInputField(
+              elementWidth: elementWidth,
+              model: contacts[_currentTag],
             ),
           ],
         ),
       );
     });
+  }
+
+  _buildInputField({
+    required double elementWidth,
+    required ContactModel model,
+  }) {
+    final _nameController = TextEditingController();
+    final _descriptionController = TextEditingController();
+    _nameController.text = model.name;
+    _nameController.selection =
+        TextSelection.collapsed(offset: model.name.length);
+    _descriptionController.text = model.description;
+    _descriptionController.selection =
+        TextSelection.collapsed(offset: model.description.length);
+    return Column(
+      children: [
+        _buildInput(
+          width: elementWidth,
+          title: 'Tên',
+          hintText: 'Nhập tên',
+          controller: _nameController,
+          validator: (value) {
+            if (value!.trim().isEmpty) {
+              return ValidatorText.empty(fieldName: 'Tên');
+            } else if (value.trim().length > 300) {
+              return ValidatorText.moreThan(
+                fieldName: 'Tên',
+                moreThan: 300,
+              );
+            } else if (value.trim().length < 5) {
+              return ValidatorText.atLeast(
+                fieldName: 'Tên',
+                atLeast: 5,
+              );
+            }
+            return null;
+          },
+          onChanged: (value) {
+            setState(() {
+              model.name = value!;
+              if (_errorMessage.isNotEmpty) {
+                _errorMessage = '';
+              }
+            });
+          },
+          onSaved: (value) {
+            _nameController.text = value!.trim();
+          },
+        ),
+        _buildInput(
+          width: elementWidth,
+          title: 'Chú thích',
+          hintText: 'Nhập chú thích',
+          controller: _descriptionController,
+          validator: (value) {
+            if (value!.trim().isEmpty) {
+              return ValidatorText.empty(fieldName: 'Chú thích');
+            } else if (value.trim().length > 300) {
+              return ValidatorText.moreThan(
+                fieldName: 'Chú thích',
+                moreThan: 300,
+              );
+            } else if (value.trim().length < 5) {
+              return ValidatorText.atLeast(
+                fieldName: 'Chú thích',
+                atLeast: 5,
+              );
+            }
+            return null;
+          },
+          onChanged: (value) {
+            setState(() {
+              model.description = value!;
+              if (_errorMessage.isNotEmpty) {
+                _errorMessage = '';
+              }
+            });
+          },
+          onSaved: (value) => _descriptionController.text = value!.trim(),
+        ),
+      ],
+    );
   }
 
   Widget _buildInput({
@@ -299,10 +427,11 @@ class _EditProfileState extends State<EditProfile> {
     List<TextInputFormatter>? inputFormatters,
     bool obscureText = false,
     Widget? suffixIcon,
+    TextEditingController? controller,
   }) {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: width > 450 ? width / 2 : width,
+        maxWidth: width,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -318,6 +447,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             InputWidget(
+              controller: controller,
               keyboardType: keyboardType,
               inputFormatters: inputFormatters,
               initialValue: initialValue,
@@ -328,49 +458,6 @@ class _EditProfileState extends State<EditProfile> {
               onSaved: onSaved,
               onChanged: onChanged,
               validator: validator,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDropDown<T>({
-    required double width,
-    String title = '',
-    required T defaultValue,
-    required List<Map<String, dynamic>> dataSource,
-    Function(T?)? onChanged,
-  }) {
-    final boxWidth = width > 450 ? width / 2 : width;
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: boxWidth,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (title.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  title,
-                  style: AppTextTheme.normalText(AppColor.shadow),
-                ),
-              ),
-            JTDropdownButtonFormField<T>(
-              width: boxWidth,
-              height: 48,
-              defaultValue: defaultValue,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: AppColor.shade1,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              dataSource: dataSource,
-              onChanged: onChanged,
             ),
           ],
         ),
@@ -512,7 +599,7 @@ class _EditProfileState extends State<EditProfile> {
     });
     _accountBloc.editProfile(editModel: _editModel).then(
       (value) async {
-        navigateTo(profileRoute);
+        navigateTo(contactRoute);
         await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {

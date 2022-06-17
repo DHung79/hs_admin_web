@@ -26,6 +26,8 @@ class _OTPFormState extends State<OTPForm> {
   bool _processing = false;
   Timer? _delayResend;
   Timer? _delayCheckOtp;
+  bool _lockResend = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -178,22 +180,23 @@ class _OTPFormState extends State<OTPForm> {
         child: Text(
           'Gửi lại',
           style: AppTextTheme.mediumBodyText(
-              lockResend ? AppColor.text7 : AppColor.shade5),
+            _lockResend ? AppColor.text7 : AppColor.shade5,
+          ),
         ),
       ),
-      onTap: !lockResend ? _resendOTP : null,
+      onTap: !_lockResend ? _resendOTP : null,
     );
   }
 
   _resendOTP() {
     setState(() {
       _errorMessage = '';
-      lockResend = true;
+      _lockResend = true;
       _delayResend = Timer.periodic(const Duration(minutes: 5), (timer) {
         if (timer.tick == 1) {
           timer.cancel();
           setState(() {
-            lockResend = false;
+            _lockResend = false;
           });
         }
       });

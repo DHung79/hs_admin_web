@@ -86,17 +86,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                               _newPasswordSecure = !_newPasswordSecure;
                             });
                           },
-                          child: _newPasswordSecure
-                              ? Icon(
-                                  Icons.remove_red_eye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                )
-                              : SvgIcon(
-                                  SvgIcons.removeRedEye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                ),
+                          child: _passwordIcon(_newPasswordSecure),
                         ),
                         onSaved: (value) {
                           _newPasswordController.text = value!.trim();
@@ -143,17 +133,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                               _checkPasswordSecure = !_checkPasswordSecure;
                             });
                           },
-                          child: _checkPasswordSecure
-                              ? Icon(
-                                  Icons.remove_red_eye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                )
-                              : SvgIcon(
-                                  SvgIcons.removeRedEye,
-                                  color: AppColor.text7,
-                                  size: 24,
-                                ),
+                          child: _passwordIcon(_checkPasswordSecure),
                         ),
                         onSaved: (value) {
                           _checkPasswordController.text = value!.trim();
@@ -239,6 +219,20 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         ),
       ],
     );
+  }
+
+  _passwordIcon(bool secure) {
+    return secure
+        ? SvgIcon(
+            SvgIcons.eyeOff,
+            color: AppColor.text7,
+            size: 24,
+          )
+        : SvgIcon(
+            SvgIcons.removeRedEye,
+            color: AppColor.text7,
+            size: 24,
+          );
   }
 
   _resetPassword() {

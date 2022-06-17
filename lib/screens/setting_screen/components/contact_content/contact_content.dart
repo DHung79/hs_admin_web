@@ -24,6 +24,7 @@ class _ContactContentState extends State<ContactContent> {
   final _scrollController = ScrollController();
   final _accountBloc = AdminBloc();
   bool _isUserContact = true;
+
   @override
   void initState() {
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
@@ -44,7 +45,7 @@ class _ContactContentState extends State<ContactContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(),
-        _buildProfile(),
+        _buildContact(),
       ],
     );
   }
@@ -113,7 +114,7 @@ class _ContactContentState extends State<ContactContent> {
     );
   }
 
-  Widget _buildProfile() {
+  Widget _buildContact() {
     return LayoutBuilder(builder: (context, size) {
       return Container(
         height: 268,

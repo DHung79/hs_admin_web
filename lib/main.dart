@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oktoast/oktoast.dart';
@@ -33,8 +34,6 @@ String userManagementSearchString = '';
 String taskerManagementSearchString = '';
 String serviceManagementSearchString = '';
 String tasksSearchString = '';
-
-bool lockResend = false;
 
 GlobalKey globalMainKey = GlobalKey();
 

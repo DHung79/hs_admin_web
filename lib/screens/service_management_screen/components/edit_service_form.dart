@@ -587,7 +587,6 @@ class _EditServiceFormState extends State<EditServiceForm> {
                   onChanged: (value) {
                     setState(() {
                       option.name = value!.trim();
-
                       if (_errorMessage.isNotEmpty) {
                         _errorMessage = '';
                       }
@@ -618,7 +617,6 @@ class _EditServiceFormState extends State<EditServiceForm> {
                   onChanged: (value) {
                     setState(() {
                       option.note = value!.trim();
-
                       if (_errorMessage.isNotEmpty) {
                         _errorMessage = '';
                       }
@@ -649,7 +647,6 @@ class _EditServiceFormState extends State<EditServiceForm> {
                   onChanged: (value) {
                     setState(() {
                       option.price = int.tryParse(value!.trim())!;
-
                       if (_errorMessage.isNotEmpty) {
                         _errorMessage = '';
                       }
@@ -677,7 +674,6 @@ class _EditServiceFormState extends State<EditServiceForm> {
                   onChanged: (value) {
                     setState(() {
                       option.quantity = int.tryParse(value!.trim())!;
-
                       if (_errorMessage.isNotEmpty) {
                         _errorMessage = '';
                       }

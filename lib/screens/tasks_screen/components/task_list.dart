@@ -133,16 +133,16 @@ class _TaskListState extends State<TaskList> {
         isConstant: true,
       ),
       TableHeader(
-        title: ScreenUtil.t(I18nKey.name)!,
+        title: 'Dịch vụ',
         width: 250,
       ),
       TableHeader(
-        title: 'Giá ',
+        title: 'Tổng tiền ',
         width: 200,
         isConstant: true,
       ),
       TableHeader(
-        title: 'Cập nhật mới',
+        title: 'Khách hàng',
         width: 160,
         isConstant: true,
       ),
@@ -226,15 +226,15 @@ class _TaskListState extends State<TaskList> {
   ) {
     final List<TableHeaderButton> _tableHeadersButton = [
       TableHeaderButton(
-        title: ScreenUtil.t(I18nKey.name)!,
+        title: 'Dịch vụ',
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: 'Giá',
+        title: 'Tổng tiền',
         onPressed: () {},
       ),
       TableHeaderButton(
-        title: 'Cập nhật mới',
+        title: 'Khách hàng',
         onPressed: () {},
       ),
       TableHeaderButton(
@@ -270,13 +270,16 @@ class _TaskListState extends State<TaskList> {
         tableCellText(
             title: '${recordOffset + index + 1}', alignment: Alignment.center),
         tableCellText(
-          title: item.id,
+          title: item.service!.translations.last.name,
         ),
-        tableCellText(title: item.user?.name),
+        tableCellText(title: item.totalPrice.toString() + ' VND'),
         tableCellText(
-          title: item.tasker?.name,
+          title: item.user?.name,
         ),
-        tableCellText(title: item.address),
+        tableCellText(
+          title: _getStatusText(item.status),
+          style: _getStatusStyle(item.status),
+        ),
         tableCellText(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -322,6 +325,40 @@ class _TaskListState extends State<TaskList> {
         ),
       ],
     );
+  }
+
+  String _getStatusText(status) {
+    switch (status) {
+      case 0:
+        return 'Đang chờ';
+      case 1:
+        return 'Đã nhận';
+      case 2:
+        return 'Đang tiến hành';
+      case 3:
+        return 'Thành công';
+      case 4:
+        return 'Đã hủy';
+      default:
+        return '';
+    }
+  }
+
+  TextStyle _getStatusStyle(status) {
+    switch (status) {
+      case 0:
+        return AppTextTheme.mediumBodyText(AppColor.text8);
+      case 1:
+        return AppTextTheme.mediumBodyText(AppColor.text3);
+      case 2:
+        return AppTextTheme.mediumBodyText(AppColor.primary2);
+      case 3:
+        return AppTextTheme.mediumBodyText(AppColor.shade9);
+      case 4:
+        return AppTextTheme.mediumBodyText(AppColor.others1);
+      default:
+        return AppTextTheme.mediumBodyText(AppColor.black);
+    }
   }
 
   Widget tableLimit() {
@@ -382,7 +419,8 @@ class _TaskListState extends State<TaskList> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có chắc muốn hủy đặt hàng Dọn dẹp nhà theo giờ của ?',
+            contentText:
+                'Bạn có chắc muốn hủy đặt hàng Dọn dẹp nhà theo giờ của ?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
@@ -404,7 +442,8 @@ class _TaskListState extends State<TaskList> {
       widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' đặt hàng của ${model.user?.name}.')),
+            content: Text(ScreenUtil.t(I18nKey.deleted)! +
+                ' đặt hàng của ${model.user?.name}.')),
       );
     }).catchError((e, stacktrace) async {
       await Future.delayed(const Duration(milliseconds: 400));

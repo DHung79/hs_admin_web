@@ -71,7 +71,11 @@ String showError(String errorCode, BuildContext context, {String? fieldName}) {
       break;
     case '404':
       if (fieldName != null) {
-        message = ScreenUtil.t(I18nKey.incorrectOTP)!;
+        if (fieldName == 'Email') {
+          message = ScreenUtil.t(I18nKey.emailDoesNotExist)!;
+        } else {
+          message = ScreenUtil.t(I18nKey.incorrectOTP)!;
+        }
       } else {
         message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
       }

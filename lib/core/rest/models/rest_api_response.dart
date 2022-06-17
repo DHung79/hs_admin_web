@@ -7,7 +7,6 @@ import '/core/logger/logger.dart';
 import '/core/service/service.dart';
 import '/core/tasker/model/tasker_model.dart';
 
-
 class ApiError implements Exception {
   String _errorCode = '';
   String _errorMessage = '';
@@ -95,13 +94,16 @@ class BaseModel {
     }
     if (T == LocationModel) {
       return LocationModel.fromJson(json) as T;
-    } if (T == SupportContactModel) {
+    }
+    if (T == SupportContactModel) {
       return SupportContactModel.fromJson(json) as T;
     }
     if (T == ContactModel) {
       return ContactModel.fromJson(json) as T;
     }
-
+    if (T == PaymentModel) {
+      return PaymentModel.fromJson(json) as T;
+    }
     logError("Unknown BaseModel class: $T");
     throw Exception("Unknown BaseModel class: $T");
   }
