@@ -95,11 +95,14 @@ class BaseModel {
     if (T == LocationModel) {
       return LocationModel.fromJson(json) as T;
     }
-    if (T == SupportContactModel) {
-      return SupportContactModel.fromJson(json) as T;
+    if (T == ContactInfoModel) {
+      return ContactInfoModel.fromJson(json) as T;
     }
     if (T == ContactModel) {
       return ContactModel.fromJson(json) as T;
+    }
+    if (T == ListContactInfo) {
+      return ListContactInfo.fromJson(json) as T;
     }
     if (T == PaymentModel) {
       return PaymentModel.fromJson(json) as T;
@@ -165,6 +168,9 @@ class EditBaseModel {
     if (T == EditServiceModel) {
       return EditServiceModel.fromModel(model as ServiceModel) as T;
     }
+    if (T == EditContactInfoModel) {
+      return EditContactInfoModel.fromModel(model as ContactInfoModel) as T;
+    }
     logError("Unknown EditBaseModel class: $T");
     throw Exception("Unknown EditBaseModel class: $T");
   }
@@ -200,6 +206,9 @@ class EditBaseModel {
       return model.toEditJson();
     }
     if (model is EditAdminModel) {
+      return model.toEditJson();
+    }
+    if (model is EditContactInfoModel) {
       return model.toEditJson();
     }
     return {};

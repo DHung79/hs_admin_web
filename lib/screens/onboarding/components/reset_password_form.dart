@@ -76,9 +76,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                         controller: _newPasswordController,
                         obscureText: _newPasswordSecure,
                         hintText: 'Nhập mật khẩu',
-                        style: AppTextTheme.mediumBodyText(
-                          AppColor.text7,
-                        ),
                         borderColor: AppColor.text7,
                         suffixIcon: TextButton(
                           onPressed: () {
@@ -123,9 +120,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                         controller: _checkPasswordController,
                         obscureText: _checkPasswordSecure,
                         hintText: 'Nhập lại mật khẩu',
-                        style: AppTextTheme.mediumBodyText(
-                          AppColor.text7,
-                        ),
                         borderColor: AppColor.text7,
                         suffixIcon: TextButton(
                           onPressed: () {

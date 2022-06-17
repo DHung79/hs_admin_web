@@ -12,7 +12,8 @@ class ServiceBloc {
   final _allDataState = BehaviorSubject<BlocState>();
 
   Stream<ApiResponse<ListServiceModel?>> get allData => _allDataFetcher.stream;
-  Stream<ApiResponse<ServiceModel?>> get serviceData => _serviceDataFetcher.stream;
+  Stream<ApiResponse<ServiceModel?>> get serviceData =>
+      _serviceDataFetcher.stream;
   Stream<BlocState> get allDataState => _allDataState.stream;
   bool _isFetching = false;
 
@@ -41,15 +42,15 @@ class ServiceBloc {
     _isFetching = false;
   }
 
-   fetchDataById(String id) async {
+  fetchDataById(String id) async {
     if (_isFetching) return;
     _isFetching = true;
     // Start fetching data.
     _allDataState.sink.add(BlocState.fetching);
     try {
       // Await response from server.
-      final data =
-          await _repository.fetchDataById<ServiceModel, EditServiceModel>(id: id);
+      final data = await _repository
+          .fetchDataById<ServiceModel, EditServiceModel>(id: id);
       if (_serviceDataFetcher.isClosed) return;
       if (data.error != null) {
         // Error exist
@@ -82,12 +83,13 @@ class ServiceBloc {
     }
   }
 
- Future<ServiceModel> createObject({
+  Future<ServiceModel> createObject({
     EditServiceModel? editModel,
   }) async {
     try {
       // Await response from server.
-      final data = await _repository.createObject<ServiceModel, EditServiceModel>(
+      final data =
+          await _repository.createObject<ServiceModel, EditServiceModel>(
         editModel: editModel,
       );
       if (data.error != null) {

@@ -4,7 +4,6 @@ import '../../core/admin/admin.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
 import '../layout_template/content_screen.dart';
-import 'components/contact_content/components/edit_contact.dart';
 import 'components/contact_content/contact_content.dart';
 import 'components/profile_content/components/edit_profile.dart';
 import 'components/profile_content/profile_content.dart';
@@ -77,9 +76,8 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else if (widget.tab == 2) {
       //contact
-      return ContactContent(
+      return const ContactContent(
         route: settingRoute,
-        account: account,
       );
     } else if (widget.tab == 3) {
       //edit profile
@@ -89,9 +87,9 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else if (widget.tab == 4) {
       //edit contact
-      return EditContact(
+      return const ContactContent(
         route: settingRoute,
-        account: account,
+        isEdit: true,
       );
     } else {
       return SettingContent(

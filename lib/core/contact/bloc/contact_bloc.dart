@@ -7,10 +7,11 @@ import '../contact.dart';
 
 class ContactBloc {
   final _repository = ContactRepository();
-  final _allDataFetcher = BehaviorSubject<ApiResponse<SupportContactModel?>>();
+  final _allDataFetcher = BehaviorSubject<ApiResponse<ContactInfoModel?>>();
   final _allDataState = BehaviorSubject<BlocState>();
 
-  Stream<ApiResponse<SupportContactModel?>> get allData => _allDataFetcher.stream;
+  Stream<ApiResponse<ContactInfoModel?>> get allData =>
+      _allDataFetcher.stream;
   Stream<BlocState> get allDataState => _allDataState.stream;
   bool _isFetching = false;
 
@@ -22,7 +23,7 @@ class ContactBloc {
     try {
       // Await response from server.
       final data =
-          await _repository.fetchAllData<SupportContactModel>(params: params!);
+          await _repository.fetchAllData<ContactInfoModel>(params: params!);
       if (_allDataFetcher.isClosed) return;
       if (data.error != null) {
         // Error exist
@@ -39,10 +40,16 @@ class ContactBloc {
     _isFetching = false;
   }
 
-  Future<ContactModel> deleteObject({String? id}) async {
+  Future<ContactModel> editObject({
+    EditContactInfoModel? editModel,
+    String? id,
+  }) async {
     try {
       // Await response from server.
-      final data = await _repository.deleteObject<ContactModel>(id: id);
+      final data = await _repository.editObject<ContactModel, EditContactInfoModel>(
+        editModel: editModel,
+        id: id,
+      );
       if (data.error != null) {
         // Error exist
         return Future.error(data.error!);

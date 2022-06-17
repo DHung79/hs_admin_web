@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../../core/admin/admin.dart';
 import '../../../../../core/authentication/auth.dart';
 import '../../../../../core/contact/contact.dart';
 import '../../../../../main.dart';
@@ -11,11 +10,11 @@ import '../../../../../widgets/joytech_components/joytech_components.dart';
 
 class EditContact extends StatefulWidget {
   final String route;
-  final AdminModel account;
+  final List<ContactInfoModel> listContactInfo;
   const EditContact({
     Key? key,
     required this.route,
-    required this.account,
+    required this.listContactInfo,
   }) : super(key: key);
 
   @override
@@ -23,63 +22,28 @@ class EditContact extends StatefulWidget {
 }
 
 class _EditContactState extends State<EditContact> {
-  final _accountBloc = AdminBloc();
+  final _contactBloc = ContactBloc();
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
   bool _processing = false;
-  late EditAdminModel _editModel;
+  late EditContactInfoModel _editUserContact;
+  late EditContactInfoModel _editTaskerContact;
   bool _isUserContact = true;
   int _currentTag = 0;
-  final supportContact = SupportContactModel.fromJson({
-    'user': [
-      {
-        "name": "Hotline User 1",
-        "description": "0335475756",
-      },
-      {
-        "name": "Hotline User 2",
-        "description": "0335475756",
-      },
-      {
-        "name": "Email",
-        "description": "grugru@gmail.com",
-      },
-      {
-        "name": "Địa chỉ",
-        "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
-      }
-    ],
-    'tasker': [
-      {
-        "name": "Hotline Tasker 1",
-        "description": "0335475756",
-      },
-      {
-        "name": "Hotline Tasker 2",
-        "description": "0335475756",
-      },
-      {
-        "name": "Email",
-        "description": "grugru@gmail.com:",
-      },
-      {
-        "name": "Địa chỉ",
-        "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa",
-      }
-    ]
-  });
 
   @override
   void initState() {
-    _editModel = EditAdminModel.fromModel(widget.account);
+    _editUserContact = EditContactInfoModel.fromModel(widget.listContactInfo[0]);
+    _editTaskerContact =
+        EditContactInfoModel.fromModel(widget.listContactInfo[1]);
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
 
   @override
   void dispose() {
-    _accountBloc.dispose();
+    _contactBloc.dispose();
     super.dispose();
   }
 
@@ -234,8 +198,9 @@ class _EditContactState extends State<EditContact> {
       final itemWidth = size.maxWidth - 16;
       final elementWidth = size.maxWidth;
 
-      final contacts =
-          _isUserContact ? supportContact.user : supportContact.tasker;
+      final contacts = _isUserContact
+          ? _editUserContact.contacts
+          : _editTaskerContact.contacts;
       return Container(
         constraints: BoxConstraints(maxHeight: screenSize.height / 5 * 3),
         width: itemWidth,
@@ -314,7 +279,7 @@ class _EditContactState extends State<EditContact> {
                         ),
                         onPressed: () {
                           setState(() {
-                            contacts.add(ContactModel.fromJson({}));
+                            contacts.add(EditContactModel.fromModel(null));
                           });
                         },
                       ),
@@ -325,7 +290,7 @@ class _EditContactState extends State<EditContact> {
             ),
             _buildInputField(
               elementWidth: elementWidth,
-              model: contacts[_currentTag],
+              editModel: contacts[_currentTag],
             ),
           ],
         ),
@@ -335,16 +300,16 @@ class _EditContactState extends State<EditContact> {
 
   _buildInputField({
     required double elementWidth,
-    required ContactModel model,
+    required EditContactModel editModel,
   }) {
     final _nameController = TextEditingController();
     final _descriptionController = TextEditingController();
-    _nameController.text = model.name;
+    _nameController.text = editModel.name;
     _nameController.selection =
-        TextSelection.collapsed(offset: model.name.length);
-    _descriptionController.text = model.description;
+        TextSelection.collapsed(offset: editModel.name.length);
+    _descriptionController.text = editModel.description;
     _descriptionController.selection =
-        TextSelection.collapsed(offset: model.description.length);
+        TextSelection.collapsed(offset: editModel.description.length);
     return Column(
       children: [
         _buildInput(
@@ -370,7 +335,7 @@ class _EditContactState extends State<EditContact> {
           },
           onChanged: (value) {
             setState(() {
-              model.name = value!;
+              editModel.name = value!;
               if (_errorMessage.isNotEmpty) {
                 _errorMessage = '';
               }
@@ -403,7 +368,7 @@ class _EditContactState extends State<EditContact> {
           },
           onChanged: (value) {
             setState(() {
-              model.description = value!;
+              editModel.description = value!;
               if (_errorMessage.isNotEmpty) {
                 _errorMessage = '';
               }
@@ -541,7 +506,7 @@ class _EditContactState extends State<EditContact> {
                 : () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      _editProfile();
+                      _editContacts();
                     } else {
                       setState(() {
                         _autovalidate = AutovalidateMode.onUserInteraction;
@@ -593,11 +558,12 @@ class _EditContactState extends State<EditContact> {
     );
   }
 
-  _editProfile() async {
+  _editContacts() async {
     setState(() {
       _processing = true;
     });
-    _accountBloc.editProfile(editModel: _editModel).then(
+    final _editModel = _isUserContact ? _editUserContact : _editTaskerContact;
+    _contactBloc.editObject(editModel: _editModel).then(
       (value) async {
         navigateTo(contactRoute);
         await Future.delayed(const Duration(milliseconds: 400));

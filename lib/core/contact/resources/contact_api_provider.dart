@@ -25,54 +25,6 @@ class ContactApiProvider {
     return response;
   }
 
-  Future<ApiResponse<T?>> fetchContactById<T extends BaseModel>({
-    String? id,
-  }) async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.contacts +
-        '/$id';
-    final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.getData<T>(
-      path: path,
-      headers: ApiHelper.headers(token),
-    );
-    return response;
-  }
-
-  Future<ApiResponse<T?>> deleteContact<T extends BaseModel>({
-    String? id,
-  }) async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.contacts +
-        '/$id';
-
-    final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.deleteData<T>(
-      path: path,
-      headers: ApiHelper.headers(token),
-    );
-    return response;
-  }
-
-  Future<ApiResponse<T?>>
-      createContact<T extends BaseModel, K extends EditBaseModel>({
-    K? editModel,
-  }) async {
-    final path = ApiConstants.apiDomain +
-        ApiConstants.apiVersion +
-        ApiConstants.contacts;
-    final body = convert.jsonEncode(EditBaseModel.toEditJson(editModel!));
-    final token = await ApiHelper.getUserToken();
-    final response = await RestApiHandlerData.postData<T>(
-      path: path,
-      body: body,
-      headers: ApiHelper.headers(token),
-    );
-    return response;
-  }
-
   Future<ApiResponse<T?>>
       editContact<T extends BaseModel, K extends EditBaseModel>({
     K? editModel,
