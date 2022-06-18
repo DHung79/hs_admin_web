@@ -277,8 +277,9 @@ class _TaskListState extends State<TaskList> {
           title: item.user?.name,
         ),
         tableCellText(
-          title: _getStatusText(item.status),
-          style: _getStatusStyle(item.status),
+          child: Center(
+            child: getStatusText(item.status),
+          ),
         ),
         tableCellText(
           child: Row(
@@ -316,7 +317,7 @@ class _TaskListState extends State<TaskList> {
                     ),
                   ),
                   onTap: () {
-                    _confirmDelete(id: item.id!);
+                    _confirmDelete(task: item);
                   },
                 ),
               ),
@@ -325,40 +326,6 @@ class _TaskListState extends State<TaskList> {
         ),
       ],
     );
-  }
-
-  String _getStatusText(status) {
-    switch (status) {
-      case 0:
-        return 'Đang chờ';
-      case 1:
-        return 'Đã nhận';
-      case 2:
-        return 'Đang tiến hành';
-      case 3:
-        return 'Thành công';
-      case 4:
-        return 'Đã hủy';
-      default:
-        return '';
-    }
-  }
-
-  TextStyle _getStatusStyle(status) {
-    switch (status) {
-      case 0:
-        return AppTextTheme.mediumBodyText(AppColor.text8);
-      case 1:
-        return AppTextTheme.mediumBodyText(AppColor.text3);
-      case 2:
-        return AppTextTheme.mediumBodyText(AppColor.primary2);
-      case 3:
-        return AppTextTheme.mediumBodyText(AppColor.shade9);
-      case 4:
-        return AppTextTheme.mediumBodyText(AppColor.others1);
-      default:
-        return AppTextTheme.mediumBodyText(AppColor.black);
-    }
   }
 
   Widget tableLimit() {
@@ -396,7 +363,7 @@ class _TaskListState extends State<TaskList> {
   }
 
   _confirmDelete({
-    required String id,
+    required TaskModel task,
   }) {
     final _focusNode = FocusNode();
     showDialog(
@@ -410,7 +377,7 @@ class _TaskListState extends State<TaskList> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: id);
+                _deleteObjectById(id: task.id!);
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -420,13 +387,13 @@ class _TaskListState extends State<TaskList> {
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
             contentText:
-                'Bạn có chắc muốn hủy đặt hàng Dọn dẹp nhà theo giờ của ?',
+                'Bạn có chắc muốn hủy dịch vụ Dọn dẹp nhà theo giờ của ${task.user?.name}?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: id);
+              _deleteObjectById(id: task.id!);
             },
           ),
         );
@@ -454,5 +421,40 @@ class _TaskListState extends State<TaskList> {
         ),
       );
     });
+  }
+}
+
+Widget getStatusText(status) {
+  switch (status) {
+    case 0:
+      return Text(
+        'Đang chờ',
+        style: AppTextTheme.mediumBodyText(AppColor.text8),
+      );
+    case 1:
+      return Text(
+        'Đã nhận',
+        style: AppTextTheme.mediumBodyText(AppColor.text3),
+      );
+    case 2:
+      return Text(
+        'Đang tiến hành',
+        style: AppTextTheme.mediumBodyText(AppColor.primary2),
+      );
+    case 3:
+      return Text(
+        'Thành công',
+        style: AppTextTheme.mediumBodyText(AppColor.shade9),
+      );
+    case 4:
+      return Text(
+        'Đã hủy',
+        style: AppTextTheme.mediumBodyText(AppColor.others1),
+      );
+    default:
+      return Text(
+        '',
+        style: AppTextTheme.mediumBodyText(AppColor.black),
+      );
   }
 }

@@ -6,6 +6,7 @@ import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
+import 'task_list.dart';
 
 class TaskDetailContent extends StatefulWidget {
   final String route;
@@ -55,7 +56,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             children: [
               _buildHeader(),
               _buildProfile(task),
-              _deleteButton(),
+              _deleteButton(task),
             ],
           );
         } else {
@@ -90,7 +91,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Thông tin đặt hàng',
+                'Thông tin đơn hàng',
                 style: AppTextTheme.mediumBigText(AppColor.text3),
               ),
             ],
@@ -102,6 +103,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
 
   Widget _buildProfile(TaskModel task) {
     final screenSize = MediaQuery.of(context).size;
+
     return LayoutBuilder(builder: (context, size) {
       return Container(
         height: screenSize.height - 192 - 76 - 16,
@@ -122,7 +124,36 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: _avatarField(task),
+              child: SizedBox(
+                width: 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _avatarField(
+                      title: 'Khách hàng',
+                      imageUrl: '',
+                      name: task.user!.name,
+                      onTap: () {},
+                    ),
+                    if (task.tasker != null && task.tasker!.id.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Divider(
+                          thickness: 1,
+                          color: AppColor.shade1,
+                        ),
+                      ),
+                    if (task.tasker != null && task.tasker!.id.isNotEmpty)
+                      _avatarField(
+                        title: 'Người giúp việc',
+                        imageUrl: '',
+                        name: task.tasker!.name,
+                        onTap: () {},
+                      ),
+                  ],
+                ),
+              ),
             ),
             Center(
               child: Padding(
@@ -142,14 +173,23 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
     });
   }
 
-  Widget _avatarField(TaskModel task) {
-    return SizedBox(
-      width: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
+  Widget _avatarField({
+    required String title,
+    required String imageUrl,
+    required String name,
+    Function()? onTap,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: AppTextTheme.mediumBodyText(AppColor.text3),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Image.asset(
               "assets/images/logo.png",
@@ -157,15 +197,25 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
               height: 100,
             ),
           ),
-          const SizedBox(
-            height: 10,
+        ),
+        Text(
+          name,
+          style: AppTextTheme.mediumBodyText(AppColor.text3),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                'Xem thêm',
+                style: AppTextTheme.normalText(AppColor.shade5),
+              ),
+            ),
           ),
-          Text(
-            task.address!,
-            style: AppTextTheme.mediumBodyText(AppColor.text3),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -187,12 +237,28 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: _detailType(
-                  title: 'Thông tin chi tiết',
+                  title: 'Thông tin dịch vụ',
                   children: [
                     _detailItem(
-                      width: itemWidth,
-                      title: 'Loại đặt hàng:',
-                      description: task.address!,
+                      width: itemWidth / 2,
+                      title: 'Trạng thái:',
+                      status: getStatusText(task.status),
+                      description: '',
+                    ),
+                    _detailItem(
+                      width: itemWidth / 2,
+                      title: 'Dịch vụ:',
+                      description: task.service!.name,
+                    ),
+                    _detailItem(
+                      width: itemWidth / 2,
+                      title: 'Tổng tiền:',
+                      description: task.totalPrice.toString(),
+                    ),
+                    _detailItem(
+                      width: itemWidth / 2,
+                      title: 'Tùy chọn:',
+                      description: '2 phòng',
                     ),
                   ],
                 ),
@@ -206,22 +272,52 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                 ),
               ),
               _detailType(
-                title: 'Giá',
+                title: 'Thông tin công việc',
                 children: [
-                  _detailItem(
-                    width: itemWidth / 4,
-                    title: 'Tên:',
-                    description: task.tasker!.name,
+                  _buildJobDetail(
+                    title: 'Thông tin cơ bản:',
+                    details: [
+                      JobDetail(
+                        title: 'Địa chỉ:',
+                        notes: [task.address!],
+                      ),
+                      JobDetail(
+                        title: 'Thời gian làm:',
+                        notes: [task.startTime.toString()],
+                      ),
+                      JobDetail(
+                        title: 'Loại nhà:',
+                        notes: [task.typeHome!],
+                      ),
+                      JobDetail(
+                        title: 'Tùy chọn:',
+                        notes: ['2 phòng'],
+                      ),
+                    ],
                   ),
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Giá thành:',
-                    description: task.user!.name,
-                  ),
-                  _detailItem(
-                    width: itemWidth / 2,
-                    title: 'Tính theo:',
-                    description: 'Theo giờ',
+                  _buildJobDetail(
+                    title: 'Yêu cầu từ khách hàng:',
+                    details: [
+                      JobDetail(
+                        title: 'Ghi chú:',
+                        notes: [task.note!],
+                      ),
+                      JobDetail(
+                        title: 'Danh sách kiểm tra:',
+                        notes: [
+                          ' - Lau ghế rồng',
+                          ' - Lau bình hoa',
+                          ' - Kiểm tra thức ăn cho cún',
+                        ],
+                      ),
+                      JobDetail(
+                        title: 'Dụng cụ tự mang:',
+                        notes: [
+                          ' - Chổi',
+                          ' - Cây lau nhà',
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -234,15 +330,15 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                 ),
               ),
               _detailType(
-                title: 'Hình thức thanh toán',
+                title: 'Thông tin thanh toán',
                 children: [
                   _detailItem(
-                    width: itemWidth / 4,
+                    width: itemWidth,
                     title: 'Hình thức 1:',
                     description: 'Momo',
                   ),
                   _detailItem(
-                    width: itemWidth / 4,
+                    width: itemWidth,
                     title: 'Hình thức 2:',
                     description: 'Tiền mặt',
                   ),
@@ -312,6 +408,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
 
   Widget _detailItem({
     required String title,
+    Widget? status,
     required String description,
     required double width,
   }) {
@@ -327,16 +424,101 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
               style: AppTextTheme.normalText(AppColor.text8),
             ),
           ),
-          Text(
-            description,
-            style: AppTextTheme.normalText(AppColor.text3),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (status != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: status,
+                ),
+              Text(
+                description,
+                style: AppTextTheme.normalText(AppColor.text3),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _deleteButton() {
+  Widget _buildJobDetail({
+    required String title,
+    required List<JobDetail> details,
+  }) {
+    const double itemWidth = 150;
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            color: AppColor.shade5,
+            width: 4,
+          ),
+        ),
+      ),
+      child: _buildJobItem(
+        title: title,
+        style: AppTextTheme.normalText(AppColor.shadow),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var detail in details)
+              Padding(
+                padding:
+                    EdgeInsets.only(top: details.indexOf(detail) != 0 ? 16 : 0),
+                child: _buildJobItem(
+                  title: detail.title,
+                  width: itemWidth,
+                  style: AppTextTheme.normalText(AppColor.shadow),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (var note in detail.notes)
+                          Text(
+                            note,
+                            style: AppTextTheme.normalText(AppColor.text3),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildJobItem({
+    required String title,
+    required TextStyle? style,
+    required Widget child,
+    double? width,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Container(
+            width: width,
+            child: Text(
+              title,
+              style: style,
+            ),
+          ),
+        ),
+        child,
+      ],
+    );
+  }
+
+  Widget _deleteButton(TaskModel task) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -350,21 +532,21 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             child: Row(
               children: [
                 SvgIcon(
-                  SvgIcons.delete,
+                  SvgIcons.close,
                   color: AppColor.text8,
                   size: 24,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    'Xóa đặt hàng',
+                    'Hủy đơn hàng',
                     style: AppTextTheme.mediumBodyText(AppColor.text8),
                   ),
                 ),
               ],
             ),
             onPressed: () {
-              _confirmDelete(id: widget.id);
+              _confirmDelete(task: task);
             },
           ),
         ),
@@ -373,7 +555,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
   }
 
   _confirmDelete({
-    required String id,
+    required TaskModel task,
   }) {
     final _focusNode = FocusNode();
     showDialog(
@@ -387,7 +569,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: id);
+                _deleteObjectById(id: task.id!);
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -396,13 +578,14 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa đặt hàng này?',
+            contentText:
+                'Bạn có chắc muốn hủy dịch vụ Dọn dẹp nhà theo giờ của ${task.user?.name}?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: id);
+              _deleteObjectById(id: task.id!);
             },
           ),
         );
@@ -419,7 +602,8 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
       navigateTo(tasksRoute);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' đặt hàng của ${model.user?.name}.')),
+            content: Text(ScreenUtil.t(I18nKey.deleted)! +
+                ' đặt hàng của ${model.user?.name}.')),
       );
     }).catchError((e, stacktrace) async {
       await Future.delayed(const Duration(milliseconds: 400));
@@ -431,4 +615,13 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
       );
     });
   }
+}
+
+class JobDetail {
+  final String title;
+  final List<String> notes;
+  JobDetail({
+    required this.title,
+    required this.notes,
+  });
 }
