@@ -287,7 +287,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               hintText: 'Nhập email',
               initialValue: _editModel.email,
               validator: (value) {
-                if (value!.trim().isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.email)!);
                 }
@@ -342,7 +342,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                 });
               },
               validator: (value) {
-                if (value!.isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.password)!);
                 }
@@ -370,7 +370,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
               });
             },
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(
                     fieldName: ScreenUtil.t(I18nKey.name)!);
               } else if (value.trim().length > 50) {
@@ -423,7 +423,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
             hintText: 'Nhập địa chỉ',
             initialValue: _editModel.address,
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(
                     fieldName: ScreenUtil.t(I18nKey.address)!);
               } else if (value.trim().length > 300) {

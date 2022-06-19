@@ -102,7 +102,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         });
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty || value.trim().isEmpty) {
                           return ValidatorText.empty(
                             fieldName: 'Mật khẩu cũ',
                           );
@@ -135,7 +135,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                           });
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty || value.trim().isEmpty) {
                             return ValidatorText.empty(
                                 fieldName: ScreenUtil.t(I18nKey.password)!);
                           }
@@ -173,7 +173,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         });
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty || value.trim().isEmpty) {
                           return ValidatorText.empty(
                               fieldName: ScreenUtil.t(I18nKey.password)!);
                         }

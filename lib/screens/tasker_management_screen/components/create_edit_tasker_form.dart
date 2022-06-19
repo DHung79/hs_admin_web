@@ -288,7 +288,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               hintText: 'Nhập email',
               initialValue: _editModel.email,
               validator: (value) {
-                if (value!.trim().isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.email)!);
                 }
@@ -343,7 +343,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
                 });
               },
               validator: (value) {
-                if (value!.isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.password)!);
                 }
@@ -371,7 +371,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               });
             },
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(
                     fieldName: ScreenUtil.t(I18nKey.name)!);
               } else if (value.trim().length > 50) {
@@ -405,7 +405,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               });
             },
             validator: (value) {
-              if (value!.isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(fieldName: 'CMND');
               }
               if (value.length < 9) {
@@ -429,7 +429,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               controller: _createCardIDDateController,
               // initialValue: _editModel.createIdCardDate,
               validator: (value) {
-                if (value!.trim().isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(fieldName: '');
                 }
                 return null;
@@ -452,7 +452,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
             hintText: 'Nhập nơi cấp',
             initialValue: _editModel.address,
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(fieldName: 'Nơi cấp');
               } else if (value.trim().length > 300) {
                 return ValidatorText.moreThan(
@@ -514,7 +514,7 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
             hintText: 'Nhập địa chỉ',
             initialValue: _editModel.address,
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(
                     fieldName: ScreenUtil.t(I18nKey.address)!);
               } else if (value.trim().length > 300) {

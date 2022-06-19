@@ -188,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
                 });
               },
               validator: (value) {
-                if (value!.trim().isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.name)!);
                 } else if (value.trim().length > 50) {
@@ -241,7 +241,7 @@ class _EditProfileState extends State<EditProfile> {
               hintText: 'Nhập địa chỉ',
               initialValue: _editModel.address,
               validator: (value) {
-                if (value!.trim().isEmpty) {
+                if (value!.isEmpty || value.trim().isEmpty) {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.address)!);
                 } else if (value.trim().length > 300) {

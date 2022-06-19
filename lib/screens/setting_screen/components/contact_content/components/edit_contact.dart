@@ -318,7 +318,7 @@ class _EditContactState extends State<EditContact> {
           hintText: 'Nhập tên',
           controller: _nameController,
           validator: (value) {
-            if (value!.trim().isEmpty) {
+            if (value!.isEmpty || value.trim().isEmpty) {
               return ValidatorText.empty(fieldName: 'Tên');
             } else if (value.trim().length > 300) {
               return ValidatorText.moreThan(
@@ -351,7 +351,7 @@ class _EditContactState extends State<EditContact> {
           hintText: 'Nhập chú thích',
           controller: _descriptionController,
           validator: (value) {
-            if (value!.trim().isEmpty) {
+            if (value!.isEmpty || value.trim().isEmpty) {
               return ValidatorText.empty(fieldName: 'Chú thích');
             } else if (value.trim().length > 300) {
               return ValidatorText.moreThan(

@@ -158,7 +158,7 @@ class _LoginFormState extends State<LoginForm> {
                           });
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty || value.trim().isEmpty) {
                             return ValidatorText.empty(
                                 fieldName: ScreenUtil.t(I18nKey.password)!);
                           }

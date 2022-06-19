@@ -114,7 +114,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
     final _adminMenuItems = [
       DialogItem(
         svgIcon: SvgIcons.user,
-        title: 'Hồ Sơ',
+        title: 'Hồ sơ',
         onPressed: () {
           navigateTo(profileRoute);
         },

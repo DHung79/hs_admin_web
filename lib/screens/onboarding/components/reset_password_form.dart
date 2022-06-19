@@ -96,7 +96,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                           });
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty || value.trim().isEmpty) {
                             return ValidatorText.empty(
                                 fieldName: ScreenUtil.t(I18nKey.password)!);
                           }
@@ -140,7 +140,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                           });
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty || value.trim().isEmpty) {
                             return ValidatorText.empty(
                                 fieldName: ScreenUtil.t(I18nKey.password)!);
                           }
@@ -195,7 +195,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgIcon(
-                  SvgIcons.arrowIosBack,
+                  SvgIcons.keyboardBackspace,
                   size: 24,
                   color: AppColor.text7,
                 ),

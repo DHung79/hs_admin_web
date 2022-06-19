@@ -150,7 +150,7 @@ class _OTPFormState extends State<OTPForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgIcon(
-                  SvgIcons.arrowIosBack,
+                  SvgIcons.keyboardBackspace,
                   size: 24,
                   color: AppColor.text7,
                 ),

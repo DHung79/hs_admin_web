@@ -243,7 +243,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
               });
             },
             validator: (value) {
-              if (value!.trim().isEmpty) {
+              if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(
                     fieldName: ScreenUtil.t(I18nKey.name)!);
               } else if (value.trim().length > 50) {
@@ -593,7 +593,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                     });
                   },
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
+                    if (value!.isEmpty || value.trim().isEmpty) {
                       return ValidatorText.empty(
                           fieldName: ScreenUtil.t(I18nKey.name)!);
                     } else if (value.trim().length > 50) {
@@ -623,7 +623,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                     });
                   },
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
+                    if (value!.isEmpty || value.trim().isEmpty) {
                       return ValidatorText.empty(
                           fieldName: ScreenUtil.t(I18nKey.note)!);
                     } else if (value.trim().length > 50) {
@@ -653,7 +653,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                     });
                   },
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
+                    if (value!.isEmpty || value.trim().isEmpty) {
                       return ValidatorText.empty(fieldName: 'Giá');
                     } else if (value.trim().length > 50) {
                       return ValidatorText.moreThan(
@@ -680,7 +680,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                     });
                   },
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
+                    if (value!.isEmpty || value.trim().isEmpty) {
                       return ValidatorText.empty(fieldName: 'Giá');
                     } else if (value.trim().length > 50) {
                       return ValidatorText.moreThan(
