@@ -89,31 +89,14 @@ String showError(String errorCode, BuildContext context, {String? fieldName}) {
     case '902':
       message = ScreenUtil.t(I18nKey.invalidToken)!;
       break;
-    case '903':
-      if (ScreenUtil.t(I18nKey.device)!.toLowerCase() == 'device') {
-        message = ScreenUtil.t(I18nKey.accountLoggedOutOfDevice)! +
-            ' ' +
-            // deviceOS +
-            ' ' +
-            ScreenUtil.t(I18nKey.device)!.toLowerCase() +
-            ' ' +
-            ScreenUtil.t(I18nKey.allowed)!.toLowerCase();
-      } else {
-        message = ScreenUtil.t(I18nKey.accountLoggedOutOfDevice)! +
-            ' ' +
-            ScreenUtil.t(I18nKey.device)!.toLowerCase() +
-            ' ' +
-            // deviceOS +
-            ' ' +
-            ScreenUtil.t(I18nKey.allowed)!.toLowerCase();
-      }
+    case '1000':
+      message = ScreenUtil.t(I18nKey.invalidEmailOrPassword)!;
       break;
-
     case '1001':
       message = ScreenUtil.t(I18nKey.userNotFound)!;
       break;
     case '1002':
-      message = ScreenUtil.t(I18nKey.notificationNotFound)!;
+      message = 'Email và số điện thoại đã tồn tại!';
       break;
     case '1003':
       message = ScreenUtil.t(I18nKey.emailAlreadyExists)!;
@@ -125,22 +108,40 @@ String showError(String errorCode, BuildContext context, {String? fieldName}) {
       message = ScreenUtil.t(I18nKey.invalidPassword)!;
       break;
     case '1006':
-      message = ScreenUtil.t(I18nKey.roleNotFound)!;
+      message = 'Không tìm thấy người giúp việc!';
       break;
     case '1007':
-      message = ScreenUtil.t(I18nKey.roleNameAlreadyExists)!;
+      message = 'Không tìm thấy dịch vụ!';
       break;
     case '1008':
-      message = ScreenUtil.t(I18nKey.moduleNotFound)!;
+      message = 'Không tìm thấy đơn hàng!';
       break;
     case '1009':
-      message = ScreenUtil.t(I18nKey.moduleAlreadyExists)!;
+      message = 'Không tìm thấy bình luận và đánh giá!';
       break;
     case '1010':
-      message = ScreenUtil.t(I18nKey.permissionAlreadyExists)!;
+      message = 'Không thể cập nhật vì người giúp việc đã huỷ đơn';
       break;
     case '1011':
       message = ScreenUtil.t(I18nKey.invalidResetId)!;
+      break;
+    case '1012':
+      message = 'Công việc đã được người khác nhận';
+      break;
+    case '1013':
+      message = 'Công việc đã bị huỷ';
+      break;
+    case '1014':
+      message = 'Không tìm thấy Admin!';
+      break;
+    case '1015':
+      message = 'Mã OTP đã hết hạn';
+      break;
+    case '1016':
+      message = 'Không tìm thấy thông tin liên lạc!';
+      break;
+    case '1017':
+      message = ScreenUtil.t(I18nKey.emailDoesNotExist)!;
       break;
     case '1100':
       message = ScreenUtil.t(I18nKey.pageAndLimitShouldBeNumberic)!;

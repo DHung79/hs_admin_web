@@ -97,11 +97,9 @@ class UserApiProvider {
         ApiConstants.apiVersion +
         ApiConstants.users +
         '/$id';
-    final body = convert.jsonEncode({});
     final token = await ApiHelper.getUserToken();
     final response = await RestApiHandlerData.deleteData<T>(
       path: path,
-      body: body,
       headers: ApiHelper.headers(token),
     );
     return response;

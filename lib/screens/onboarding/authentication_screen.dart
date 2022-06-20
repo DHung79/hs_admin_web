@@ -33,6 +33,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     ScreenUtil.init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColor.white,
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
         bloc: AuthenticationBlocController().authenticationBloc,
         listener: (context, state) {

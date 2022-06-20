@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../components/tasker_rating_dialog.dart';
-import '../../../core/authentication/auth.dart';
+import 'package:hs_admin_web/widgets/joytech_components/joytech_components.dart';
 import '../../../core/tasker/tasker.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
-import '../../../widgets/go_back_button.dart';
-import '../../../widgets/joytech_components/joytech_components.dart';
 
-class TaskerInfoContent extends StatefulWidget {
-  final String route;
+class TaskerDialog extends StatefulWidget {
   final String taskerId;
-  final Function(int, {int? limit}) onFetch;
-
-  const TaskerInfoContent({
+  const TaskerDialog({
     Key? key,
-    required this.route,
     required this.taskerId,
-    required this.onFetch,
   }) : super(key: key);
 
   @override
-  State<TaskerInfoContent> createState() => _TaskerInfoContentState();
+  State<TaskerDialog> createState() => _TaskerDialogState();
 }
 
-class _TaskerInfoContentState extends State<TaskerInfoContent> {
+class _TaskerDialogState extends State<TaskerDialog> {
   final _scrollController = ScrollController();
   final _taskerBloc = TaskerBloc();
 
@@ -34,7 +25,6 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
     if (widget.taskerId.isNotEmpty) {
       _taskerBloc.fetchDataById(widget.taskerId);
     }
-    AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
 
@@ -46,129 +36,60 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context);
-    return StreamBuilder(
-      stream: _taskerBloc.taskerData,
-      builder: (context, AsyncSnapshot<ApiResponse<TaskerModel?>> snapshot) {
-        if (snapshot.hasData) {
-          final tasker = snapshot.data!.model!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              _buildProfile(tasker),
-              _deleteButton(),
-            ],
-          );
-        } else {
-          if (snapshot.hasError) {
-            logDebug(snapshot.error.toString());
-            return ErrorMessageText(
-              message: 'Không tìm thấy người giúp việc: ${widget.taskerId}',
-            );
-          }
-          return const JTIndicator();
-        }
-      },
-    );
-  }
-
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: GoBackButton(
-            onPressed: () {
-              widget.onFetch(1);
-              navigateTo(taskerManagementRoute);
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Thông tin người giúp việc',
-                style: AppTextTheme.mediumBigText(AppColor.text3),
-              ),
-              AppButtonTheme.outlineRounded(
-                constraints: const BoxConstraints(minHeight: 44),
-                color: AppColor.transparent,
-                outlineColor: AppColor.primary2,
-                borderRadius: BorderRadius.circular(10),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: AppColor.primary2,
-                        size: 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Chỉnh sửa',
-                          style: AppTextTheme.mediumBodyText(AppColor.primary2),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  navigateTo(editTaskerRoute + '/' + widget.taskerId);
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildProfile(TaskerModel tasker) {
     final screenSize = MediaQuery.of(context).size;
     return LayoutBuilder(builder: (context, size) {
-      return Container(
-        height: screenSize.height - 192 - 76 - 16,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 16,
-              color: AppColor.shadow.withOpacity(0.24),
-              blurStyle: BlurStyle.outer,
-            ),
-          ],
+      return AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: _avatarField(tasker),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Container(
-                  width: 1,
-                  color: AppColor.shade1,
-                ),
+        contentPadding: EdgeInsets.zero,
+        content: Container(
+          height: screenSize.height - 150,
+          width: 1020,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 16,
+                color: AppColor.shadow.withOpacity(0.24),
+                blurStyle: BlurStyle.outer,
               ),
-            ),
-            Expanded(
-              child: _taskerDetail(tasker),
-            ),
-          ],
+            ],
+          ),
+          padding: const EdgeInsets.all(16),
+          child: StreamBuilder(
+              stream: _taskerBloc.taskerData,
+              builder:
+                  (context, AsyncSnapshot<ApiResponse<TaskerModel?>> snapshot) {
+                if (snapshot.hasData) {
+                  final tasker = snapshot.data!.model!;
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: _avatarField(tasker),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Container(
+                            width: 1,
+                            color: AppColor.shade1,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: _taskerDetail(tasker),
+                      ),
+                    ],
+                  );
+                }
+                return const JTIndicator();
+              }),
         ),
       );
     });
@@ -191,7 +112,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 12),
             child: Text(
               tasker.name,
               style: AppTextTheme.mediumBodyText(AppColor.text3),
@@ -200,99 +121,44 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'ID: 300451841',
-                style: AppTextTheme.normalText(
-                  AppColor.text8,
-                ),
+              RatingBar.builder(
+                ignoreGestures: true,
+                allowHalfRating: true,
+                initialRating: 5,
+                minRating: 1,
+                itemCount: 5,
+                itemSize: 24,
+                direction: Axis.horizontal,
+                unratedColor: AppColor.primary2,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 3),
+                itemBuilder: (context, index) {
+                  return SvgIcon(
+                    rateNumber.floor() == index
+                        ? SvgIcons.starHalf
+                        : rateNumber.floor() > index
+                            ? SvgIcons.star
+                            : SvgIcons.starOutline,
+                    color: AppColor.primary2,
+                  );
+                },
+                onRatingUpdate: (value) {},
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 13),
-                child: SvgIcon(
-                  SvgIcons.contentPasteBlack,
-                  color: AppColor.text8,
-                  size: 24,
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(
+                  rateNumber.toString(),
+                  style: AppTextTheme.normalHeaderTitle(AppColor.black),
                 ),
-              )
+              ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RatingBar.builder(
-                  ignoreGestures: true,
-                  allowHalfRating: true,
-                  initialRating: 5,
-                  minRating: 1,
-                  itemCount: 5,
-                  itemSize: 24,
-                  direction: Axis.horizontal,
-                  unratedColor: AppColor.primary2,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 3),
-                  itemBuilder: (context, index) {
-                    return SvgIcon(
-                      rateNumber.floor() == index
-                          ? SvgIcons.starHalf
-                          : rateNumber.floor() > index
-                              ? SvgIcons.star
-                              : SvgIcons.starOutline,
-                      color: AppColor.primary2,
-                    );
-                  },
-                  onRatingUpdate: (value) {},
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Text(
-                    rateNumber.toString(),
-                    style: AppTextTheme.normalHeaderTitle(AppColor.black),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            '(643 đánh giá)',
-            style: AppTextTheme.normalHeaderTitle(
-              AppColor.text3,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: AppButtonTheme.fillRounded(
-              color: AppColor.transparent,
-              highlightColor: AppColor.shade1,
-              constraints: const BoxConstraints(minHeight: 44),
-              borderRadius: BorderRadius.circular(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgIcon(
-                    SvgIcons.starOutlineRounded,
-                    color: AppColor.text8,
-                    size: 24,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Chi tiết đánh giá',
-                      style: AppTextTheme.normalText(
-                        AppColor.text8,
-                      ),
-                    ),
-                  ),
-                ],
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 10),
+            child: Text(
+              '(643 đánh giá)',
+              style: AppTextTheme.normalHeaderTitle(
+                AppColor.text3,
               ),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return TaskerRatingDialog(tasker: tasker,);
-                    });
-              },
             ),
           ),
           AppButtonTheme.fillRounded(
@@ -330,8 +196,8 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
     return LayoutBuilder(builder: (context, size) {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
-      return Container(
-        constraints: BoxConstraints(maxHeight: screenSize.height / 5 * 3),
+      return SizedBox(
+        height: screenSize.height - 150,
         width: itemWidth,
         child: Scrollbar(
           controller: _scrollController,
@@ -590,101 +456,5 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
         ],
       ),
     );
-  }
-
-  Widget _deleteButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: AppButtonTheme.fillRounded(
-            color: AppColor.transparent,
-            highlightColor: AppColor.shade1,
-            constraints: const BoxConstraints(minHeight: 44),
-            borderRadius: BorderRadius.circular(10),
-            child: Row(
-              children: [
-                SvgIcon(
-                  SvgIcons.delete,
-                  color: AppColor.text8,
-                  size: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    'Xóa người giúp việc',
-                    style: AppTextTheme.mediumBodyText(AppColor.text8),
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {
-              _confirmDelete(id: widget.taskerId);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  _confirmDelete({
-    required String id,
-  }) {
-    final _focusNode = FocusNode();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        FocusScope.of(context).requestFocus(_focusNode);
-        return RawKeyboardListener(
-          focusNode: _focusNode,
-          onKey: (RawKeyEvent event) {
-            setState(() {
-              if (event.logicalKey == LogicalKeyboardKey.enter) {
-                Navigator.of(context).pop();
-                _deleteObjectById(id: id);
-              }
-              if (event.logicalKey == LogicalKeyboardKey.escape) {
-                Navigator.of(context).pop();
-              }
-            });
-          },
-          child: JTConfirmDialog(
-            headerTitle: 'Cảnh báo',
-            contentText: 'Bạn có muốn xóa người giúp việc này?',
-            onCanceled: () {
-              Navigator.of(context).pop();
-            },
-            onComfirmed: () {
-              Navigator.of(context).pop();
-              _deleteObjectById(id: id);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  _deleteObjectById({
-    required String id,
-  }) {
-    _taskerBloc.deleteObject(id: id).then((model) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      widget.onFetch(1);
-      navigateTo(taskerManagementRoute);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(ScreenUtil.t(I18nKey.deleted)! + ' ${model.email}.')),
-      );
-    }).catchError((e, stacktrace) async {
-      await Future.delayed(const Duration(milliseconds: 400));
-      logDebug(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ScreenUtil.t(I18nKey.errorWhileDelete)!),
-        ),
-      );
-    });
   }
 }

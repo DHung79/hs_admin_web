@@ -93,7 +93,6 @@ class ApiBaseHelper {
 
   Future<ApiResponse<T>> delete<T extends BaseModel>({
     required String path,
-    dynamic body,
     Map<String, String>? headers,
   }) async {
     ApiResponse<T> apiResponse;
@@ -101,7 +100,6 @@ class ApiBaseHelper {
       final uri = Uri.parse(path);
       final request = http.Request("DELETE", uri);
       request.headers.addAll(headers ?? {});
-      request.body = body;
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
       apiResponse = _returnDeleteResponse<T>(response.statusCode, responseBody);

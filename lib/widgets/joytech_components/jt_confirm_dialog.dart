@@ -87,7 +87,7 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                             children: [
                               Icon(
                                 Icons.close,
-                                color: AppColor.black,
+                                color: AppColor.text3,
                                 size: 24,
                               ),
                               Padding(
@@ -95,7 +95,7 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                                 child: Text(
                                   'Hủy bỏ',
                                   style:
-                                      AppTextTheme.headerTitle(AppColor.black),
+                                      AppTextTheme.headerTitle(AppColor.text3),
                                 ),
                               ),
                             ],
@@ -117,7 +117,7 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                             children: [
                               SvgIcon(
                                 SvgIcons.checkCircleOutline,
-                                color: AppColor.black,
+                                color: AppColor.text3,
                                 size: 24,
                               ),
                               Padding(
@@ -125,7 +125,7 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                                 child: Text(
                                   'Xác nhận',
                                   style:
-                                      AppTextTheme.headerTitle(AppColor.black),
+                                      AppTextTheme.headerTitle(AppColor.text3),
                                 ),
                               ),
                             ],

@@ -124,7 +124,7 @@ class _OTPFormState extends State<OTPForm> {
                           'TIẾP TỤC',
                           style: AppTextTheme.headerTitle(AppColor.text2),
                         ),
-                        onPressed: !_processing ? _otp : null,
+                        onPressed: !_processing ? _checkOTP : null,
                       ),
                     ),
                   ],
@@ -204,7 +204,7 @@ class _OTPFormState extends State<OTPForm> {
     AuthenticationBlocController().authenticationBloc.add(ResendOTP());
   }
 
-  _otp() {
+  _checkOTP() {
     setState(() {
       _processing = true;
       _delayCheckOtp = Timer.periodic(const Duration(seconds: 2), (timer) {

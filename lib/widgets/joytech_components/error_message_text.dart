@@ -33,7 +33,7 @@ class ErrorMessageText extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               message,
-              style: Theme.of(context).textTheme.headline1,
+              style: AppTextTheme.bigText(AppColor.black),
             ),
           ),
         ],

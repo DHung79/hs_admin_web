@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hs_admin_web/screens/tasks_screen/components/takser_dialog.dart';
+import 'package:hs_admin_web/screens/tasks_screen/components/user_dialog.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/task/task.dart';
 import '../../../main.dart';
@@ -25,7 +27,9 @@ class TaskDetailContent extends StatefulWidget {
 }
 
 class _TaskDetailContentState extends State<TaskDetailContent> {
-  final _scrollController = ScrollController();
+  final _avatarScrollController = ScrollController();
+  final _contentScrollController = ScrollController();
+
   final _taskBloc = TaskBloc();
 
   @override
@@ -61,9 +65,8 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
           );
         } else {
           if (snapshot.hasError) {
-            logDebug(snapshot.error.toString());
             return ErrorMessageText(
-              message: 'Không tìm thấy đặt hàng: ${widget.id}',
+              message: 'Không tìm thấy đơn hàng: ${widget.id}',
             );
           }
           return const JTIndicator();
@@ -122,50 +125,73 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: SizedBox(
-                width: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+            SizedBox(
+              width: 200,
+              child: Scrollbar(
+                controller: _avatarScrollController,
+                thumbVisibility: _avatarScrollController.hasClients,
+                child: ListView(
+                  controller: _avatarScrollController,
                   children: [
-                    _avatarField(
-                      title: 'Khách hàng',
-                      imageUrl: '',
-                      name: task.user!.name,
-                      onTap: () {},
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          _avatarField(
+                            title: 'Khách hàng',
+                            imageUrl: '',
+                            name: task.user!.name,
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return UserDialog(userId: task.user!.id);
+                                },
+                              );
+                            },
+                          ),
+                          if (task.tasker != null && task.tasker!.id.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Divider(
+                                thickness: 1,
+                                color: AppColor.shade1,
+                              ),
+                            ),
+                          if (task.tasker != null && task.tasker!.id.isNotEmpty)
+                            _avatarField(
+                              title: 'Người giúp việc',
+                              imageUrl: '',
+                              name: task.tasker!.name,
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return TaskerDialog(
+                                      taskerId: task.tasker!.id,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                        ],
+                      ),
                     ),
-                    if (task.tasker != null && task.tasker!.id.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Divider(
-                          thickness: 1,
-                          color: AppColor.shade1,
-                        ),
-                      ),
-                    if (task.tasker != null && task.tasker!.id.isNotEmpty)
-                      _avatarField(
-                        title: 'Người giúp việc',
-                        imageUrl: '',
-                        name: task.tasker!.name,
-                        onTap: () {},
-                      ),
                   ],
                 ),
               ),
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Container(
-                  width: 1,
-                  color: AppColor.shade1,
-                ),
-              ),
+            Container(
+              width: 1,
+              color: AppColor.shade1,
             ),
             Expanded(
-              child: _taskDetail(task),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: _taskDetail(task),
+              ),
             ),
           ],
         ),
@@ -227,10 +253,10 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
         constraints: BoxConstraints(maxHeight: screenSize.height / 5 * 3),
         width: itemWidth,
         child: Scrollbar(
-          controller: _scrollController,
-          thumbVisibility: _scrollController.hasClients,
+          controller: _contentScrollController,
+          thumbVisibility: _contentScrollController.hasClients,
           child: ListView(
-            controller: _scrollController,
+            controller: _contentScrollController,
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
             children: [
@@ -448,49 +474,59 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
     required String title,
     required List<JobDetail> details,
   }) {
-    const double itemWidth = 150;
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
-            color: AppColor.shade5,
-            width: 4,
+    const double titleWidth = 120;
+    const double detailTitleWidth = 150;
+
+    return LayoutBuilder(builder: (context, size) {
+      final double itemWidth =
+          size.maxWidth - titleWidth - detailTitleWidth - 58;
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              color: AppColor.shade5,
+              width: 4,
+            ),
           ),
         ),
-      ),
-      child: _buildJobItem(
-        title: title,
-        style: AppTextTheme.normalText(AppColor.shadow),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var detail in details)
-              Padding(
-                padding:
-                    EdgeInsets.only(top: details.indexOf(detail) != 0 ? 16 : 0),
-                child: _buildJobItem(
-                  title: detail.title,
-                  width: itemWidth,
-                  style: AppTextTheme.normalText(AppColor.shadow),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (var note in detail.notes)
-                          Text(
-                            note,
-                            style: AppTextTheme.normalText(AppColor.text3),
-                          ),
-                      ],
+        child: _buildJobItem(
+          width: titleWidth,
+          title: title,
+          style: AppTextTheme.normalText(AppColor.shadow),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var detail in details)
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: details.indexOf(detail) != 0 ? 16 : 0),
+                  child: _buildJobItem(
+                    title: detail.title,
+                    width: detailTitleWidth,
+                    style: AppTextTheme.normalText(AppColor.shadow),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var note in detail.notes)
+                            SizedBox(
+                              width: itemWidth,
+                              child: Text(
+                                note,
+                                style: AppTextTheme.normalText(AppColor.text3),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildJobItem({
@@ -505,7 +541,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 16),
-          child: Container(
+          child: SizedBox(
             width: width,
             child: Text(
               title,
