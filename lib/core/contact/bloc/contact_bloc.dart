@@ -7,15 +7,15 @@ import '../contact.dart';
 
 class ContactBloc {
   final _repository = ContactRepository();
-  final _allDataFetcher = BehaviorSubject<ApiResponse<ContactInfoModel?>>();
+  final _allDataFetcher = BehaviorSubject<ApiResponse<ListContactInfo?>>();
   final _allDataState = BehaviorSubject<BlocState>();
 
-  Stream<ApiResponse<ContactInfoModel?>> get allData =>
+  Stream<ApiResponse<ListContactInfo?>> get allData =>
       _allDataFetcher.stream;
   Stream<BlocState> get allDataState => _allDataState.stream;
   bool _isFetching = false;
 
-  fetchAllData({Map<String, dynamic>? params}) async {
+  fetchAllData(Map<String, dynamic>? params) async {
     if (_isFetching) return;
     _isFetching = true;
     // Start fetching data.
@@ -23,7 +23,7 @@ class ContactBloc {
     try {
       // Await response from server.
       final data =
-          await _repository.fetchAllData<ContactInfoModel>(params: params!);
+          await _repository.fetchAllData<ListContactInfo>(params: params!);
       if (_allDataFetcher.isClosed) return;
       if (data.error != null) {
         // Error exist

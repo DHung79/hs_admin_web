@@ -95,18 +95,17 @@ class BaseModel {
     if (T == LocationModel) {
       return LocationModel.fromJson(json) as T;
     }
-    if (T == ContactInfoModel) {
-      return ContactInfoModel.fromJson(json) as T;
-    }
+
     if (T == ContactModel) {
       return ContactModel.fromJson(json) as T;
     }
-    if (T == ListContactInfo) {
-      return ListContactInfo.fromJson(json) as T;
+    if (T == ContactInfoModel) {
+      return ContactInfoModel.fromJson(json) as T;
     }
     if (T == PaymentModel) {
       return PaymentModel.fromJson(json) as T;
     }
+  
     logError("Unknown BaseModel class: $T");
     throw Exception("Unknown BaseModel class: $T");
   }
@@ -132,10 +131,9 @@ class BaseModel {
   }
 
   static T listDynamic<T extends BaseModel>(List<dynamic> list) {
-    // if (T == ListRoleModel) {
-    //   return ListRoleModel.listDynamic(list) as T;
-    // }
-
+    if (T == ListContactInfo) {
+      return ListContactInfo.listDynamic(list) as T;
+    }
     logError("Unknown BaseModel class: $T");
     throw Exception("Unknown BaseModel class: $T");
   }

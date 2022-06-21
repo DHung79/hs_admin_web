@@ -7,18 +7,18 @@ import '../layout_template/content_screen.dart';
 import 'components/task_detail_content.dart';
 import 'components/task_list.dart';
 
-class TasksScreen extends StatefulWidget {
+class TaskManagementScreen extends StatefulWidget {
   final String id;
-  const TasksScreen({
+  const TaskManagementScreen({
     Key? key,
     this.id = '',
   }) : super(key: key);
 
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
+  State<TaskManagementScreen> createState() => _TaskManagementScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen> {
+class _TaskManagementScreenState extends State<TaskManagementScreen> {
   final _pageState = PageState();
   final _taskBloc = TaskBloc();
   final _searchController = TextEditingController();

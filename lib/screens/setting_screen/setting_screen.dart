@@ -76,8 +76,9 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else if (widget.tab == 2) {
       //contact
-      return const ContactContent(
+      return ContactContent(
         route: settingRoute,
+        isEdit: widget.tab == 2,
       );
     } else if (widget.tab == 3) {
       //edit profile
@@ -87,9 +88,9 @@ class _SettingScreenState extends State<SettingScreen> {
       );
     } else if (widget.tab == 4) {
       //edit contact
-      return const ContactContent(
+      return ContactContent(
         route: settingRoute,
-        isEdit: true,
+        isEdit: widget.tab == 2,
       );
     } else {
       return SettingContent(

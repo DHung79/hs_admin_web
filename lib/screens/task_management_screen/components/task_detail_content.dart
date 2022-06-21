@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hs_admin_web/screens/tasks_screen/components/takser_dialog.dart';
-import 'package:hs_admin_web/screens/tasks_screen/components/user_dialog.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/task/task.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
+import 'takser_dialog.dart';
 import 'task_list.dart';
+import 'user_dialog.dart';
 
 class TaskDetailContent extends StatefulWidget {
   final String route;

@@ -1,7 +1,18 @@
-class ApiConstants {
-  static String apiDomain = 'https://homeservicedev-348702.as.r.appspot.com';
-  static String apiVersion = '/api';
+enum ApiClient { me, local }
 
+const ApiClient client = ApiClient.me;
+
+class ApiConstants {
+  static String get apiDomain {
+    switch (client) {
+      case ApiClient.me:
+        return 'https://homeservicedev-348702.as.r.appspot.com';
+      case ApiClient.local:
+        return 'http://localhost:3000';
+    }
+  }
+
+  static String apiVersion = '/api';
   static String services = '/services';
   static String otp = '/verify-otp';
   static String forgotPassword = '/forgot-password';

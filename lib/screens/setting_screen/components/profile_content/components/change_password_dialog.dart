@@ -139,12 +139,12 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                             return ValidatorText.empty(
                                 fieldName: ScreenUtil.t(I18nKey.password)!);
                           }
-                          if (value.length < 6) {
+                          if (value.trim().length < 6) {
                             return ValidatorText.atLeast(
                                 fieldName: ScreenUtil.t(I18nKey.password)!,
                                 atLeast: 6);
                           }
-                          if (value.length > 50) {
+                          if (value.trim().length > 50) {
                             return ValidatorText.moreThan(
                                 fieldName: ScreenUtil.t(I18nKey.password)!,
                                 moreThan: 50);
@@ -284,9 +284,6 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
       controller: controller,
       obscureText: obscureText,
       hintText: hintText,
-      style: AppTextTheme.mediumBodyText(
-        AppColor.text7,
-      ),
       borderColor: AppColor.text7,
       suffixIcon: TextButton(
         onPressed: onPressed,

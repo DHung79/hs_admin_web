@@ -8,11 +8,11 @@ import '../../../../../widgets/joytech_components/joytech_components.dart';
 
 class ContactInfo extends StatefulWidget {
   final String route;
-  final List<ContactInfoModel> listContactInfo;
+  final ContactInfoModel contactInfo;
   const ContactInfo({
     Key? key,
     required this.route,
-    required this.listContactInfo,
+    required this.contactInfo,
   }) : super(key: key);
 
   @override
@@ -267,8 +267,8 @@ class _ContactInfoState extends State<ContactInfo> {
 
   Widget _buildContent() {
     final contacts = _isUserContact
-        ? widget.listContactInfo[0].contacts
-        : widget.listContactInfo[1].contacts;
+        ? widget.contactInfo.contactsUser
+        : widget.contactInfo.contactsTasker;
     return LayoutBuilder(builder: (context, size) {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../main.dart';
+import '../../../../widgets/joytech_components/joytech_components.dart';
 import 'components/contact_info.dart';
 import 'components/edit_contact.dart';
 import '/core/contact/contact.dart';
@@ -17,42 +19,40 @@ class ContactContent extends StatefulWidget {
 }
 
 class _ContactContentState extends State<ContactContent> {
-  final listContactInfo = ListContactInfo.fromJson({
-    "data": [
-      {
-        "contacts": [
-          {"name": "Hotline 1", "description": "0868963156"},
-          {"name": "Hotline 1", "description": "0868223156"},
-          {"name": "Email", "description": "admin@gmail.com"},
-          {
-            "name": "Địa chỉ",
-            "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa"
-          }
-        ]
-      },
-      {
-        "contacts": [
-          {"name": "Hotline 1", "description": "0868963156"},
-          {"name": "Hotline 1", "description": "0868223156"},
-          {"name": "Email", "description": "admin@gmail.com"},
-          {
-            "name": "Địa chỉ",
-            "description": "358/12/33 Lư Cấm Ngọc Hiệp Nha Trang Khánh Hòa"
-          }
-        ]
-      }
-    ]
-  });
+  final _contactBloc = ContactBloc();
+  @override
+  void initState() {
+    _contactBloc.fetchAllData({});
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _contactBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return widget.isEdit
-        ? ContactInfo(
-            route: widget.route,
-            listContactInfo: listContactInfo.data,
-          )
-        : EditContact(
-            route: widget.route,
-            listContactInfo: listContactInfo.data,
-          );
+    return StreamBuilder(
+        stream: _contactBloc.allData,
+        builder:
+            (context, AsyncSnapshot<ApiResponse<ListContactInfo?>> snapshot) {
+          if (snapshot.hasData) {
+            final contactInfo = snapshot.data!.model!.data.first;
+
+            return widget.isEdit
+                ? ContactInfo(
+                    route: widget.route,
+                    contactInfo: contactInfo,
+                  )
+                : EditContact(
+                    contactBloc: _contactBloc,
+                    route: widget.route,
+                    contactInfo: contactInfo,
+                  );
+          }
+          return const JTIndicator();
+        });
   }
 }

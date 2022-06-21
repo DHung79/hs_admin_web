@@ -10,11 +10,13 @@ import '../../../../../widgets/joytech_components/joytech_components.dart';
 
 class EditContact extends StatefulWidget {
   final String route;
-  final List<ContactInfoModel> listContactInfo;
+  final ContactInfoModel contactInfo;
+  final ContactBloc contactBloc;
   const EditContact({
     Key? key,
     required this.route,
-    required this.listContactInfo,
+    required this.contactInfo,
+    required this.contactBloc,
   }) : super(key: key);
 
   @override
@@ -22,35 +24,26 @@ class EditContact extends StatefulWidget {
 }
 
 class _EditContactState extends State<EditContact> {
-  final _contactBloc = ContactBloc();
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
   bool _processing = false;
-  late EditContactInfoModel _editUserContact;
-  late EditContactInfoModel _editTaskerContact;
+  late EditContactInfoModel _editModel;
   bool _isUserContact = true;
   int _currentTag = 0;
 
   @override
   void initState() {
-    _editUserContact = EditContactInfoModel.fromModel(widget.listContactInfo[0]);
-    _editTaskerContact =
-        EditContactInfoModel.fromModel(widget.listContactInfo[1]);
+    _editModel = EditContactInfoModel.fromModel(
+      widget.contactInfo,
+    );
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
 
   @override
-  void dispose() {
-    _contactBloc.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,7 +64,7 @@ class _EditContactState extends State<EditContact> {
               _confirmDialog(
                 contentText: 'Bạn có muốn hủy bỏ?',
                 onComfirmed: () {
-                  navigateTo(profileRoute);
+                  navigateTo(contactRoute);
                 },
               );
             },
@@ -198,9 +191,8 @@ class _EditContactState extends State<EditContact> {
       final itemWidth = size.maxWidth - 16;
       final elementWidth = size.maxWidth;
 
-      final contacts = _isUserContact
-          ? _editUserContact.contacts
-          : _editTaskerContact.contacts;
+      final contacts =
+          _isUserContact ? _editModel.contactsUser : _editModel.contactsTasker;
       return Container(
         constraints: BoxConstraints(maxHeight: screenSize.height / 5 * 3),
         width: itemWidth,
@@ -211,79 +203,131 @@ class _EditContactState extends State<EditContact> {
               width: elementWidth,
               height: 82,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: contacts.length,
-                      itemBuilder: (context, index) {
-                        final isSelected = _currentTag == index;
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 16,
-                                  color: AppColor.shadow.withOpacity(0.16),
-                                  blurStyle: BlurStyle.outer,
+                  Container(
+                    constraints: BoxConstraints(maxWidth: elementWidth - 192),
+                    child: ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: contacts.length,
+                        itemBuilder: (context, index) {
+                          final isSelected = _currentTag == index;
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 16,
+                                    color: AppColor.shadow.withOpacity(0.16),
+                                    blurStyle: BlurStyle.outer,
+                                  ),
+                                ],
+                              ),
+                              child: AppButtonTheme.fillRounded(
+                                color: isSelected
+                                    ? AppColor.primary2
+                                    : AppColor.white,
+                                highlightColor: AppColor.shade1,
+                                constraints: const BoxConstraints(
+                                    maxHeight: 50, maxWidth: 50),
+                                borderRadius: BorderRadius.circular(10),
+                                child: Center(
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: AppTextTheme.mediumBodyText(
+                                      isSelected
+                                          ? AppColor.white
+                                          : AppColor.text3,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _currentTag = index;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: AppButtonTheme.outlineRounded(
+                            outlineColor: AppColor.text7,
+                            constraints: const BoxConstraints(
+                                maxHeight: 50, maxWidth: 50),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Center(
+                              child: SvgIcon(
+                                SvgIcons.add,
+                                size: 24,
+                                color: AppColor.text7,
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                contacts.add(EditContactModel.fromModel(null));
+                                _currentTag = contacts.length - 1;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: AppButtonTheme.outlineRounded(
+                            outlineColor: AppColor.white,
+                            constraints: const BoxConstraints(
+                              maxHeight: 50,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Row(
+                              children: [
+                                SvgIcon(
+                                  SvgIcons.delete,
+                                  color: AppColor.text8,
+                                  size: 24,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Xóa',
+                                    style: AppTextTheme.mediumBodyText(
+                                        AppColor.text8),
+                                  ),
                                 ),
                               ],
                             ),
-                            child: AppButtonTheme.fillRounded(
-                              color: isSelected
-                                  ? AppColor.primary2
-                                  : AppColor.white,
-                              highlightColor: AppColor.shade1,
-                              constraints: const BoxConstraints(
-                                  maxHeight: 50, maxWidth: 50),
-                              borderRadius: BorderRadius.circular(10),
-                              child: Center(
-                                child: Text(
-                                  (index + 1).toString(),
-                                  style: AppTextTheme.mediumBodyText(
-                                    isSelected
-                                        ? AppColor.white
-                                        : AppColor.text3,
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _currentTag = index;
-                                });
-                              },
-                            ),
-                          ),
-                        );
-                      }),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: AppButtonTheme.outlineRounded(
-                        outlineColor: AppColor.text7,
-                        constraints:
-                            const BoxConstraints(maxHeight: 50, maxWidth: 50),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Center(
-                          child: SvgIcon(
-                            SvgIcons.add,
-                            size: 24,
-                            color: AppColor.text7,
+                            onPressed: () {
+                              setState(() {
+                                if (contacts.length > 1) {
+                                  contacts.removeAt(_currentTag);
+                                  if (_currentTag > contacts.length - 1) {
+                                    _currentTag = _currentTag - 1;
+                                  }
+                                }
+                              });
+                            },
                           ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            contacts.add(EditContactModel.fromModel(null));
-                          });
-                        },
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -298,25 +342,17 @@ class _EditContactState extends State<EditContact> {
     });
   }
 
-  _buildInputField({
+  Widget _buildInputField({
     required double elementWidth,
     required EditContactModel editModel,
   }) {
-    final _nameController = TextEditingController();
-    final _descriptionController = TextEditingController();
-    _nameController.text = editModel.name;
-    _nameController.selection =
-        TextSelection.collapsed(offset: editModel.name.length);
-    _descriptionController.text = editModel.description;
-    _descriptionController.selection =
-        TextSelection.collapsed(offset: editModel.description.length);
     return Column(
       children: [
         _buildInput(
           width: elementWidth,
           title: 'Tên',
           hintText: 'Nhập tên',
-          controller: _nameController,
+          controller: editModel.nameController,
           validator: (value) {
             if (value!.isEmpty || value.trim().isEmpty) {
               return ValidatorText.empty(fieldName: 'Tên');
@@ -335,47 +371,55 @@ class _EditContactState extends State<EditContact> {
           },
           onChanged: (value) {
             setState(() {
-              editModel.name = value!;
+              editModel.nameController.selection = TextSelection.collapsed(
+                offset: editModel.nameController.selection.base.offset,
+              );
+              editModel.name = value!.trim();
               if (_errorMessage.isNotEmpty) {
                 _errorMessage = '';
               }
             });
           },
           onSaved: (value) {
-            _nameController.text = value!.trim();
+            editModel.name = value!.trim();
           },
         ),
         _buildInput(
-          width: elementWidth,
-          title: 'Chú thích',
-          hintText: 'Nhập chú thích',
-          controller: _descriptionController,
-          validator: (value) {
-            if (value!.isEmpty || value.trim().isEmpty) {
-              return ValidatorText.empty(fieldName: 'Chú thích');
-            } else if (value.trim().length > 300) {
-              return ValidatorText.moreThan(
-                fieldName: 'Chú thích',
-                moreThan: 300,
-              );
-            } else if (value.trim().length < 5) {
-              return ValidatorText.atLeast(
-                fieldName: 'Chú thích',
-                atLeast: 5,
-              );
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              editModel.description = value!;
-              if (_errorMessage.isNotEmpty) {
-                _errorMessage = '';
+            width: elementWidth,
+            title: 'Chú thích',
+            hintText: 'Nhập chú thích',
+            controller: editModel.descriptionController,
+            validator: (value) {
+              if (value!.isEmpty || value.trim().isEmpty) {
+                return ValidatorText.empty(fieldName: 'Chú thích');
+              } else if (value.trim().length > 300) {
+                return ValidatorText.moreThan(
+                  fieldName: 'Chú thích',
+                  moreThan: 300,
+                );
+              } else if (value.trim().length < 5) {
+                return ValidatorText.atLeast(
+                  fieldName: 'Chú thích',
+                  atLeast: 5,
+                );
               }
-            });
-          },
-          onSaved: (value) => _descriptionController.text = value!.trim(),
-        ),
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                editModel.descriptionController.selection =
+                    TextSelection.collapsed(
+                  offset: editModel.descriptionController.selection.base.offset,
+                );
+                editModel.description = value!.trim();
+                if (_errorMessage.isNotEmpty) {
+                  _errorMessage = '';
+                }
+              });
+            },
+            onSaved: (value) {
+              editModel.description = value!.trim();
+            }),
       ],
     );
   }
@@ -562,10 +606,13 @@ class _EditContactState extends State<EditContact> {
     setState(() {
       _processing = true;
     });
-    final _editModel = _isUserContact ? _editUserContact : _editTaskerContact;
-    _contactBloc.editObject(editModel: _editModel).then(
+    widget.contactBloc
+        .editObject(editModel: _editModel, id: _editModel.id)
+        .then(
       (value) async {
         navigateTo(contactRoute);
+        widget.contactBloc.fetchAllData({});
+
         await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {

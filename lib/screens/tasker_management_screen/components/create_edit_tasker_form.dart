@@ -347,11 +347,11 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
                   return ValidatorText.empty(
                       fieldName: ScreenUtil.t(I18nKey.password)!);
                 }
-                if (value.length < 6) {
+                if (value.trim().length < 6) {
                   return ValidatorText.atLeast(
                       fieldName: ScreenUtil.t(I18nKey.password)!, atLeast: 6);
                 }
-                if (value.length > 50) {
+                if (value.trim().length > 50) {
                   return ValidatorText.moreThan(
                       fieldName: ScreenUtil.t(I18nKey.password)!, moreThan: 50);
                 }
@@ -408,13 +408,13 @@ class _CreateEditTaskerFormState extends State<CreateEditTaskerForm> {
               if (value!.isEmpty || value.trim().isEmpty) {
                 return ValidatorText.empty(fieldName: 'CMND');
               }
-              if (value.length < 9) {
+              if (value.trim().length < 9) {
                 return ValidatorText.atLeast(fieldName: 'CMND', atLeast: 9);
               }
-              if (value.length > 9 && value.length < 12) {
+              if (value.trim().length > 9 && value.trim().length < 12) {
                 return ValidatorText.invalidFormat(fieldName: 'CMND');
               }
-              if (value.length > 12) {
+              if (value.trim().length > 12) {
                 return ValidatorText.moreThan(fieldName: 'CMND', moreThan: 12);
               }
               return null;

@@ -27,9 +27,6 @@ class TablePagination extends StatelessWidget {
     // if (pages.isEmpty) {
     //   return const SizedBox();
     // }
-    final backgroundColor = pagination.canGoPrevious && pagination.canGoNext
-        ? AppColor.white
-        : AppColor.shade2;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -39,7 +36,7 @@ class TablePagination extends StatelessWidget {
           if (!onLeft) leading ?? const Spacer(),
           Container(
             decoration: BoxDecoration(
-              color: backgroundColor,
+              color: AppColor.shade2,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -135,7 +132,7 @@ class TablePagination extends StatelessWidget {
       default:
         final textStyle = pagination.page == index
             ? AppTextTheme.normalText(AppColor.black)
-            : Theme.of(context).textTheme.bodyText2;
+            : AppTextTheme.normalText(AppColor.inactive1);
         return Text(index.toString(), style: textStyle);
     }
   }

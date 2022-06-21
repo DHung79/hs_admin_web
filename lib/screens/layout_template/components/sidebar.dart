@@ -38,7 +38,7 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         title: 'Quản lí thông báo đẩy',
         icon: SvgIcons.bellRing,
-        route: notificationManageRoute,
+        route: pushNotiManagementRoute,
       ),
       SideBarItem(
         icon: SvgIcons.wallet,
@@ -57,7 +57,16 @@ class _SideBarState extends State<SideBar> {
     }
     return Container(
       width: isMini ? 119 : 356,
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 16,
+            color: AppColor.shadow.withOpacity(0.16),
+            blurStyle: BlurStyle.outer,
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
