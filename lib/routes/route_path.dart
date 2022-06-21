@@ -106,7 +106,7 @@ class AppRoutePath {
         isUnknown = false;
 
   AppRoutePath.notificationManage()
-      : name = notificationManageRoute,
+      : name = pushNotiManagementRoute,
         routeId = '',
         isUnknown = false;
 
@@ -245,7 +245,7 @@ class AppRoutePath {
       return AppRoutePath.tasks();
     }
 
-    if (name == notificationManageRoute) {
+    if (name == pushNotiManagementRoute) {
       return AppRoutePath.notificationManage();
     }
     if (name == addNotificationRoute) {

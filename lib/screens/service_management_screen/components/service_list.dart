@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../../../core/base/blocs/block_state.dart';
 import '../../../core/service/service.dart';
@@ -263,7 +265,9 @@ class _ServiceListState extends State<ServiceList> {
     required int index,
   }) {
     final recordOffset = meta.recordOffset;
-    final action = index % 2 == 0;
+    final action = item.isActive;
+    final _editModel = EditServiceModel.fromModel(item);
+
     return TableRow(
       children: [
         tableCellText(
@@ -335,7 +339,10 @@ class _ServiceListState extends State<ServiceList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(editServiceRoute + '/' + item.id);
+                    setState(() {
+                      _editModel.isActive = !action;
+                      _changeServiceStatus(_editModel);
+                    });
                   },
                 ),
               ),
@@ -378,5 +385,25 @@ class _ServiceListState extends State<ServiceList> {
         ),
       ],
     );
+  }
+
+  _changeServiceStatus(EditServiceModel editModel) {
+    widget.serviceBloc
+        .editObject(editModel: editModel, id: editModel.id)
+        .then((model) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      widget.onFetch(_count == 1 ? max(_page - 1, 1) : _page, limit: _limit);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(ScreenUtil.t(I18nKey.updateSuccess)!)),
+      );
+    }).catchError((e, stacktrace) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      logDebug(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Có lỗi xảy khi trong quá trình cập nhật'),
+        ),
+      );
+    });
   }
 }

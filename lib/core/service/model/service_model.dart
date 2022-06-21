@@ -6,7 +6,7 @@ class ServiceModel extends BaseModel {
   final String _name;
   final String _code;
   final String _image;
-  final bool _isValid;
+  final bool _isActive;
   final CategoryModel _categoryModel;
   final int _createdTime;
   final int _updatedTime;
@@ -20,7 +20,7 @@ class ServiceModel extends BaseModel {
         _name = json['name'] ?? '',
         _code = json['code'] ?? '',
         _image = json['image'] ?? '',
-        _isValid = json['isValid'] ?? false,
+        _isActive = json['is_active'] ?? false,
         _categoryModel = BaseModel.map<CategoryModel>(
           json: json,
           key: 'category',
@@ -47,7 +47,7 @@ class ServiceModel extends BaseModel {
         'name': _name,
         'code': _code,
         'image': _image,
-        'isValid': _isValid,
+        'is_active': _isActive,
         'category': _categoryModel.toJson(),
         'created_time': _createdTime,
         'updated_time': _updatedTime,
@@ -61,7 +61,7 @@ class ServiceModel extends BaseModel {
   String get name => _name;
   String get code => _code;
   String get image => _image;
-  bool get isValid => _isValid;
+  bool get isActive => _isActive;
   CategoryModel get categoryModel => _categoryModel;
   int get createdTime => _createdTime;
   int get updatedTime => _updatedTime;
@@ -76,7 +76,7 @@ class EditServiceModel extends EditBaseModel {
   String name = '';
   String code = '';
   String image = '';
-  bool isValid = false;
+  bool isActive = false;
   CategoryModel? categoryModel;
   int createdTime = 0;
   int updatedTime = 0;
@@ -90,7 +90,7 @@ class EditServiceModel extends EditBaseModel {
     name = model?.name ?? '';
     code = model?.code ?? '';
     image = model?.image ?? '';
-    isValid = model?.isValid ?? false;
+    isActive = model?.isActive ?? false;
     categoryModel = model?.categoryModel;
     createdTime = model?.createdTime ?? 0;
     updatedTime = model?.updatedTime ?? 0;
@@ -105,7 +105,7 @@ class EditServiceModel extends EditBaseModel {
       'name': name,
       'code': code,
       'image': image,
-      'isValid': isValid,
+      'is_active': isActive,
       'categoryModel': categoryModel,
       'translations': translations,
       'options': options,
@@ -122,7 +122,7 @@ class EditServiceModel extends EditBaseModel {
       'name': name,
       'code': code,
       'image': image,
-      'isValid': isValid,
+      'is_active': isActive,
       'categoryModel': categoryModel,
       'translations': translations,
       'options': options,

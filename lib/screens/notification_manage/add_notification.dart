@@ -36,7 +36,7 @@ class _AddNotificationState extends State<AddNotification> {
     ScreenUtil.init(context);
     return PageTemplate(
       pageState: _pageState,
-      route: notificationManageRoute,
+      route: pushNotiManagementRoute,
       onUserFetched: (user) => setState(() {}),
       onFetch: () {
         _fetchDataOnPage();
@@ -58,7 +58,7 @@ class _AddNotificationState extends State<AddNotification> {
                 children: [
                   GoBackButton(
                     onPressed: () {
-                      navigateTo(notificationManageRoute);
+                      navigateTo(pushNotiManagementRoute);
                     },
                   ),
                   titleAddNoti(),

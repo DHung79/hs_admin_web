@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/screens/push_noti_management_screen/push_noti_management_screen.dart';
 import '../screens/setting_screen/setting_screen.dart';
-import '../screens/tasks_screen/tasks_screen.dart';
+import '../screens/task_management_screen/task_management_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
 import '../screens/notification_manage/notifcation_manage.dart';
@@ -130,19 +131,38 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     }
 
     if (route == tasksRoute) {
-      return const TasksScreen();
+      return const TaskManagementScreen();
     }
     if (route.startsWith(taskDetailRoute)) {
       if (route.length > taskDetailRoute.length) {
         final id = route.substring(taskDetailRoute.length + 1, route.length);
-        if (id.isNotEmpty) return TasksScreen(id: id);
+        if (id.isNotEmpty) return TaskManagementScreen(id: id);
       }
-      return const TasksScreen();
+      return const TaskManagementScreen();
     }
 
-    if (route == notificationManageRoute) {
-      return const NotificationManage();
+    if (route == pushNotiManagementRoute) {
+      return const PushNotiManagementScreen();
     }
+    if (route == createPushNotiRoute) {
+      return const PushNotiManagementScreen(tab: 1);
+    }
+    if (route.startsWith(editPushNotiRoute)) {
+      if (route.length > editPushNotiRoute.length) {
+        final id = route.substring(editPushNotiRoute.length + 1, route.length);
+        if (id.isNotEmpty) return PushNotiManagementScreen(id: id, tab: 3);
+      }
+      return const PushNotiManagementScreen();
+    }
+    if (route.startsWith(pushNotiDetailRoute)) {
+      if (route.length > pushNotiDetailRoute.length) {
+        final id =
+            route.substring(pushNotiDetailRoute.length + 1, route.length);
+        if (id.isNotEmpty) return PushNotiManagementScreen(id: id, tab: 2);
+      }
+      return const PushNotiManagementScreen();
+    }
+
     if (route == addNotificationRoute) {
       return const AddNotification();
     }

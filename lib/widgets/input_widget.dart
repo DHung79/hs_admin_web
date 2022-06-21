@@ -62,14 +62,14 @@ class InputWidget extends StatelessWidget {
           hintStyle: AppTextTheme.mediumBodyText(AppColor.text7),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor ?? AppColor.shadow,
+              color: borderColor ?? AppColor.text7,
               width: 3,
             ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor ?? AppColor.shadow,
+              color: borderColor ?? AppColor.text7,
               width: 3,
             ),
             borderRadius: BorderRadius.circular(4),

@@ -29,11 +29,13 @@ int userManagementIndex = 1;
 int taskerManagementIndex = 1;
 int serviceManagementIndex = 1;
 int tasksIndex = 1;
+int pushNotiIndex = 1;
 //Page search
 String userManagementSearchString = '';
 String taskerManagementSearchString = '';
 String serviceManagementSearchString = '';
 String tasksSearchString = '';
+String pushNotiSearchString = '';
 
 GlobalKey globalMainKey = GlobalKey();
 

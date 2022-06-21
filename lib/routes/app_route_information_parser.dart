@@ -103,7 +103,7 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.tasks();
     }
 
-    if (name == notificationManageRoute) {
+    if (name == pushNotiManagementRoute) {
       return AppRoutePath.notificationManage();
     }
 

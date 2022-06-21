@@ -75,7 +75,7 @@ Widget tableCellOnHover({
           _overlayEntry = OverlayEntry(
             builder: (context) {
               return Positioned(
-                top: position.dy + renderBox.size.height,
+                top: position.dy + renderBox.size.height - 20,
                 left: position.dx,
                 child: onHoverChild,
               );
