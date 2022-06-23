@@ -304,7 +304,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgIcon(
-                  SvgIcons.commentAlt,
+                  SvgIcons.message,
                   color: AppColor.shade5,
                   size: 24,
                 ),

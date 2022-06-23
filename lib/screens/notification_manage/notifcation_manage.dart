@@ -354,7 +354,7 @@ class _NotificationManageState extends State<NotificationManage> {
           child: Row(
             children: [
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -362,7 +362,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -370,7 +370,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -465,7 +465,7 @@ class _NotificationManageState extends State<NotificationManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowIosBack,
+                  SvgIcons.arrowBackIos,
                   size: 24,
                   color: AppColor.inactive1,
                 ),

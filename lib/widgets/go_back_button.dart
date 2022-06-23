@@ -17,7 +17,7 @@ class GoBackButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgIcon(
-              SvgIcons.arrowIosBack,
+              SvgIcons.arrowBackIos,
               size: 24,
               color: AppColor.text7,
             ),

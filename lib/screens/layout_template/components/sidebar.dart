@@ -46,7 +46,7 @@ class _SideBarState extends State<SideBar> {
         route: payManagementRoute,
       ),
       SideBarItem(
-        icon: SvgIcons.settingTwo,
+        icon: SvgIcons.setting,
         title: 'Cài đặt',
         route: settingRoute,
       ),

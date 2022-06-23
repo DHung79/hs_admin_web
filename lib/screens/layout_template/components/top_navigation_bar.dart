@@ -84,7 +84,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgIcon(
-                SvgIcons.commentAlt,
+                SvgIcons.message,
                 color: AppColor.text7,
                 size: 24,
               ),
@@ -120,7 +120,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         },
       ),
       DialogItem(
-        svgIcon: SvgIcons.settingTwo,
+        svgIcon: SvgIcons.setting,
         title: 'Cài đặt',
         onPressed: () {
           navigateTo(settingRoute);

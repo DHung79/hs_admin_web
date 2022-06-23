@@ -325,7 +325,7 @@ class _UserListState extends State<UserList> {
                     padding: const EdgeInsets.all(4),
                     child: SizedBox(
                       child: SvgIcon(
-                        SvgIcons.info1,
+                        SvgIcons.info,
                         color: AppColor.shadow,
                         size: 24,
                       ),
@@ -343,7 +343,7 @@ class _UserListState extends State<UserList> {
                     padding: const EdgeInsets.all(4),
                     child: SizedBox(
                       child: SvgIcon(
-                        SvgIcons.edit,
+                        SvgIcons.editOutline,
                         color: AppColor.shadow,
                         size: 24,
                       ),

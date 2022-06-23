@@ -206,7 +206,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgIcon(
-                    SvgIcons.commentAlt,
+                    SvgIcons.message,
                     color: AppColor.text5,
                     size: 24,
                   ),

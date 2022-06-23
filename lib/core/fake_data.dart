@@ -845,7 +845,7 @@ class _FakeDataState extends State<FakeData> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgIcon(
-                      SvgIcons.commentAlt,
+                      SvgIcons.message,
                       color: AppColor.text5,
                       size: 24,
                     ),
@@ -947,7 +947,7 @@ class _FakeDataState extends State<FakeData> {
             onTap: () {},
           ),
           ProfileItemWidget(
-            icon: SvgIcons.settingTwo,
+            icon: SvgIcons.setting,
             title: 'Cài đặt',
             onTap: () {},
           ),

@@ -309,7 +309,7 @@ class _PayManageState extends State<PayManage> {
           child: Row(
             children: [
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -317,7 +317,7 @@ class _PayManageState extends State<PayManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -325,7 +325,7 @@ class _PayManageState extends State<PayManage> {
                 width: 16,
               ),
               SvgIcon(
-                SvgIcons.info1,
+                SvgIcons.info,
                 color: AppColor.shadow,
                 size: 24,
               ),
@@ -420,7 +420,7 @@ class _PayManageState extends State<PayManage> {
                 ),
                 onPressed: () {},
                 child: SvgIcon(
-                  SvgIcons.arrowIosBack,
+                  SvgIcons.arrowBackIos,
                   size: 24,
                   color: AppColor.inactive1,
                 ),

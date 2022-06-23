@@ -292,7 +292,7 @@ class _TaskListState extends State<TaskList> {
                     padding: const EdgeInsets.all(4),
                     child: SizedBox(
                       child: SvgIcon(
-                        SvgIcons.info1,
+                        SvgIcons.info,
                         color: AppColor.shadow,
                         size: 24,
                       ),

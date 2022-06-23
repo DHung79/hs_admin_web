@@ -4,7 +4,6 @@ import '../screens/setting_screen/setting_screen.dart';
 import '../screens/task_management_screen/task_management_screen.dart';
 import '../screens/notification_manage/add_notification.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
-import '../screens/notification_manage/notifcation_manage.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
 import '../screens/pay_manage/pay_manage.dart';

@@ -360,7 +360,7 @@ class _TaskerRatingDialogState extends State<TaskerRatingDialog> {
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
                                     child: Text(
-                                      item.comment,
+                                      item.message,
                                       style: AppTextTheme.mediumBodyText(
                                           AppColor.black),
                                     ),
@@ -384,7 +384,7 @@ class _TaskerRatingDialogState extends State<TaskerRatingDialog> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgIcon(
-                                    SvgIcons.star1,
+                                    SvgIcons.starSticker,
                                     size: 24,
                                   ),
                                   Padding(

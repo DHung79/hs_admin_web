@@ -127,7 +127,7 @@ class _UserDialogState extends State<UserDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgIcon(
-                    SvgIcons.commentAlt,
+                    SvgIcons.message,
                     color: AppColor.shade5,
                     size: 24,
                   ),
