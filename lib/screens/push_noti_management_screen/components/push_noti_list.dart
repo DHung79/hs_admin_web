@@ -312,59 +312,56 @@ class _PushNotiListState extends State<PushNotiList> {
               },
             ),
           ),
-          onHoverChild: Material(
-            color: Colors.transparent,
-            child: Container(
-              constraints: const BoxConstraints(
-                maxHeight: 210,
-                maxWidth: 425,
-              ),
-              decoration: BoxDecoration(
-                color: AppColor.white,
-                borderRadius: BorderRadius.circular(4),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColor.shadow.withOpacity(0.16),
-                    blurRadius: 16,
-                    blurStyle: BlurStyle.outer,
+          onHoverChild: Container(
+            constraints: const BoxConstraints(
+              maxHeight: 210,
+              maxWidth: 425,
+            ),
+            decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.circular(4),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColor.shadow.withOpacity(0.16),
+                  blurRadius: 16,
+                  blurStyle: BlurStyle.outer,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: AppTextTheme.mediumHeaderTitle(AppColor.black),
+                  ),
+                  Text(
+                    item.description,
+                    style: AppTextTheme.normalText(AppColor.text3),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 6,
+                  ),
+                  InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        'Xem chi tiết',
+                        style: AppTextTheme.normalText(AppColor.primary2),
+                      ),
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return PushNotiOverView();
+                        },
+                      );
+                    },
                   ),
                 ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      style: AppTextTheme.mediumHeaderTitle(AppColor.black),
-                    ),
-                    Text(
-                      item.description,
-                      style: AppTextTheme.normalText(AppColor.text3),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 6,
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          'Xem chi tiết',
-                          style: AppTextTheme.normalText(AppColor.primary2),
-                        ),
-                      ),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return PushNotiOverView();
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
               ),
             ),
           ),

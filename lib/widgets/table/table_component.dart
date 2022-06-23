@@ -75,9 +75,12 @@ Widget tableCellOnHover({
           _overlayEntry = OverlayEntry(
             builder: (context) {
               return Positioned(
-                top: position.dy + renderBox.size.height - 20,
+                top: position.dy + renderBox.size.height,
                 left: position.dx,
-                child: onHoverChild,
+                child: Material(
+                  color: Colors.transparent,
+                  child: onHoverChild,
+                ),
               );
             },
           );
