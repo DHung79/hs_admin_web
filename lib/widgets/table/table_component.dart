@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hs_admin_web/core/logger/logger.dart';
 import '/theme/app_colors.dart';
 import '/theme/app_text_theme.dart';
 
@@ -52,41 +53,43 @@ Widget tableCellText({
 
 Widget tableCellOnHover({
   required Widget child,
-  required Widget onHoverChild,
+  required Widget Function(dynamic Function()?) onHoverChild,
   double onHoverChildTopPadding = 0,
 }) {
   late OverlayEntry _overlayEntry;
-  bool isMenuOpen = false;
-  GlobalKey _key = GlobalKey();
   return LayoutBuilder(builder: (cellContext, size) {
-    return InkWell(
-      key: _key,
+    return MouseRegion(
       child: child,
-      onTap: () {},
-      onHover: (value) {
-        if (isMenuOpen) {
-          _overlayEntry.remove();
-          isMenuOpen = !isMenuOpen;
-        } else {
-          RenderBox renderBox =
-              _key.currentContext!.findRenderObject() as RenderBox;
-          final position = renderBox.localToGlobal(Offset.zero);
-
-          _overlayEntry = OverlayEntry(
-            builder: (context) {
-              return Positioned(
-                top: position.dy + renderBox.size.height,
-                left: position.dx,
-                child: Material(
-                  color: Colors.transparent,
-                  child: onHoverChild,
+      onEnter: (value) {
+        RenderBox renderBox = cellContext.findRenderObject() as RenderBox;
+        final position = renderBox.localToGlobal(Offset.zero);
+        _overlayEntry = OverlayEntry(
+          builder: (context) {
+            return Positioned(
+              top: position.dy,
+              left: position.dx,
+              child: Material(
+                color: Colors.transparent,
+                child: MouseRegion(
+                  onExit: (value) {
+                    _overlayEntry.remove();
+                  },
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: renderBox.size.height),
+                        child: onHoverChild(() {
+                          _overlayEntry.remove();
+                        }),
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            },
-          );
-          Overlay.of(cellContext)!.insert(_overlayEntry);
-          isMenuOpen = !isMenuOpen;
-        }
+              ),
+            );
+          },
+        );
+        Overlay.of(cellContext)!.insert(_overlayEntry);
       },
     );
   });
