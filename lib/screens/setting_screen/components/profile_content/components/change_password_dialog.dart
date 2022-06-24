@@ -107,9 +107,6 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                             fieldName: 'Mật khẩu cũ',
                           );
                         }
-                        if (value.trim() != widget.oldPassword) {
-                          return 'Nhập sai mật khẩu';
-                        }
                         return null;
                       },
                     ),
