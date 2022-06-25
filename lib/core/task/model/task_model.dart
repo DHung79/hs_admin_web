@@ -19,7 +19,7 @@ class TaskModel extends BaseModel {
   final int? _status;
   final int? _language;
   final int? _failureReason;
-  final String? _typeHome;
+  final int? _typeHome;
   final bool? _isDeleted;
   final int? _deletedTime;
   final int? _createdTime;
@@ -96,7 +96,7 @@ class TaskModel extends BaseModel {
   int? get status => _status;
   int? get language => _language;
   int? get failureReason => _failureReason;
-  String? get typeHome => _typeHome;
+  int? get typeHome => _typeHome;
   bool? get isDeleted => _isDeleted;
   int? get deletedTime => _deletedTime;
   int? get createdTime => _createdTime;

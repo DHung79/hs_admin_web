@@ -104,7 +104,17 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
     }
 
     if (name == pushNotiManagementRoute) {
-      return AppRoutePath.notificationManage();
+      return AppRoutePath.pushNotiManagement();
+    }
+    if (name == createPushNotiRoute) {
+      return AppRoutePath.createPushNoti();
+    }
+    if (name.startsWith(editPushNotiRoute)) {
+      if (name.length > editPushNotiRoute.length) {
+        final id = name.substring(editPushNotiRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editPushNoti(id);
+      }
+      return AppRoutePath.pushNotiManagement();
     }
 
     if (name == payManagementRoute) {

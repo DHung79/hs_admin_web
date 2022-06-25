@@ -29,7 +29,6 @@ class TaskDetailContent extends StatefulWidget {
 class _TaskDetailContentState extends State<TaskDetailContent> {
   final _avatarScrollController = ScrollController();
   final _contentScrollController = ScrollController();
-
   final _taskBloc = TaskBloc();
 
   @override
@@ -44,6 +43,8 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
   @override
   void dispose() {
     _taskBloc.dispose();
+    _avatarScrollController.dispose();
+    _contentScrollController.dispose();
     super.dispose();
   }
 
@@ -313,7 +314,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                       ),
                       JobDetail(
                         title: 'Loại nhà:',
-                        notes: [task.typeHome!],
+                        notes: [getHomeType(task.typeHome!)],
                       ),
                       JobDetail(
                         title: 'Tùy chọn:',
@@ -614,6 +615,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
+            headerColor: AppColor.primary2,
             contentText:
                 'Bạn có chắc muốn hủy dịch vụ Dọn dẹp nhà theo giờ của ${task.user?.name}?',
             onCanceled: () {
@@ -650,6 +652,19 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
         ),
       );
     });
+  }
+
+  String getHomeType(int type) {
+    switch (type) {
+      case 0:
+        return 'Nhà ở';
+      case 1:
+        return 'Căn hộ';
+      case 2:
+        return 'Vila';
+      default:
+        return '';
+    }
   }
 }
 

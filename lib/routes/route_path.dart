@@ -105,13 +105,18 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.notificationManage()
+  AppRoutePath.pushNotiManagement()
       : name = pushNotiManagementRoute,
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.addNotification()
-      : name = addNotificationRoute,
+  AppRoutePath.createPushNoti()
+      : name = createPushNotiRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.editPushNoti(String id)
+      : name = editPushNotiRoute + id,
         routeId = '',
         isUnknown = false;
 
@@ -246,15 +251,23 @@ class AppRoutePath {
     }
 
     if (name == pushNotiManagementRoute) {
-      return AppRoutePath.notificationManage();
+      return AppRoutePath.pushNotiManagement();
     }
-    if (name == addNotificationRoute) {
-      return AppRoutePath.addNotification();
+    if (name == createPushNotiRoute) {
+      return AppRoutePath.createPushNoti();
     }
+    if (name != null && name.startsWith(editPushNotiRoute)) {
+      if (name.length > editPushNotiRoute.length) {
+        final id = name.substring(editPushNotiRoute.length, name.length);
+        if (id.isNotEmpty) return AppRoutePath.editPushNoti(id);
+      }
+      return AppRoutePath.pushNotiManagement();
+    }
+
     if (name == payManagementRoute) {
       return AppRoutePath.payManage();
     }
-    
+
     if (name == settingRoute) {
       return AppRoutePath.setting();
     }

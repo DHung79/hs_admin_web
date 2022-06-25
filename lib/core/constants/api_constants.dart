@@ -31,7 +31,7 @@ class ApiConstants {
   static String taskers = '/taskers';
   static String tasks = '/tasks';
   static String checkEmail = '/check-email';
-  static String pushNoti = '/push-noti';
+  static String pushNoti = '/notifications';
 
   static String statistical = '/statistical';
   static String provinceApi = 'https://provinces.open-api.vn/api/?depth=2';

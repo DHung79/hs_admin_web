@@ -4,6 +4,11 @@ import '../../theme/app_theme.dart';
 class JTConfirmDialog extends StatefulWidget {
   final String headerTitle;
   final String contentText;
+  final Color? headerColor;
+  final Color? comfirmButtonColor;
+  final Color? comfirmContentColor;
+  final Color? cancelButtonColor;
+  final Color? cancelContentColor;
   final TextStyle? headerTitleStyle;
   final TextStyle? contentTextStyle;
   final Function()? onComfirmed;
@@ -17,6 +22,11 @@ class JTConfirmDialog extends StatefulWidget {
     this.contentTextStyle,
     this.onComfirmed,
     this.onCanceled,
+    this.headerColor,
+    this.comfirmButtonColor,
+    this.comfirmContentColor,
+    this.cancelButtonColor,
+    this.cancelContentColor,
   }) : super(key: key);
 
   @override
@@ -51,7 +61,9 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                   child: Text(
                     widget.headerTitle,
                     style: widget.headerTitleStyle ??
-                        AppTextTheme.mediumHeaderTitle(AppColor.text7),
+                        AppTextTheme.mediumHeaderTitle(
+                          widget.headerColor ?? AppColor.text7,
+                        ),
                   ),
                 ),
                 Padding(
@@ -81,21 +93,23 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                             minHeight: 52,
                           ),
                           borderRadius: BorderRadius.circular(4),
-                          color: AppColor.shade1,
+                          color: widget.cancelButtonColor ?? AppColor.shade1,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.close,
-                                color: AppColor.text3,
+                                color:
+                                    widget.cancelContentColor ?? AppColor.text3,
                                 size: 24,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Text(
                                   'Hủy bỏ',
-                                  style:
-                                      AppTextTheme.headerTitle(AppColor.text3),
+                                  style: AppTextTheme.headerTitle(
+                                    widget.cancelContentColor ?? AppColor.text3,
+                                  ),
                                 ),
                               ),
                             ],
@@ -111,21 +125,23 @@ class _JTConfirmDialogState extends State<JTConfirmDialog> {
                             minHeight: 52,
                           ),
                           borderRadius: BorderRadius.circular(4),
-                          color: AppColor.shade1,
+                          color: widget.comfirmButtonColor ?? AppColor.shade1,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgIcon(
                                 SvgIcons.checkCircleOutline,
-                                color: AppColor.text3,
+                                color:
+                                    widget.comfirmContentColor ?? AppColor.text3,
                                 size: 24,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Text(
                                   'Xác nhận',
-                                  style:
-                                      AppTextTheme.headerTitle(AppColor.text3),
+                                  style: AppTextTheme.headerTitle(
+                                    widget.comfirmContentColor ?? AppColor.text3,
+                                  ),
                                 ),
                               ),
                             ],

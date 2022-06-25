@@ -41,6 +41,7 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
   @override
   void dispose() {
     _taskerBloc.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 

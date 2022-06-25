@@ -8,7 +8,6 @@ import '../../../../widgets/go_back_button.dart';
 import '../../../../widgets/joytech_components/joytech_components.dart';
 import 'components/change_password_dialog.dart';
 
-
 class ProfileContent extends StatefulWidget {
   final String route;
   final AdminModel account;
@@ -34,6 +33,7 @@ class _ProfileContentState extends State<ProfileContent> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _accountBloc.dispose();
     super.dispose();
   }

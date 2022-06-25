@@ -30,6 +30,7 @@ class _UserDialogState extends State<UserDialog> {
   @override
   void dispose() {
     _userBloc.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -65,24 +66,56 @@ class _UserDialogState extends State<UserDialog> {
                   (context, AsyncSnapshot<ApiResponse<UserModel?>> snapshot) {
                 if (snapshot.hasData) {
                   final user = snapshot.data!.model!;
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: _avatarField(user),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: Container(
-                            width: 1,
-                            color: AppColor.shade1,
-                          ),
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Thông tin khách hàng',
+                              style: AppTextTheme.normalHeaderTitle(
+                                AppColor.black,
+                              ),
+                            ),
+                            InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgIcon(
+                                  SvgIcons.close,
+                                  color: AppColor.black,
+                                  size: 24,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: _userDetail(user),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: _avatarField(user),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 32),
+                              child: Container(
+                                width: 1,
+                                color: AppColor.shade1,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: _userDetail(user),
+                          ),
+                        ],
                       ),
                     ],
                   );
@@ -154,7 +187,7 @@ class _UserDialogState extends State<UserDialog> {
       final screenSize = MediaQuery.of(context).size;
       final itemWidth = size.maxWidth - 16;
       return SizedBox(
-        height: screenSize.height - 150,
+        height: screenSize.height - 234,
         width: itemWidth,
         child: Scrollbar(
           controller: _scrollController,

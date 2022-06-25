@@ -39,6 +39,7 @@ class _ServiceDetailContentState extends State<ServiceDetailContent> {
   @override
   void dispose() {
     _serviceBloc.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 

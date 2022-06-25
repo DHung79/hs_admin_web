@@ -19,6 +19,7 @@ class InputWidget extends StatelessWidget {
   final Function(String)? onFieldSubmitted;
   final List<TextInputFormatter>? inputFormatters;
   final bool? enabled;
+  final int? maxLines;
   const InputWidget({
     Key? key,
     this.initialValue,
@@ -37,6 +38,7 @@ class InputWidget extends StatelessWidget {
     this.onFieldSubmitted,
     this.inputFormatters,
     this.enabled = true,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class InputWidget extends StatelessWidget {
         controller: controller,
         initialValue: initialValue,
         obscureText: obscureText,
+        maxLines: maxLines,
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
         cursorColor: AppColor.text7,
@@ -61,17 +64,21 @@ class InputWidget extends StatelessWidget {
           prefixIcon: prefixIcon,
           hintStyle: AppTextTheme.mediumBodyText(AppColor.text7),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor ?? AppColor.text7,
-              width: 3,
-            ),
+            borderSide: maxLines != null
+                ? BorderSide.none
+                : BorderSide(
+                    color: borderColor ?? AppColor.text7,
+                    width: 3,
+                  ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor ?? AppColor.text7,
-              width: 3,
-            ),
+            borderSide: maxLines != null
+                ? BorderSide.none
+                : BorderSide(
+                    color: borderColor ?? AppColor.text7,
+                    width: 3,
+                  ),
             borderRadius: BorderRadius.circular(4),
           ),
           errorBorder: UnderlineInputBorder(

@@ -7,8 +7,8 @@ import '../../../core/base/blocs/block_state.dart';
 import '../../../core/notification/push_noti.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
-import '../../../open_sources/popover/popover.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_date_time.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import '../../../widgets/table/table.dart';
 
@@ -63,6 +63,35 @@ class _PushNotiListState extends State<PushNotiList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _searchBar(),
+              AppButtonTheme.fillRounded(
+                constraints: const BoxConstraints(minHeight: 44),
+                color: AppColor.primary2,
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: AppColor.white,
+                        size: 24,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Thêm mới',
+                          style: AppTextTheme.mediumBodyText(AppColor.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                onPressed: () {
+                  navigateTo(createPushNotiRoute);
+                },
+              ),
             ],
           ),
         ),
@@ -156,100 +185,102 @@ class _PushNotiListState extends State<PushNotiList> {
       ),
       TableHeader(
         title: 'Hành động',
-        width: 120,
+        width: 160,
         isConstant: true,
       ),
     ];
-    // return StreamBuilder(
-    //   stream: widget.notiBloc.allData,
-    //   builder:
-    //       (context, AsyncSnapshot<ApiResponse<ListPushNotiModel?>> snapshot) {
-    // if (snapshot.hasData) {
-    // final notifications = snapshot.data!.model!.records;
-    final notifications = [
-      PushNotiModel.fromJson({
-        "name": 'Khuyến mãi tháng 2',
-        "target_type": 'Khách hàng',
-        "description": 'Lorem ipsum dolor sit amet, consectetur adipiscing ',
-        "created_time": 02012022,
-        "updated_time": 23042022,
-      }),
-      PushNotiModel.fromJson({
-        "name": 'Khuyến mãi tháng 2',
-        "target_type": 'Khách hàng',
-        "description":
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac eu odio etiam ac cras nisi imperdiet quam. At accumsan, ut nibh diam nullam. Varius felis tincidunt purus ullamcorper praesent elementum duis. Velit arcu hac quis sit sed urna orci tincidunt suspendisse. Nunc lacus dignissim interdum eget ipsum dum eget ipsum...',
-        "created_time": 02012022,
-        "updated_time": 23042022,
-      }),
-    ];
-    // final meta = snapshot.data!.model!.meta;
-    // _page = meta.page;
-    // _count = notifications.length;
-    final meta = Paging.fromJson(
-      {
-        "total_records": notifications.length,
-        "limit": _limit,
-        "page": _page,
-        "total_page": 1,
+    return StreamBuilder(
+      stream: widget.pushNotiBloc.allData,
+      builder:
+          (context, AsyncSnapshot<ApiResponse<ListPushNotiModel?>> snapshot) {
+        if (snapshot.hasData) {
+          final notifications = snapshot.data!.model!.records;
+          final meta = snapshot.data!.model!.meta;
+          _page = meta.page;
+          _count = notifications.length;
+          // final notifications = [
+          //   PushNotiModel.fromJson({
+          //     "name": 'Khuyến mãi tháng 2',
+          //     "target_type": 'Khách hàng',
+          //     "description": 'Lorem ipsum dolor sit amet, consectetur adipiscing ',
+          //     "created_time": 02012022,
+          //     "updated_time": 23042022,
+          //   }),
+          //   PushNotiModel.fromJson({
+          //     "name": 'Khuyến mãi tháng 2',
+          //     "target_type": 'Khách hàng',
+          //     "description":
+          //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac eu odio etiam ac cras nisi imperdiet quam. At accumsan, ut nibh diam nullam. Varius felis tincidunt purus ullamcorper praesent elementum duis. Velit arcu hac quis sit sed urna orci tincidunt suspendisse. Nunc lacus dignissim interdum eget ipsum dum eget ipsum...',
+          //     "created_time": 02012022,
+          //     "updated_time": 23042022,
+          //   }),
+          // ];
+
+          // final meta = Paging.fromJson(
+          //   {
+          //     "total_records": notifications.length,
+          //     "limit": _limit,
+          //     "page": _page,
+          //     "total_page": 1,
+          //   },
+          // );
+          final dataState = BehaviorSubject<BlocState>();
+          dataState.sink.add(BlocState.completed);
+          final blocState = dataState.stream;
+          return Column(
+            children: [
+              LayoutBuilder(
+                builder: (context, size) {
+                  return DynamicTable(
+                    columnWidthRatio: tableHeaders,
+                    getHeaderButton: _getHeaderButton,
+                    headerColor: AppColor.white,
+                    headerBorder: TableBorder(
+                      bottom: BorderSide(color: AppColor.white),
+                    ),
+                    headerStyle:
+                        AppTextTheme.mediumHeaderTitle(AppColor.shadow),
+                    numberOfRows: notifications.length,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    // blocState: widget.pushNotiBloc.allDataState,
+                    blocState: blocState,
+                    hasBodyData: notifications.isNotEmpty,
+                    isSearch: widget.searchController.text.isNotEmpty,
+                    rowBuilder: (index) => _rowFor(
+                      item: notifications[index],
+                      index: index,
+                      meta: meta,
+                    ),
+                    bodyBorder: TableBorder(
+                      horizontalInside: BorderSide(
+                        color: AppColor.transparent,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              TablePagination(
+                onFetch: (page) {
+                  widget.onFetch(page, limit: _limit);
+                },
+                pagination: meta,
+                leading: tableLimit(),
+              ),
+            ],
+          );
+        }
+        return StreamBuilder(
+          stream: widget.pushNotiBloc.allDataState,
+          builder: (context, state) {
+            if (!state.hasData || state.data == BlocState.fetching) {
+              return const JTIndicator();
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
       },
     );
-    final dataState = BehaviorSubject<BlocState>();
-    dataState.sink.add(BlocState.completed);
-    final blocState = dataState.stream;
-    return Column(
-      children: [
-        LayoutBuilder(
-          builder: (context, size) {
-            return DynamicTable(
-              columnWidthRatio: tableHeaders,
-              getHeaderButton: _getHeaderButton,
-              headerColor: AppColor.white,
-              headerBorder: TableBorder(
-                bottom: BorderSide(color: AppColor.white),
-              ),
-              headerStyle: AppTextTheme.mediumHeaderTitle(AppColor.shadow),
-              numberOfRows: notifications.length,
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
-              // blocState: widget.pushNotiBloc.allDataState,
-              blocState: blocState,
-              hasBodyData: notifications.isNotEmpty,
-              isSearch: widget.searchController.text.isNotEmpty,
-              rowBuilder: (index) => _rowFor(
-                item: notifications[index],
-                index: index,
-                meta: meta,
-              ),
-              bodyBorder: TableBorder(
-                horizontalInside: BorderSide(
-                  color: AppColor.transparent,
-                ),
-              ),
-            );
-          },
-        ),
-        TablePagination(
-          onFetch: (page) {
-            widget.onFetch(page, limit: _limit);
-          },
-          pagination: meta,
-          leading: tableLimit(),
-        ),
-      ],
-    );
-    // }
-    // return StreamBuilder(
-    //   stream: widget.notiBloc.allDataState,
-    //   builder: (context, state) {
-    //     if (!state.hasData || state.data == BlocState.fetching) {
-    //       return const JTIndicator();
-    //     } else {
-    //       return const SizedBox();
-    //     }
-    //   },
-    // );
-    //   },
-    // );
   }
 
   Widget? _getHeaderButton(
@@ -284,25 +315,32 @@ class _PushNotiListState extends State<PushNotiList> {
     required int index,
   }) {
     final recordOffset = meta.recordOffset;
+    final createdTime = formatFromInt(
+      value: item.createdTime,
+      context: context,
+      displayedFormat: 'dd/MM/yyyy',
+    );
+    final updatedTime = formatFromInt(
+      value: item.updatedTime,
+      context: context,
+      displayedFormat: 'dd/MM/yyyy',
+    );
     Widget _onHoverDialog(Function()? onTap) {
       return Container(
-        constraints: const BoxConstraints(
-          maxHeight: 210,
-          maxWidth: 425,
-        ),
+        width: 425,
         decoration: BoxDecoration(
           color: AppColor.white,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: AppColor.shadow.withOpacity(0.16),
+              color: AppColor.shadow.withOpacity(0.24),
               blurRadius: 16,
               blurStyle: BlurStyle.outer,
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,11 +349,14 @@ class _PushNotiListState extends State<PushNotiList> {
                 item.name,
                 style: AppTextTheme.mediumHeaderTitle(AppColor.black),
               ),
-              Text(
-                item.description,
-                style: AppTextTheme.normalText(AppColor.text3),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 6,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
+                child: Text(
+                  item.description,
+                  style: AppTextTheme.normalText(AppColor.text3),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 6,
+                ),
               ),
               InkWell(
                 child: Padding(
@@ -330,7 +371,12 @@ class _PushNotiListState extends State<PushNotiList> {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return PushNotiOverView();
+                      return PushNotiOverView(
+                        pushNoti: item,
+                        onDeleted: () {
+                          _confirmDelete(item.id);
+                        },
+                      );
                     },
                   );
                 },
@@ -350,25 +396,15 @@ class _PushNotiListState extends State<PushNotiList> {
         tableCellOnHover(
           child: Container(
             constraints: const BoxConstraints(minHeight: 40),
-            child: InkWell(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Text(
-                  item.name,
-                  style: AppTextTheme.normalText(AppColor.black),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
               ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return PushNotiOverView();
-                  },
-                );
-              },
+              child: Text(
+                item.name,
+                style: AppTextTheme.normalText(AppColor.black),
+              ),
             ),
           ),
           onHoverChild: _onHoverDialog,
@@ -377,10 +413,10 @@ class _PushNotiListState extends State<PushNotiList> {
           title: item.targetType,
         ),
         tableCellText(
-          title: item.createdTime.toString(),
+          title: createdTime,
         ),
         tableCellText(
-          title: item.updatedTime.toString(),
+          title: updatedTime,
         ),
         tableCellText(
           child: Row(
@@ -400,8 +436,34 @@ class _PushNotiListState extends State<PushNotiList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(userInfoRoute + '/' + item.id);
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PushNotiOverView(
+                          pushNoti: item,
+                          onDeleted: () {
+                            _confirmDelete(item.id);
+                          },
+                        );
+                      },
+                    );
                   },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SizedBox(
+                      child: SvgIcon(
+                        SvgIcons.sendPushNoti,
+                        color: AppColor.shadow,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
                 ),
               ),
               Padding(
@@ -418,7 +480,7 @@ class _PushNotiListState extends State<PushNotiList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(editUserRoute + '/' + item.id);
+                    navigateTo(editPushNotiRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -436,7 +498,7 @@ class _PushNotiListState extends State<PushNotiList> {
                     ),
                   ),
                   onTap: () {
-                    // _confirmDelete(id: item.id);
+                    _confirmDelete(item.id);
                   },
                 ),
               ),
@@ -481,9 +543,7 @@ class _PushNotiListState extends State<PushNotiList> {
     );
   }
 
-  _confirmDelete({
-    required PushNotiModel task,
-  }) {
+  _confirmDelete(String id) {
     final _focusNode = FocusNode();
     showDialog(
       context: context,
@@ -496,7 +556,7 @@ class _PushNotiListState extends State<PushNotiList> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: task.id);
+                _deleteObjectById(id: id);
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -505,14 +565,16 @@ class _PushNotiListState extends State<PushNotiList> {
           },
           child: JTConfirmDialog(
             headerTitle: 'Cảnh báo',
-            contentText:
-                'Bạn có chắc muốn hủy dịch vụ Dọn dẹp nhà theo giờ của ?',
+            headerColor: AppColor.primary2,
+            contentText: 'Bạn có muốn xóa thông báo đẩy này?',
             onCanceled: () {
               Navigator.of(context).pop();
             },
+            comfirmButtonColor: AppColor.primary2,
+            comfirmContentColor: AppColor.white,
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: task.id);
+              _deleteObjectById(id: id);
             },
           ),
         );

@@ -11,7 +11,7 @@ class PushNotiModel extends BaseModel {
 
   PushNotiModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
-        _name = json['name'] ?? '',
+        _name = json['title'] ?? '',
         _targetType = json['target_type'] ?? '',
         _description = json['description'] ?? '',
         _createdTime = json['created_time'] ?? 0,
@@ -37,14 +37,14 @@ class PushNotiModel extends BaseModel {
 class EditPushNotiModel extends EditBaseModel {
   String id = ''; // For editing
   String name = '';
-  String targetType = '';
+  String targetType = 'Khách hàng';
   String description = '';
 
   EditPushNotiModel.fromModel(PushNotiModel? model) {
     id = model?.id ?? '';
     name = model?.name ?? '';
-    targetType = model?.targetType ?? '';
-    description = model?.description ?? '';
+    targetType = model!.targetType.isNotEmpty ? model.targetType : 'Khách hàng';
+    description = model.description;
   }
 
   Map<String, dynamic> toCreateJson() {

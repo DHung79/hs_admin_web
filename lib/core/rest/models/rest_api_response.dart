@@ -1,3 +1,5 @@
+import 'package:hs_admin_web/core/notification/push_noti.dart';
+
 import '/core/contact/model/contact_model.dart';
 import '/core/task/model/task_model.dart';
 import '/core/admin/model/admin_model.dart';
@@ -105,7 +107,13 @@ class BaseModel {
     if (T == PaymentModel) {
       return PaymentModel.fromJson(json) as T;
     }
-  
+    if (T == PushNotiModel) {
+      return PushNotiModel.fromJson(json) as T;
+    }
+    if (T == ListPushNotiModel) {
+      return ListPushNotiModel.fromJson(json) as T;
+    }
+
     logError("Unknown BaseModel class: $T");
     throw Exception("Unknown BaseModel class: $T");
   }
@@ -183,6 +191,9 @@ class EditBaseModel {
     if (model is EditTaskerModel) {
       return model.toCreateJson();
     }
+    if (model is EditPushNotiModel) {
+      return model.toCreateJson();
+    }
     return {};
   }
 
@@ -207,6 +218,9 @@ class EditBaseModel {
       return model.toEditJson();
     }
     if (model is EditContactInfoModel) {
+      return model.toEditJson();
+    }
+    if (model is EditPushNotiModel) {
       return model.toEditJson();
     }
     return {};

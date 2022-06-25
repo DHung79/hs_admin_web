@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hs_admin_web/screens/push_noti_management_screen/push_noti_management_screen.dart';
 import '../screens/setting_screen/setting_screen.dart';
 import '../screens/task_management_screen/task_management_screen.dart';
-import '../screens/notification_manage/add_notification.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
@@ -149,22 +148,11 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     if (route.startsWith(editPushNotiRoute)) {
       if (route.length > editPushNotiRoute.length) {
         final id = route.substring(editPushNotiRoute.length + 1, route.length);
-        if (id.isNotEmpty) return PushNotiManagementScreen(id: id, tab: 3);
-      }
-      return const PushNotiManagementScreen();
-    }
-    if (route.startsWith(pushNotiDetailRoute)) {
-      if (route.length > pushNotiDetailRoute.length) {
-        final id =
-            route.substring(pushNotiDetailRoute.length + 1, route.length);
         if (id.isNotEmpty) return PushNotiManagementScreen(id: id, tab: 2);
       }
       return const PushNotiManagementScreen();
     }
 
-    if (route == addNotificationRoute) {
-      return const AddNotification();
-    }
     if (route == payManagementRoute) {
       return const PayManage();
     }

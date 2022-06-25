@@ -62,6 +62,12 @@ class _DynamicTableState extends State<DynamicTable> {
   final _centerHeaders = [];
   final _rightHeaders = [];
   final _tableScrollController = ScrollController();
+  
+  @override
+  void dispose() {
+    _tableScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

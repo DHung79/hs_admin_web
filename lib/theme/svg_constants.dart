@@ -188,6 +188,9 @@ class SvgIcons {
   static SvgIconData radioButtonUnchecked = SvgIconData(
     path: 'assets/svg/radio_unchecked.svg',
   );
+  static SvgIconData radioButtonChecked = SvgIconData(
+    path: 'assets/svg/radio_button_checked.svg',
+  );
   static SvgIconData time = SvgIconData(
     path: 'assets/svg/time.svg',
   );
@@ -202,6 +205,9 @@ class SvgIcons {
   );
   static SvgIconData notifications = SvgIconData(
     path: 'assets/svg/notifications.svg',
+  );
+  static SvgIconData sendPushNoti = SvgIconData(
+    path: 'assets/svg/send.svg',
   );
   static SvgIconData filter = SvgIconData(
     path: 'assets/svg/filter.svg',

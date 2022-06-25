@@ -31,6 +31,7 @@ class _ContactInfoState extends State<ContactInfo> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
   }
 

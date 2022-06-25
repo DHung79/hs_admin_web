@@ -39,6 +39,7 @@ class _UserInfoContentState extends State<UserInfoContent> {
   @override
   void dispose() {
     _userBloc.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
