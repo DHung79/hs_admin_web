@@ -212,27 +212,27 @@ class AuthenticationBloc
               ));
             }
           }
-        }else{
-        final data = await authenticationService.checkEmail(event.email);
-        if (data is ApiResponse) {
-          if (data.error == null) {
-            emit(ForgotPasswordDoneState());
-          } else {
-            emit(AuthenticationFailure(
-              message: data.error!.errorMessage,
-              errorCode: data.error!.errorCode,
-            ));
-          }
         } else {
-          if (data["error_message"] == null) {
-            emit(ForgotPasswordDoneState());
+          final data = await authenticationService.checkEmail(event.email);
+          if (data is ApiResponse) {
+            if (data.error == null) {
+              emit(ForgotPasswordDoneState());
+            } else {
+              emit(AuthenticationFailure(
+                message: data.error!.errorMessage,
+                errorCode: data.error!.errorCode,
+              ));
+            }
           } else {
-            emit(AuthenticationFailure(
-              message: data["error_message"],
-              errorCode: data["error_code"].toString(),
-            ));
+            if (data["error_message"] == null) {
+              emit(ForgotPasswordDoneState());
+            } else {
+              emit(AuthenticationFailure(
+                message: data["error_message"],
+                errorCode: data["error_code"].toString(),
+              ));
+            }
           }
-        }
         }
       } on Error catch (e) {
         emit(AuthenticationFailure(

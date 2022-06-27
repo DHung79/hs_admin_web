@@ -263,9 +263,15 @@ class _ProfileContentState extends State<ProfileContent> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: AbsorbPointer(
-              child: DisplayImage(widget.account.avatar),
-            ),
+            child: widget.account.avatar.isNotEmpty
+                ? AbsorbPointer(
+                    child: DisplayImage(widget.account.avatar),
+                  )
+                : Image.asset(
+                    "assets/images/logo.png",
+                    width: 100,
+                    height: 100,
+                  ),
           ),
           const SizedBox(
             height: 10,

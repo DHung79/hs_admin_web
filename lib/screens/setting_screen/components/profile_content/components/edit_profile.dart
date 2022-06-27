@@ -536,9 +536,10 @@ class _EditProfileState extends State<EditProfile> {
     });
 
     _accountBloc.editProfile(editModel: _editModel).then(
-      (value) {
+      (value) async {
         if (_images.isNotEmpty) {
           _accountBloc.uploadImage(image: _images.first.image);
+          await Future.delayed(const Duration(milliseconds: 400));
         }
         navigateTo(profileRoute);
       },
