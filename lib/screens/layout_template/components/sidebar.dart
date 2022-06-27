@@ -43,7 +43,7 @@ class _SideBarState extends State<SideBar> {
       SideBarItem(
         icon: SvgIcons.wallet,
         title: 'Quản lí thanh toán',
-        route: payManagementRoute,
+        route: paymentManagementRoute,
       ),
       SideBarItem(
         icon: SvgIcons.setting,

@@ -3,6 +3,7 @@ import 'package:hs_admin_web/core/user/user.dart';
 import 'package:hs_admin_web/widgets/joytech_components/joytech_components.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 
 class UserDialog extends StatefulWidget {
   final String userId;
@@ -136,11 +137,15 @@ class _UserDialogState extends State<UserDialog> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: user.avatar.isNotEmpty
+                ? AbsorbPointer(
+                    child: DisplayImage(user.avatar),
+                  )
+                : Image.asset(
+                    "assets/images/logo.png",
+                    width: 100,
+                    height: 100,
+                  ),
           ),
           const SizedBox(
             height: 10,

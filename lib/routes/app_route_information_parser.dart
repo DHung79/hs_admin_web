@@ -117,7 +117,7 @@ class AppRouteInforParser extends RouteInformationParser<AppRoutePath> {
       return AppRoutePath.pushNotiManagement();
     }
 
-    if (name == payManagementRoute) {
+    if (name == paymentManagementRoute) {
       return AppRoutePath.payManage();
     }
 

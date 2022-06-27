@@ -4,6 +4,7 @@ import '../../../core/authentication/auth.dart';
 import '../../../core/task/task.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import 'takser_dialog.dart';
@@ -140,7 +141,15 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                         children: [
                           _avatarField(
                             title: 'Khách hàng',
-                            imageUrl: '',
+                            avatar: task.user!.avatar.isNotEmpty
+                                ? AbsorbPointer(
+                                    child: DisplayImage(task.user!.avatar),
+                                  )
+                                : Image.asset(
+                                    "assets/images/logo.png",
+                                    width: 100,
+                                    height: 100,
+                                  ),
                             name: task.user!.name,
                             onTap: () {
                               showDialog(
@@ -163,7 +172,15 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                           if (task.tasker != null && task.tasker!.id.isNotEmpty)
                             _avatarField(
                               title: 'Người giúp việc',
-                              imageUrl: '',
+                              avatar: task.tasker!.avatar.isNotEmpty
+                                  ? AbsorbPointer(
+                                      child: DisplayImage(task.tasker!.avatar),
+                                    )
+                                  : Image.asset(
+                                      "assets/images/logo.png",
+                                      width: 100,
+                                      height: 100,
+                                    ),
                               name: task.tasker!.name,
                               onTap: () {
                                 showDialog(
@@ -202,7 +219,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
 
   Widget _avatarField({
     required String title,
-    required String imageUrl,
+    required Widget avatar,
     required String name,
     Function()? onTap,
   }) {
@@ -218,11 +235,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: avatar,
           ),
         ),
         Text(

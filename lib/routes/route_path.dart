@@ -121,7 +121,7 @@ class AppRoutePath {
         isUnknown = false;
 
   AppRoutePath.payManage()
-      : name = payManagementRoute,
+      : name = paymentManagementRoute,
         routeId = '',
         isUnknown = false;
 
@@ -264,7 +264,7 @@ class AppRoutePath {
       return AppRoutePath.pushNotiManagement();
     }
 
-    if (name == payManagementRoute) {
+    if (name == paymentManagementRoute) {
       return AppRoutePath.payManage();
     }
 

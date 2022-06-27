@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hs_admin_web/screens/push_noti_management_screen/push_noti_management_screen.dart';
+import '../screens/payment_management/payment_management_screen.dart';
 import '../screens/setting_screen/setting_screen.dart';
 import '../screens/task_management_screen/task_management_screen.dart';
 import '../screens/service_management_screen/service_management_screen.dart';
 import '../screens/onboarding/authentication_screen.dart';
 import '../screens/not_found/page_not_found_screen.dart';
-import '../screens/pay_manage/pay_manage.dart';
 import '../screens/tasker_management_screen/tasker_management_screen.dart';
 import '../screens/user_management_screen/user_management_screen.dart';
 import 'no_animation_transition_delegate.dart';
@@ -153,8 +153,8 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const PushNotiManagementScreen();
     }
 
-    if (route == payManagementRoute) {
-      return const PayManage();
+    if (route == paymentManagementRoute) {
+      return const PaymentManagementScreen();
     }
 
     if (route == settingRoute) {

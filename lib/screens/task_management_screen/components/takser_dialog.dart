@@ -4,6 +4,7 @@ import 'package:hs_admin_web/widgets/joytech_components/joytech_components.dart'
 import '../../../core/tasker/tasker.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 
 class TaskerDialog extends StatefulWidget {
   final String taskerId;
@@ -138,11 +139,15 @@ class _TaskerDialogState extends State<TaskerDialog> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: tasker.avatar.isNotEmpty
+                ? AbsorbPointer(
+                    child: DisplayImage(tasker.avatar),
+                  )
+                : Image.asset(
+                    "assets/images/logo.png",
+                    width: 100,
+                    height: 100,
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 12),
