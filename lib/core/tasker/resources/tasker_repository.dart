@@ -46,4 +46,21 @@ class TaskerRepository {
           _provider.deleteTaskerById<T>(
             id: id,
           );
+
+  upload<T extends BaseModel>({
+    required String taskerId,
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+  }) =>
+      _provider.upload<T>(
+        taskerId: taskerId,
+        file: file,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+      );
+
+  abortUpload() => _provider.abortUpload();
 }

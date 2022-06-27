@@ -125,6 +125,29 @@ class TaskerBloc {
     }
   }
 
+  uploadImage({
+    required String taskerId,
+    required image,
+    Function(int)? onProgress,
+    Function(TaskerModel)? onCompleted,
+    Function(String)? onFailed,
+  }) async {
+    try {
+      // Await response from server.
+      _repository.upload<TaskerModel>(
+        taskerId: taskerId,
+        file: image,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+      );
+    } on AppException catch (e) {
+      if (onFailed != null) {
+        onFailed(e.toString());
+      }
+    }
+  }
+
   dispose() {
     _allDataFetcher.close();
     _allDataState.close();

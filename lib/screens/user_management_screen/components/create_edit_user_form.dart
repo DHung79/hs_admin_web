@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
 import '../../../core/authentication/auth.dart';
+import '../../../core/image_picker/image_picker.dart';
+import '../../../core/image_picker/upload_image.dart';
 import '../../../core/user/user.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
@@ -36,6 +39,7 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
   late EditUserModel _editModel;
   final _paymentController = TextEditingController();
   bool _showPassword = false;
+  final List<UploadImage> _images = [];
 
   @override
   void initState() {
@@ -598,11 +602,23 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: _images.isNotEmpty
+                ? Image.memory(
+                    _images.first.imageData!,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  )
+                : widget.userModel != null &&
+                        widget.userModel!.avatar.isNotEmpty
+                    ? AbsorbPointer(
+                        child: DisplayImage(widget.userModel!.avatar),
+                      )
+                    : Image.asset(
+                        "assets/images/logo.png",
+                        width: 100,
+                        height: 100,
+                      ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -619,11 +635,20 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: _pickImage,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  _pickImage() async {
+    MediaPicker.pickMedia(
+      onCompleted: (images) => setState(() {
+        _images.clear();
+        _images.add(images.first);
+      }),
     );
   }
 
@@ -700,6 +725,12 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
     });
     _userBloc.createObject(editModel: _editModel).then(
       (value) async {
+        if (_images.isNotEmpty) {
+          _userBloc.uploadImage(
+            image: _images.first.image,
+            userId: value.id,
+          );
+        }
         widget.onFetch(1);
         navigateTo(userManagementRoute);
         await Future.delayed(const Duration(milliseconds: 400));
@@ -725,10 +756,15 @@ class _CreateEditUserFormState extends State<CreateEditUserForm> {
       _processing = true;
     });
     _userBloc.editObject(editModel: _editModel, id: _editModel.id).then(
-      (value) async {
+      (value) {
+        if (_images.isNotEmpty) {
+          _userBloc.uploadImage(
+            image: _images.first.image,
+            userId: value.id,
+          );
+        }
         widget.onFetch(1);
         navigateTo(userManagementRoute);
-        await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {
       setState(() {

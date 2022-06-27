@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/authentication/auth.dart';
-import '../../../core/notification/push_noti.dart';
+import '../../../core/push_notification/push_noti.dart';
 import '../../../main.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 import 'create_edit_push_noti.dart';

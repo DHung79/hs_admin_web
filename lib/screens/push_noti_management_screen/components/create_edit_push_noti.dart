@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../core/notification/push_noti.dart';
+import '../../../core/push_notification/push_noti.dart';
 import '../../../../../core/authentication/auth.dart';
 import '../../../../../main.dart';
 import '../../../../../theme/app_theme.dart';

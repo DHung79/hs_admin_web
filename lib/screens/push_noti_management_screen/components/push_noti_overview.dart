@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '../../../main.dart';
 import '../../../widgets/display_date_time.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
-import '/core/notification/push_noti.dart';
+import '/core/push_notification/push_noti.dart';
 import '../../../theme/app_theme.dart';
 
 class PushNotiOverView extends StatefulWidget {

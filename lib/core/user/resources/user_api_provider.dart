@@ -104,4 +104,31 @@ class UserApiProvider {
     );
     return response;
   }
+
+  upload<T extends BaseModel>({
+    required String userId,
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+    String? name,
+  }) async {
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.users +
+        ApiConstants.upload +
+        '/$userId';
+    logDebug('path: $path');
+    final token = await ApiHelper.getUserToken();
+    RestApiHandlerData.uploadData<T>(
+      file: file,
+      onProgress: onProgress,
+      onCompleted: onCompleted,
+      onFailed: onFailed,
+      path: path,
+      token: token,
+    );
+  }
+
+  abortUpload() => RestApiHandlerData.abortUpload();
 }

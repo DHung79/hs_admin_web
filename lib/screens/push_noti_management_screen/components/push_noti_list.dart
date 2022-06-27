@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hs_admin_web/screens/push_noti_management_screen/components/push_noti_overview.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../core/base/blocs/block_state.dart';
-import '../../../core/notification/push_noti.dart';
+import '../../../core/push_notification/push_noti.dart';
 import '../../../main.dart';
 import '../../../core/base/models/common_model.dart';
 import '../../../theme/app_theme.dart';

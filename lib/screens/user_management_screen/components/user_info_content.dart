@@ -4,6 +4,7 @@ import '../../../core/authentication/auth.dart';
 import '../../../core/user/user.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 import '../../../widgets/go_back_button.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
@@ -183,11 +184,15 @@ class _UserInfoContentState extends State<UserInfoContent> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: user.avatar.isNotEmpty
+                ? AbsorbPointer(
+                    child: DisplayImage(user.avatar),
+                  )
+                : Image.asset(
+                    "assets/images/logo.png",
+                    width: 100,
+                    height: 100,
+                  ),
           ),
           const SizedBox(
             height: 10,

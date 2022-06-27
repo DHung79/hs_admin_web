@@ -152,9 +152,15 @@ class _EditProfileState extends State<EditProfile> {
                     height: 100,
                     fit: BoxFit.cover,
                   )
-                : AbsorbPointer(
-                    child: DisplayImage(widget.account.avatar),
-                  ),
+                : widget.account.avatar.isNotEmpty
+                    ? AbsorbPointer(
+                        child: DisplayImage(widget.account.avatar),
+                      )
+                    : Image.asset(
+                        "assets/images/logo.png",
+                        width: 100,
+                        height: 100,
+                      ),
           ),
           const SizedBox(
             height: 10,
@@ -528,13 +534,13 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       _isProcessing = true;
     });
-    if (_images.isNotEmpty) {
-      _accountBloc.uploadImage(image: _images.first.image);
-    }
+
     _accountBloc.editProfile(editModel: _editModel).then(
-      (value) async {
+      (value) {
+        if (_images.isNotEmpty) {
+          _accountBloc.uploadImage(image: _images.first.image);
+        }
         navigateTo(profileRoute);
-        await Future.delayed(const Duration(milliseconds: 400));
       },
     ).onError((ApiError error, stackTrace) {
       setState(() {

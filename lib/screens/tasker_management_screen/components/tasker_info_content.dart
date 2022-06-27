@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import '../../../widgets/display_image.dart';
 import '../components/tasker_rating_dialog.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../core/tasker/tasker.dart';
@@ -185,11 +186,15 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: tasker.avatar.isNotEmpty
+                ? AbsorbPointer(
+                    child: DisplayImage(tasker.avatar),
+                  )
+                : Image.asset(
+                    "assets/images/logo.png",
+                    width: 100,
+                    height: 100,
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -291,7 +296,9 @@ class _TaskerInfoContentState extends State<TaskerInfoContent> {
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      return TaskerRatingDialog(tasker: tasker,);
+                      return TaskerRatingDialog(
+                        tasker: tasker,
+                      );
                     });
               },
             ),

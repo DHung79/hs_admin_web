@@ -1,4 +1,4 @@
-import 'package:hs_admin_web/core/notification/push_noti.dart';
+import 'package:hs_admin_web/core/push_notification/push_noti.dart';
 
 import '/core/contact/model/contact_model.dart';
 import '/core/task/model/task_model.dart';

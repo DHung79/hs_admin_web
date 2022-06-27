@@ -50,4 +50,21 @@ class UserRepository {
           _provider.createUser<T, K>(
             editModel: editModel,
           );
+
+  upload<T extends BaseModel>({
+    required String userId,
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+  }) =>
+      _provider.upload<T>(
+        userId: userId,
+        file: file,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+      );
+
+  abortUpload() => _provider.abortUpload();
 }
