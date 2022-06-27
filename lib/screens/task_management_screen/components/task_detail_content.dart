@@ -44,8 +44,6 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
   @override
   void dispose() {
     _taskBloc.dispose();
-    _avatarScrollController.dispose();
-    _contentScrollController.dispose();
     super.dispose();
   }
 
@@ -319,7 +317,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                     details: [
                       JobDetail(
                         title: 'Địa chỉ:',
-                        notes: [task.address!],
+                        notes: [task.address],
                       ),
                       JobDetail(
                         title: 'Thời gian làm:',
@@ -340,7 +338,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                     details: [
                       JobDetail(
                         title: 'Ghi chú:',
-                        notes: [task.note!],
+                        notes: [task.note],
                       ),
                       JobDetail(
                         title: 'Danh sách kiểm tra:',
@@ -408,7 +406,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
                   _detailItem(
                     width: itemWidth,
                     title: 'Người cập nhật:',
-                    description: task.id!,
+                    description: task.id,
                   ),
                 ],
               ),
@@ -619,7 +617,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: task.id!);
+                _deleteObjectById(id: task.id);
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -636,7 +634,7 @@ class _TaskDetailContentState extends State<TaskDetailContent> {
             },
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: task.id!);
+              _deleteObjectById(id: task.id);
             },
           ),
         );

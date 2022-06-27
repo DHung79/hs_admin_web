@@ -9,18 +9,18 @@ class TaskModel extends BaseModel {
   final UserModel? _user;
   final TaskerModel? _tasker;
   final ServiceModel? _service;
-  final String? __id;
-  final String? _address;
-  final String? _estimateTime;
+  final String __id;
+  final String _address;
+  final String _estimateTime;
   final int? _startTime;
   final int? _endTime;
   final int? _date;
-  final String? _note;
+  final String _note;
   final int? _status;
   final int? _language;
   final int? _failureReason;
   final int? _typeHome;
-  final bool? _isDeleted;
+  final bool _isDeleted;
   final int? _deletedTime;
   final int? _createdTime;
   final int? _updatedTime;
@@ -43,18 +43,18 @@ class TaskModel extends BaseModel {
           json: json,
           key: 'service',
         ),
-        __id = json['_id'],
-        _address = json['address'],
-        _estimateTime = json['estimate_time'],
+        __id = json['_id'] ?? '',
+        _address = json['address'] ?? '',
+        _estimateTime = json['estimate_time'] ?? '',
         _startTime = json['start_time'],
         _endTime = json['end_time'],
         _date = json['date'],
-        _note = json['note'],
+        _note = json['note'] ?? '',
         _status = json['status'],
         _language = json['language'],
         _failureReason = json['failure_reason'],
         _typeHome = json['type_home'],
-        _isDeleted = json['is_deleted'],
+        _isDeleted = json['is_deleted'] ?? false,
         _deletedTime = json['deleted_time'],
         _createdTime = json['created_time'],
         _updatedTime = json['updated_time'],
@@ -86,18 +86,18 @@ class TaskModel extends BaseModel {
   UserModel? get user => _user;
   TaskerModel? get tasker => _tasker;
   ServiceModel? get service => _service;
-  String? get id => __id;
-  String? get address => _address;
-  String? get estimateTime => _estimateTime;
+  String get id => __id;
+  String get address => _address;
+  String get estimateTime => _estimateTime;
   int? get startTime => _startTime;
   int? get endTime => _endTime;
   int? get date => _date;
-  String? get note => _note;
+  String get note => _note;
   int? get status => _status;
   int? get language => _language;
   int? get failureReason => _failureReason;
   int? get typeHome => _typeHome;
-  bool? get isDeleted => _isDeleted;
+  bool get isDeleted => _isDeleted;
   int? get deletedTime => _deletedTime;
   int? get createdTime => _createdTime;
   int? get updatedTime => _updatedTime;

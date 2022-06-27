@@ -34,7 +34,6 @@ class _ProfileContentState extends State<ProfileContent> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     _accountBloc.dispose();
     super.dispose();
   }

@@ -299,7 +299,7 @@ class _TaskListState extends State<TaskList> {
                     ),
                   ),
                   onTap: () {
-                    navigateTo(taskDetailRoute + '/' + item.id!);
+                    navigateTo(taskDetailRoute + '/' + item.id);
                   },
                 ),
               ),
@@ -377,7 +377,7 @@ class _TaskListState extends State<TaskList> {
             setState(() {
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 Navigator.of(context).pop();
-                _deleteObjectById(id: task.id!);
+                _deleteObjectById(id: task.id);
               }
               if (event.logicalKey == LogicalKeyboardKey.escape) {
                 Navigator.of(context).pop();
@@ -393,7 +393,7 @@ class _TaskListState extends State<TaskList> {
             },
             onComfirmed: () {
               Navigator.of(context).pop();
-              _deleteObjectById(id: task.id!);
+              _deleteObjectById(id: task.id);
             },
           ),
         );

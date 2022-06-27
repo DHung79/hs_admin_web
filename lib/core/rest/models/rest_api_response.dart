@@ -1,5 +1,6 @@
 import 'package:hs_admin_web/core/push_notification/push_noti.dart';
 
+import '../../image_picker/upload_image.dart';
 import '/core/contact/model/contact_model.dart';
 import '/core/task/model/task_model.dart';
 import '/core/admin/model/admin_model.dart';
@@ -112,6 +113,12 @@ class BaseModel {
     }
     if (T == ListPushNotiModel) {
       return ListPushNotiModel.fromJson(json) as T;
+    }
+    if (T == ImageModel) {
+      return ImageModel.fromJson(json) as T;
+    }
+    if (T == ImageListModel) {
+      return ImageListModel.fromJson(json) as T;
     }
 
     logError("Unknown BaseModel class: $T");

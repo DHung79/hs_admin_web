@@ -10,7 +10,7 @@ class MediaPicker {
   }) async {
     List<XFile?>? images = [];
     final ImagePicker _picker = ImagePicker();
-    if (isMultiple) {
+    if (!isMultiple) {
       images = [await _picker.pickImage(source: ImageSource.gallery)];
     } else {
       images = await _picker.pickMultiImage();
