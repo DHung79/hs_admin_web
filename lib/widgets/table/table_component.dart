@@ -73,15 +73,11 @@ Widget tableCellOnHover({
                   onExit: (value) {
                     _overlayEntry.remove();
                   },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: renderBox.size.height),
-                        child: onHoverChild(() {
-                          _overlayEntry.remove();
-                        }),
-                      ),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(top: renderBox.size.height),
+                    child: onHoverChild(() {
+                      _overlayEntry.remove();
+                    }),
                   ),
                 ),
               ),

@@ -38,7 +38,7 @@ class InputWidget extends StatelessWidget {
     this.onFieldSubmitted,
     this.inputFormatters,
     this.enabled = true,
-    this.maxLines,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override

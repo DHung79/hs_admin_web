@@ -346,7 +346,7 @@ class _PushNotiListState extends State<PushNotiList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                item.name,
+                item.title,
                 style: AppTextTheme.mediumHeaderTitle(AppColor.black),
               ),
               Padding(
@@ -372,9 +372,13 @@ class _PushNotiListState extends State<PushNotiList> {
                     context: context,
                     builder: (context) {
                       return PushNotiOverView(
+                        pushNotiBloc: widget.pushNotiBloc,
                         pushNoti: item,
-                        onDeleted: () {
-                          _confirmDelete(item.id);
+                        onFetch: () {
+                          widget.onFetch(
+                            _count == 1 ? max(_page - 1, 1) : _page,
+                            limit: _limit,
+                          );
                         },
                       );
                     },
@@ -402,7 +406,7 @@ class _PushNotiListState extends State<PushNotiList> {
                 vertical: 8,
               ),
               child: Text(
-                item.name,
+                item.title,
                 style: AppTextTheme.normalText(AppColor.black),
               ),
             ),
@@ -440,9 +444,13 @@ class _PushNotiListState extends State<PushNotiList> {
                       context: context,
                       builder: (context) {
                         return PushNotiOverView(
+                          pushNotiBloc: widget.pushNotiBloc,
                           pushNoti: item,
-                          onDeleted: () {
-                            _confirmDelete(item.id);
+                          onFetch: () {
+                            widget.onFetch(
+                              _count == 1 ? max(_page - 1, 1) : _page,
+                              limit: _limit,
+                            );
                           },
                         );
                       },

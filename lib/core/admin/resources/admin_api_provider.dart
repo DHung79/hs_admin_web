@@ -104,4 +104,45 @@ class AdminApiProvider {
     );
     return response;
   }
+
+  upload<T extends BaseModel>({
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+    String? name,
+  }) async {
+    final path = ApiConstants.apiDomain +
+        ApiConstants.apiVersion +
+        ApiConstants.admins +
+        ApiConstants.upload;
+    logDebug('path: $path');
+    final token = await ApiHelper.getUserToken();
+    RestApiHandlerData.uploadData<T>(
+      file: file,
+      onProgress: onProgress,
+      onCompleted: onCompleted,
+      onFailed: onFailed,
+      path: path,
+      token: token,
+    );
+  }
+
+  abortUpload() => RestApiHandlerData.abortUpload();
+
+  Future<ApiResponse<T>> deleteImages<T extends BaseModel>({
+    required Map<String, dynamic> params,
+  }) async {
+    var path =
+        ApiConstants.apiDomain + ApiConstants.apiVersion + ApiConstants.admins;
+    logDebug('path: $path');
+    final body = convert.jsonEncode(params);
+    final token = await ApiHelper.getUserToken();
+    final response = await RestApiHandlerData.putData<T>(
+      path: path,
+      body: body,
+      headers: ApiHelper.headers(token),
+    );
+    return response;
+  }
 }

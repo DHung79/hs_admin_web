@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../main.dart';
 import '../../../widgets/display_date_time.dart';
+import '../../../widgets/joytech_components/joytech_components.dart';
 import '/core/notification/push_noti.dart';
 import '../../../theme/app_theme.dart';
 
 class PushNotiOverView extends StatefulWidget {
   final PushNotiModel pushNoti;
-  final Function() onDeleted;
+  final PushNotiBloc pushNotiBloc;
+  final Function() onFetch;
   const PushNotiOverView({
     Key? key,
     required this.pushNoti,
-    required this.onDeleted,
+    required this.pushNotiBloc,
+    required this.onFetch,
   }) : super(key: key);
 
   @override
@@ -18,11 +22,15 @@ class PushNotiOverView extends StatefulWidget {
 }
 
 class _PushNotiOverViewState extends State<PushNotiOverView> {
+  String _errorMessage = '';
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       contentPadding: EdgeInsets.zero,
       content: Container(
         width: 1020,
@@ -59,6 +67,14 @@ class _PushNotiOverViewState extends State<PushNotiOverView> {
                   ],
                 ),
               ),
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Text(
+                    _errorMessage,
+                    style: AppTextTheme.normalText(AppColor.others1),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: IntrinsicHeight(
@@ -142,7 +158,7 @@ class _PushNotiOverViewState extends State<PushNotiOverView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
-                    widget.pushNoti.name,
+                    widget.pushNoti.title,
                     style: AppTextTheme.mediumHeaderTitle(AppColor.text3),
                   ),
                 ),
@@ -172,6 +188,7 @@ class _PushNotiOverViewState extends State<PushNotiOverView> {
                 ),
               ),
               onTap: () {
+                Navigator.of(context).pop();
                 navigateTo(editPushNotiRoute + '/' + widget.pushNoti.id);
               },
             ),
@@ -227,7 +244,9 @@ class _PushNotiOverViewState extends State<PushNotiOverView> {
                     ],
                   ),
                 ),
-                onTap: widget.onDeleted,
+                onTap: () {
+                  _confirmDelete();
+                },
               ),
             ),
           ],
@@ -268,5 +287,63 @@ class _PushNotiOverViewState extends State<PushNotiOverView> {
         ],
       ),
     );
+  }
+
+  _confirmDelete() {
+    final _focusNode = FocusNode();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        FocusScope.of(context).requestFocus(_focusNode);
+        return RawKeyboardListener(
+          focusNode: _focusNode,
+          onKey: (RawKeyEvent event) {
+            setState(() {
+              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                Navigator.of(context).pop();
+                _deleteObjectById();
+              }
+              if (event.logicalKey == LogicalKeyboardKey.escape) {
+                Navigator.of(context).pop();
+              }
+            });
+          },
+          child: JTConfirmDialog(
+            headerTitle: 'Cảnh báo',
+            headerColor: AppColor.primary2,
+            contentText: 'Bạn có muốn xóa thông báo đẩy này?',
+            onCanceled: () {
+              Navigator.of(context).pop();
+            },
+            comfirmButtonColor: AppColor.primary2,
+            comfirmContentColor: AppColor.white,
+            onComfirmed: () {
+              Navigator.of(context).pop();
+              _deleteObjectById();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  _deleteObjectById() {
+    widget.pushNotiBloc
+        .deleteObject(id: widget.pushNoti.id)
+        .then((model) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      Navigator.of(context).pop();
+      widget.onFetch();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(ScreenUtil.t(I18nKey.deleted)!)),
+      );
+    }).catchError((e, stacktrace) async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      logDebug(e.toString());
+      setState(() {
+        _errorMessage = ScreenUtil.t(I18nKey.errorWhileDelete)!;
+      });
+    });
   }
 }

@@ -113,4 +113,26 @@ class RestApiHandlerData {
     );
     return response;
   }
+
+  static uploadData<T extends BaseModel>({
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+    String? path,
+    String? token,
+    String? name,
+  }) async {
+    _apiBaseHelper.uploadMedia<T>(
+      file: file,
+      onProgress: onProgress,
+      onCompleted: onCompleted,
+      onFailed: onFailed,
+      path: path,
+      token: token,
+      name: name,
+    );
+  }
+
+  static abortUpload() => _apiBaseHelper.abortUpload();
 }

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../../core/admin/admin.dart';
 import '../../../../../core/authentication/auth.dart';
+import '../../../../../core/image_picker/image_picker.dart';
+import '../../../../../core/image_picker/upload_image.dart';
 import '../../../../../main.dart';
 import '../../../../../theme/app_theme.dart';
+import '../../../../../widgets/display_image.dart';
 import '../../../../../widgets/go_back_button.dart';
 import '../../../../../widgets/input_widget.dart';
 import '../../../../../widgets/joytech_components/joytech_components.dart';
@@ -26,8 +29,9 @@ class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
-  bool _processing = false;
+  bool _isProcessing = false;
   late EditAdminModel _editModel;
+  final List<UploadImage> _images = [];
 
   @override
   void initState() {
@@ -141,11 +145,16 @@ class _EditProfileState extends State<EditProfile> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
-            ),
+            child: _images.isNotEmpty
+                ? Image.memory(
+                    _images.first.imageData!,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  )
+                : AbsorbPointer(
+                    child: DisplayImage(widget.account.avatar),
+                  ),
           ),
           const SizedBox(
             height: 10,
@@ -158,10 +167,19 @@ class _EditProfileState extends State<EditProfile> {
                 style: AppTextTheme.mediumBodyText(AppColor.primary2),
               ),
             ),
-            onTap: () {},
+            onTap: _pickImage,
           ),
         ],
       ),
+    );
+  }
+
+  _pickImage() async {
+    MediaPicker.pickMedia(
+      onCompleted: (images) => setState(() {
+        _images.clear();
+        _images.add(images.first);
+      }),
     );
   }
 
@@ -449,7 +467,7 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
             ),
-            onPressed: _processing
+            onPressed: _isProcessing
                 ? null
                 : () {
                     if (_formKey.currentState!.validate()) {
@@ -508,8 +526,11 @@ class _EditProfileState extends State<EditProfile> {
 
   _editProfile() async {
     setState(() {
-      _processing = true;
+      _isProcessing = true;
     });
+    if (_images.isNotEmpty) {
+      _accountBloc.uploadImage(image: _images.first.image);
+    }
     _accountBloc.editProfile(editModel: _editModel).then(
       (value) async {
         navigateTo(profileRoute);
@@ -517,13 +538,13 @@ class _EditProfileState extends State<EditProfile> {
       },
     ).onError((ApiError error, stackTrace) {
       setState(() {
-        _processing = false;
+        _isProcessing = false;
         _errorMessage = showError(error.errorCode, context);
       });
     }).catchError(
       (error, stackTrace) {
         setState(() {
-          _processing = false;
+          _isProcessing = false;
           _errorMessage = error.toString();
         });
       },

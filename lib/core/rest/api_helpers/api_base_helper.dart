@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../../authentication/auth.dart';
 import '../../logger/logger.dart';
 import '../models/rest_api_response.dart';
+import 'uploader/uploader.dart';
 
 class ApiBaseHelper {
   Future<ApiResponse<T>> get<T extends BaseModel>({
@@ -371,5 +373,33 @@ class ApiBaseHelper {
         },
       ),
     );
+  }
+
+  uploadMedia<T extends BaseModel>({
+    dynamic file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+    String? path,
+    String? token,
+    String? name,
+  }) async {
+    if (kIsWeb) {
+      MediaUploader.upload<T>(
+        file: file,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+        path: path,
+        token: token,
+        name: name,
+      );
+    }
+  }
+
+  abortUpload() {
+    if (kIsWeb) {
+      MediaUploader.abortUpload();
+    }
   }
 }

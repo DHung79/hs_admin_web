@@ -39,9 +39,12 @@ class _CreateEditPushNotiState extends State<CreateEditPushNoti> {
     _editModel = EditPushNotiModel.fromModel(
       widget.pushNoti,
     );
+    if (widget.pushNoti != null) {
+      _nameController.text = widget.pushNoti!.title;
+      _descriptionController.text = widget.pushNoti!.description;
+    }
     _isUserNoti = _editModel.targetType.toLowerCase() == 'khách hàng';
-    _nameController.text = widget.pushNoti!.name;
-    _descriptionController.text = widget.pushNoti!.description;
+
     AuthenticationBlocController().authenticationBloc.add(AppLoadedup());
     super.initState();
   }
@@ -267,7 +270,7 @@ class _CreateEditPushNotiState extends State<CreateEditPushNoti> {
                 });
               },
               onSaved: (value) {
-                _editModel.name = value!.trim();
+                _editModel.title = value!.trim();
               },
             ),
             _buildInput(

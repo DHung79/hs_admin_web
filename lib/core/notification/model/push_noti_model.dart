@@ -3,7 +3,7 @@ import '../../rest/models/rest_api_response.dart';
 
 class PushNotiModel extends BaseModel {
   final String __id;
-  final String _name;
+  final String _title;
   final String _targetType;
   final String _description;
   final int _createdTime;
@@ -11,7 +11,7 @@ class PushNotiModel extends BaseModel {
 
   PushNotiModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
-        _name = json['title'] ?? '',
+        _title = json['title'] ?? '',
         _targetType = json['target_type'] ?? '',
         _description = json['description'] ?? '',
         _createdTime = json['created_time'] ?? 0,
@@ -19,7 +19,7 @@ class PushNotiModel extends BaseModel {
 
   Map<String, dynamic> toJson() => {
         "_id": __id,
-        "name": _name,
+        "title": _title,
         "target_type": _targetType,
         "description": _description,
         "created_time": _createdTime,
@@ -27,7 +27,7 @@ class PushNotiModel extends BaseModel {
       };
 
   String get id => __id;
-  String get name => _name;
+  String get title => _title;
   String get targetType => _targetType;
   String get description => _description;
   int get createdTime => _createdTime;
@@ -36,20 +36,20 @@ class PushNotiModel extends BaseModel {
 
 class EditPushNotiModel extends EditBaseModel {
   String id = ''; // For editing
-  String name = '';
+  String title = '';
   String targetType = 'Khách hàng';
   String description = '';
 
   EditPushNotiModel.fromModel(PushNotiModel? model) {
     id = model?.id ?? '';
-    name = model?.name ?? '';
-    targetType = model!.targetType.isNotEmpty ? model.targetType : 'Khách hàng';
-    description = model.description;
+    title = model?.title ?? '';
+    targetType = model != null ? model.targetType : 'Khách hàng';
+    description = model?.description ?? '';
   }
 
   Map<String, dynamic> toCreateJson() {
     Map<String, dynamic> params = {
-      'name': name,
+      'title': title,
       "target_type": targetType,
       "description": description,
     };
@@ -59,7 +59,7 @@ class EditPushNotiModel extends EditBaseModel {
   Map<String, dynamic> toEditJson() {
     Map<String, dynamic> params = {
       'id': id,
-      'name': name,
+      'title': title,
       "target_type": targetType,
       "description": description,
     };

@@ -49,4 +49,25 @@ class AdminRepository {
           _provider.editProfile<T, K>(
             editModel: editModel,
           );
+
+  upload<T extends BaseModel>({
+    required file,
+    Function(int)? onProgress,
+    Function(T)? onCompleted,
+    Function(String)? onFailed,
+  }) =>
+      _provider.upload<T>(
+        file: file,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+      );
+
+  abortUpload() => _provider.abortUpload();
+
+  Future<ApiResponse<T>> deleteImages<T extends BaseModel>(
+          {required Map<String, dynamic> params}) =>
+      _provider.deleteImages<T>(
+        params: params,
+      );
 }

@@ -113,7 +113,7 @@ class AdminBloc {
     }
   }
 
- Future<AdminModel> editProfile({
+  Future<AdminModel> editProfile({
     EditAdminModel? editModel,
   }) async {
     try {
@@ -130,6 +130,27 @@ class AdminBloc {
       }
     } on AppException catch (e) {
       return Future.error(e);
+    }
+  }
+
+  uploadImage({
+    required image,
+    Function(int)? onProgress,
+    Function(AdminModel)? onCompleted,
+    Function(String)? onFailed,
+  }) async {
+    try {
+      // Await response from server.
+      _repository.upload<AdminModel>(
+        file: image,
+        onProgress: onProgress,
+        onCompleted: onCompleted,
+        onFailed: onFailed,
+      );
+    } on AppException catch (e) {
+      if (onFailed != null) {
+        onFailed(e.toString());
+      }
     }
   }
 

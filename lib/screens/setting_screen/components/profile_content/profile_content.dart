@@ -4,6 +4,7 @@ import '../../../../core/admin/admin.dart';
 import '../../../../core/authentication/auth.dart';
 import '../../../../main.dart';
 import '../../../../theme/app_theme.dart';
+import '../../../../widgets/display_image.dart';
 import '../../../../widgets/go_back_button.dart';
 import '../../../../widgets/joytech_components/joytech_components.dart';
 import 'components/change_password_dialog.dart';
@@ -262,10 +263,8 @@ class _ProfileContentState extends State<ProfileContent> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 100,
-              height: 100,
+            child: AbsorbPointer(
+              child: DisplayImage(widget.account.avatar),
             ),
           ),
           const SizedBox(

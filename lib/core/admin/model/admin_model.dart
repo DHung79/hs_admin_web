@@ -11,6 +11,7 @@ class AdminModel extends BaseModel {
   final bool _superAdmin;
   final int _createdTime;
   final int _updatedTime;
+  final String _avatar;
   String _password;
   AdminModel.fromJson(Map<String, dynamic> json)
       : __id = json['_id'] ?? '',
@@ -22,6 +23,7 @@ class AdminModel extends BaseModel {
         _superAdmin = json['super_admin'] ?? false,
         _createdTime = json['created_time'],
         _updatedTime = json['updated_time'],
+        _avatar = json['avatar'] ?? '',
         _password = '';
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +36,7 @@ class AdminModel extends BaseModel {
         "super_admin": _superAdmin,
         "created_time": _createdTime,
         "updated_time": _updatedTime,
+        "avatar": _avatar,
       };
 
   String get id => __id;
@@ -45,6 +48,7 @@ class AdminModel extends BaseModel {
   bool get superAdmin => _superAdmin;
   int get createdTime => _createdTime;
   int get updatedTime => _updatedTime;
+  String get avatar => _avatar;
   String get password => _password;
   set password(value) {
     _password = value;

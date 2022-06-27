@@ -3,6 +3,7 @@ import '../../../core/admin/model/admin_model.dart';
 import '../../../core/authentication/auth.dart';
 import '../../../main.dart';
 import '../../../theme/app_theme.dart';
+import '../../../widgets/display_image.dart';
 import '../../../widgets/joytech_components/joytech_components.dart';
 
 class TopNavigationBar extends StatefulWidget {
@@ -178,10 +179,14 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
               ),
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                "assets/images/logo.png",
+              child: SizedBox(
                 width: 24,
                 height: 24,
+                child: AbsorbPointer(
+                  child: DisplayImage(
+                    widget.admin.avatar,
+                  ),
+                ),
               ),
             ),
           ],
