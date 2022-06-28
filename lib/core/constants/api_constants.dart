@@ -33,7 +33,11 @@ class ApiConstants {
   static String checkEmail = '/check-email';
   static String pushNoti = '/notifications';
   static String upload = '/upload';
-
+  static String notification = '/notification';
+  static String read = '/read';
+  static String unreadTotal = '/unreadTotal';
+  static String all = '/all';
+  static String fcmToken = '/fcm-token';
   static String statistical = '/statistical';
   static String provinceApi = 'https://provinces.open-api.vn/api/?depth=2';
 }

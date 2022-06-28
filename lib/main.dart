@@ -21,6 +21,8 @@ export 'utils/screen_util.dart';
 export 'locales/i18n_key.dart';
 export '/routes/route_names.dart';
 
+String? currentFcmToken;
+
 int notiBadges = 0;
 int homeTabIndex = 0;
 Future<SharedPreferences> prefs = SharedPreferences.getInstance();
